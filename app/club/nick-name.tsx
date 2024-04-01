@@ -33,7 +33,7 @@ export function NickName({
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={handleBlur}
-          className="h-[60px] w-[200px] rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent  text-[40px]"
+          className="h-[60px] pl-0 w-[200px] rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent  text-[40px]"
         />
       ) : (
         <div className="flex items-center">

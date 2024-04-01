@@ -6,6 +6,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
+import { InputWithClear } from "./input-with-clear";
 
 const Chains = ["OP Mainnet", "BNB Chain"];
 
@@ -99,6 +100,14 @@ function WalletItem({
 
   const [popOpen, setPopOpen] = useState(false);
 
+  function handleSign() {}
+
+  const [isFocus, setIsFocus] = useState(false);
+
+  function clearInput() {
+    setWalletAddress("");
+  }
+
   return (
     <div className="mt-6 flex items-center">
       <Popover open={popOpen} onOpenChange={(isOpen) => setPopOpen(isOpen)}>
@@ -146,21 +155,17 @@ function WalletItem({
           ))}
         </PopoverContent>
       </Popover>
-      <div className="relative ml-4 flex-1">
-        <Input
-          value={walletAddress}
-          onChange={(e: any) => setWalletAddress(e.target.value)}
-          className="h-12 rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent text-[#d6d6d6]"
-        />
-        {isSign && (
-          <Image
-            src="./icons/sign.svg"
-            width={20}
-            height={20}
-            alt="sign"
-            className="absolute right-0"
-          />
-        )}
+      <InputWithClear
+        value={walletAddress}
+        onValueChange={setWalletAddress}
+        isSign={isSign}
+        conClass="ml-4 flex-1"
+      />
+      <div
+        onClick={handleSign}
+        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+      >
+        <Image src="./icons/save.svg" width={24} height={24} alt="save" />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { NickName } from "./nick-name";
 import { ChangeLang } from "./change-lang";
 import { WalletArray } from "./wallet";
+import { SocialMedia } from "./social-media";
 
 export default function Club() {
   const memNo = 19;
@@ -51,6 +52,8 @@ export default function Club() {
       </div>
 
       <WalletArray wArr={walletArray} setWArr={setWalletArray} />
+
+      <SocialMedia />
     </div>
   );
 }
