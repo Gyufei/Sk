@@ -1,12 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { manrope } from "./font";
-import Head from "next/head";
 import Script from "next/script";
 import { HomeLayout } from "./home-layout";
+import { WcProvider } from "@/components/wc-provider";
 
 export const metadata: Metadata = {
   title: "Juu17 Platoon",
+  metadataBase: new URL("https://juu17.com/"),
   description:
     "My experience as a senior market maker, a visionary team jefe, and a supreme influencer sets me apart to help Web3 challengers solve the puzzles.",
   viewport: { width: "device-width", initialScale: 1 },
@@ -44,39 +45,41 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <Head>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-GED2STRV1H"
-        ></Script>
-        <Script
-          dangerouslySetInnerHTML={{
-            __html: `
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-GED2STRV1H"
+      ></Script>
+      <Script
+        id="gTag"
+        dangerouslySetInnerHTML={{
+          __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', 'G-GED2STRV1H');
               `,
-          }}
-        ></Script>
-        <Script
-          src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
-          type="text/javascript"
-        ></Script>
-        <Script
-          dangerouslySetInnerHTML={{
-            __html: `
+        }}
+      ></Script>
+      <Script
+        src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+        type="text/javascript"
+      ></Script>
+      <Script
+        id="touch"
+        dangerouslySetInnerHTML={{
+          __html: `
                 !(function (o, c) {
                     var n = c.documentElement,
                         t = ' w-mod-'
                     ;(n.className += t + 'js'), ('ontouchstart' in o || (o.DocumentTouch && c instanceof DocumentTouch)) && (n.className += t + 'touch')
                 })(window, document)
               `,
-          }}
-        ></Script>
-      </Head>
+        }}
+      ></Script>
       <body className={`body ${manrope.className}`}>
-        <HomeLayout>{children}</HomeLayout>
+        <WcProvider>
+          <HomeLayout>{children}</HomeLayout>
+        </WcProvider>
       </body>
     </html>
   );

@@ -1,10 +1,8 @@
-export function ChangeLang({
-  lang,
-  setLang,
-}: {
-  lang: "Cn" | "En";
-  setLang: (lang: "Cn" | "En") => void;
-}) {
+import { useLang } from "@/lib/use-lang";
+
+export function ChangeLang() {
+  const { lang, setLang } = useLang();
+
   return (
     <div
       onClick={() => setLang(lang === "Cn" ? "En" : "Cn")}

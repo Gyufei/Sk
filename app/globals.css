@@ -3,3 +3,9 @@
 @tailwind utilities;
 
 @import "./style.css";
+
+@layer utilities {
+  .no-scroll-bar::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+}

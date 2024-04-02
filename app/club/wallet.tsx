@@ -5,14 +5,39 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
 import { InputWithClear } from "./input-with-clear";
+import { isAddress } from "viem";
+import fetcher from "@/lib/fetcher";
+import { useAtomValue } from "jotai/react";
+import { UuidAtom } from "@/lib/state";
+import { ApiHost } from "@/lib/path";
+import { useLang } from "@/lib/use-lang";
+import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
-const Chains = ["OP Mainnet", "BNB Chain"];
+const Chains = [
+  "OP Mainnet",
+  "BNB Chain",
+  "Solana",
+  "Ethereum",
+  "Sui",
+  "Blast",
+  "Base",
+  "Arbitrum",
+  "Polygon",
+  "Ronin",
+];
 
 const LogoMap: Record<string, string> = {
   "OP Mainnet": "./icons/op.svg",
   "BNB Chain": "./icons/bnb.svg",
+  Solana: "./icons/solana.svg",
+  Ethereum: "./icons/Ethereum.svg",
+  Sui: "./icons/sui.svg",
+  Blast: "./icons/blast.svg",
+  Base: "./icons/base.svg",
+  Arbitrum: "./icons/arb.svg",
+  Polygon: "./icons/polygon.svg",
+  Ronin: "./icons/ronin.svg",
 };
 
 export interface IWallet {
@@ -28,6 +53,7 @@ export function WalletArray({
   wArr: Array<IWallet>;
   setWArr: (_w: IWallet[]) => void;
 }) {
+  const { isEn } = useLang();
   const handleNameChange = (index: number, value: string) => {
     const updatedPeople = [...wArr];
     updatedPeople[index].name = value;
@@ -46,15 +72,18 @@ export function WalletArray({
     setWArr(updatedPeople);
   };
 
-  const addPerson = () => {
+  const addWallet = () => {
     setWArr([...wArr, { name: "", address: "", isSign: false }]);
   };
 
   return (
     <div className="mt-10">
       <div className="flex items-center space-x-[10px]">
-        <div className="text-xl leading-[30px]">Wallets</div>
+        <div className="text-xl leading-[30px]">
+          {isEn ? "Wallets" : "钱包"}
+        </div>
         <Image
+          onClick={addWallet}
           className="cursor-pointer"
           src="./icons/add.svg"
           width={30}
@@ -84,8 +113,6 @@ function WalletItem({
   name,
   address,
   isSign,
-  setName,
-  setAddress,
   setIsSign,
 }: {
   name: string;
@@ -95,17 +122,51 @@ function WalletItem({
   setAddress: (_a: string) => void;
   setIsSign: (_i: boolean) => void;
 }) {
+  const uuid = useAtomValue(UuidAtom);
   const [walletName, setWalletName] = useState(name);
   const [walletAddress, setWalletAddress] = useState(address);
 
   const [popOpen, setPopOpen] = useState(false);
 
-  function handleSign() {}
+  const [isValid, setIsValid] = useState(true);
 
-  const [isFocus, setIsFocus] = useState(false);
+  const { getUserInfo } = useFetchUserInfo();
 
-  function clearInput() {
-    setWalletAddress("");
+  function handleValueChange(v: string) {
+    if (!v) {
+      setIsValid(true);
+    }
+    if (walletName !== "Solana") {
+      setIsValid(isAddress(v));
+    } else {
+      const solanaAddressRegex = /^([1-9A-HJ-NP-Za-km-z]{32,44})$/;
+      setIsValid(solanaAddressRegex.test(v));
+    }
+    setWalletAddress(v);
+  }
+
+  function handleSave() {
+    if (!walletName || !walletAddress || !isValid || isSign) return;
+    saveWallet();
+    getUserInfo();
+  }
+
+  async function saveWallet() {
+    const res: any = fetcher(`${ApiHost}/wallet/verify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chain_name: walletName,
+        wallet_address: walletAddress,
+        signature: "",
+        user_id: uuid,
+      }),
+    });
+    console.log(res);
+
+    setIsSign(true);
   }
 
   return (
@@ -139,11 +200,11 @@ function WalletItem({
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="flex w-[200px] flex-col items-stretch space-y-2 border-none bg-[#262626] p-4">
+        <PopoverContent className="no-scroll-bar flex h-[300px] w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
           {Chains.map((c) => (
             <div
               key={c}
-              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] hover:brightness-75"
+              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
               onClick={() => {
                 setWalletName(c);
                 setPopOpen(false);
@@ -156,14 +217,16 @@ function WalletItem({
         </PopoverContent>
       </Popover>
       <InputWithClear
+        isError={!isValid}
         value={walletAddress}
-        onValueChange={setWalletAddress}
+        onValueChange={(v) => handleValueChange(v)}
         isSign={isSign}
         conClass="ml-4 flex-1"
       />
       <div
-        onClick={handleSign}
-        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+        onClick={handleSave}
+        data-disabled={!walletName || !walletAddress || !isValid || isSign}
+        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed"
       >
         <Image src="./icons/save.svg" width={24} height={24} alt="save" />
       </div>

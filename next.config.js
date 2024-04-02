@@ -11,12 +11,12 @@ const nextConfig = {
     ],
   },
   webpack: (config) => {
-    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
-  // experimental: {
-  //   swcPlugins: [["@swc-jotai/react-refresh", {}]],
-  // },
+  experimental: {
+    optimizePackageImports: ["@dynamic-labs/sdk-react-core"],
+  },
 };
 
 module.exports = nextConfig;

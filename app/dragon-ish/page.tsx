@@ -21,7 +21,7 @@ export default function DragonIsh() {
             className="comm-icon"
           />
           <a href="https://t.me/juu17_fan" target="_blank">
-            Juu17's Inner Great Carers
+            Juu17&apos;s Inner Great Carers
           </a>
         </div>
         <div className="div-block-5 unselected-item">

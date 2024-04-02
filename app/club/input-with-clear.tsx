@@ -11,6 +11,7 @@ export function InputWithClear({
   conClass,
   inputClass,
   iconClass,
+  inputId,
 }: {
   value: string;
   onValueChange: (_v: string) => void;
@@ -19,6 +20,7 @@ export function InputWithClear({
   conClass?: string;
   inputClass?: string;
   iconClass?: string;
+  inputId?: string;
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -29,6 +31,7 @@ export function InputWithClear({
   return (
     <div className={cn("relative ", conClass)}>
       <Input
+        id={inputId || ""}
         data-error={isError}
         value={value}
         onChange={(e: any) => onValueChange(e.target.value)}
