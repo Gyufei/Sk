@@ -29,7 +29,11 @@ export default function Club() {
       isSign: true,
     }));
 
-    setWalletArray([...wallets, ...walletArray]);
+    const uniqArr = wallets.map((w) => w.address + " " + w.name);
+    const arrWallet = walletArray.filter(
+      (w) => !uniqArr.includes(w.address + " " + w.name),
+    );
+    setWalletArray([...wallets, ...arrWallet]);
   }, [userInfo?.wallets]);
 
   return (
