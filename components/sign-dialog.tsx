@@ -66,8 +66,12 @@ export default function SignDialog({
         message: "welcome to juu17 club",
       },
       {
+        onSettled: () => {
+          setSigning(false);
+        },
         onError: (error) => {
           console.log("error", error);
+          setSigning(false);
         },
         onSuccess: (data) => {
           postSignData(data);
