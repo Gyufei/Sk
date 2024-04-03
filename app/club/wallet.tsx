@@ -28,16 +28,16 @@ const Chains = [
 ];
 
 const LogoMap: Record<string, string> = {
-  "OP Mainnet": "./icons/op.svg",
-  "BNB Chain": "./icons/bnb.svg",
-  Solana: "./icons/solana.svg",
-  Ethereum: "./icons/ethereum.svg",
-  Sui: "./icons/sui.svg",
-  Blast: "./icons/blast.svg",
-  Base: "./icons/base.svg",
-  Arbitrum: "./icons/arb.svg",
-  Polygon: "./icons/polygon.svg",
-  Ronin: "./icons/ronin.svg",
+  "OP Mainnet": "./images/network-icons/op.svg",
+  "BNB Chain": "./images/network-icons/bnb.svg",
+  Solana: "./images/network-icons/solana.svg",
+  Ethereum: "./images/network-icons/ethereum.svg",
+  Sui: "./images/network-icons/sui.svg",
+  Blast: "./images/network-icons/blast.svg",
+  Base: "./images/network-icons/base.svg",
+  Arbitrum: "./images/network-icons/arb.svg",
+  Polygon: "./images/network-icons/polygon.svg",
+  Ronin: "./images/network-icons/ronin.svg",
 };
 
 export interface IWallet {
