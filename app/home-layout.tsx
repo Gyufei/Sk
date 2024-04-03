@@ -2,9 +2,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  useEffect(() => {
+    setTimeout(() => {
+      const gitCon = document.getElementById("gif-animation");
+      if (!gitCon) return;
+      gitCon.innerHTML = `
+          <img src="./sphere_25-fps_small.gif" loading="lazy" alt="" />
+      `;
+    }, 1000);
+  }, []);
 
   return (
     <div className="section" id="__next">
@@ -129,9 +140,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             )}
           </div>
         </div>
-        <div className="gif-animation">
-          <img src="./sphere_25-fps_small.gif" loading="lazy" alt="" />
-        </div>
+        <div id="gif-animation" className="gif-animation"></div>
         <div className="mob-div">
           <div className="text-block-4 mobile">
             © JUU17. All rights reserved.

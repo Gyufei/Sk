@@ -36,8 +36,8 @@ export default function Home() {
             viewBox="0 0 22 23"
             version="1.1"
           >
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g id="1" fill="#FFFFFF" fill-rule="nonzero">
+            <g stroke="none" stroke-width="1" fill="none" fillRule="evenodd">
+              <g id="1" fill="#FFFFFF" fillRule="nonzero">
                 <polygon
                   id="Path"
                   points="11.153992 9.729553 7.088684 4.041199 4.92041 4.041199 9.956299 11.087097 10.59021 11.97345 14.900635 18.009583 17.068909 18.009583 11.785217 10.615906"
@@ -62,8 +62,8 @@ export default function Home() {
             viewBox="0 0 22 25"
             version="1.1"
           >
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g fill="#FFFFFF" fill-rule="nonzero">
+            <g stroke="none" stroke-width="1" fill="none" fillRule="evenodd">
+              <g fill="#FFFFFF" fillRule="nonzero">
                 <polygon
                   id="Path"
                   points="21.9990571 5.66369048 0 5.66369048 0 8.6352619 21.9990571 8.6352619"

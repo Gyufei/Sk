@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
@@ -21,18 +21,26 @@ export default function SignDialog({
   const chainId = useChainId();
   const { switchChain, chains } = useSwitchChain();
 
+  const [signing, setSigning] = useState(false);
+
   const currentChain = useMemo(() => {
     return chains.find((c) => c.id === chainId);
   }, [chainId, chains]);
 
   useEffect(() => {
-    if (isDisconnected && !address) {
+    if ((isDisconnected && !address) || !uuid) {
       setDialogOpen(true);
       setUuid("");
     }
   }, [isDisconnected, address]);
 
   useEffect(() => {
+    setTimeout(() => {
+      switchChainAndSign();
+    }, 500);
+  }, [address, uuid, chainId, isConnected]);
+
+  async function switchChainAndSign() {
     if (address && isConnected && !uuid) {
       if (chainId !== 10) {
         switchChain(
@@ -49,9 +57,10 @@ export default function SignDialog({
         signMsg();
       }
     }
-  }, [address, uuid, chainId, isConnected]);
+  }
 
   async function signMsg() {
+    setSigning(true);
     signMessage(
       {
         message: "welcome to juu17 club",
@@ -68,41 +77,60 @@ export default function SignDialog({
   }
 
   async function postSignData(data: string) {
-    const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        login_type: "wallet",
-        login_data: {
-          wallet_address: address,
-          chain_name: currentChain?.name,
-          signature: data,
+    try {
+      const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
-    const uuid = res.uuid;
-    setUuid(uuid);
+        body: JSON.stringify({
+          login_type: "wallet",
+          login_data: {
+            wallet_address: address,
+            chain_name: currentChain?.name,
+            signature: data,
+          },
+        }),
+      });
+      const uuid = res.uuid;
+      setUuid(uuid);
+      setSigning(false);
+      setDialogOpen(false);
+    } catch (e) {
+      setSigning(false);
+    }
   }
 
   function handleSign() {
-    setDialogOpen(false);
-    open();
+    if (signing) return;
+
+    if (!address) {
+      open();
+    } else {
+      switchChainAndSign();
+    }
   }
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={(isOpen) => setDialogOpen(isOpen)}>
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(isOpen) => {
+        if (signing && !isOpen) {
+          setDialogOpen(true);
+        }
+      }}
+    >
       <DialogContent
         showOverlay={false}
-        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[#rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[300px]"
+        showClose={false}
+        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[300px]"
       >
         <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
         <div
           onClick={handleSign}
           className="mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-base leading-6 text-[rgba(255,255,255,0.6)]"
         >
-          Sign In
+          {signing ? "Signing..." : "Sign In"}
         </div>
       </DialogContent>
     </Dialog>
