@@ -1,6 +1,11 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useMemo, useState } from "react";
-import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
+import {
+  useAccount,
+  useChainId,
+  useSignMessage,
+  useSwitchChain,
+} from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
@@ -28,20 +33,17 @@ export default function SignDialog({
   }, [chainId, chains]);
 
   useEffect(() => {
-    if ((isDisconnected && !address) || !uuid) {
-      setDialogOpen(true);
-      setUuid("");
+    if (isDisconnected && !address) {
+      if (!uuid) {
+        setDialogOpen(true);
+        setUuid("");
+      }
     }
-  }, [isDisconnected, address]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      switchChainAndSign();
-    }, 500);
-  }, [address, uuid, chainId, isConnected]);
+  }, [isDisconnected, address, uuid]);
 
   async function switchChainAndSign() {
-    if (address && isConnected && !uuid) {
+    const localUU = JSON.parse(localStorage.getItem("uuid") || "");
+    if (address && isConnected && !localUU) {
       if (chainId !== 10) {
         switchChain(
           {
@@ -58,6 +60,12 @@ export default function SignDialog({
       }
     }
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      switchChainAndSign();
+    }, 500);
+  }, [address, uuid]);
 
   async function signMsg() {
     setSigning(true);
@@ -127,7 +135,7 @@ export default function SignDialog({
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[300px]"
+        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px]"
       >
         <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
         <div

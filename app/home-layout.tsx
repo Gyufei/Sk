@@ -18,7 +18,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="section" id="__next">
+    <div className="section !pointer-events-auto" id="__next">
       <div className="main-container">
         <div className="w-layout-grid grid">
           <div className="left-block">

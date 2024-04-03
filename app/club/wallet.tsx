@@ -31,7 +31,7 @@ const LogoMap: Record<string, string> = {
   "OP Mainnet": "./icons/op.svg",
   "BNB Chain": "./icons/bnb.svg",
   Solana: "./icons/solana.svg",
-  Ethereum: "./icons/Ethereum.svg",
+  Ethereum: "./icons/ethereum.svg",
   Sui: "./icons/sui.svg",
   Blast: "./icons/blast.svg",
   Base: "./icons/base.svg",

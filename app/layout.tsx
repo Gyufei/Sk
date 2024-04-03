@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "Juu17 Platoon",
     images: [
       {
-        url: "https://juu17.com/files/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
+        url: "https://juu17.com/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
       },
     ],
   },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "Juu17 Platoon",
     description:
       "My experience as a senior market maker, a visionary team jefe, and a supreme influencer sets me apart to help Web3 challengers solve the puzzles.",
-    images: ["https://juu17.com/files/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
+    images: ["https://juu17.com/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@0xjuu_17",
     site: "@0xjuu_17",
   },

@@ -65,7 +65,7 @@ export default function DragonIsh() {
         </div>
       </div>
       <Image
-        src="./files/ellipse_ico.svg"
+        src="./ellipse_ico.svg"
         loading="lazy"
         width={8}
         height={8}
@@ -73,7 +73,7 @@ export default function DragonIsh() {
         className="point-1"
       />
       <Image
-        src="./files/ellipse_ico.svg"
+        src="./ellipse_ico.svg"
         loading="lazy"
         width={8}
         height={8}
