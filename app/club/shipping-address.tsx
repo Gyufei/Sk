@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InputWithClear } from "./input-with-clear";
 import {
   Popover,
@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import Image from "next/image";
 import { PcData } from "@/lib/pc";
-import { UuidAtom } from "@/lib/state";
+import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { useAtomValue } from "jotai/react";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
@@ -16,18 +16,33 @@ import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
 export function ShippingAddress() {
   const uuid = useAtomValue(UuidAtom);
+  const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
   const { getUserInfo } = useFetchUserInfo();
 
-  const [recipientName, setRecipientName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [recipientName, setRecipientName] = useState(
+    userInfo?.shipping?.recipient_name || "",
+  );
+  const [phone, setPhone] = useState(userInfo?.shipping?.phone || "");
 
-  const [country, setCountry] = useState("中国");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
+  const [country, setCountry] = useState(userInfo?.shipping?.country || "中国");
+  const [state, setState] = useState(userInfo?.shipping?.state || "");
+  const [city, setCity] = useState(userInfo?.shipping?.city || "");
 
-  const [street, setStreet] = useState("");
-  const [code, setCode] = useState("");
+  const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
+  const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
+
+  useEffect(() => {
+    if (userInfo?.shipping) {
+      setRecipientName(userInfo?.shipping?.recipient_name || "");
+      setPhone(userInfo?.shipping?.phone || "");
+      setCountry(userInfo?.shipping?.country || "中国");
+      setState(userInfo?.shipping?.state || "");
+      setCity(userInfo?.shipping?.city || "");
+      setStreet(userInfo?.shipping?.address_line || "");
+      setCode(userInfo?.shipping?.zip_code || "");
+    }
+  }, [userInfo]);
 
   function handleSave() {
     if (!uuid) return;
@@ -42,7 +57,7 @@ export function ShippingAddress() {
   async function saveShip() {
     if (!uuid) return;
 
-    const res: any = fetcher(`${ApiHost}/user/shipping`, {
+    const res: any = await fetcher(`${ApiHost}/user/shipping`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,6 +114,40 @@ function NameAndPhone({
 }) {
   const { isEn } = useLang();
 
+  const [prefix, setPrefix] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [prefixOpen, setPrefixOpen] = useState(false);
+
+  const prefixArr = ["+86"];
+
+  useEffect(() => {
+    if (!phone) return;
+
+    for (const pf of prefixArr) {
+      if (phone.startsWith(pf)) {
+        setPrefix(pf);
+        setPhoneNumber(phone.slice(pf.length));
+        return;
+      }
+    }
+
+    setPrefix("+86");
+    setPhoneNumber(phone);
+    setPhone(`${prefix}${phone}`);
+  }, [phone]);
+
+  function handlePhoneNumChange(v: string) {
+    setPhoneNumber(v);
+    setPhone(`${prefix}${phoneNumber}`);
+  }
+
+  function handlePrefixChange(v: string) {
+    setPrefix(v);
+    if (!phoneNumber) return;
+    setPhone(`${prefix}${phoneNumber}`);
+  }
+
   return (
     <div className="flex items-center space-x-6">
       <div className="flex flex-1 flex-col">
@@ -124,13 +173,52 @@ function NameAndPhone({
         >
           {isEn ? "Phone" : "电话"}
         </label>
-        <InputWithClear
-          isError={false}
-          value={phone}
-          onValueChange={(v) => setPhone(v)}
-          isSign={false}
-          inputId="phone"
-        />
+        <div className="flex">
+          <Popover
+            open={prefixOpen}
+            onOpenChange={(isOpen) => setPrefixOpen(isOpen)}
+          >
+            <PopoverTrigger asChild>
+              <div
+                onClick={() => setPrefixOpen(!prefixOpen)}
+                className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
+              >
+                <div className="flex items-center">
+                  <div className="text-sm leading-6 text-[#d6d6d6]">{prefix}</div>
+                </div>
+                <Image
+                  data-open={prefixOpen}
+                  src="./icons/arrow-down.svg"
+                  width={24}
+                  height={24}
+                  alt="down"
+                  className="data-[open=true]:rotate-180 mr-2"
+                />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="no-scroll-bar flex w-[80px]  flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
+              {prefixArr.map((s) => (
+                <div
+                  key={s}
+                  className="flex h-8 text-sm cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
+                  onClick={() => {
+                    handlePrefixChange(s);
+                    setPrefixOpen(false);
+                  }}
+                >
+                  <div className="ml-3 leading-6 text-[#d6d6d6]">{s}</div>
+                </div>
+              ))}
+            </PopoverContent>
+          </Popover>
+          <InputWithClear
+            isError={false}
+            value={phoneNumber}
+            onValueChange={(v) => handlePhoneNumChange(v)}
+            isSign={false}
+            inputId="phone"
+          />
+        </div>
       </div>
     </div>
   );

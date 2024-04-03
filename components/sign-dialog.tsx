@@ -28,6 +28,7 @@ export default function SignDialog({
   useEffect(() => {
     if (isDisconnected && !address) {
       setDialogOpen(true);
+      setUuid("");
     }
   }, [isDisconnected, address]);
 
@@ -67,7 +68,7 @@ export default function SignDialog({
   }
 
   async function postSignData(data: string) {
-    const res: any = fetcher(`${ApiHost}/user/sign_in`, {
+    const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

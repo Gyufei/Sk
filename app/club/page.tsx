@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { NickName } from "./nick-name";
 import { ChangeLang } from "./change-lang";
 import { WalletArray } from "./wallet";
 import { SocialMedia } from "./social-media";
 import { ShippingAddress } from "./shipping-address";
 import SignDialog from "@/components/sign-dialog";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
 import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
@@ -18,36 +18,19 @@ export default function Club() {
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
 
-  const chainId = useChainId();
-  const { chains } = useSwitchChain();
-
-  const currentChain = useMemo(() => {
-    return chains.find((c) => c.id === chainId);
-  }, [chainId, chains]);
-
   const [dialogOpen, setOpen] = useState(false);
 
   const [walletArray, setWalletArray] = useState<any[]>([]);
 
   useEffect(() => {
-    const wallets = Object.entries(userInfo?.wallets || {})
-      .map((w: any) => ({
-        name: w[0],
-        address: w[1],
-        isSign: true,
-      }))
-      .filter(
-        (w: any) => w.address !== address || w.name !== currentChain?.name,
-      );
-
-    wallets.unshift({
-      name: currentChain?.name,
-      address: address as string,
+    const wallets = Object.entries(userInfo?.wallets || {}).map((w: any) => ({
+      name: w[0],
+      address: w[1],
       isSign: true,
-    });
+    }));
 
     setWalletArray([...wallets, ...walletArray]);
-  }, [userInfo?.wallets, address, currentChain, walletArray]);
+  }, [userInfo?.wallets]);
 
   return (
     <>

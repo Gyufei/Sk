@@ -33,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "wagmi": "^2.5.13",
+    "swr": "^2.2.2",
     "jotai": "^2.4.1"
   }
 }

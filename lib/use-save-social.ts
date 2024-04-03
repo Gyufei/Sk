@@ -11,7 +11,7 @@ export function useSaveSocial() {
   async function saveSocial(params: { name: string; data: string }) {
     if (!uuid) return;
 
-    const res: any = fetcher(`${ApiHost}/wallet/verify`, {
+    const res: any = await fetcher(`${ApiHost}/user/social_media`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

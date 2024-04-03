@@ -152,7 +152,7 @@ function WalletItem({
   }
 
   async function saveWallet() {
-    const res: any = fetcher(`${ApiHost}/wallet/verify`, {
+    const res: any = await fetcher(`${ApiHost}/wallet/verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,8 +1,10 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputWithClear } from "./input-with-clear";
 import { useSaveSocial } from "@/lib/use-save-social";
 import { useLang } from "@/lib/use-lang";
+import { useAtomValue } from "jotai";
+import { UserInfoAtom } from "@/lib/state";
 
 export function SocialMedia() {
   const { isEn } = useLang();
@@ -21,9 +23,16 @@ export function SocialMedia() {
 }
 
 function Twitter() {
-  const [x, setX] = useState("");
+  const userInfo = useAtomValue(UserInfoAtom);
+  const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (userInfo?.social_media) {
+      setX(userInfo?.social_media?.Twitter || "");
+    }
+  }, [userInfo]);
 
   function handleXInput(val: string) {
     setX(val);
@@ -35,8 +44,7 @@ function Twitter() {
 
   function handleSave() {
     if (!x || !isValid) return;
-    const res = saveSocial({ name: "Twitter", data: x });
-    console.log(res);
+    saveSocial({ name: "Twitter", data: x });
     setIsCheck(true);
   }
 
@@ -71,7 +79,8 @@ function Twitter() {
 }
 
 function Email() {
-  const [email, setEmail] = useState("");
+  const userInfo = useAtomValue(UserInfoAtom);
+  const [email, setEmail] = useState(userInfo?.social_media?.Email || "");
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
@@ -81,12 +90,17 @@ function Email() {
     setIsValid(true);
   }
 
+  useEffect(() => {
+    if (userInfo?.social_media) {
+      setEmail(userInfo?.social_media?.Email || "");
+    }
+  }, [userInfo]);
+
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
     if (!email || !isValid) return;
-    const res = saveSocial({ name: "Email", data: email });
-    console.log(res);
+    saveSocial({ name: "Email", data: email });
     setIsCheck(true);
   }
 
@@ -121,8 +135,15 @@ function Email() {
 }
 
 function Discord() {
-  const [discord, setDiscord] = useState("");
+  const userInfo = useAtomValue(UserInfoAtom);
+  const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (userInfo?.social_media) {
+      setDiscord(userInfo?.social_media?.Discord || "");
+    }
+  }, [userInfo]);
 
   function handleXInput(val: string) {
     setDiscord(val);
@@ -133,8 +154,7 @@ function Discord() {
 
   function handleSave() {
     if (!discord || !isValid) return;
-    const res = saveSocial({ name: "Discord", data: discord });
-    console.log(res);
+    saveSocial({ name: "Discord", data: discord });
   }
 
   return (
@@ -168,8 +188,15 @@ function Discord() {
 }
 
 function Tg() {
-  const [tg, setTg] = useState("");
+  const userInfo = useAtomValue(UserInfoAtom);
+  const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (userInfo?.social_media) {
+      setTg(userInfo?.social_media?.Telegram || "");
+    }
+  }, [userInfo]);
 
   function handleXInput(val: string) {
     setTg(val);
@@ -180,8 +207,7 @@ function Tg() {
 
   function handleSave() {
     if (!tg || !isValid) return;
-    const res = saveSocial({ name: "Telegram", data: tg });
-    console.log(res);
+    saveSocial({ name: "Telegram", data: tg });
   }
 
   return (
@@ -215,20 +241,26 @@ function Tg() {
 }
 
 function Github() {
-  const [github, setGithub] = useState("");
+  const userInfo = useAtomValue(UserInfoAtom);
+  const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    if (userInfo?.social_media) {
+      setGithub(userInfo?.social_media?.Github || "");
+    }
+  }, [userInfo]);
 
   function handleXInput(val: string) {
     setGithub(val);
-    setIsValid(false);
+    setIsValid(true);
   }
 
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
     if (!github || !isValid) return;
-    const res = saveSocial({ name: "Github", data: github });
-    console.log(res);
+    saveSocial({ name: "Github", data: github });
   }
 
   return (

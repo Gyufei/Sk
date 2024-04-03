@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
@@ -11,6 +11,10 @@ export function NickName({ nickName }: { nickName: string }) {
   const uuid = useAtomValue(UuidAtom);
   const [name, setName] = useState(nickName);
   const [isEditName, setIsEditName] = useState(false);
+
+  useEffect(() => {
+    setName(nickName);
+  }, [nickName]);
 
   const { getUserInfo } = useFetchUserInfo();
 
@@ -24,7 +28,7 @@ export function NickName({ nickName }: { nickName: string }) {
   async function saveName(n: string) {
     if (!uuid) return;
 
-    const res: any = fetcher(`${ApiHost}/user/nick_name`, {
+    const res: any = await fetcher(`${ApiHost}/user/nick_name`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
