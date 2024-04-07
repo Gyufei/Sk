@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { NickName } from "./nick-name";
-import { ChangeLang } from "./change-lang";
 import { WalletArray } from "./wallet";
 import { SocialMedia } from "./social-media";
 import { ShippingAddress } from "./shipping-address";
@@ -59,9 +58,7 @@ export default function Club() {
               </div>
             </div>
 
-            <div className="flex items-start">
-              <ChangeLang />
-            </div>
+            <div className="flex items-start"></div>
           </div>
 
           <WalletArray wArr={walletArray} setWArr={setWalletArray} />

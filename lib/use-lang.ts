@@ -9,7 +9,7 @@ export function useLang() {
   const isCn = lang === "Cn";
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("lang") || "")) return;
+    localStorage.removeItem("lang");
 
     const currentLang = navigator.language;
     if (currentLang === "zh-CN") {
@@ -21,7 +21,6 @@ export function useLang() {
 
   return {
     lang,
-    setLang,
     isEn,
     isCn,
   };

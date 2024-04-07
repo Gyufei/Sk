@@ -1,11 +1,6 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useMemo, useState } from "react";
-import {
-  useAccount,
-  useChainId,
-  useSignMessage,
-  useSwitchChain,
-} from "wagmi";
+import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
@@ -42,7 +37,17 @@ export default function SignDialog({
   }, [isDisconnected, address, uuid]);
 
   async function switchChainAndSign() {
-    const localUU = JSON.parse(localStorage.getItem("uuid") || "");
+    let localUU: string | null = null;
+    try {
+      localUU = JSON.parse(localStorage.getItem("uuid") || "");
+    } catch (e) {
+      localStorage.removeItem("uuid");
+      console.log(
+        "error for get localStorage uuid",
+        localStorage.getItem("uuid"),
+        e,
+      );
+    }
     if (address && isConnected && !localUU) {
       if (chainId !== 10) {
         switchChain(

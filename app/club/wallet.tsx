@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -132,6 +132,11 @@ function WalletItem({
 
   const { getUserInfo } = useFetchUserInfo();
 
+  const disabled = useMemo(
+    () => !walletName || !walletAddress || !isValid || isSign,
+    [walletName, walletAddress, isValid, isSign],
+  );
+
   function handleValueChange(v: string) {
     if (!v) {
       setIsValid(true);
@@ -146,7 +151,7 @@ function WalletItem({
   }
 
   function handleSave() {
-    if (!walletName || !walletAddress || !isValid || isSign) return;
+    if (disabled) return;
     saveWallet();
     getUserInfo();
   }
@@ -225,8 +230,8 @@ function WalletItem({
       />
       <div
         onClick={handleSave}
-        data-disabled={!walletName || !walletAddress || !isValid || isSign}
-        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed"
+        data-disabled={disabled}
+        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
       >
         <Image src="./icons/save.svg" width={24} height={24} alt="save" />
       </div>

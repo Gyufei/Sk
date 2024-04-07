@@ -32,6 +32,11 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
+  const disabled = useMemo(
+    () => !recipientName && !phone && !country && !state && !city && !street,
+    [recipientName, phone, country, state, city, street],
+  );
+
   useEffect(() => {
     if (userInfo?.shipping) {
       setRecipientName(userInfo?.shipping?.recipient_name || "");
@@ -45,10 +50,7 @@ export function ShippingAddress() {
   }, [userInfo]);
 
   function handleSave() {
-    if (!uuid) return;
-    if (!recipientName && !phone && !country && !state && !city && !street) {
-      return;
-    }
+    if (!uuid || disabled) return;
 
     saveShip();
     getUserInfo();
@@ -89,10 +91,8 @@ export function ShippingAddress() {
       <div className="mt-10 flex items-center justify-end">
         <div
           onClick={handleSave}
-          data-disabled={
-            !recipientName && !phone && !country && !state && !city && !street
-          }
-          className="flex h-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed"
+          data-disabled={disabled}
+          className="flex h-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
         >
           {isEn ? "Save" : "保存"}
         </div>
@@ -184,7 +184,9 @@ function NameAndPhone({
                 className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
               >
                 <div className="flex items-center">
-                  <div className="text-sm leading-6 text-[#d6d6d6]">{prefix}</div>
+                  <div className="text-sm leading-6 text-[#d6d6d6]">
+                    {prefix}
+                  </div>
                 </div>
                 <Image
                   data-open={prefixOpen}
@@ -192,7 +194,7 @@ function NameAndPhone({
                   width={24}
                   height={24}
                   alt="down"
-                  className="data-[open=true]:rotate-180 mr-2"
+                  className="mr-2 data-[open=true]:rotate-180"
                 />
               </div>
             </PopoverTrigger>
@@ -200,7 +202,7 @@ function NameAndPhone({
               {prefixArr.map((s) => (
                 <div
                   key={s}
-                  className="flex h-8 text-sm cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
+                  className="flex h-8 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
                   onClick={() => {
                     handlePrefixChange(s);
                     setPrefixOpen(false);

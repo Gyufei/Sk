@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InputWithClear } from "./input-with-clear";
 import { useSaveSocial } from "@/lib/use-save-social";
 import { useLang } from "@/lib/use-lang";
@@ -35,15 +35,28 @@ function Twitter() {
   }, [userInfo]);
 
   function handleXInput(val: string) {
+    if (!val) {
+      setX(val);
+      setIsValid(true);
+      return;
+    }
+
     setX(val);
-    setIsCheck(true);
-    setIsValid(true);
+    setIsValid(checkRegex(val));
+  }
+
+  const disabled = useMemo(() => !isValid || !x, [isValid, x]);
+
+  function checkRegex(x: string) {
+    const regex = /http:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
+
+    return regex.test(x);
   }
 
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
-    if (!x || !isValid) return;
+    if (disabled) return;
     saveSocial({ name: "Twitter", data: x });
     setIsCheck(true);
   }
@@ -63,8 +76,9 @@ function Twitter() {
           conClass="ml-4 flex-1"
         />
         <div
+          data-disabled={disabled}
           onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           <Image src="./icons/save.svg" width={24} height={24} alt="save" />
         </div>
@@ -84,10 +98,17 @@ function Email() {
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
+  const disabled = useMemo(() => !isValid || !email, [isValid, email]);
+
   function handleXInput(val: string) {
+    if (!val) {
+      setEmail(val);
+      setIsValid(true);
+      return;
+    }
+
     setEmail(val);
-    setIsCheck(true);
-    setIsValid(true);
+    setIsValid(checkRegex(val));
   }
 
   useEffect(() => {
@@ -104,8 +125,15 @@ function Email() {
     setIsCheck(true);
   }
 
+  function checkRegex(x: string) {
+    const regex =
+      /^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+
+    return regex.test(x);
+  }
+
   return (
-    <div className="mt-2 flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/email.svg" width={30} height={30} alt="" />
@@ -119,8 +147,9 @@ function Email() {
           conClass="ml-4 flex-1"
         />
         <div
+          data-disabled={disabled}
           onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           <Image src="./icons/save.svg" width={24} height={24} alt="save" />
         </div>
@@ -139,26 +168,48 @@ function Discord() {
   const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
 
+  const disabled = useMemo(() => !isValid || !discord, [isValid, discord]);
+
   useEffect(() => {
     if (userInfo?.social_media) {
-      setDiscord(userInfo?.social_media?.Discord || "");
+      const uDiscord = userInfo?.social_media?.Discord;
+
+      const dData = uDiscord
+        ? uDiscord.startWith("@")
+          ? uDiscord
+          : `@${uDiscord}`
+        : "";
+      setDiscord(dData);
     }
   }, [userInfo]);
 
   function handleXInput(val: string) {
+    if (!val) {
+      setDiscord(val);
+      setIsValid(true);
+      return;
+    }
+
     setDiscord(val);
-    setIsValid(true);
+    setIsValid(checkRegex(val));
   }
 
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
-    if (!discord || !isValid) return;
-    saveSocial({ name: "Discord", data: discord });
+    if (disabled) return;
+    const saveDiscord = discord.startWith("@") ? discord.slice(1) : discord;
+    saveSocial({ name: "Discord", data: saveDiscord });
+  }
+
+  function checkRegex(x: string) {
+    const regex = /@?[a-zA-Z0-9_]{5,40}/;
+
+    return regex.test(x);
   }
 
   return (
-    <div className="mt-2 flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/discord.svg" width={30} height={30} alt="" />
@@ -172,8 +223,9 @@ function Discord() {
           conClass="ml-4 flex-1"
         />
         <div
+          data-disabled={disabled}
           onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           <Image src="./icons/save.svg" width={24} height={24} alt="save" />
         </div>
@@ -192,26 +244,43 @@ function Tg() {
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
 
+  const disabled = useMemo(() => !isValid || !tg, [isValid, tg]);
+
   useEffect(() => {
     if (userInfo?.social_media) {
-      setTg(userInfo?.social_media?.Telegram || "");
+      const tg = userInfo?.social_media?.Telegram;
+
+      const tData = tg ? (tg.startWith("@") ? tg : `@${tg}`) : "";
+      setTg(tData);
     }
   }, [userInfo]);
 
   function handleXInput(val: string) {
+    if (!val) {
+      setTg(val);
+      setIsValid(true);
+      return;
+    }
+
     setTg(val);
-    setIsValid(true);
+    setIsValid(checkRegex(val));
   }
 
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
-    if (!tg || !isValid) return;
+    if (disabled) return;
     saveSocial({ name: "Telegram", data: tg });
   }
 
+  function checkRegex(x: string) {
+    const regex = /@?[a-zA-Z0-9_]{5,40}/;
+
+    return regex.test(x);
+  }
+
   return (
-    <div className="mt-2 flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/tg.svg" width={30} height={30} alt="" />
@@ -225,8 +294,9 @@ function Tg() {
           conClass="ml-4 flex-1"
         />
         <div
+          data-disabled={disabled}
           onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           <Image src="./icons/save.svg" width={24} height={24} alt="save" />
         </div>
@@ -245,6 +315,8 @@ function Github() {
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
 
+  const disabled = useMemo(() => !isValid || !github, [isValid, github]);
+
   useEffect(() => {
     if (userInfo?.social_media) {
       setGithub(userInfo?.social_media?.Github || "");
@@ -252,19 +324,32 @@ function Github() {
   }, [userInfo]);
 
   function handleXInput(val: string) {
+    if (!val) {
+      setGithub(val);
+      setIsValid(true);
+      return;
+    }
+
     setGithub(val);
-    setIsValid(true);
+    setIsValid(checkRegex(val));
   }
 
   const { saveSocial } = useSaveSocial();
 
   function handleSave() {
-    if (!github || !isValid) return;
+    if (disabled) return;
+
     saveSocial({ name: "Github", data: github });
   }
 
+  function checkRegex(x: string) {
+    const regex = /http:\/\/github.com\/[a-zA-Z0-9_]{1,40}/;
+
+    return regex.test(x);
+  }
+
   return (
-    <div className="mt-2 flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/github.svg" width={30} height={30} alt="" />
@@ -278,8 +363,9 @@ function Github() {
           conClass="ml-4 flex-1"
         />
         <div
+          data-disabled={disabled}
           onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]"
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           <Image src="./icons/save.svg" width={24} height={24} alt="save" />
         </div>
