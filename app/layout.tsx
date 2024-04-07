@@ -6,32 +6,44 @@ import { HomeLayout } from "./home-layout";
 import { WcProvider } from "@/components/wc-provider";
 
 export const metadata: Metadata = {
-  title: "Juu17 Platoon",
+  title: {
+    template: "%s | Juu17 Platoon",
+    default: "Juu17 Platoon",
+  },
   metadataBase: new URL("https://juu17.com/"),
   description:
-    "My experience as a senior market maker, a visionary team jefe, and a supreme influencer sets me apart to help Web3 challengers solve the puzzles.",
+    "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
   viewport: { width: "device-width", initialScale: 1 },
   openGraph: {
-    type: "website",
     url: "https://juu17.com/",
     title: "Juu17 Platoon",
     description:
-      "My experience as a senior market maker, a visionary team jefe, and a supreme influencer sets me apart to help Web3 challengers solve the puzzles.",
+      "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     siteName: "Juu17 Platoon",
-    images: [
-      {
-        url: "https://juu17.com/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
-      },
-    ],
+    images: "/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Juu17 Platoon",
     description:
-      "My experience as a senior market maker, a visionary team jefe, and a supreme influencer sets me apart to help Web3 challengers solve the puzzles.",
-    images: ["https://juu17.com/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
+      "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
+    images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@0xjuu_17",
     site: "@0xjuu_17",
+  },
+  icons: {
+    icon: [
+      { url: "/images/favicon-32x32.png" },
+    ],
+    apple: [
+      { url: "/images/icon_256.png" },
+      {
+        url: "/images/icon_180.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ]
   },
   alternates: {
     canonical: "https://juu17.com/",
