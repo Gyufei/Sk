@@ -29,10 +29,8 @@ export default function SignDialog({
 
   useEffect(() => {
     if (isDisconnected && !address) {
-      if (!uuid) {
-        setDialogOpen(true);
-        setUuid("");
-      }
+      setUuid("");
+      setDialogOpen(true);
     }
   }, [isDisconnected, address, uuid]);
 
@@ -76,7 +74,10 @@ export default function SignDialog({
     setSigning(true);
     signMessage(
       {
-        message: "welcome to juu17 club",
+        message: JSON.stringify({
+          message: "welcome to juu17 club",
+          ts: Math.round(new Date().getTime() / 1000),
+        }),
       },
       {
         onSettled: () => {

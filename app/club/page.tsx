@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NickName } from "./nick-name";
 import { WalletArray } from "./wallet";
 import { SocialMedia } from "./social-media";
@@ -18,22 +18,6 @@ export default function Club() {
   const { isEn } = useLang();
 
   const [dialogOpen, setOpen] = useState(false);
-
-  const [walletArray, setWalletArray] = useState<any[]>([]);
-
-  useEffect(() => {
-    const wallets = Object.entries(userInfo?.wallets || {}).map((w: any) => ({
-      name: w[0],
-      address: w[1],
-      isSign: true,
-    }));
-
-    const uniqArr = wallets.map((w) => w.address + " " + w.name);
-    const arrWallet = walletArray.filter(
-      (w) => !uniqArr.includes(w.address + " " + w.name),
-    );
-    setWalletArray([...wallets, ...arrWallet]);
-  }, [userInfo?.wallets]);
 
   return (
     <>
@@ -58,11 +42,21 @@ export default function Club() {
               </div>
             </div>
 
-            <div className="flex items-start"></div>
+            <div className="flex flex-col">
+              <div className="mb-1 text-xl leading-[30px] text-white">
+                {isEn ? "Windfalls" : "获利"}
+              </div>
+              <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">
+                <div className="text-[#1FEFA3]">
+                  {userInfo?.passed_windfalls || 0}
+                </div>
+                <div>/</div>
+                <div>{userInfo?.total_windfalls || 0}</div>
+              </div>
+            </div>
           </div>
 
-          <WalletArray wArr={walletArray} setWArr={setWalletArray} />
-
+          <WalletArray />
           <SocialMedia />
           <ShippingAddress />
         </div>

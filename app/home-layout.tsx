@@ -1,24 +1,24 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import Script from "next/script";
+import HomeLinks from "./home-links";
+import ContentFooter from "./content-footer";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setTimeout(() => {
-      const gitCon = document.getElementById("gif-animation");
-      if (!gitCon) return;
-      gitCon.innerHTML = `
-          <img src="./sphere_25-fps_small.gif" loading="lazy" alt="" />
-      `;
-    }, 1000);
-  }, []);
-
   return (
     <div className="section !pointer-events-auto" id="__next">
+      <Script
+        id="lazy-animation"
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.addEventListener("load", function() {
+            setTimeout(() => {
+              const gitCon = document.getElementById("gif-animation");
+              if (!gitCon) return;
+              gitCon.innerHTML = '<img src="./sphere_25-fps_small.gif" loading="lazy" alt="" />';
+            }, 1000);
+          });
+        `,
+        }}
+      ></Script>
       <div className="main-container">
         <div className="w-layout-grid grid">
           <div className="left-block">
@@ -61,83 +61,13 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
                 </g>
               </svg>
             </a>
-            <ul className="navbar">
-              <li
-                className={pathname === "/home" ? "active" : ""}
-                data-id="home"
-              >
-                <Link href="/home">Home</Link>
-              </li>
-              <li
-                className={pathname === "/dragon-ish" ? "active" : ""}
-                data-id="dragon-ish"
-              >
-                <Link href="/dragon-ish">Dragon-ish</Link>
-              </li>
-              <li
-                className={pathname === "/club" ? "active" : ""}
-                data-id="club"
-              >
-                <Link href="/club">Club</Link>
-              </li>
-              <li
-                className={pathname === "/service" ? "active" : ""}
-                data-id="service"
-              >
-                <Link href="/service">Service</Link>
-              </li>
-            </ul>
+            <HomeLinks />
             <div className="text-block-4">© JUU17. All rights reserved.</div>
           </div>
 
           <div data-id="" className="w-layout-grid right-grid-block">
             <div className="top-content">{children}</div>
-            {pathname !== "/club" && (
-              <div className="bottom-content">
-                <div className="field-label-text">Dive a bit deeper</div>
-                <div className="html-embed-4 w-embed">
-                  <form
-                    className="update-form"
-                    action="https://tally.so/r/mRo66p"
-                    method="get"
-                    target="_blank"
-                  >
-                    <input
-                      type="hidden"
-                      name="transparentBackground"
-                      value="1"
-                    />
-                    <input
-                      className="text-field w-input"
-                      required
-                      type="email"
-                      name="email"
-                      placeholder="Your email"
-                      maxLength={50}
-                    />
-                    <button className="submit-button w-button" type="submit">
-                      Submit a request
-                    </button>
-                  </form>
-                </div>
-                <Image
-                  src="./ellipse_ico.svg"
-                  loading="lazy"
-                  width={8}
-                  height={8}
-                  alt=""
-                  className="point-3"
-                />
-                <Image
-                  src="./ellipse_ico.svg"
-                  loading="lazy"
-                  alt=""
-                  width={8}
-                  height={8}
-                  className="point-4"
-                />
-              </div>
-            )}
+            <ContentFooter />
           </div>
         </div>
         <div id="gif-animation" className="gif-animation"></div>

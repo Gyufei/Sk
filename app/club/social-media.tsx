@@ -66,7 +66,7 @@ function Twitter() {
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/x.svg" width={30} height={30} alt="" />
-          <div className="leading-6 text-[#d6d6d6]">X (Twitter)</div>
+          <div className="text-base leading-6 text-[#d6d6d6]">X (Twitter)</div>
         </div>
         <InputWithClear
           isError={!isValid}
@@ -137,7 +137,7 @@ function Email() {
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/email.svg" width={30} height={30} alt="" />
-          <div className="leading-6 text-[#d6d6d6]">Email</div>
+          <div className="text-base leading-6 text-[#d6d6d6]">Email</div>
         </div>
         <InputWithClear
           isError={!isValid}
@@ -213,7 +213,7 @@ function Discord() {
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/discord.svg" width={30} height={30} alt="" />
-          <div className="leading-6 text-[#d6d6d6]">Discord</div>
+          <div className="text-base leading-6 text-[#d6d6d6]">Discord</div>
         </div>
         <InputWithClear
           isError={!isValid}
@@ -284,7 +284,7 @@ function Tg() {
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/tg.svg" width={30} height={30} alt="" />
-          <div className="leading-6 text-[#d6d6d6]">Telegram</div>
+          <div className="text-base leading-6 text-[#d6d6d6]">Telegram</div>
         </div>
         <InputWithClear
           isError={!isValid}
@@ -353,7 +353,7 @@ function Github() {
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="./icons/github.svg" width={30} height={30} alt="" />
-          <div className="leading-6 text-[#d6d6d6]">Github</div>
+          <div className="text-base leading-6 text-[#d6d6d6]">Github</div>
         </div>
         <InputWithClear
           isError={!isValid}

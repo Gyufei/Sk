@@ -1,43 +1,55 @@
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { InputWithClear } from "./input-with-clear";
-import { isAddress } from "viem";
 import fetcher from "@/lib/fetcher";
 import { useAtomValue } from "jotai/react";
-import { UuidAtom } from "@/lib/state";
+import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { ApiHost } from "@/lib/path";
 import { useLang } from "@/lib/use-lang";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import { useAccount } from "wagmi";
 
-const Chains = [
-  "OP Mainnet",
-  "BNB Chain",
-  "Solana",
-  "Ethereum",
-  "Sui",
-  "Blast",
-  "Base",
-  "Arbitrum",
-  "Polygon",
-  "Ronin",
-];
-
-const LogoMap: Record<string, string> = {
-  "OP Mainnet": "./images/network-icons/op.svg",
-  "BNB Chain": "./images/network-icons/bnb.svg",
-  Solana: "./images/network-icons/solana.svg",
-  Ethereum: "./images/network-icons/ethereum.svg",
-  Sui: "./images/network-icons/sui.svg",
-  Blast: "./images/network-icons/blast.svg",
-  Base: "./images/network-icons/base.svg",
-  Arbitrum: "./images/network-icons/arb.svg",
-  Polygon: "./images/network-icons/polygon.svg",
-  Ronin: "./images/network-icons/ronin.svg",
+const ChainInfos: Record<string, any> = {
+  "OP Mainnet": {
+    logo: "./images/network-icons/op.svg",
+    isEVM: true,
+  },
+  "BNB Chain": {
+    logo: "./images/network-icons/bnb.svg",
+    isEVM: true,
+  },
+  Solana: {
+    logo: "./images/network-icons/solana.svg",
+    isEVM: false,
+  },
+  Ethereum: {
+    logo: "./images/network-icons/ethereum.svg",
+    isEVM: true,
+  },
+  Sui: {
+    logo: "./images/network-icons/sui.svg",
+  },
+  Blast: {
+    logo: "./images/network-icons/blast.svg",
+  },
+  Base: {
+    logo: "./images/network-icons/base.svg",
+  },
+  Arbitrum: {
+    logo: "./images/network-icons/arb.svg",
+    isEVM: true,
+  },
+  Polygon: {
+    logo: "./images/network-icons/polygon.svg",
+    isEVM: true,
+  },
+  Ronin: {
+    logo: "./images/network-icons/ronin.svg",
+  },
 };
 
 export interface IWallet {
@@ -46,35 +58,79 @@ export interface IWallet {
   isSign: boolean;
 }
 
-export function WalletArray({
-  wArr,
-  setWArr,
-}: {
-  wArr: Array<IWallet>;
-  setWArr: (_w: IWallet[]) => void;
-}) {
+export function WalletArray() {
   const { isEn } = useLang();
+  const userInfo = useAtomValue(UserInfoAtom);
+
+  const [wArr, setWArr] = useState<any[]>([]);
+
+  useEffect(() => {
+    const wallets = Object.entries(userInfo?.wallets || {}).map((w: any) => ({
+      name: w[0],
+      address: w[1],
+      isSign: true,
+    }));
+
+    const uniqArr = wallets.map((w) => w.address + " " + w.name);
+    const arrWallet = wArr.filter(
+      (w) => !uniqArr.includes(w.address + " " + w.name),
+    );
+    setWArr([...wallets, ...arrWallet]);
+  }, [userInfo?.wallets]);
+
   const handleNameChange = (index: number, value: string) => {
-    const updatedPeople = [...wArr];
-    updatedPeople[index].name = value;
-    setWArr(updatedPeople);
+    setWArr((prev) => {
+      const updatedPeople = [...prev];
+      updatedPeople[index].name = value;
+      return updatedPeople;
+    });
   };
 
   const handleAddrChange = (index: number, value: string) => {
-    const updatedPeople = [...wArr];
-    updatedPeople[index].address = value;
-    setWArr(updatedPeople);
+    setWArr((prev) => {
+      const updatedPeople = [...prev];
+      updatedPeople[index].address = value;
+      return updatedPeople;
+    });
   };
 
   const handleSignChange = (index: number, value: boolean) => {
-    const updatedPeople = [...wArr];
-    updatedPeople[index].isSign = value;
-    setWArr(updatedPeople);
+    setWArr((prev) => {
+      const updatedPeople = [...prev];
+      updatedPeople[index].isSign = value;
+      return updatedPeople;
+    });
   };
 
   const addWallet = () => {
-    setWArr([...wArr, { name: "", address: "", isSign: false }]);
+    setWArr((prev) => [...prev, { name: "", address: "", isSign: false }]);
   };
+
+  const removeWallet = (index: number) => {
+    setWArr((prev) => {
+      const updatedPeople = [...prev];
+      updatedPeople.splice(index, 1);
+      return updatedPeople;
+    });
+  };
+
+  const onlyEvm = useMemo(() => {
+    let evmNum = 0;
+
+    for (const c of wArr) {
+      if (!c.isSign) continue;
+      const isEvm = ChainInfos[c.name]?.isEVM;
+      evmNum += isEvm ? 1 : 0;
+    }
+
+    return evmNum === 1;
+  }, [wArr]);
+
+  const walletOptions = useMemo(
+    () =>
+      Object.keys(ChainInfos).filter((c) => wArr.every((w) => w.name !== c)),
+    [wArr],
+  );
 
   return (
     <div className="mt-10">
@@ -102,6 +158,11 @@ export function WalletArray({
             setName={(value) => handleNameChange(index, value)}
             setAddress={(value) => handleAddrChange(index, value)}
             setIsSign={(value) => handleSignChange(index, value)}
+            isLastEvm={item.isSign && ChainInfos[item.name]?.isEVM && onlyEvm}
+            walletOptions={walletOptions}
+            handleRemove={() => {
+              removeWallet(index);
+            }}
           />
         ))}
       </div>
@@ -112,8 +173,13 @@ export function WalletArray({
 function WalletItem({
   name,
   address,
+  setName,
+  setAddress,
   isSign,
   setIsSign,
+  isLastEvm = false,
+  walletOptions,
+  handleRemove,
 }: {
   name: string;
   address: string;
@@ -121,50 +187,55 @@ function WalletItem({
   setName: (_n: string) => void;
   setAddress: (_a: string) => void;
   setIsSign: (_i: boolean) => void;
+  isLastEvm?: boolean;
+  walletOptions: any[];
+  handleRemove: () => void;
 }) {
   const uuid = useAtomValue(UuidAtom);
-  const [walletName, setWalletName] = useState(name);
-  const [walletAddress, setWalletAddress] = useState(address);
-
   const [popOpen, setPopOpen] = useState(false);
-
-  const [isValid, setIsValid] = useState(true);
-
   const { getUserInfo } = useFetchUserInfo();
+  const { address: walletAddress } = useAccount();
 
-  const disabled = useMemo(
-    () => !walletName || !walletAddress || !isValid || isSign,
-    [walletName, walletAddress, isValid, isSign],
-  );
-
-  function handleValueChange(v: string) {
-    if (!v) {
-      setIsValid(true);
+  const disabled = useMemo(() => {
+    if (isSign) {
+      return false;
     }
-    if (walletName !== "Solana") {
-      setIsValid(isAddress(v));
-    } else {
-      const solanaAddressRegex = /^([1-9A-HJ-NP-Za-km-z]{32,44})$/;
-      setIsValid(solanaAddressRegex.test(v));
-    }
-    setWalletAddress(v);
-  }
+    return !name;
+  }, [name, isSign]);
 
-  function handleSave() {
+  // function handleValueChange(v: string) {
+  //   setAddress(v);
+  // }
+
+  async function handleOperation() {
     if (disabled) return;
-    saveWallet();
+    if (!isSign) {
+      await linkWallet();
+    } else {
+      await removeWallet();
+    }
     getUserInfo();
   }
 
-  async function saveWallet() {
+  async function linkWallet() {
+    if (ChainInfos[name]?.isEVM) {
+      await saveWalletAction(walletAddress || "");
+    } else {
+      return;
+    }
+  }
+
+  async function saveWalletAction(addr: string) {
+    if (!addr) return;
+    setAddress(addr);
     const res: any = await fetcher(`${ApiHost}/wallet/verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chain_name: walletName,
-        wallet_address: walletAddress,
+        chain_name: name,
+        wallet_address: addr,
         signature: "",
         user_id: uuid,
       }),
@@ -174,18 +245,38 @@ function WalletItem({
     setIsSign(true);
   }
 
+  async function removeWallet() {
+    const res: any = await fetcher(`${ApiHost}/wallet/remove`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: uuid,
+        chain_name: name,
+      }),
+    });
+
+    console.log(res);
+    handleRemove();
+  }
+
   return (
     <div className="mt-6 flex items-center">
       <Popover open={popOpen} onOpenChange={(isOpen) => setPopOpen(isOpen)}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger
+          asChild
+          data-disabled={isLastEvm}
+          className="data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
+        >
           <div
             onClick={() => setPopOpen(!popOpen)}
             className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
           >
             <div className="flex items-center">
-              {LogoMap[walletName] ? (
+              {ChainInfos[name] ? (
                 <Image
-                  src={LogoMap[walletName]}
+                  src={ChainInfos[name].logo}
                   width={30}
                   height={30}
                   alt="wallet"
@@ -193,7 +284,9 @@ function WalletItem({
               ) : (
                 <div className="h-[30px] w-[30px] rounded-full bg-slate-400"></div>
               )}
-              <div className="ml-3 leading-6 text-[#d6d6d6]">{walletName}</div>
+              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">
+                {name}
+              </div>
             </div>
             <Image
               data-open={popOpen}
@@ -206,35 +299,51 @@ function WalletItem({
           </div>
         </PopoverTrigger>
         <PopoverContent className="no-scroll-bar flex h-[300px] w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
-          {Chains.map((c) => (
+          {walletOptions.map((c) => (
             <div
               key={c}
               className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
               onClick={() => {
-                setWalletName(c);
+                setName(c);
                 setPopOpen(false);
               }}
             >
-              <Image src={LogoMap[c]} width={30} height={30} alt="wallet" />
-              <div className="ml-3 leading-6 text-[#d6d6d6]">{c}</div>
+              <Image
+                src={ChainInfos[c].logo}
+                width={30}
+                height={30}
+                alt="wallet"
+              />
+              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">{c}</div>
             </div>
           ))}
         </PopoverContent>
       </Popover>
-      <InputWithClear
-        isError={!isValid}
-        value={walletAddress}
-        onValueChange={(v) => handleValueChange(v)}
-        isSign={isSign}
-        conClass="ml-4 flex-1"
-      />
-      <div
-        onClick={handleSave}
-        data-disabled={disabled}
-        className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
-      >
-        <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+      <div className="relative ml-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] ">
+        <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
+        {isSign && (
+          <Image
+            src="./icons/sign.svg"
+            width={20}
+            height={20}
+            alt="sign"
+            className="absolute right-0 top-[14px] cursor-pointer"
+          />
+        )}
       </div>
+      {!isLastEvm && (
+        <div
+          onClick={handleOperation}
+          data-disabled={disabled}
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
+        >
+          {isSign ? (
+            <Image src="./icons/unlink.svg" width={24} height={24} alt="save" />
+          ) : (
+            <Image src="./icons/link.svg" width={24} height={24} alt="save" />
+          )}
+        </div>
+      )}
     </div>
   );
 }
