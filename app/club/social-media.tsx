@@ -48,7 +48,7 @@ function Twitter() {
   const disabled = useMemo(() => !isValid || !x, [isValid, x]);
 
   function checkRegex(x: string) {
-    const regex = /(http|https):\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
+    const regex = /https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
 
     return regex.test(x);
   }
