@@ -36,8 +36,8 @@ const projectId = "554bbd76b2e66a095d2d38490bb42983";
 const metadata = {
   name: "Web3Modal",
   description: "Web3Modal Example",
-  // url: "https://juu17.com", // origin must match your domain & subdomain
-  url: "http://localhost:3000", // origin must match your domain & subdomain
+  url: "https://juu17.com", // origin must match your domain & subdomain
+  // url: "http://localhost:3000", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 

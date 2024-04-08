@@ -72,11 +72,12 @@ export default function SignDialog({
 
   async function signMsg() {
     setSigning(true);
+    const ts = Math.round(new Date().getTime() / 1000);
     signMessage(
       {
         message: JSON.stringify({
           message: "welcome to juu17 club",
-          ts: Math.round(new Date().getTime() / 1000),
+          ts,
         }),
       },
       {
@@ -88,13 +89,13 @@ export default function SignDialog({
           setSigning(false);
         },
         onSuccess: (data) => {
-          postSignData(data);
+          postSignData(data, ts);
         },
       },
     );
   }
 
-  async function postSignData(data: string) {
+  async function postSignData(data: string, ts: number) {
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -107,9 +108,13 @@ export default function SignDialog({
             wallet_address: address,
             chain_name: currentChain?.name,
             signature: data,
+            sign_at: ts,
           },
         }),
       });
+      if (res.staus === false || !res.uuid) {
+        throw new Error("sign failed");
+      }
       const uuid = res.uuid;
       setUuid(uuid);
       setSigning(false);
