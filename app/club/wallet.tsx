@@ -17,6 +17,7 @@ const ChainInfos: Record<string, any> = {
   "OP Mainnet": {
     logo: "./images/network-icons/op.svg",
     isEVM: true,
+    chainId: 10,
   },
   "BNB Chain": {
     logo: "./images/network-icons/bnb.svg",

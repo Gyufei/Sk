@@ -48,7 +48,7 @@ function Twitter() {
   const disabled = useMemo(() => !isValid || !x, [isValid, x]);
 
   function checkRegex(x: string) {
-    const regex = /http:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
+    const regex = /(http|https):\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
 
     return regex.test(x);
   }
@@ -172,10 +172,10 @@ function Discord() {
 
   useEffect(() => {
     if (userInfo?.social_media) {
-      const uDiscord = userInfo?.social_media?.Discord;
+      const uDiscord = userInfo?.social_media?.Discord || "";
 
       const dData = uDiscord
-        ? uDiscord.startWith("@")
+        ? uDiscord.startsWith("@")
           ? uDiscord
           : `@${uDiscord}`
         : "";
@@ -198,7 +198,7 @@ function Discord() {
 
   function handleSave() {
     if (disabled) return;
-    const saveDiscord = discord.startWith("@") ? discord.slice(1) : discord;
+    const saveDiscord = discord.startsWith("@") ? discord.slice(1) : discord;
     saveSocial({ name: "Discord", data: saveDiscord });
   }
 
@@ -248,9 +248,9 @@ function Tg() {
 
   useEffect(() => {
     if (userInfo?.social_media) {
-      const tg = userInfo?.social_media?.Telegram;
+      const tg = userInfo?.social_media?.Telegram || "";
 
-      const tData = tg ? (tg.startWith("@") ? tg : `@${tg}`) : "";
+      const tData = tg ? (tg.startsWith("@") ? tg : `@${tg}`) : "";
       setTg(tData);
     }
   }, [userInfo]);
@@ -343,7 +343,7 @@ function Github() {
   }
 
   function checkRegex(x: string) {
-    const regex = /http:\/\/github.com\/[a-zA-Z0-9_]{1,40}/;
+    const regex = /https:\/\/github.com\/[a-zA-Z0-9_]{1,40}/;
 
     return regex.test(x);
   }
