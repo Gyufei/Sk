@@ -33,9 +33,7 @@ export const metadata: Metadata = {
     site: "@0xjuu_17",
   },
   icons: {
-    icon: [
-      { url: "/images/favicon-32x32.png" },
-    ],
+    icon: [{ url: "/images/favicon-32x32.png" }],
     apple: [
       { url: "/images/icon_256.png" },
       {
@@ -43,7 +41,7 @@ export const metadata: Metadata = {
         sizes: "180x180",
         type: "image/png",
       },
-    ]
+    ],
   },
   alternates: {
     canonical: "https://juu17.com/",

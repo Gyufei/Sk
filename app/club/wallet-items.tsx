@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -13,6 +13,10 @@ import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { ChainInfos } from "@/lib/const";
 import { useWalletVerify } from "@/lib/use-wallet-verify";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import base58 from "bs58";
+import { ConnectModal, useCurrentAccount } from "@mysten/dapp-kit";
 
 export function WalletItem({
   name,
@@ -45,6 +49,38 @@ export function WalletItem({
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
 
+  //solana
+  const { publicKey, signMessage: solanaSign } = useWallet();
+  const solanaAddress = useMemo(
+    () => (publicKey ? publicKey.toBase58() : ""),
+    [publicKey],
+  );
+  const { setVisible: setSolanaModalVisible } = useWalletModal();
+  const [solHasShow, setSolHasShow] = useState(false);
+  useEffect(() => {
+    if (name !== "Solana") return;
+    if (solHasShow) return;
+
+    if (solanaAddress && !isSign) {
+      signSolanaMsg();
+      setSolHasShow(true);
+    }
+  }, [name, isSign, solanaAddress, solHasShow]);
+
+  // sui
+  const suiAccount = useCurrentAccount();
+  const [suiOpen, setSuiOpen] = useState(false);
+  const [suiHasShow, setSuiHasShow] = useState(false);
+  useEffect(() => {
+    if (name !== "Sui") return;
+    if (suiHasShow) return;
+
+    if (suiAccount?.address && !isSign) {
+      signSuiMsg();
+      setSuiHasShow(true);
+    }
+  }, [name, isSign, suiAccount]);
+
   const disabled = useMemo(() => {
     if (isSign) {
       return false;
@@ -66,8 +102,14 @@ export function WalletItem({
     const chainInfo = ChainInfos[name];
     if (chainInfo?.isEVM) {
       await signEvm();
-    } else {
-      return;
+    }
+
+    if (name === "Solana") {
+      signSolanaMsg();
+    }
+
+    if (name === "Sui") {
+      signSuiMsg();
     }
   }
 
@@ -123,6 +165,57 @@ export function WalletItem({
         },
       },
     );
+  }
+
+  async function signSolanaMsg() {
+    console.log(solanaAddress);
+    if (!solanaAddress) {
+      setSolanaModalVisible(true);
+    } else {
+      setAddress(solanaAddress);
+      const ts = Math.round(new Date().getTime() / 1000);
+      const message = new TextEncoder().encode(
+        JSON.stringify({
+          message: "welcome to juu17 club",
+          ts,
+        }),
+      );
+      // Sign the bytes using the wallet
+      const signature = await solanaSign!(message);
+      // Verify that the bytes were signed using the private key that matches the known public key
+      const data = base58.encode(signature);
+      console.log(data);
+      const res = await walletVerify({
+        chain_name: name,
+        addr: solanaAddress!,
+        signature: data,
+        ts: ts,
+      });
+
+      if (res.status) {
+        setIsSign(true);
+      }
+    }
+  }
+
+  async function signSuiMsg() {
+    if (!suiAccount) {
+      setSuiOpen(true);
+    } else {
+      setAddress(suiAccount.address!);
+      const ts = Math.round(new Date().getTime() / 1000);
+      console.log(ts);
+      const res = await walletVerify({
+        chain_name: name,
+        addr: suiAccount.address!,
+        signature: "",
+        ts: ts,
+      });
+
+      if (res.status) {
+        setIsSign(true);
+      }
+    }
   }
 
   async function removeWallet() {
@@ -224,6 +317,11 @@ export function WalletItem({
           )}
         </div>
       )}
+      <ConnectModal
+        trigger={<></>}
+        open={suiOpen}
+        onOpenChange={(isOpen: boolean) => setSuiOpen(isOpen)}
+      />
     </div>
   );
 }
