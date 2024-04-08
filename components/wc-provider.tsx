@@ -21,6 +21,8 @@ import {
   polygon,
   arbitrum,
   ronin,
+  bsc,
+  base,
 } from "wagmi/chains";
 import { walletConnect, injected } from "wagmi/connectors";
 
@@ -42,14 +44,16 @@ const metadata = {
 };
 
 const config = createConfig({
-  chains: [optimism, mainnet, blast, polygon, arbitrum, ronin],
+  chains: [optimism, mainnet, bsc, blast, polygon, arbitrum, ronin, base],
   transports: {
     [optimism.id]: http(),
     [mainnet.id]: http(),
-    [blast.id]: http(),
-    [polygon.id]: http(),
+    [bsc.id]: http(),
     [arbitrum.id]: http(),
+    [polygon.id]: http(),
+    [blast.id]: http(),
     [ronin.id]: http(),
+    [base.id]: http(),
   },
   connectors: [
     walletConnect({ projectId, metadata, showQrModal: false }),
