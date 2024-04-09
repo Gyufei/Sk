@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const WebpackObfuscator = require("webpack-obfuscator");
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -10,8 +12,30 @@ const nextConfig = {
       //   },
     ],
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.externals.push("pino-pretty", "lokijs", "encoding");
+
+    if (!isServer) {
+      config.optimization.minimize = true;
+      // config.optimization.minimizer[0].options.minify = true;
+      // config.optimization.minimizer[0].options.minify = true;
+
+      config.plugins.push(
+        new WebpackObfuscator({
+          rotateStringArray: true,
+          controlFlowFlattening: true,
+          deadCodeInjection: true,
+          stringArray: true,
+          splitStrings: true,
+          transformObjectKeys: true,
+          unicodeEscapeSequence: true,
+          compact: true,
+          shuffleStringArray: true,
+          identifierNamesGenerator: "hexadecimal",
+        }),
+      );
+    }
+
     return config;
   },
   experimental: {
@@ -20,7 +44,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
 
 // Injected content via Sentry wizard below
 
@@ -63,5 +86,5 @@ module.exports = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
-  }
+  },
 );

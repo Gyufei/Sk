@@ -36,7 +36,7 @@ export default function Home() {
             viewBox="0 0 22 23"
             version="1.1"
           >
-            <g stroke="none" stroke-width="1" fill="none" fillRule="evenodd">
+            <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
               <g id="1" fill="#FFFFFF" fillRule="nonzero">
                 <polygon
                   id="Path"
@@ -62,7 +62,7 @@ export default function Home() {
             viewBox="0 0 22 25"
             version="1.1"
           >
-            <g stroke="none" stroke-width="1" fill="none" fillRule="evenodd">
+            <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
               <g fill="#FFFFFF" fillRule="nonzero">
                 <polygon
                   id="Path"
