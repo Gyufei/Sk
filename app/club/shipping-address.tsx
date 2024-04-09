@@ -149,7 +149,7 @@ function NameAndPhone({
 
   function handlePhoneNumChange(v: string) {
     setPhoneNumber(v);
-    setPhone(`${prefix}${phoneNumber}`);
+    setPhone(`${prefix}${v}`);
   }
 
   function handlePrefixChange(v: string) {
