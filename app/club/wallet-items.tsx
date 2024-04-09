@@ -16,7 +16,11 @@ import { useWalletVerify } from "@/lib/use-wallet-verify";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import base58 from "bs58";
-import { ConnectModal, useCurrentAccount } from "@mysten/dapp-kit";
+import {
+  ConnectModal,
+  useCurrentAccount,
+  useSignPersonalMessage,
+} from "@mysten/dapp-kit";
 
 export function WalletItem({
   name,
@@ -69,6 +73,7 @@ export function WalletItem({
 
   // sui
   const suiAccount = useCurrentAccount();
+  const { mutate: signPersonalMessage } = useSignPersonalMessage();
   const [suiOpen, setSuiOpen] = useState(false);
   const [suiHasShow, setSuiHasShow] = useState(false);
   useEffect(() => {
@@ -204,17 +209,33 @@ export function WalletItem({
     } else {
       setAddress(suiAccount.address!);
       const ts = Math.round(new Date().getTime() / 1000);
-      console.log(ts);
-      const res = await walletVerify({
-        chain_name: name,
-        addr: suiAccount.address!,
-        signature: "",
-        ts: ts,
-      });
+      const message = new TextEncoder().encode(
+        JSON.stringify({
+          message: "welcome to juu17 club",
+          sign_at: ts,
+        }),
+      );
 
-      if (res?.status) {
-        setIsSign(true);
-      }
+      signPersonalMessage(
+        {
+          message,
+        },
+        {
+          onSuccess: async (data) => {
+            console.log(data);
+            const res = await walletVerify({
+              chain_name: name,
+              addr: suiAccount.address!,
+              signature: data.signature,
+              ts: ts,
+            });
+
+            if (res?.status) {
+              setIsSign(true);
+            }
+          },
+        },
+      );
     }
   }
 
