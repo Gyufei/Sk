@@ -23,7 +23,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
         <div className="w-layout-grid grid">
           <div className="left-block">
             <a
-              href="index.html"
+              href="/home"
               aria-current="page"
               className="link-block-2 w-inline-block w--current"
             >
