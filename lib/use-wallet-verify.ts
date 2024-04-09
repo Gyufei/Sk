@@ -32,6 +32,13 @@ export function useWalletVerify() {
       }),
     });
 
+    if (!res.status) {
+      throw new Error(
+        "sign in error:" +
+          `${chain_name} ${addr} ${signature} ${ts} ${JSON.stringify(res)}`,
+      );
+    }
+
     return res;
   }
 

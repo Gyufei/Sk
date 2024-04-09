@@ -113,7 +113,12 @@ export default function SignDialog({
         }),
       });
       if (res.staus === false || !res.uuid) {
-        throw new Error("sign failed");
+        throw new Error(
+          "sign in error:" +
+            `${currentChain?.name} ${address} ${data} ${ts} ${JSON.stringify(
+              res,
+            )}`,
+        );
       }
       const uuid = res.uuid;
       setUuid(uuid);
@@ -121,6 +126,7 @@ export default function SignDialog({
       setDialogOpen(false);
     } catch (e) {
       setSigning(false);
+      console.log(e);
     }
   }
 

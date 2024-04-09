@@ -153,7 +153,7 @@ function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
-          className="text-lg leading-7 text-white opacity-60"
+          className="text-lg leading-7 text-white opacity-60 font-normal"
         >
           {isEn ? "Recipient Name" : "收货人"}
         </label>
@@ -169,7 +169,7 @@ function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="phone"
-          className="text-lg leading-7 text-white opacity-60"
+          className="text-lg leading-7 text-white opacity-60 font-normal"
         >
           {isEn ? "Phone" : "电话"}
         </label>
@@ -265,7 +265,7 @@ function Address({
   return (
     <div className="mt-10 flex items-center space-x-6">
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60">
+        <div className="text-lg leading-7 text-white opacity-60 font-normal">
           {isEn ? "Country" : "国家"}
         </div>
         <Popover
@@ -307,7 +307,7 @@ function Address({
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60">
+        <div className="text-lg leading-7 text-white opacity-60 font-normal">
           {isEn ? "State" : "省"}
         </div>
         <Popover
@@ -349,7 +349,7 @@ function Address({
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60">
+        <div className="text-lg leading-7 text-white opacity-60 font-normal">
           {isEn ? "City" : "市"}
         </div>
         <Popover open={cityOpen} onOpenChange={(isOpen) => setCityOpen(isOpen)}>
@@ -408,7 +408,7 @@ function StreetAndCode({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="street"
-          className="text-lg leading-7 text-white opacity-60"
+          className="text-lg leading-7 text-white opacity-60 font-normal"
         >
           {isEn ? "Address line / Street" : "详细地址 / 街道"}
         </label>
@@ -424,7 +424,7 @@ function StreetAndCode({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="code"
-          className="text-lg leading-7 text-white opacity-60"
+          className="text-lg leading-7 text-white opacity-60 font-normal"
         >
           {isEn ? "Zip Code" : "邮编"}
         </label>

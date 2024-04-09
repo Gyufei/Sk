@@ -115,7 +115,6 @@ export function WalletItem({
 
   async function signEvm() {
     const chainInfo = ChainInfos[name];
-    console.log(chainInfo);
     if (String(chainId) !== String(chainInfo.chainId)) {
       console.log("switch chain");
       switchChain(
@@ -158,7 +157,7 @@ export function WalletItem({
             ts: ts,
           });
 
-          if (res.status) {
+          if (res?.status) {
             setAddress(walletAddress!);
             setIsSign(true);
           }
@@ -192,7 +191,7 @@ export function WalletItem({
         ts: ts,
       });
 
-      if (res.status) {
+      if (res?.status) {
         setIsSign(true);
       }
     }
@@ -212,7 +211,7 @@ export function WalletItem({
         ts: ts,
       });
 
-      if (res.status) {
+      if (res?.status) {
         setIsSign(true);
       }
     }
