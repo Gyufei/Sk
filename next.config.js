@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const WebpackObfuscator = require("webpack-obfuscator");
+// const WebpackObfuscator = require("webpack-obfuscator");
 
 const nextConfig = {
   reactStrictMode: true,
@@ -15,26 +15,26 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     config.externals.push("pino-pretty", "lokijs", "encoding");
 
-    if (!isServer) {
-      config.optimization.minimize = true;
-      // config.optimization.minimizer[0].options.minify = true;
-      // config.optimization.minimizer[0].options.minify = true;
+    // if (!isServer) {
+    //   config.optimization.minimize = true;
+    //   // config.optimization.minimizer[0].options.minify = true;
+    //   // config.optimization.minimizer[0].options.minify = true;
 
-      config.plugins.push(
-        new WebpackObfuscator({
-          rotateStringArray: true,
-          controlFlowFlattening: true,
-          deadCodeInjection: true,
-          stringArray: true,
-          splitStrings: true,
-          transformObjectKeys: true,
-          unicodeEscapeSequence: true,
-          compact: true,
-          shuffleStringArray: true,
-          identifierNamesGenerator: "hexadecimal",
-        }),
-      );
-    }
+    //   config.plugins.push(
+    //     new WebpackObfuscator({
+    //       rotateStringArray: false,
+    //       controlFlowFlattening: true,
+    //       deadCodeInjection: false,
+    //       stringArray: true,
+    //       splitStrings: true,
+    //       transformObjectKeys: true,
+    //       unicodeEscapeSequence: false,
+    //       compact: true,
+    //       shuffleStringArray: true,
+    //       identifierNamesGenerator: "hexadecimal",
+    //     }),
+    //   );
+    // }
 
     return config;
   },

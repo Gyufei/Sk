@@ -21,6 +21,7 @@ import {
   useCurrentAccount,
   useSignPersonalMessage,
 } from "@mysten/dapp-kit";
+import { genSignMsg } from "@/lib/sign-utils";
 
 export function WalletItem({
   name,
@@ -142,13 +143,11 @@ export function WalletItem({
 
   async function signMsg() {
     console.log(walletAddress);
-    const ts = Math.round(new Date().getTime() / 1000);
+    const { salt, msg } = genSignMsg();
+
     signMessage(
       {
-        message: JSON.stringify({
-          message: "welcome to juu17 club",
-          sign_at: ts,
-        }),
+        message: msg,
       },
       {
         onSettled: () => {},
@@ -160,7 +159,7 @@ export function WalletItem({
             chain_name: name,
             addr: walletAddress!,
             signature: data,
-            ts: ts,
+            salt,
           });
 
           if (res?.status) {
@@ -178,23 +177,15 @@ export function WalletItem({
       setSolanaModalVisible(true);
     } else {
       setAddress(solanaAddress);
-      const ts = Math.round(new Date().getTime() / 1000);
-      const message = new TextEncoder().encode(
-        JSON.stringify({
-          message: "welcome to juu17 club",
-          sign_at: ts,
-        }),
-      );
-      // Sign the bytes using the wallet
+      const { salt, msg } = genSignMsg();
+      const message = new TextEncoder().encode(msg);
       const signature = await solanaSign!(message);
-      // Verify that the bytes were signed using the private key that matches the known public key
       const data = base58.encode(signature);
-      console.log(data);
       const res = await walletVerify({
         chain_name: name,
         addr: solanaAddress!,
         signature: data,
-        ts: ts,
+        salt,
       });
 
       if (res?.status) {
@@ -208,13 +199,8 @@ export function WalletItem({
       setSuiOpen(true);
     } else {
       setAddress(suiAccount.address!);
-      const ts = Math.round(new Date().getTime() / 1000);
-      const message = new TextEncoder().encode(
-        JSON.stringify({
-          message: "welcome to juu17 club",
-          sign_at: ts,
-        }),
-      );
+      const { salt, msg } = genSignMsg();
+      const message = new TextEncoder().encode(msg);
 
       signPersonalMessage(
         {
@@ -227,7 +213,7 @@ export function WalletItem({
               chain_name: name,
               addr: suiAccount.address!,
               signature: data.signature,
-              ts: ts,
+              salt,
             });
 
             if (res?.status) {

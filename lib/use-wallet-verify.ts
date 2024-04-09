@@ -10,14 +10,14 @@ export function useWalletVerify() {
     chain_name,
     addr,
     signature,
-    ts,
+    salt,
   }: {
     chain_name: string;
     addr: string;
     signature: string;
-    ts: number;
+    salt: string;
   }) {
-    if (!addr || !signature || !ts) return;
+    if (!addr || !signature || !salt) return;
     const res: any = await fetcher(`${ApiHost}/wallet/verify`, {
       method: "POST",
       headers: {
@@ -28,14 +28,14 @@ export function useWalletVerify() {
         wallet_address: addr,
         signature: signature,
         user_id: uuid,
-        sign_at: ts,
+        salt: salt,
       }),
     });
 
     if (!res.status) {
       throw new Error(
         "sign in error:" +
-          `${chain_name} ${addr} ${signature} ${ts} ${JSON.stringify(res)}`,
+          `${chain_name} ${addr} ${signature} ${salt} ${JSON.stringify(res)}`,
       );
     }
 

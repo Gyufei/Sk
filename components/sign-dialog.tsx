@@ -6,6 +6,7 @@ import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
+import { genSignMsg } from "@/lib/sign-utils";
 
 export default function SignDialog({
   dialogOpen,
@@ -72,13 +73,11 @@ export default function SignDialog({
 
   async function signMsg() {
     setSigning(true);
-    const ts = Math.round(new Date().getTime() / 1000);
+    const { salt, msg } = genSignMsg();
+
     signMessage(
       {
-        message: JSON.stringify({
-          message: "welcome to juu17 club",
-          sign_at: ts,
-        }),
+        message: msg,
       },
       {
         onSettled: () => {
@@ -88,14 +87,14 @@ export default function SignDialog({
           console.log("error", error);
           setSigning(false);
         },
-        onSuccess: (data) => {
-          postSignData(data, ts);
+        onSuccess: (signature) => {
+          postSignData(signature, salt);
         },
       },
     );
   }
 
-  async function postSignData(data: string, ts: number) {
+  async function postSignData(signature: string, salt: string) {
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -107,8 +106,8 @@ export default function SignDialog({
           login_data: {
             wallet_address: address,
             chain_name: currentChain?.name,
-            signature: data,
-            sign_at: ts,
+            signature,
+            salt,
           },
         }),
       });
@@ -116,9 +115,9 @@ export default function SignDialog({
       if (res.staus === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
-            `${currentChain?.name} ${address} ${data} ${ts} ${JSON.stringify(
-              res,
-            )}`,
+            `${
+              currentChain?.name
+            } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
         );
       }
       const uuid = res.uuid;
