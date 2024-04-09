@@ -136,12 +136,13 @@ export function WalletItem({
   }
 
   async function signMsg() {
+    console.log(walletAddress);
     const ts = Math.round(new Date().getTime() / 1000);
     signMessage(
       {
         message: JSON.stringify({
           message: "welcome to juu17 club",
-          ts,
+          sign_at: ts,
         }),
       },
       {
@@ -176,7 +177,7 @@ export function WalletItem({
       const message = new TextEncoder().encode(
         JSON.stringify({
           message: "welcome to juu17 club",
-          ts,
+          sign_at: ts,
         }),
       );
       // Sign the bytes using the wallet

@@ -77,7 +77,7 @@ export default function SignDialog({
       {
         message: JSON.stringify({
           message: "welcome to juu17 club",
-          ts,
+          sign_at: ts,
         }),
       },
       {
@@ -112,6 +112,7 @@ export default function SignDialog({
           },
         }),
       });
+
       if (res.staus === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
