@@ -32,6 +32,8 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
+  const [saved, setSaved] = useState(false);
+
   const disabled = useMemo(
     () => !recipientName && !phone && !country && !state && !city && !street,
     [recipientName, phone, country, state, city, street],
@@ -76,6 +78,13 @@ export function ShippingAddress() {
       }),
     });
 
+    if (res.status) {
+      setSaved(true);
+      setTimeout(() => {
+        setSaved(false);
+      }, 5000);
+    }
+
     return res;
   }
 
@@ -89,10 +98,11 @@ export function ShippingAddress() {
       <StreetAndCode {...{ street, setStreet, code, setCode }} />
 
       <div className="mt-10 flex items-center justify-end">
+        {saved && <div className="mr-6">{isEn ? "Saved" : "已保存"}</div>}
         <div
           onClick={handleSave}
           data-disabled={disabled}
-          className="flex h-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
+          className="flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           {isEn ? "Save" : "保存"}
         </div>
@@ -135,7 +145,7 @@ function NameAndPhone({
     setPrefix("+86");
     setPhoneNumber(phone);
     setPhone(`${prefix}${phone}`);
-  }, [phone]);
+  }, []);
 
   function handlePhoneNumChange(v: string) {
     setPhoneNumber(v);
@@ -153,7 +163,7 @@ function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
-          className="text-lg leading-7 text-white opacity-60 font-normal"
+          className="text-lg font-normal leading-7 text-white opacity-60"
         >
           {isEn ? "Recipient Name" : "收货人"}
         </label>
@@ -169,7 +179,7 @@ function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="phone"
-          className="text-lg leading-7 text-white opacity-60 font-normal"
+          className="text-lg font-normal leading-7 text-white opacity-60"
         >
           {isEn ? "Phone" : "电话"}
         </label>
@@ -265,7 +275,7 @@ function Address({
   return (
     <div className="mt-10 flex items-center space-x-6">
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60 font-normal">
+        <div className="text-lg font-normal leading-7 text-white opacity-60">
           {isEn ? "Country" : "国家"}
         </div>
         <Popover
@@ -307,7 +317,7 @@ function Address({
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60 font-normal">
+        <div className="text-lg font-normal leading-7 text-white opacity-60">
           {isEn ? "State" : "省"}
         </div>
         <Popover
@@ -349,7 +359,7 @@ function Address({
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg leading-7 text-white opacity-60 font-normal">
+        <div className="text-lg font-normal leading-7 text-white opacity-60">
           {isEn ? "City" : "市"}
         </div>
         <Popover open={cityOpen} onOpenChange={(isOpen) => setCityOpen(isOpen)}>
@@ -408,7 +418,7 @@ function StreetAndCode({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="street"
-          className="text-lg leading-7 text-white opacity-60 font-normal"
+          className="text-lg font-normal leading-7 text-white opacity-60"
         >
           {isEn ? "Address line / Street" : "详细地址 / 街道"}
         </label>
@@ -424,7 +434,7 @@ function StreetAndCode({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="code"
-          className="text-lg leading-7 text-white opacity-60 font-normal"
+          className="text-lg font-normal leading-7 text-white opacity-60"
         >
           {isEn ? "Zip Code" : "邮编"}
         </label>
