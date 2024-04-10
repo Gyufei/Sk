@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
@@ -7,6 +7,7 @@ import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
 import { genSignMsg } from "@/lib/sign-utils";
+import { ChainInfos } from "@/lib/const";
 
 export default function SignDialog({
   dialogOpen,
@@ -20,13 +21,9 @@ export default function SignDialog({
   const { open } = useWeb3Modal();
   const { signMessage } = useSignMessage();
   const chainId = useChainId();
-  const { switchChain, chains } = useSwitchChain();
+  const { switchChain } = useSwitchChain();
 
   const [signing, setSigning] = useState(false);
-
-  const currentChain = useMemo(() => {
-    return chains.find((c) => c.id === chainId);
-  }, [chainId, chains]);
 
   useEffect(() => {
     if (isDisconnected && !address) {
@@ -96,6 +93,9 @@ export default function SignDialog({
 
   async function postSignData(signature: string, salt: string) {
     try {
+      const currentChainInfo = Object.values(ChainInfos).find(
+        (c) => c.chainId === chainId,
+      );
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
         headers: {
@@ -105,7 +105,7 @@ export default function SignDialog({
           login_type: "wallet",
           login_data: {
             wallet_address: address,
-            chain_name: currentChain?.name,
+            chain_name: currentChainInfo?.name,
             signature,
             salt,
           },
@@ -116,7 +116,7 @@ export default function SignDialog({
         throw new Error(
           "sign in error:" +
             `${
-              currentChain?.name
+              currentChainInfo?.name
             } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
         );
       }

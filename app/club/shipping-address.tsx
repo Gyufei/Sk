@@ -14,6 +14,8 @@ import { ApiHost } from "@/lib/path";
 import { useLang } from "@/lib/use-lang";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
+const prefixArr = ["+86"];
+
 export function ShippingAddress() {
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
@@ -23,7 +25,6 @@ export function ShippingAddress() {
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
   );
-  const [phone, setPhone] = useState(userInfo?.shipping?.phone || "");
 
   const [country, setCountry] = useState(userInfo?.shipping?.country || "中国");
   const [state, setState] = useState(userInfo?.shipping?.state || "");
@@ -32,6 +33,9 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
+  const [prefix, setPrefix] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [saved, setSaved] = useState(false);
 
   const disabled = useMemo(
@@ -39,15 +43,33 @@ export function ShippingAddress() {
     [recipientName, state, city, street],
   );
 
+  const phone = useMemo(() => `${prefix}${phoneNumber}`, [prefix, phoneNumber]);
+
   useEffect(() => {
     if (userInfo?.shipping) {
       setRecipientName(userInfo?.shipping?.recipient_name || "");
-      setPhone(userInfo?.shipping?.phone || "");
       setCountry(userInfo?.shipping?.country || "中国");
       setState(userInfo?.shipping?.state || "");
       setCity(userInfo?.shipping?.city || "");
       setStreet(userInfo?.shipping?.address_line || "");
       setCode(userInfo?.shipping?.zip_code || "");
+
+      if (userInfo?.shipping?.phone) {
+        let sWith = false;
+        const ph = userInfo?.shipping?.phone;
+        for (const pf of prefixArr) {
+          if (ph.startsWith(pf)) {
+            setPrefix(pf);
+            setPhoneNumber(ph.slice(pf.length));
+            sWith = true;
+          }
+        }
+
+        if (!sWith) {
+          setPrefix("+86");
+          setPhoneNumber(userInfo?.shipping?.phone);
+        }
+      }
     }
   }, [userInfo]);
 
@@ -93,7 +115,16 @@ export function ShippingAddress() {
       <div className="mb-7 text-xl leading-[30px] text-white">
         {isEn ? "Shipping Address" : "收货地址"}
       </div>
-      <NameAndPhone {...{ recipientName, setRecipientName, phone, setPhone }} />
+      <NameAndPhone
+        {...{
+          recipientName,
+          setRecipientName,
+          prefix,
+          setPrefix,
+          phoneNumber,
+          setPhoneNumber,
+        }}
+      />
       <Address {...{ country, setCountry, state, setState, city, setCity }} />
       <StreetAndCode {...{ street, setStreet, code, setCode }} />
 
@@ -114,48 +145,28 @@ export function ShippingAddress() {
 function NameAndPhone({
   recipientName,
   setRecipientName,
-  phone,
-  setPhone,
+  prefix,
+  setPrefix,
+  phoneNumber,
+  setPhoneNumber,
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
-  phone: string;
-  setPhone: (v: string) => void;
+  prefix: string;
+  setPrefix: (v: string) => void;
+  phoneNumber: string;
+  setPhoneNumber: (v: string) => void;
 }) {
   const { isEn } = useLang();
 
-  const [prefix, setPrefix] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
   const [prefixOpen, setPrefixOpen] = useState(false);
-
-  const prefixArr = ["+86"];
-
-  useEffect(() => {
-    if (!phone) return;
-
-    for (const pf of prefixArr) {
-      if (phone.startsWith(pf)) {
-        setPrefix(pf);
-        setPhoneNumber(phone.slice(pf.length));
-        return;
-      }
-    }
-
-    setPrefix("+86");
-    setPhoneNumber(phone);
-    setPhone(`${prefix}${phone}`);
-  }, []);
 
   function handlePhoneNumChange(v: string) {
     setPhoneNumber(v);
-    setPhone(`${prefix}${v}`);
   }
 
   function handlePrefixChange(v: string) {
     setPrefix(v);
-    if (!phoneNumber) return;
-    setPhone(`${prefix}${phoneNumber}`);
   }
 
   return (
