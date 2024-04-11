@@ -44,7 +44,7 @@ export default function Club() {
 
             <div className="flex flex-col">
               <div className="mb-1 text-xl leading-[30px] text-white">
-                {isEn ? "Windfalls" : "获利"}
+                {isEn ? "Windfalls" : "风落"}
               </div>
               <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">
                 <div className="text-[#1FEFA3]">
