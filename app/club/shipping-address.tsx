@@ -14,7 +14,7 @@ import { ApiHost } from "@/lib/path";
 import { useLang } from "@/lib/use-lang";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
-const prefixArr = ["+86"];
+const prefixArr = ["86"];
 
 export function ShippingAddress() {
   const uuid = useAtomValue(UuidAtom);
@@ -51,7 +51,7 @@ export function ShippingAddress() {
   const streetValid = useMemo(() => {
     if (!street) return true;
 
-    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z\s]{4,50}$/g;
+    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s]{4,50}$/g;
 
     return streetRegex.test(street);
   }, [street]);
@@ -101,12 +101,12 @@ export function ShippingAddress() {
         }
 
         if (!sWith) {
-          const cC = userInfo?.shipping?.country_code || "+86";
-          setPrefix(cC.startsWith("+") ? cC : `+${cC}`);
+          const cC = userInfo?.shipping?.country_code || "86";
+          setPrefix(cC);
           setPhoneNumber(userInfo?.shipping?.phone);
         }
       } else {
-        setPrefix("+86");
+        setPrefix("86");
         setPhoneNumber("");
       }
     }
@@ -259,6 +259,7 @@ function NameAndPhone({
               >
                 <div className="flex items-center">
                   <div className="text-sm leading-6 text-[#d6d6d6]">
+                    {prefix && "+"}
                     {prefix}
                   </div>
                 </div>
@@ -282,7 +283,7 @@ function NameAndPhone({
                     setPrefixOpen(false);
                   }}
                 >
-                  <div className="ml-3 leading-6 text-[#d6d6d6]">{s}</div>
+                  <div className="ml-3 leading-6 text-[#d6d6d6]">+{s}</div>
                 </div>
               ))}
             </PopoverContent>
@@ -480,6 +481,11 @@ function StreetAndCode({
   streetValid: boolean;
 }) {
   const { isEn } = useLang();
+
+  const handleStreetChange = (v: string) => {
+    const newV = v.replace(/\s+/g, " ");
+    setStreet(newV);
+  };
   return (
     <div className="mt-10 flex items-center space-x-6">
       <div className="flex flex-1 flex-col">
@@ -492,7 +498,7 @@ function StreetAndCode({
         <InputWithClear
           isError={!streetValid}
           value={street}
-          onValueChange={(v) => setStreet(v)}
+          onValueChange={(v) => handleStreetChange(v)}
           isSign={false}
           inputId="street"
         />
