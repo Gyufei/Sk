@@ -3,7 +3,7 @@ export function genSignMsg() {
   const salt = btoa(`${ts}`);
 
   const msg = JSON.stringify({
-    message: "welcome to juu17 club",
+    message: "Welcome to Juu17 Club",
     salt: salt,
   });
 

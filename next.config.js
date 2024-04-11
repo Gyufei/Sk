@@ -6,10 +6,6 @@ const nextConfig = {
   swcMinify: true,
   images: {
     remotePatterns: [
-      //   {
-      //     protocol: 'https',
-      //     hostname: 'cdn.depe.app',
-      //   },
     ],
   },
   webpack: (config, { isServer }) => {
