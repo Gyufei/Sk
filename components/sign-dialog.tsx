@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
@@ -18,7 +18,8 @@ export default function SignDialog({
 }) {
   const [uuid, setUuid] = useAtom(UuidAtom);
   const { address, isConnected, isDisconnected } = useAccount();
-  const { open } = useWeb3Modal();
+  const { open: wcModalOpen } = useWeb3Modal();
+  const { open: isWcModalOpen } = useWeb3ModalState();
   const { signMessage } = useSignMessage();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
@@ -31,6 +32,12 @@ export default function SignDialog({
       setDialogOpen(true);
     }
   }, [isDisconnected, address, uuid]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      switchChainAndSign();
+    }, 500);
+  }, [address, uuid]);
 
   async function switchChainAndSign() {
     let localUU: string | null = null;
@@ -51,6 +58,9 @@ export default function SignDialog({
             chainId: 10,
           },
           {
+            onError: (e) => {
+              console.log("change chain error", e);
+            },
             onSuccess: () => {
               signMsg();
             },
@@ -61,12 +71,6 @@ export default function SignDialog({
       }
     }
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      switchChainAndSign();
-    }, 500);
-  }, [address, uuid]);
 
   async function signMsg() {
     setSigning(true);
@@ -112,6 +116,15 @@ export default function SignDialog({
         }),
       });
 
+      // const add = await recoverMessageAddress({
+      //   message: JSON.stringify({
+      //     message: "welcome to juu17 club",
+      //     salt,
+      //   }),
+      //   signature: signature as any,
+      // });
+      // console.log(add, address);
+
       if (res.staus === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
@@ -134,7 +147,7 @@ export default function SignDialog({
     if (signing) return;
 
     if (!address) {
-      open();
+      wcModalOpen();
     } else {
       switchChainAndSign();
     }
@@ -153,6 +166,9 @@ export default function SignDialog({
         showOverlay={false}
         showClose={false}
         className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px]"
+        style={{
+          visibility: isWcModalOpen ? "hidden" : "visible",
+        }}
       >
         <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
         <div

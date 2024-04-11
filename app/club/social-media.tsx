@@ -48,7 +48,7 @@ function Twitter() {
   const disabled = useMemo(() => !isValid || !x, [isValid, x]);
 
   function checkRegex(x: string) {
-    const regex = /https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}/;
+    const regex = /^https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}$/g;
 
     return regex.test(x);
   }
@@ -127,7 +127,7 @@ function Email() {
 
   function checkRegex(x: string) {
     const regex =
-      /^[A-Za-z0-9-_\u4e00-\u9fa5.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      /^[A-Za-z0-9-_\u4e00-\u9fa5.-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g;
 
     return regex.test(x);
   }
@@ -203,7 +203,7 @@ function Discord() {
   }
 
   function checkRegex(x: string) {
-    const regex = /@?[a-zA-Z0-9_]{5,40}/;
+    const regex = /^@?[a-zA-Z0-9_]{5,40}$/g;
 
     return regex.test(x);
   }
@@ -274,7 +274,7 @@ function Tg() {
   }
 
   function checkRegex(x: string) {
-    const regex = /@?[a-zA-Z0-9_]{5,40}/;
+    const regex = /^@?[a-zA-Z0-9]{5,40}$/g;
 
     return regex.test(x);
   }
@@ -343,7 +343,7 @@ function Github() {
   }
 
   function checkRegex(x: string) {
-    const regex = /https:\/\/github.com\/[a-zA-Z0-9_]{1,40}/;
+    const regex = /^https:\/\/github.com\/[a-zA-Z0-9_]{1,40}$/g;
 
     return regex.test(x);
   }

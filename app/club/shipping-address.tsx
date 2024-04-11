@@ -33,17 +33,33 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setPrefix] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [prefix, setPrefix] = useState(userInfo?.shipping?.phone_prefix);
+  const [phoneNumber, setPhoneNumber] = useState(userInfo?.shipping?.phone);
 
   const [saved, setSaved] = useState(false);
 
-  const disabled = useMemo(
-    () => !recipientName && !state && !city && !street,
-    [recipientName, state, city, street],
-  );
+  const rcNameValid = useMemo(() => {
+    if (!recipientName) return true;
 
-  const phone = useMemo(() => `${prefix}${phoneNumber}`, [prefix, phoneNumber]);
+    const rcRegex = /^[\u4E00-\u9FFF]{2,}$|^[a-zA-Z\s]{2,}$/;
+
+    return rcRegex.test(recipientName);
+  }, [recipientName]);
+
+  const streetValid = useMemo(() => {
+    if (!street) return true;
+
+    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z\s]{4,}$/g;
+
+    return streetRegex.test(street);
+  }, [street]);
+
+  const disabled = useMemo(() => {
+    if (!rcNameValid) return true;
+    if (!streetValid) return true;
+    if (!recipientName && !phoneNumber && !street && !code) return true;
+    return false;
+  }, [recipientName, streetValid, street, rcNameValid, phoneNumber, code]);
 
   useEffect(() => {
     if (userInfo?.shipping) {
@@ -66,7 +82,7 @@ export function ShippingAddress() {
         }
 
         if (!sWith) {
-          setPrefix("+86");
+          setPrefix(userInfo?.shipping?.phone_prefix || "+86");
           setPhoneNumber(userInfo?.shipping?.phone);
         }
       } else {
@@ -94,7 +110,8 @@ export function ShippingAddress() {
       body: JSON.stringify({
         user_id: uuid,
         recipient_name: recipientName,
-        phone: phone,
+        phone_prefix: prefix,
+        phone: phoneNumber,
         country: country,
         state: state,
         city: city,
@@ -126,10 +143,11 @@ export function ShippingAddress() {
           setPrefix,
           phoneNumber,
           setPhoneNumber,
+          rcNameValid,
         }}
       />
       <Address {...{ country, setCountry, state, setState, city, setCity }} />
-      <StreetAndCode {...{ street, setStreet, code, setCode }} />
+      <StreetAndCode {...{ street, setStreet, code, setCode, streetValid }} />
 
       <div className="mt-10 flex items-center justify-end">
         {saved && <div className="mr-6">{isEn ? "Saved" : "已保存"}</div>}
@@ -152,6 +170,7 @@ function NameAndPhone({
   setPrefix,
   phoneNumber,
   setPhoneNumber,
+  rcNameValid,
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
@@ -159,13 +178,20 @@ function NameAndPhone({
   setPrefix: (v: string) => void;
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
+  rcNameValid: boolean;
 }) {
   const { isEn } = useLang();
 
   const [prefixOpen, setPrefixOpen] = useState(false);
 
+  function handleNameChange(v: string) {
+    const newV = v.replace(/\s+/g, " ");
+    setRecipientName(newV);
+  }
+
   function handlePhoneNumChange(v: string) {
-    setPhoneNumber(v);
+    const newV = v.replace(/\s+/g, "");
+    setPhoneNumber(newV);
   }
 
   function handlePrefixChange(v: string) {
@@ -184,13 +210,14 @@ function NameAndPhone({
         <InputWithClear
           isError={false}
           value={recipientName}
-          onValueChange={(v) => setRecipientName(v)}
+          onValueChange={(v) => handleNameChange(v)}
           isSign={false}
           inputId="recipientName"
         />
+        <InvalidTip isValid={rcNameValid} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col pb-6">
         <label
           htmlFor="phone"
           className="text-lg font-normal leading-7 text-white opacity-60"
@@ -420,11 +447,13 @@ function StreetAndCode({
   setStreet,
   code,
   setCode,
+  streetValid,
 }: {
   street: string;
   setStreet: (v: string) => void;
   code: string;
   setCode: (v: string) => void;
+  streetValid: boolean;
 }) {
   const { isEn } = useLang();
   return (
@@ -443,9 +472,10 @@ function StreetAndCode({
           isSign={false}
           inputId="street"
         />
+        <InvalidTip isValid={streetValid} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col pb-6">
         <label
           htmlFor="code"
           className="text-lg font-normal leading-7 text-white opacity-60"
@@ -460,6 +490,16 @@ function StreetAndCode({
           inputId="code"
         />
       </div>
+    </div>
+  );
+}
+
+function InvalidTip({ isValid }: { isValid: boolean }) {
+  const { isEn } = useLang();
+
+  return (
+    <div className="mt-2 h-4 text-sm leading-5 text-[#FF5A5A]">
+      {isValid ? null : isEn ? "invalid format" : "格式错误"}
     </div>
   );
 }

@@ -68,6 +68,9 @@ createWeb3Modal({
   defaultChain: optimism,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   // enableOnramp: true, // Optional - false as default
+  featuredWalletIds: [
+    "971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709",
+  ],
 });
 
 export function WcProvider({ children }: { children: React.ReactNode }) {
