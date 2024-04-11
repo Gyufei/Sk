@@ -33,15 +33,17 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code);
-  const [phoneNumber, setPhoneNumber] = useState(userInfo?.shipping?.phone);
+  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    userInfo?.shipping?.phone || "",
+  );
 
   const [saved, setSaved] = useState(false);
 
   const rcNameValid = useMemo(() => {
     if (!recipientName) return true;
 
-    const rcRegex = /^[\u4E00-\u9FFF]{2,}$|^[a-zA-Z\s]{2,}$/;
+    const rcRegex = /^[\u4E00-\u9FFF]{2,5}$|^[a-zA-Z\s]{2,50}$/;
 
     return rcRegex.test(recipientName);
   }, [recipientName]);
@@ -49,7 +51,7 @@ export function ShippingAddress() {
   const streetValid = useMemo(() => {
     if (!street) return true;
 
-    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z\s]{4,}$/g;
+    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z\s]{4,50}$/g;
 
     return streetRegex.test(street);
   }, [street]);
@@ -99,7 +101,8 @@ export function ShippingAddress() {
         }
 
         if (!sWith) {
-          setPrefix(userInfo?.shipping?.country_code || "+86");
+          const cC = userInfo?.shipping?.country_code || "+86";
+          setPrefix(cC.startsWith("+") ? cC : `+${cC}`);
           setPhoneNumber(userInfo?.shipping?.phone);
         }
       } else {
@@ -228,7 +231,7 @@ function NameAndPhone({
           {isEn ? "Recipient Name" : "收货人"}
         </label>
         <InputWithClear
-          isError={false}
+          isError={!rcNameValid}
           value={recipientName}
           onValueChange={(v) => handleNameChange(v)}
           isSign={false}
@@ -285,7 +288,7 @@ function NameAndPhone({
             </PopoverContent>
           </Popover>
           <InputWithClear
-            isError={false}
+            isError={!phoneValid}
             value={phoneNumber}
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
@@ -487,7 +490,7 @@ function StreetAndCode({
           {isEn ? "Address line / Street" : "详细地址 / 街道"}
         </label>
         <InputWithClear
-          isError={false}
+          isError={!streetValid}
           value={street}
           onValueChange={(v) => setStreet(v)}
           isSign={false}

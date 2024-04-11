@@ -10,12 +10,12 @@ export default function HomeLinks() {
       <li className={pathname === "/home" ? "active" : ""} data-id="home">
         <Link href="/home">Home</Link>
       </li>
-      <li
+      {/* <li
         className={pathname === "/dragon-ish" ? "active" : ""}
         data-id="dragon-ish"
       >
         <Link href="/dragon-ish">Dragon-ish</Link>
-      </li>
+      </li> */}
       <li className={pathname === "/club" ? "active" : ""} data-id="club">
         <Link href="/club">Club</Link>
       </li>
