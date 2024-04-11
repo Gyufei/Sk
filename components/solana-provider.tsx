@@ -11,7 +11,6 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { SolflareWalletAdapter } from "@solflare-wallet/wallet-adapter";
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
@@ -22,7 +21,6 @@ export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
     clusterApiUrl(WalletAdapterNetwork.Mainnet);
 
   const wallets = [
-    new PhantomWalletAdapter(),
     ...(typeof window === "undefined" ? [] : [new SolflareWalletAdapter()]),
     // new OKXWalletAdapter(),
   ];

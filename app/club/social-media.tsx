@@ -72,7 +72,7 @@ function Twitter() {
           isError={!isValid}
           value={x}
           onValueChange={(v) => handleXInput(v)}
-          isSign={isCheck}
+          isSign={false && isCheck}
           conClass="ml-4 flex-1"
         />
         <div
@@ -143,7 +143,7 @@ function Email() {
           isError={!isValid}
           value={email}
           onValueChange={(v) => handleXInput(v)}
-          isSign={isCheck}
+          isSign={false && isCheck}
           conClass="ml-4 flex-1"
         />
         <div

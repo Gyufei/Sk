@@ -69,6 +69,9 @@ export function ShippingAddress() {
           setPrefix("+86");
           setPhoneNumber(userInfo?.shipping?.phone);
         }
+      } else {
+        setPrefix("+86");
+        setPhoneNumber("");
       }
     }
   }, [userInfo]);

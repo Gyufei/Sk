@@ -301,7 +301,7 @@ export function WalletItem({
       </Popover>
       <div className="relative ml-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] ">
         <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
-        {isSign && (
+        {isLastEvm && isSign && (
           <Image
             src="./icons/sign.svg"
             width={20}
