@@ -33,7 +33,7 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setPrefix] = useState(userInfo?.shipping?.phone_prefix);
+  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code);
   const [phoneNumber, setPhoneNumber] = useState(userInfo?.shipping?.phone);
 
   const [saved, setSaved] = useState(false);
@@ -54,12 +54,29 @@ export function ShippingAddress() {
     return streetRegex.test(street);
   }, [street]);
 
+  const phoneValid = useMemo(() => {
+    if (!phoneNumber) return true;
+
+    const phoneRegex = /^\d{9,12}$/;
+
+    return phoneRegex.test(phoneNumber);
+  }, [phoneNumber]);
+
   const disabled = useMemo(() => {
     if (!rcNameValid) return true;
     if (!streetValid) return true;
+    if (!phoneValid) return true;
     if (!recipientName && !phoneNumber && !street && !code) return true;
     return false;
-  }, [recipientName, streetValid, street, rcNameValid, phoneNumber, code]);
+  }, [
+    recipientName,
+    streetValid,
+    phoneValid,
+    street,
+    rcNameValid,
+    phoneNumber,
+    code,
+  ]);
 
   useEffect(() => {
     if (userInfo?.shipping) {
@@ -82,7 +99,7 @@ export function ShippingAddress() {
         }
 
         if (!sWith) {
-          setPrefix(userInfo?.shipping?.phone_prefix || "+86");
+          setPrefix(userInfo?.shipping?.country_code || "+86");
           setPhoneNumber(userInfo?.shipping?.phone);
         }
       } else {
@@ -110,7 +127,7 @@ export function ShippingAddress() {
       body: JSON.stringify({
         user_id: uuid,
         recipient_name: recipientName,
-        phone_prefix: prefix,
+        country_code: prefix,
         phone: phoneNumber,
         country: country,
         state: state,
@@ -144,6 +161,7 @@ export function ShippingAddress() {
           phoneNumber,
           setPhoneNumber,
           rcNameValid,
+          phoneValid,
         }}
       />
       <Address {...{ country, setCountry, state, setState, city, setCity }} />
@@ -171,6 +189,7 @@ function NameAndPhone({
   phoneNumber,
   setPhoneNumber,
   rcNameValid,
+  phoneValid,
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
@@ -179,6 +198,7 @@ function NameAndPhone({
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
   rcNameValid: boolean;
+  phoneValid: boolean;
 }) {
   const { isEn } = useLang();
 
@@ -217,7 +237,7 @@ function NameAndPhone({
         <InvalidTip isValid={rcNameValid} />
       </div>
 
-      <div className="flex flex-1 flex-col pb-6">
+      <div className="flex flex-1 flex-col">
         <label
           htmlFor="phone"
           className="text-lg font-normal leading-7 text-white opacity-60"
@@ -272,6 +292,7 @@ function NameAndPhone({
             inputId="phone"
           />
         </div>
+        <InvalidTip isValid={phoneValid} />
       </div>
     </div>
   );
