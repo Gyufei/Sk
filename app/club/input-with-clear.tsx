@@ -12,6 +12,7 @@ export function InputWithClear({
   inputClass,
   iconClass,
   inputId,
+  onBlur,
 }: {
   value: string;
   onValueChange: (_v: string) => void;
@@ -21,11 +22,20 @@ export function InputWithClear({
   inputClass?: string;
   iconClass?: string;
   inputId?: string;
+  onBlur?: () => void;
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
   function clearInput() {
     onValueChange("");
+  }
+
+  function handleBlur() {
+    setIsFocus(false);
+
+    if (onBlur) {
+      onBlur();
+    }
   }
 
   return (
@@ -40,7 +50,7 @@ export function InputWithClear({
           inputClass,
         )}
         onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
+        onBlur={() => handleBlur()}
       />
       {isFocus && (
         <Image

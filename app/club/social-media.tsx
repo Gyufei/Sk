@@ -42,10 +42,12 @@ function Twitter() {
     }
 
     setX(val);
-    setIsValid(checkRegex(val));
   }
 
-  const disabled = useMemo(() => !isValid || !x, [isValid, x]);
+  const disabled = useMemo(
+    () => !isValid || !x || (x && !checkRegex(x)),
+    [isValid, x],
+  );
 
   function checkRegex(x: string) {
     const regex = /^https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_]{2,15}$/g;
@@ -54,6 +56,12 @@ function Twitter() {
   }
 
   const { saveSocial } = useSaveSocial();
+
+  function handleBlur() {
+    if (!x) return;
+
+    setIsValid(checkRegex(x));
+  }
 
   function handleSave() {
     if (disabled) return;
@@ -74,6 +82,7 @@ function Twitter() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
           conClass="ml-4 flex-1"
+          onBlur={handleBlur}
         />
         <div
           data-disabled={disabled}
@@ -98,7 +107,10 @@ function Email() {
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const disabled = useMemo(() => !isValid || !email, [isValid, email]);
+  const disabled = useMemo(
+    () => !isValid || !email || (email && !checkRegex(email)),
+    [isValid, email],
+  );
 
   function handleXInput(val: string) {
     if (!val) {
@@ -108,7 +120,6 @@ function Email() {
     }
 
     setEmail(val);
-    setIsValid(checkRegex(val));
   }
 
   useEffect(() => {
@@ -123,6 +134,12 @@ function Email() {
     if (!email || !isValid) return;
     saveSocial({ name: "Email", data: email });
     setIsCheck(true);
+  }
+
+  function handleBlur() {
+    if (!email) return;
+
+    setIsValid(checkRegex(email));
   }
 
   function checkRegex(x: string) {
@@ -145,6 +162,7 @@ function Email() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
           conClass="ml-4 flex-1"
+          onBlur={handleBlur}
         />
         <div
           data-disabled={disabled}
@@ -168,7 +186,10 @@ function Discord() {
   const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
 
-  const disabled = useMemo(() => !isValid || !discord, [isValid, discord]);
+  const disabled = useMemo(
+    () => !isValid || !discord || (discord && !checkRegex(discord)),
+    [isValid, discord],
+  );
 
   useEffect(() => {
     if (userInfo?.social_media) {
@@ -191,7 +212,6 @@ function Discord() {
     }
 
     setDiscord(val);
-    setIsValid(checkRegex(val));
   }
 
   const { saveSocial } = useSaveSocial();
@@ -200,6 +220,12 @@ function Discord() {
     if (disabled) return;
     const saveDiscord = discord.startsWith("@") ? discord.slice(1) : discord;
     saveSocial({ name: "Discord", data: saveDiscord });
+  }
+
+  function handleBlur() {
+    if (!discord) return;
+
+    setIsValid(checkRegex(discord));
   }
 
   function checkRegex(x: string) {
@@ -221,6 +247,7 @@ function Discord() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
+          onBlur={handleBlur}
         />
         <div
           data-disabled={disabled}
@@ -244,7 +271,10 @@ function Tg() {
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
 
-  const disabled = useMemo(() => !isValid || !tg, [isValid, tg]);
+  const disabled = useMemo(
+    () => !isValid || !tg || (tg && !checkRegex(tg)),
+    [isValid, tg],
+  );
 
   useEffect(() => {
     if (userInfo?.social_media) {
@@ -263,7 +293,12 @@ function Tg() {
     }
 
     setTg(val);
-    setIsValid(checkRegex(val));
+  }
+
+  function handleBlur() {
+    if (!tg) return;
+
+    setIsValid(checkRegex(tg));
   }
 
   const { saveSocial } = useSaveSocial();
@@ -292,6 +327,7 @@ function Tg() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
+          onBlur={handleBlur}
         />
         <div
           data-disabled={disabled}
@@ -315,7 +351,10 @@ function Github() {
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
 
-  const disabled = useMemo(() => !isValid || !github, [isValid, github]);
+  const disabled = useMemo(
+    () => !isValid || !github || (github && !checkRegex(github)),
+    [isValid, github],
+  );
 
   useEffect(() => {
     if (userInfo?.social_media) {
@@ -331,7 +370,12 @@ function Github() {
     }
 
     setGithub(val);
-    setIsValid(checkRegex(val));
+  }
+
+  function handleBlur() {
+    if (!github) return;
+
+    setIsValid(checkRegex(github));
   }
 
   const { saveSocial } = useSaveSocial();
@@ -361,6 +405,7 @@ function Github() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
+          onBlur={handleBlur}
         />
         <div
           data-disabled={disabled}

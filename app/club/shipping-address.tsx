@@ -40,29 +40,9 @@ export function ShippingAddress() {
 
   const [saved, setSaved] = useState(false);
 
-  const rcNameValid = useMemo(() => {
-    if (!recipientName) return true;
-
-    const rcRegex = /^[\u4E00-\u9FFF]{2,5}$|^[a-zA-Z\s]{2,50}$/;
-
-    return rcRegex.test(recipientName);
-  }, [recipientName]);
-
-  const streetValid = useMemo(() => {
-    if (!street) return true;
-
-    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s]{4,50}$/g;
-
-    return streetRegex.test(street);
-  }, [street]);
-
-  const phoneValid = useMemo(() => {
-    if (!phoneNumber) return true;
-
-    const phoneRegex = /^\d{9,12}$/;
-
-    return phoneRegex.test(phoneNumber);
-  }, [phoneNumber]);
+  const [rcNameValid, setRcNameValid] = useState(true);
+  const [phoneValid, setPhoneValid] = useState(true);
+  const [streetValid, setStreetValid] = useState(true);
 
   const disabled = useMemo(() => {
     if (!rcNameValid) return true;
@@ -164,11 +144,15 @@ export function ShippingAddress() {
           phoneNumber,
           setPhoneNumber,
           rcNameValid,
+          setRcNameValid,
           phoneValid,
+          setPhoneValid,
         }}
       />
       <Address {...{ country, setCountry, state, setState, city, setCity }} />
-      <StreetAndCode {...{ street, setStreet, code, setCode, streetValid }} />
+      <StreetAndCode
+        {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
+      />
 
       <div className="mt-10 flex items-center justify-end">
         {saved && <div className="mr-6">{isEn ? "Saved" : "已保存"}</div>}
@@ -192,7 +176,9 @@ function NameAndPhone({
   phoneNumber,
   setPhoneNumber,
   rcNameValid,
+  setRcNameValid,
   phoneValid,
+  setPhoneValid,
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
@@ -202,6 +188,8 @@ function NameAndPhone({
   setPhoneNumber: (v: string) => void;
   rcNameValid: boolean;
   phoneValid: boolean;
+  setRcNameValid: (v: boolean) => void;
+  setPhoneValid: (v: boolean) => void;
 }) {
   const { isEn } = useLang();
 
@@ -210,15 +198,45 @@ function NameAndPhone({
   function handleNameChange(v: string) {
     const newV = v.replace(/\s+/g, " ");
     setRecipientName(newV);
+
+    if (checkNameRegex(newV)) {
+      setRcNameValid(true);
+    }
   }
 
   function handlePhoneNumChange(v: string) {
     const newV = v.replace(/\s+/g, "");
     setPhoneNumber(newV);
+
+    if (checkPhoneRegex(newV)) {
+      setPhoneValid(true);
+    }
   }
 
   function handlePrefixChange(v: string) {
     setPrefix(v);
+  }
+
+  function handleNameBlur() {
+    if (!recipientName) return true;
+
+    setRcNameValid(checkNameRegex(recipientName));
+  }
+
+  function checkNameRegex(v: string) {
+    const rcRegex = /^[\u4E00-\u9FFF]{2,5}$|^[a-zA-Z\s]{2,50}$/;
+    return rcRegex.test(v);
+  }
+
+  function handlePhoneBlur() {
+    if (!phoneNumber) return true;
+
+    setPhoneValid(checkPhoneRegex(phoneNumber));
+  }
+
+  function checkPhoneRegex(v: string) {
+    const phoneRegex = /^\d{9,12}$/;
+    return phoneRegex.test(v);
   }
 
   return (
@@ -236,6 +254,7 @@ function NameAndPhone({
           onValueChange={(v) => handleNameChange(v)}
           isSign={false}
           inputId="recipientName"
+          onBlur={handleNameBlur}
         />
         <InvalidTip isValid={rcNameValid} />
       </div>
@@ -294,6 +313,7 @@ function NameAndPhone({
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
             inputId="phone"
+            onBlur={handlePhoneBlur}
           />
         </div>
         <InvalidTip isValid={phoneValid} />
@@ -473,19 +493,34 @@ function StreetAndCode({
   code,
   setCode,
   streetValid,
+  setStreetValid,
 }: {
   street: string;
   setStreet: (v: string) => void;
   code: string;
   setCode: (v: string) => void;
   streetValid: boolean;
+  setStreetValid: (v: boolean) => void;
 }) {
   const { isEn } = useLang();
 
-  const handleStreetChange = (v: string) => {
+  function handleStreetChange(v: string) {
     const newV = v.replace(/\s+/g, " ");
     setStreet(newV);
-  };
+  }
+
+  function handleStreetBlur() {
+    if (!street) return true;
+
+    setStreetValid(checkStreetRegex(street));
+  }
+
+  function checkStreetRegex(v: string) {
+    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s]{4,50}$/g;
+
+    return streetRegex.test(v);
+  }
+
   return (
     <div className="mt-10 flex items-center space-x-6">
       <div className="flex flex-1 flex-col">
@@ -501,6 +536,7 @@ function StreetAndCode({
           onValueChange={(v) => handleStreetChange(v)}
           isSign={false}
           inputId="street"
+          onBlur={handleStreetBlur}
         />
         <InvalidTip isValid={streetValid} />
       </div>

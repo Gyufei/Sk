@@ -89,6 +89,9 @@ export function WalletItem({
 
   const disabled = useMemo(() => {
     if (isSign) {
+      if (name === "OP Mainnet") {
+        return true;
+      }
       return false;
     }
     return !name;
@@ -218,6 +221,8 @@ export function WalletItem({
 
             if (res?.status) {
               setIsSign(true);
+            } else {
+              console.log("error, failed");
             }
           },
         },
@@ -238,7 +243,9 @@ export function WalletItem({
     });
 
     console.log(res);
-    handleRemove();
+    if (res.status) {
+      handleRemove();
+    }
   }
 
   return (
