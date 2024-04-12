@@ -23,7 +23,7 @@ export default function Club() {
     <>
       <SignDialog dialogOpen={dialogOpen} setDialogOpen={setOpen} />
       {!!(address && uuid) && (
-        <div className="content-inner-box active h-[96vh] !justify-start overflow-y-scroll">
+        <div className="content-inner-box trans-scroll-bar active h-[96vh] !justify-start overflow-y-scroll">
           <div className="flex justify-between">
             <div className="flex items-center space-x-[75px]">
               <div className="flex flex-col">

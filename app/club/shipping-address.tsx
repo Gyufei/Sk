@@ -507,6 +507,10 @@ function StreetAndCode({
   function handleStreetChange(v: string) {
     const newV = v.replace(/\s+/g, " ");
     setStreet(newV);
+
+    if (checkStreetRegex(newV)) {
+      setStreetValid(true);
+    }
   }
 
   function handleStreetBlur() {
@@ -516,7 +520,7 @@ function StreetAndCode({
   }
 
   function checkStreetRegex(v: string) {
-    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s]{4,50}$/g;
+    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s()（）#:.\-_]{4,50}$/g;
 
     return streetRegex.test(v);
   }
