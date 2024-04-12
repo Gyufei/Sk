@@ -374,7 +374,7 @@ function Address({
               onClick={() => setCountryPopOpen(!countryPopOpen)}
               className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
             >
-              <div className="flex items-center">
+              <div className="flex items-center text-sm">
                 <div className="leading-6 text-[#d6d6d6]">{country}</div>
               </div>
               <Image
@@ -391,7 +391,7 @@ function Address({
             {countryArr.map((c) => (
               <div
                 key={c}
-                className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
+                className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
                 onClick={() => {
                   setCountry(c);
                   setCountryPopOpen(false);
@@ -404,7 +404,7 @@ function Address({
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg font-normal leading-7 text-white opacity-60">
+        <div className="text-sm font-normal leading-7 text-white opacity-60">
           {isEn ? "State" : "省"}
         </div>
         <Popover
@@ -417,7 +417,7 @@ function Address({
               className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
             >
               <div className="flex items-center">
-                <div className="leading-6 text-[#d6d6d6]">{state}</div>
+                <div className="text-sm leading-6 text-[#d6d6d6]">{state}</div>
               </div>
               <Image
                 data-open={stateOpen}
@@ -439,14 +439,14 @@ function Address({
                   setStateOpen(false);
                 }}
               >
-                <div className="ml-3 leading-6 text-[#d6d6d6]">{s}</div>
+                <div className="ml-3 text-sm leading-6 text-[#d6d6d6]">{s}</div>
               </div>
             ))}
           </PopoverContent>
         </Popover>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg font-normal leading-7 text-white opacity-60">
+        <div className="text-sm font-normal leading-7 text-white opacity-60">
           {isEn ? "City" : "市"}
         </div>
         <Popover open={cityOpen} onOpenChange={(isOpen) => setCityOpen(isOpen)}>
@@ -456,7 +456,7 @@ function Address({
               className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
             >
               <div className="flex items-center">
-                <div className="leading-6 text-[#d6d6d6]">{city}</div>
+                <div className="text-sm leading-6 text-[#d6d6d6]">{city}</div>
               </div>
               <Image
                 data-open={cityOpen}
@@ -478,7 +478,7 @@ function Address({
                   setCityOpen(false);
                 }}
               >
-                <div className="ml-3 leading-6 text-[#d6d6d6]">{c}</div>
+                <div className="ml-3 text-sm leading-6 text-[#d6d6d6]">{c}</div>
               </div>
             ))}
           </PopoverContent>
