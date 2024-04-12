@@ -224,7 +224,8 @@ function NameAndPhone({
   }
 
   function checkNameRegex(v: string) {
-    const rcRegex = /^[\u4E00-\u9FFF]{2,5}$|^[a-zA-Z\s]{2,50}$/;
+    const rcRegex =
+      /^(?=.{2,5}$)(?![\s])[\u4E00-\u9FFF]+(?<![\s])$|^(?=.{2,50}$)(?![\s])[a-zA-Z\s]+(?<![\s])$/g;
     return rcRegex.test(v);
   }
 
@@ -520,7 +521,9 @@ function StreetAndCode({
   }
 
   function checkStreetRegex(v: string) {
-    const streetRegex = /^[\u4E00-\u9FFFa-zA-Z0-9\s()（）#:.\-_]{4,50}$/g;
+    const streetRegex =
+      // eslint-disable-next-line no-useless-escape
+      /^(?=.{4,50}$)(?![_\.\s:])[\u4E00-\u9FFFa-zA-Z0-9\s\(\)\-_\uFF08\uFF09#:\.]+(?<![\s])$/g;
 
     return streetRegex.test(v);
   }
