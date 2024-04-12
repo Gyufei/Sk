@@ -196,13 +196,7 @@ function Discord() {
   useEffect(() => {
     if (userInfo?.social_media) {
       const uDiscord = userInfo?.social_media?.Discord || "";
-
-      const dData = uDiscord
-        ? uDiscord.startsWith("@")
-          ? uDiscord
-          : `@${uDiscord}`
-        : "";
-      setDiscord(dData);
+      setDiscord(uDiscord);
     }
   }, [userInfo]);
 
@@ -282,9 +276,7 @@ function Tg() {
   useEffect(() => {
     if (userInfo?.social_media) {
       const tg = userInfo?.social_media?.Telegram || "";
-
-      const tData = tg ? (tg.startsWith("@") ? tg : `@${tg}`) : "";
-      setTg(tData);
+      setTg(tg);
     }
   }, [userInfo]);
 
