@@ -12,6 +12,8 @@ export function NickName({ nickName }: { nickName: string }) {
   const [name, setName] = useState(nickName);
   const [isEditName, setIsEditName] = useState(false);
 
+  const [isValid, setIsValid] = useState(true);
+
   useEffect(() => {
     setName(nickName);
   }, [nickName]);
@@ -19,10 +21,28 @@ export function NickName({ nickName }: { nickName: string }) {
   const { getUserInfo } = useFetchUserInfo();
 
   function handleBlur() {
+    if (!name) {
+      setName(nickName);
+      setIsValid(true);
+      setIsEditName(false);
+      return;
+    }
+
+    if (!checkRegex(name)) {
+      setIsValid(false);
+      return;
+    }
+
     setIsEditName(false);
     if (name) {
       saveName(name);
     }
+  }
+
+  function checkRegex(v: string) {
+    const regex = /^[a-zA-Z0-9_\u4e00-\u9fa5]{2,15}$/g;
+
+    return regex.test(v);
   }
 
   async function saveName(n: string) {
@@ -57,7 +77,8 @@ export function NickName({ nickName }: { nickName: string }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={handleBlur}
-          className="h-[60px] w-[200px] rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0  text-[40px]"
+          data-error={!isValid}
+          className="h-[60px] w-[200px] rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[40px]  data-[error=true]:border-[#FF5A5A]"
         />
       ) : (
         <div className="flex items-center">

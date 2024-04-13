@@ -54,6 +54,8 @@ export function WalletItem({
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
 
+  const isOp = useMemo(() => name === "OP Mainnet", [name]);
+
   //solana
   const { publicKey, signMessage: solanaSign } = useWallet();
   const solanaAddress = useMemo(
@@ -318,7 +320,7 @@ export function WalletItem({
           />
         )}
       </div>
-      {!isLastEvm && (
+      {!isLastEvm && !isOp && (
         <div
           onClick={handleOperation}
           data-disabled={disabled}
