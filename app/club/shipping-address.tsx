@@ -33,7 +33,7 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code || "");
+  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code || 86);
   const [phoneNumber, setPhoneNumber] = useState(
     userInfo?.shipping?.phone || "",
   );
