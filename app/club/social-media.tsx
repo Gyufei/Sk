@@ -79,6 +79,7 @@ function Twitter() {
         <InputWithClear
           isError={!isValid}
           value={x}
+          placeHolder="https://x.com/yourid"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
           conClass="ml-4 flex-1"
@@ -159,6 +160,7 @@ function Email() {
         <InputWithClear
           isError={!isValid}
           value={email}
+          placeHolder="name@gmail.com"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
           conClass="ml-4 flex-1"
@@ -238,6 +240,7 @@ function Discord() {
         <InputWithClear
           isError={!isValid}
           value={discord}
+          placeHolder="@"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
@@ -316,6 +319,7 @@ function Tg() {
         <InputWithClear
           isError={!isValid}
           value={tg}
+          placeHolder="@"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
@@ -394,6 +398,7 @@ function Github() {
         <InputWithClear
           isError={!isValid}
           value={github}
+          placeHolder="https://github.com/yourid"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"

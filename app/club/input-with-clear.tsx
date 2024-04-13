@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 export function InputWithClear({
   value,
+  placeHolder,
   onValueChange,
   isError = false,
   isSign = false,
@@ -15,6 +16,7 @@ export function InputWithClear({
   onBlur,
 }: {
   value: string;
+  placeHolder?: string;
   onValueChange: (_v: string) => void;
   isError?: boolean;
   isSign: boolean;
@@ -44,6 +46,7 @@ export function InputWithClear({
         id={inputId || ""}
         data-error={isError}
         value={value}
+        placeholder={placeHolder}
         onChange={(e: any) => onValueChange(e.target.value)}
         className={cn(
           "h-12 rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[#d6d6d6] data-[error=true]:border-[#FF5A5A]",
