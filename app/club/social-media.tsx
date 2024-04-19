@@ -383,7 +383,7 @@ function Github() {
   }
 
   function checkRegex(x: string) {
-    const regex = /^https:\/\/github.com\/[a-zA-Z0-9_]{1,40}$/g;
+    const regex = /^https:\/\/github\.com\/[a-zA-Z0-9_-]{1,40}$/g;
 
     return regex.test(x);
   }
