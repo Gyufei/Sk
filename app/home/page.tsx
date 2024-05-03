@@ -11,7 +11,7 @@ export default function Home() {
         <br />
         In-depth research on various blockchain products.
         <br />
-        An ordinary guy working at
+        An ordinary guy working at&nbsp;
         <a href="https://hedgue.com">Hedgue LLP.</a> Ex VC post-investment
         management.
         <br />
