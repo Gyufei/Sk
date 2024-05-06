@@ -14,7 +14,7 @@ import { ApiHost } from "@/lib/path";
 import { useLang } from "@/lib/use-lang";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
-const prefixArr = ["86"];
+const countryCodeList = ["86"];
 
 export function ShippingAddress() {
   const uuid = useAtomValue(UuidAtom);
@@ -33,7 +33,7 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setPrefix] = useState(userInfo?.shipping?.country_code || 86);
+  const [prefix, setCountryCode] = useState(userInfo?.shipping?.country_code || 86);
   const [phoneNumber, setPhoneNumber] = useState(
     userInfo?.shipping?.phone || "",
   );
@@ -72,9 +72,9 @@ export function ShippingAddress() {
       if (userInfo?.shipping?.phone) {
         let sWith = false;
         const ph = userInfo?.shipping?.phone;
-        for (const pf of prefixArr) {
+        for (const pf of countryCodeList) {
           if (ph.startsWith(pf)) {
-            setPrefix(pf);
+            setCountryCode(pf);
             setPhoneNumber(ph.slice(pf.length));
             sWith = true;
           }
@@ -82,11 +82,11 @@ export function ShippingAddress() {
 
         if (!sWith) {
           const cC = userInfo?.shipping?.country_code || "86";
-          setPrefix(cC);
+          setCountryCode(cC);
           setPhoneNumber(userInfo?.shipping?.phone);
         }
       } else {
-        setPrefix("86");
+        setCountryCode("86");
         setPhoneNumber("");
       }
     }
@@ -140,7 +140,7 @@ export function ShippingAddress() {
           recipientName,
           setRecipientName,
           prefix,
-          setPrefix,
+          setCountryCode,
           phoneNumber,
           setPhoneNumber,
           rcNameValid,
@@ -172,7 +172,7 @@ function NameAndPhone({
   recipientName,
   setRecipientName,
   prefix,
-  setPrefix,
+  setCountryCode,
   phoneNumber,
   setPhoneNumber,
   rcNameValid,
@@ -183,7 +183,7 @@ function NameAndPhone({
   recipientName: string;
   setRecipientName: (v: string) => void;
   prefix: string;
-  setPrefix: (v: string) => void;
+  setCountryCode: (v: string) => void;
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
   rcNameValid: boolean;
@@ -193,10 +193,10 @@ function NameAndPhone({
 }) {
   const { isEn } = useLang();
 
-  const [prefixOpen, setPrefixOpen] = useState(false);
+  const [countryCodeOpen, setCountryCodeOpen] = useState(false);
 
   function handleNameChange(v: string) {
-    const newV = v.replace(/\s+/g, " ");
+    const newV = v.replace(/(^\s*)|(\s*$)/g, "");
     setRecipientName(newV);
 
     if (checkNameRegex(newV)) {
@@ -205,7 +205,7 @@ function NameAndPhone({
   }
 
   function handlePhoneNumChange(v: string) {
-    const newV = v.replace(/\s+/g, "");
+    const newV = v.replace(/(^\s*)|(\s*$)/g, "");
     setPhoneNumber(newV);
 
     if (checkPhoneRegex(newV)) {
@@ -213,8 +213,8 @@ function NameAndPhone({
     }
   }
 
-  function handlePrefixChange(v: string) {
-    setPrefix(v);
+  function handleCountryCodeChange(v: string) {
+    setCountryCode(v);
   }
 
   function handleNameBlur() {
@@ -268,12 +268,12 @@ function NameAndPhone({
         </label>
         <div className="flex">
           <Popover
-            open={prefixOpen}
-            onOpenChange={(isOpen) => setPrefixOpen(isOpen)}
+            open={countryCodeOpen}
+            onOpenChange={(isOpen) => setCountryCodeOpen(isOpen)}
           >
             <PopoverTrigger asChild>
               <div
-                onClick={() => setPrefixOpen(!prefixOpen)}
+                onClick={() => setCountryCodeOpen(!countryCodeOpen)}
                 className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
               >
                 <div className="flex items-center">
@@ -283,7 +283,7 @@ function NameAndPhone({
                   </div>
                 </div>
                 <Image
-                  data-open={prefixOpen}
+                  data-open={countryCodeOpen}
                   src="./icons/arrow-down.svg"
                   width={24}
                   height={24}
@@ -293,13 +293,13 @@ function NameAndPhone({
               </div>
             </PopoverTrigger>
             <PopoverContent className="no-scroll-bar flex w-[80px]  flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
-              {prefixArr.map((s) => (
+              {countryCodeList.map((s) => (
                 <div
                   key={s}
                   className="flex h-8 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
                   onClick={() => {
-                    handlePrefixChange(s);
-                    setPrefixOpen(false);
+                    handleCountryCodeChange(s);
+                    setCountryCodeOpen(false);
                   }}
                 >
                   <div className="ml-3 leading-6 text-[#d6d6d6]">+{s}</div>
@@ -505,7 +505,7 @@ function StreetAndCode({
   const { isEn } = useLang();
 
   function handleStreetChange(v: string) {
-    const newV = v.replace(/\s+/g, " ");
+    const newV = v.replace(/(^\s*)|(\s*$)/g, " ");
     setStreet(newV);
 
     if (checkStreetRegex(newV)) {
