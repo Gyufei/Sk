@@ -4,9 +4,7 @@ import { useSubmitDataUrl } from "@/lib/use-submit-data-url";
 import Image from "next/image";
 
 export default function Tools() {
-  const [dataUrl, setDataUrl] = useState(
-    "https://twitter.com/liuwei16602825/status/1787524755987603797",
-  );
+  const [dataUrl, setDataUrl] = useState("");
   const [statusText, setStatusText] = useState("");
 
   function handleDataChange(v: string) {
@@ -17,7 +15,6 @@ export default function Tools() {
   const { submitDataUrl } = useSubmitDataUrl();
 
   async function handleSubmit() {
-
     const regex =
       /^https:\/\/(twitter|x).com\/(?<twitter_id>[a-zA-Z0-9_-]{2,15})\/status\/(?<tweet_id>\d{10,20})$/g;
 
