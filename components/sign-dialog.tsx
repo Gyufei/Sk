@@ -45,8 +45,8 @@ export default function SignDialog({
       localUU = JSON.parse(localStorage.getItem("uuid") || "");
     } catch (e) {
       localStorage.removeItem("uuid");
-      console.log(
-        "error for get localStorage uuid",
+      console.error(
+        "Get uuid from localStorage error",
         localStorage.getItem("uuid"),
         e,
       );
@@ -59,7 +59,7 @@ export default function SignDialog({
           },
           {
             onError: (e) => {
-              console.log("change chain error", e);
+              console.log("Change chain error", e);
             },
             onSuccess: () => {
               signMsg();

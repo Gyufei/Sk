@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function ContentFooter() {
   const pathname = usePathname();
+  const [emailText, setEmailText] = useState("");
 
   if (pathname === "/club") {
     return null;
+  }
+
+  function handleValChange(v: string) {
+    const newV = v.replace(/(^\s*)|(\s*$)/g, "");
+    setEmailText(newV);
   }
 
   return (
@@ -28,6 +35,9 @@ export default function ContentFooter() {
             name="email"
             placeholder="Your email"
             maxLength={50}
+            value={emailText}
+            onChange={(e: any) => handleValChange(e.target.value)}
+            style={{ fontWeight: "400" }}
           />
           <button className="submit-button w-button" type="submit">
             Submit a request

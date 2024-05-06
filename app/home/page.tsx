@@ -2,24 +2,26 @@ export default function Home() {
   return (
     <div className="content-inner-box active">
       <div className="div-block-7">
-        <p className="paragraph-009">Juu17 🔫📅</p>
+        <p className="paragraph-009">Juu17 (🔫 , 📅)</p>
       </div>
       <div className="text-block-para">Briefing / TL;DR</div>
       <div className="panel-para-text">
         A senior market maker, providing market-making guidance for 50+
         projects.
         <br />
-        In-depth research on various blockchain products.
+        In-depth research on diverse blockchain products.
         <br />
         An ordinary guy working at
-        <a className="ml-2 mr-2" href="https://hedgue.com">Hedgue LLP.</a>Ex VC post-investment
-        management.
+        <a className="mx-2" href="https://hedgue.com">
+          Hedgue LLP.
+        </a>
+        Ex VC post-investment management.
         <br />
-        Computer / Finance / Mathematics triple degree.
+        Computer / Finance / Mathematics triple degrees.
         <br />
         Strive to provide value to all readers.
         <br />
-        Never provide buying and selling advice.
+        Never offer buying and selling advice.
         <br />
         Committed to industry popularization and enthusiastic about helping
         others.
