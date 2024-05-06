@@ -33,7 +33,9 @@ export function ShippingAddress() {
   const [street, setStreet] = useState(userInfo?.shipping?.address_line || "");
   const [code, setCode] = useState(userInfo?.shipping?.zip_code || "");
 
-  const [prefix, setCountryCode] = useState(userInfo?.shipping?.country_code || 86);
+  const [countryCode, setCountryCode] = useState(
+    userInfo?.shipping?.country_code || 86,
+  );
   const [phoneNumber, setPhoneNumber] = useState(
     userInfo?.shipping?.phone || "",
   );
@@ -110,7 +112,7 @@ export function ShippingAddress() {
       body: JSON.stringify({
         user_id: uuid,
         recipient_name: recipientName,
-        country_code: prefix,
+        country_code: countryCode,
         phone: phoneNumber,
         country: country,
         state: state,
@@ -139,7 +141,7 @@ export function ShippingAddress() {
         {...{
           recipientName,
           setRecipientName,
-          prefix,
+          countryCode,
           setCountryCode,
           phoneNumber,
           setPhoneNumber,
@@ -171,7 +173,7 @@ export function ShippingAddress() {
 function NameAndPhone({
   recipientName,
   setRecipientName,
-  prefix,
+  countryCode,
   setCountryCode,
   phoneNumber,
   setPhoneNumber,
@@ -182,7 +184,7 @@ function NameAndPhone({
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
-  prefix: string;
+  countryCode: string;
   setCountryCode: (v: string) => void;
   phoneNumber: string;
   setPhoneNumber: (v: string) => void;
@@ -278,8 +280,8 @@ function NameAndPhone({
               >
                 <div className="flex items-center">
                   <div className="text-sm leading-6 text-[#d6d6d6]">
-                    {prefix && "+"}
-                    {prefix}
+                    {countryCode && "+"}
+                    {countryCode}
                   </div>
                 </div>
                 <Image
@@ -505,7 +507,7 @@ function StreetAndCode({
   const { isEn } = useLang();
 
   function handleStreetChange(v: string) {
-    const newV = v.replace(/(^\s*)|(\s*$)/g, " ");
+    const newV = v.replace(/(^\s*)|(\s*$)/g, "");
     setStreet(newV);
 
     if (checkStreetRegex(newV)) {

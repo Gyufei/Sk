@@ -41,7 +41,8 @@ function Twitter() {
       return;
     }
 
-    setX(val);
+    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setX(trimedVal);
   }
 
   const disabled = useMemo(
@@ -120,7 +121,8 @@ function Email() {
       return;
     }
 
-    setEmail(val);
+    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setEmail(trimedVal);
   }
 
   useEffect(() => {
@@ -207,7 +209,8 @@ function Discord() {
       return;
     }
 
-    setDiscord(val);
+    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setDiscord(trimedVal);
   }
 
   const { saveSocial } = useSaveSocial();
@@ -287,7 +290,8 @@ function Tg() {
       return;
     }
 
-    setTg(val);
+    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setTg(trimedVal);
   }
 
   function handleBlur() {
@@ -365,7 +369,8 @@ function Github() {
       return;
     }
 
-    setGithub(val);
+    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setGithub(trimedVal);
   }
 
   function handleBlur() {
