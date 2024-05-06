@@ -4,7 +4,9 @@ import { useSubmitDataUrl } from "@/lib/use-submit-data-url";
 import Image from "next/image";
 
 export default function Tools() {
-  const [dataUrl, setDataUrl] = useState("");
+  const [dataUrl, setDataUrl] = useState(
+    "https://twitter.com/liuwei16602825/status/1787524755987603797",
+  );
   const [statusText, setStatusText] = useState("");
 
   function handleDataChange(v: string) {
@@ -14,20 +16,24 @@ export default function Tools() {
 
   const { submitDataUrl } = useSubmitDataUrl();
 
-  function handleSubmit() {
+  async function handleSubmit() {
+
     const regex =
-      /^https:\/\/(twitter|x).com\/(@?[a-zA-Z0-9_-]{2,15})\/status\/(\d{10,20})$/g;
+      /^https:\/\/(twitter|x).com\/(?<twitter_id>[a-zA-Z0-9_-]{2,15})\/status\/(?<tweet_id>\d{10,20})$/g;
+
     if (!regex.test(dataUrl)) return;
+    regex.lastIndex = 0;
+    const regResult = regex.exec(dataUrl);
 
-    const resultArr = regex.exec(dataUrl);
-    if (!resultArr || resultArr.length != 4) return;
-    console.log(resultArr[2], resultArr[3]);
+    if (!regResult) return;
 
-    const res: any = submitDataUrl({
-      twitter_id: resultArr[2],
-      tweet_id: resultArr[3],
+    const groups = regResult.groups || {};
+
+    const res: any = await submitDataUrl({
+      twitter_id: groups.twitter_id,
+      tweet_id: groups.tweet_id,
     });
-    setStatusText(res);
+    setStatusText(`Status: ${res.status} Msg: ${res.msg}`);
     return false;
   }
 
@@ -54,7 +60,6 @@ export default function Tools() {
       <div className="panel-para-text">
         <div className="html-embed-4 w-embed">
           <form className="update-form" action="">
-            <input type="hidden" name="transparentBackground" value="1" />
             <textarea
               id="txtDataUrl"
               className="text-field w-input"
@@ -63,10 +68,9 @@ export default function Tools() {
                 handleDataChange(e.target.value);
                 adjustHeight(e.target);
               }}
+              defaultValue="{dataUrl}"
               style={{ fontSize: "1em", minHeight: "4.2em", fontWeight: "400" }}
-            >
-              {dataUrl}
-            </textarea>
+            ></textarea>
             <button
               className="submit-button w-button"
               type="button"
