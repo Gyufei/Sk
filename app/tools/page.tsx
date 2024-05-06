@@ -15,6 +15,9 @@ export default function Tools() {
   const { submitDataUrl } = useSubmitDataUrl();
 
   async function handleSubmit() {
+    console.log("handle");
+    setStatusText("");
+
     const regex =
       /^https:\/\/(twitter|x).com\/(?<twitter_id>[a-zA-Z0-9_-]{2,15})\/status\/(?<tweet_id>\d{10,20})$/g;
 
@@ -31,6 +34,9 @@ export default function Tools() {
       tweet_id: groups.tweet_id,
     });
     setStatusText(`Status: ${res.status} Msg: ${res.msg}`);
+    if (res.status == true) {
+      setDataUrl("");
+    }
     return false;
   }
 
@@ -59,13 +65,13 @@ export default function Tools() {
           <form className="update-form" action="">
             <textarea
               id="txtDataUrl"
+              value={dataUrl}
               className="text-field w-input"
               placeholder="https://"
               onChange={(e: any) => {
                 handleDataChange(e.target.value);
                 adjustHeight(e.target);
               }}
-              defaultValue="{dataUrl}"
               style={{ fontSize: "1em", minHeight: "4.2em", fontWeight: "400" }}
             ></textarea>
             <button
