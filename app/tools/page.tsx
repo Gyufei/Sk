@@ -23,7 +23,11 @@ export default function Tools() {
     if (!resultArr || resultArr.length != 4) return;
     console.log(resultArr[2], resultArr[3]);
 
-    submitDataUrl({ twitter_id: resultArr[2], tweet_id: resultArr[3] });
+    const res: any = submitDataUrl({
+      twitter_id: resultArr[2],
+      tweet_id: resultArr[3],
+    });
+    setStatusText(res);
     return false;
   }
 
