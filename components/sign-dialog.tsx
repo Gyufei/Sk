@@ -41,16 +41,14 @@ export default function SignDialog({
 
   async function switchChainAndSign() {
     let localUU: string | null = null;
-    try {
-      localUU = JSON.parse(localStorage.getItem("uuid") || "");
-    } catch (e) {
+    localUU = localStorage.getItem("uuid");
+    if (!localUU) {
+      console.error("Get uuid from localStorage failed");
       localStorage.removeItem("uuid");
-      console.error(
-        "Get uuid from localStorage error",
-        localStorage.getItem("uuid"),
-        e,
-      );
+      setUuid("");
+      return;
     }
+
     if (address && isConnected && !localUU) {
       if (chainId !== 10) {
         switchChain(
@@ -85,7 +83,7 @@ export default function SignDialog({
           setSigning(false);
         },
         onError: (error) => {
-          console.log("error", error);
+          console.error("error", error);
           setSigning(false);
         },
         onSuccess: (signature) => {

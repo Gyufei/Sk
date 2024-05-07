@@ -1763,7 +1763,7 @@ textarea.w-select {
   overflow: hidden;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .w-lightbox-content {
     height: 96vh;
     margin-top: 2vh;
@@ -1803,7 +1803,7 @@ textarea.w-select {
   .w-lightbox-control:hover {
     opacity: 1;
   }
-}
+} */
 
 .w-lightbox-inactive,
 .w-lightbox-inactive:hover {
@@ -2286,8 +2286,6 @@ body {
 }
 
 .top-content {
-  width: 100%;
-  /* height: fit-content; */
   position: relative;
   overflow: auto;
   flex: 1;
@@ -2302,7 +2300,7 @@ body {
 }
 
 .top-content .content-inner-box {
-  min-height: 100%;
+  /* min-height: 100%; */
   flex-direction: column;
   justify-content: flex-start;
   align-self: stretch;
@@ -3248,7 +3246,7 @@ body {
       rotateZ(0) skew(0, 0);
   }
 }
-@media (max-width: 991px) and (min-width: 768px) {
+/* @media (max-width: 991px) and (min-width: 768px) {
   html.w-mod-js:not(.w-mod-ix) .top-content {
     height: 50%;
   }
@@ -3282,7 +3280,7 @@ body {
     transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
       rotateZ(0) skew(0, 0);
   }
-}
+} */
 @media (max-width: 767px) and (min-width: 480px) {
   html.w-mod-js:not(.w-mod-ix) .top-content {
     height: 50%;

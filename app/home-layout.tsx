@@ -1,6 +1,5 @@
 import Script from "next/script";
 import HomeLinks from "./home-links";
-import ContentFooter from "./content-footer";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
