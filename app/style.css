@@ -3321,22 +3321,24 @@ body {
 .update-form .text-field:focus {
   border-bottom: 1px solid rgba(255, 255, 255, 1);
 }
+.normal-line-button {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+}
+.normal-line-button:hover {
+  background: white;
+  color: rgba(13, 13, 13, 0.8);
+}
 .update-form .submit-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 6px;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.8);
-  background: transparent;
   padding: 10px 16px;
-}
-.update-form .submit-button:hover {
-  background: white;
-  color: rgba(13, 13, 13, 0.8);
 }
 
 /*----------------------------*/

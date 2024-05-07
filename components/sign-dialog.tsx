@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
-import { useAtom, useAtomValue } from "jotai/react";
+import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
@@ -27,38 +27,21 @@ export default function SignDialog({
   const [signing, setSigning] = useState(false);
 
   useEffect(() => {
+    console.log(`UE1 isDisconnected:${isDisconnected} address:${address}`);
     if (isDisconnected && !address) {
       setUuid("");
       setDialogOpen(true);
     }
-  }, [isDisconnected, address, uuid]);
-
-  useEffect(() => {
-    console.log(`uuid:${uuid}`);
-
-    setTimeout(() => {
-      console.log("useEffect2");
-      switchChainAndSign();
-    }, 500);
-  }, [address, uuid]);
-
-  const UUID = useAtomValue(UuidAtom);
+    switchChainAndSign();
+  }, [isDisconnected, address]);
 
   async function switchChainAndSign() {
-    console.log(`UUID: ${UUID}`);
+    console.log(
+      `switchChainAndSign address:${address} isConnected:${isConnected} uuid:${uuid}`,
+    );
 
-    // let localUU: string | null = null;
-    // localUU = localStorage.getItem("uuid");
-    // if (!localUU) {
-    //   console.error("Get uuid from localStorage failed");
-    //   localStorage.removeItem("uuid");
-    //   setUuid("");
-    // }
-    //
-    if (address && isConnected && !UUID) {
-      // console.log("3Ag");
+    if (address && isConnected && !uuid) {
       if (chainId !== 10) {
-        // console.log("chain10");
         switchChain(
           {
             chainId: 10,
@@ -74,7 +57,7 @@ export default function SignDialog({
         );
       } else {
         console.log("signMsg");
-        signMsg();
+        await signMsg();
       }
     }
   }
@@ -123,15 +106,6 @@ export default function SignDialog({
         }),
       });
 
-      // const add = await recoverMessageAddress({
-      //   message: JSON.stringify({
-      //     message: "welcome to juu17 club",
-      //     salt,
-      //   }),
-      //   signature: signature as any,
-      // });
-      // console.log(add, address);
-
       if (res.staus === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
@@ -140,9 +114,9 @@ export default function SignDialog({
             } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
         );
       }
-      const uuid = res.uuid;
-      setUuid(uuid);
-      console.log(`setUuid`);
+
+      setUuid(res.uuid);
+      // console.log(`setUuid: ${res.uuid}`);
       setSigning(false);
       setDialogOpen(false);
     } catch (e) {
@@ -179,12 +153,20 @@ export default function SignDialog({
         }}
       >
         <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
-        <div
-          onClick={handleSign}
-          className="mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-base leading-6 text-[rgba(255,255,255,0.6)]"
-        >
-          {signing ? "Signing..." : "Sign In"}
-        </div>
+        {signing ? (
+          <div
+            className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6"
+          >
+            Signing...
+          </div>
+        ) : (
+          <div
+            onClick={handleSign}
+            className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
+          >
+            Sign In
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

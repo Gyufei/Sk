@@ -33,7 +33,7 @@ export default function ContentFooter() {
             onChange={(e: any) => handleValChange(e.target.value)}
             style={{ fontWeight: "400" }}
           />
-          <button className="submit-button w-button" type="submit">
+          <button className="normal-line-button submit-button w-button" type="submit">
             Submit a request
           </button>
         </form>

@@ -4,14 +4,12 @@ import { MemberInfo } from "./member-info";
 import SignDialog from "@/components/sign-dialog";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
-import { UserInfoAtom, UuidAtom } from "@/lib/state";
-// import { useLang } from "@/lib/use-lang";
+import { UuidAtom } from "@/lib/state";
 
 export default function Club() {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
-  useAtomValue(UserInfoAtom);
-  // const { isEn } = useLang();
+  console.log(`Club uuid:${uuid}`);
 
   const [dialogOpen, setOpen] = useState(false);
 
