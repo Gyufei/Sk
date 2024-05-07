@@ -13,8 +13,8 @@ const nextConfig = {
 
     // if (!isServer) {
     //   config.optimization.minimize = true;
-    //   // config.optimization.minimizer[0].options.minify = true;
-    //   // config.optimization.minimizer[0].options.minify = true;
+    //   config.optimization.minimizer[0].options.minify = true;
+    //   config.optimization.minimizer[0].options.minify = true;
 
     //   config.plugins.push(
     //     new WebpackObfuscator({
@@ -34,6 +34,10 @@ const nextConfig = {
 
     return config;
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  compress: process.env.NODE_ENV === "production",
   experimental: {
     optimizePackageImports: ["@dynamic-labs/sdk-react-core"],
   },
