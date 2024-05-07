@@ -2,15 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
 
 export default function ContentFooter() {
-  const pathname = usePathname();
   const [emailText, setEmailText] = useState("");
-
-  if (pathname === "/club") {
-    return null;
-  }
 
   function handleValChange(v: string) {
     const newV = v.replace(/(^\s*)|(\s*$)/g, "");

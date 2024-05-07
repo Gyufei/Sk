@@ -66,8 +66,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div data-id="" className="w-layout-grid right-grid-block">
-            <div className="top-content">{children}</div>
-            <ContentFooter />
+            {children}
           </div>
         </div>
         <div id="gif-animation" className="gif-animation"></div>

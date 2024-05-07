@@ -55,52 +55,58 @@ export default function Tools() {
   }
 
   return (
-    <div className="content-inner-box active">
-      <div className="div-block-7">
-        <p className="paragraph-009">Tools</p>
-      </div>
-      <div className="text-block-para">====================</div>
-      <div className="panel-para-text">
-        <div className="html-embed-4 w-embed">
-          <form className="update-form" action="">
-            <textarea
-              id="txtDataUrl"
-              value={dataUrl}
-              className="text-field w-input"
-              placeholder="https://"
-              onChange={(e: any) => {
-                handleDataChange(e.target.value);
-                adjustHeight(e.target);
-              }}
-              style={{ fontSize: "1em", minHeight: "4.2em", fontWeight: "400" }}
-            ></textarea>
-            <button
-              className="submit-button w-button"
-              type="button"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </form>
-          <p className="my-4 text-xl">{statusText}</p>
+    <div className="top-content active">
+      <div className="content-inner-box">
+        <div className="div-block-7">
+          <p className="paragraph-009">Tools</p>
         </div>
+        <div className="text-block-para">====================</div>
+        <div className="panel-para-text">
+          <div className="html-embed-4 w-embed">
+            <form className="update-form" action="">
+              <textarea
+                id="txtDataUrl"
+                value={dataUrl}
+                className="text-field w-input"
+                placeholder="https://"
+                onChange={(e: any) => {
+                  handleDataChange(e.target.value);
+                  adjustHeight(e.target);
+                }}
+                style={{
+                  fontSize: "1em",
+                  minHeight: "4.2em",
+                  fontWeight: "400",
+                }}
+              ></textarea>
+              <button
+                className="submit-button w-button"
+                type="button"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </form>
+            <p className="my-4 text-xl">{statusText}</p>
+          </div>
+        </div>
+        <Image
+          src="./ellipse_ico.svg"
+          loading="lazy"
+          width={8}
+          height={8}
+          alt=""
+          className="point-1"
+        />
+        <Image
+          src="./ellipse_ico.svg"
+          loading="lazy"
+          width={8}
+          height={8}
+          alt=""
+          className="point-2"
+        />
       </div>
-      <Image
-        src="./ellipse_ico.svg"
-        loading="lazy"
-        width={8}
-        height={8}
-        alt=""
-        className="point-1"
-      />
-      <Image
-        src="./ellipse_ico.svg"
-        loading="lazy"
-        width={8}
-        height={8}
-        alt=""
-        className="point-2"
-      />
     </div>
   );
 }
