@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
-import { useAtom } from "jotai/react";
+import { useAtom, useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
@@ -34,23 +34,31 @@ export default function SignDialog({
   }, [isDisconnected, address, uuid]);
 
   useEffect(() => {
+    console.log(`uuid:${uuid}`);
+
     setTimeout(() => {
+      console.log("useEffect2");
       switchChainAndSign();
     }, 500);
   }, [address, uuid]);
 
-  async function switchChainAndSign() {
-    let localUU: string | null = null;
-    localUU = localStorage.getItem("uuid");
-    if (!localUU) {
-      console.error("Get uuid from localStorage failed");
-      localStorage.removeItem("uuid");
-      setUuid("");
-      return;
-    }
+  const UUID = useAtomValue(UuidAtom);
 
-    if (address && isConnected && !localUU) {
+  async function switchChainAndSign() {
+    console.log(`UUID: ${UUID}`);
+
+    // let localUU: string | null = null;
+    // localUU = localStorage.getItem("uuid");
+    // if (!localUU) {
+    //   console.error("Get uuid from localStorage failed");
+    //   localStorage.removeItem("uuid");
+    //   setUuid("");
+    // }
+    //
+    if (address && isConnected && !UUID) {
+      // console.log("3Ag");
       if (chainId !== 10) {
+        // console.log("chain10");
         switchChain(
           {
             chainId: 10,
@@ -65,6 +73,7 @@ export default function SignDialog({
           },
         );
       } else {
+        console.log("signMsg");
         signMsg();
       }
     }
@@ -133,6 +142,7 @@ export default function SignDialog({
       }
       const uuid = res.uuid;
       setUuid(uuid);
+      console.log(`setUuid`);
       setSigning(false);
       setDialogOpen(false);
     } catch (e) {

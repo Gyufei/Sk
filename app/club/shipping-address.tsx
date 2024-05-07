@@ -161,7 +161,7 @@ export function ShippingAddress() {
         <div
           onClick={handleSave}
           data-disabled={disabled}
-          className="flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px]   text-[rgba(255,255,255,0.6)] hover:border-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,0.8)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          className="flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] px-[100px] text-base text-[rgba(255,255,255,0.6)] hover:border-[rgba(255,255,255,0.8)] hover:text-[rgba(255,255,255,0.8)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
           {isEn ? "Save" : "保存"}
         </div>

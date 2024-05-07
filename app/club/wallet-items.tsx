@@ -72,7 +72,7 @@ export function WalletItem({
       signSolanaMsg();
       setSolHasShow(true);
     }
-  }, [name, isSign, solanaAddress, solHasShow]);
+  }, [name, isSign, solanaAddress, signSolanaMsg, solHasShow]);
 
   // sui
   const suiAccount = useCurrentAccount();

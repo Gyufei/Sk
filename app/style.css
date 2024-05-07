@@ -2301,6 +2301,7 @@ body {
 
 .top-content .content-inner-box {
   /* min-height: 100%; */
+  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
   align-self: stretch;
