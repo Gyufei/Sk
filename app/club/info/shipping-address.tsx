@@ -286,7 +286,7 @@ function NameAndPhone({
                 </div>
                 <Image
                   data-open={countryCodeOpen}
-                  src="./icons/arrow-down.svg"
+                  src="/icons/arrow-down.svg"
                   width={24}
                   height={24}
                   alt="down"
@@ -380,7 +380,7 @@ function Address({
               </div>
               <Image
                 data-open={countryPopOpen}
-                src="./icons/arrow-down.svg"
+                src="/icons/arrow-down.svg"
                 width={24}
                 height={24}
                 alt="down"
@@ -422,7 +422,7 @@ function Address({
               </div>
               <Image
                 data-open={stateOpen}
-                src="./icons/arrow-down.svg"
+                src="/icons/arrow-down.svg"
                 width={24}
                 height={24}
                 alt="down"
@@ -461,7 +461,7 @@ function Address({
               </div>
               <Image
                 data-open={cityOpen}
-                src="./icons/arrow-down.svg"
+                src="/icons/arrow-down.svg"
                 width={24}
                 height={24}
                 alt="down"

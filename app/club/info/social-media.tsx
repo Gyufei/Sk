@@ -74,7 +74,7 @@ function Twitter() {
     <div className="flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="./icons/x.svg" width={30} height={30} alt="" />
+          <Image src="/icons/x.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">X (Twitter)</div>
         </div>
         <InputWithClear
@@ -91,7 +91,7 @@ function Twitter() {
           onClick={handleSave}
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
       </div>
       {!isValid && (
@@ -156,7 +156,7 @@ function Email() {
     <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="./icons/email.svg" width={30} height={30} alt="" />
+          <Image src="/icons/email.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Email</div>
         </div>
         <InputWithClear
@@ -173,7 +173,7 @@ function Email() {
           onClick={handleSave}
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
       </div>
       {!isValid && (
@@ -237,7 +237,7 @@ function Discord() {
     <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="./icons/discord.svg" width={30} height={30} alt="" />
+          <Image src="/icons/discord.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Discord</div>
         </div>
         <InputWithClear
@@ -254,7 +254,7 @@ function Discord() {
           onClick={handleSave}
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
       </div>
       {!isValid && (
@@ -317,7 +317,7 @@ function Tg() {
     <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="./icons/tg.svg" width={30} height={30} alt="" />
+          <Image src="/icons/tg.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Telegram</div>
         </div>
         <InputWithClear
@@ -334,7 +334,7 @@ function Tg() {
           onClick={handleSave}
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
       </div>
       {!isValid && (
@@ -397,7 +397,7 @@ function Github() {
     <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="./icons/github.svg" width={30} height={30} alt="" />
+          <Image src="/icons/github.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Github</div>
         </div>
         <InputWithClear
@@ -414,7 +414,7 @@ function Github() {
           onClick={handleSave}
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          <Image src="./icons/save.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
       </div>
       {!isValid && (

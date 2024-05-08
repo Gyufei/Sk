@@ -57,7 +57,7 @@ export function InputWithClear({
       />
       {isFocus && (
         <Image
-          src="./icons/close.svg"
+          src="/icons/close.svg"
           width={20}
           height={20}
           alt="sign"
@@ -74,7 +74,7 @@ export function InputWithClear({
       )}
       {isSign && !isFocus && (
         <Image
-          src="./icons/sign.svg"
+          src="/icons/sign.svg"
           width={20}
           height={20}
           alt="sign"

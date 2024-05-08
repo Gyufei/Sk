@@ -86,7 +86,7 @@ export default function RootLayout({
               `,
         }}
       ></Script>
-      <body className={`body ${manrope.className}`}>
+      <body className={`body ${manrope.className} !pointer-events-auto`}>
         <WcProvider>
           <HomeLayout>{children}</HomeLayout>
         </WcProvider>

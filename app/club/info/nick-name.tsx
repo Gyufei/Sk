@@ -88,7 +88,7 @@ export function NickName({ nickName }: { nickName: string }) {
           <Image
             onClick={() => setIsEditName(true)}
             className="ml-2 mt-4 cursor-pointer text-white"
-            src="./icons/edit.svg"
+            src="/icons/edit.svg"
             width={24}
             height={24}
             alt=""

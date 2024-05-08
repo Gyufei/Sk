@@ -1,27 +1,25 @@
 "use client";
-// import { useState } from "react";
 import { NickName } from "./nick-name";
 import { WalletArray } from "./wallet";
 import { SocialMedia } from "./social-media";
 import { ShippingAddress } from "./shipping-address";
-// import SignDialog from "@/components/sign-dialog";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
 import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
 
-export function MemberInfo() {
+import "@solana/wallet-adapter-react-ui/styles.css";
+import "@mysten/dapp-kit/dist/index.css";
+
+export default function MemberInfo() {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
 
-//   const [dialogOpen, setOpen] = useState(false);
-
   return (
     <>
       <div className="top-content active">
-        {/* <SignDialog dialogOpen={dialogOpen} setDialogOpen={setOpen} /> */}
         {!!(address && uuid) && (
           <div className="content-inner-box trans-scroll-bar h-[96vh] !justify-start overflow-y-scroll">
             <div className="flex justify-between">

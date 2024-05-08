@@ -5,11 +5,6 @@ import { UserInfoAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
 import { ChainInfos } from "@/lib/const";
 import { WalletItem } from "./wallet-items";
-import { SolanaWalletProviders } from "@/components/solana-provider";
-import { SuiProvider } from "@/components/sui-provider";
-
-import "@solana/wallet-adapter-react-ui/styles.css";
-import "@mysten/dapp-kit/dist/index.css";
 
 export interface IWallet {
   name: string;
@@ -100,37 +95,30 @@ export function WalletArray() {
         <Image
           onClick={addWallet}
           className="cursor-pointer"
-          src="./icons/add.svg"
+          src="/icons/add.svg"
           width={30}
           height={30}
           alt="add"
         />
       </div>
-
-      <SolanaWalletProviders>
-        <SuiProvider>
-          <div>
-            {wArr.map((item, index) => (
-              <WalletItem
-                key={index}
-                name={item.name}
-                address={item.address}
-                isSign={item.isSign}
-                setName={(value) => handleNameChange(index, value)}
-                setAddress={(value) => handleAddrChange(index, value)}
-                setIsSign={(value) => handleSignChange(index, value)}
-                isLastEvm={
-                  item.isSign && ChainInfos[item.name]?.isEVM && onlyEvm
-                }
-                walletOptions={walletOptions}
-                handleRemove={() => {
-                  removeWallet(index);
-                }}
-              />
-            ))}
-          </div>
-        </SuiProvider>
-      </SolanaWalletProviders>
+      <div>
+        {wArr.map((item, index) => (
+          <WalletItem
+            key={index}
+            name={item.name}
+            address={item.address}
+            isSign={item.isSign}
+            setName={(value) => handleNameChange(index, value)}
+            setAddress={(value) => handleAddrChange(index, value)}
+            setIsSign={(value) => handleSignChange(index, value)}
+            isLastEvm={item.isSign && ChainInfos[item.name]?.isEVM && onlyEvm}
+            walletOptions={walletOptions}
+            handleRemove={() => {
+              removeWallet(index);
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

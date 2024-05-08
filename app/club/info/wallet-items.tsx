@@ -176,6 +176,7 @@ export function WalletItem({
     );
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function signSolanaMsg() {
     console.log(solanaAddress);
     if (!solanaAddress) {
@@ -279,7 +280,7 @@ export function WalletItem({
             </div>
             <Image
               data-open={popOpen}
-              src="./icons/arrow-down.svg"
+              src="/icons/arrow-down.svg"
               width={24}
               height={24}
               alt="down"
@@ -312,7 +313,7 @@ export function WalletItem({
         <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
         {isLastEvm && isSign && (
           <Image
-            src="./icons/sign.svg"
+            src="/icons/sign.svg"
             width={20}
             height={20}
             alt="sign"
@@ -327,9 +328,9 @@ export function WalletItem({
           className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
         >
           {isSign ? (
-            <Image src="./icons/unlink.svg" width={24} height={24} alt="save" />
+            <Image src="/icons/unlink.svg" width={24} height={24} alt="save" />
           ) : (
-            <Image src="./icons/link.svg" width={24} height={24} alt="save" />
+            <Image src="/icons/link.svg" width={24} height={24} alt="save" />
           )}
         </div>
       )}
