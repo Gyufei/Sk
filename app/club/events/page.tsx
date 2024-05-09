@@ -68,7 +68,7 @@ export default function EventsPage() {
     if (currentToken?.chainInfo?.name === "Solana") {
       return solanaAddress;
     }
-  }, [currentToken, ethAddress, publicKey]);
+  }, [currentToken, ethAddress, solanaAddress]);
 
   const { data: claimData } = useClaimData(accountAddress);
   const { claimAction: claimEthAction, isPending: isEthPending } =
@@ -113,7 +113,6 @@ export default function EventsPage() {
     const claimChainId = currentToken.chainInfo.chainId;
 
     if (String(chainId) !== String(claimChainId)) {
-      console.log("switch chain");
       switchChain(
         {
           chainId: claimChainId!,

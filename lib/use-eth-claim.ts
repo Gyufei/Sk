@@ -4,7 +4,7 @@ import { ChainWorkBenchABI } from "./abi/eth/ChainWorkBench";
 const ContractAddress = '0x3A3dd3b87EC17475762Ba8c23ff93a2F53B37b6e';
 
 export function useEthClaim() {
-  const { writeContract, data, isPending, isError, isSuccess } = useWriteContract()
+  const { writeContract, data, isPending, isError, isSuccess, error } = useWriteContract()
 
   function claimAction (amount: number, proofs: string[]) {
     writeContract({
@@ -13,6 +13,10 @@ export function useEthClaim() {
       functionName: 'claim',
       args: [amount, proofs],
     })
+  }
+
+  if (error) {
+    console.log(error);
   }
 
   return {
