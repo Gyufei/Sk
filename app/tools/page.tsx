@@ -15,11 +15,10 @@ export default function Tools() {
   const { submitDataUrl } = useSubmitDataUrl();
 
   async function handleSubmit() {
-    console.log("handle");
-    setStatusText("");
+    setStatusText("Sending...");
 
     const regex =
-      /^https:\/\/(twitter|x).com\/(?<twitter_id>[a-zA-Z0-9_-]{2,15})\/status\/(?<tweet_id>\d{10,20})$/g;
+      /^https:\/\/(twitter|x).com\/(?<twitter_id>[a-zA-Z0-9_-]{2,15})\/status\/(?<tweet_id>\d{10,20})/g;
 
     if (!regex.test(dataUrl)) return;
     regex.lastIndex = 0;
