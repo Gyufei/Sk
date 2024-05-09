@@ -24,15 +24,13 @@ export default function Tools() {
     regex.lastIndex = 0;
     const regResult = regex.exec(dataUrl);
 
-    if (!regResult) return;
-
-    const groups = regResult.groups || {};
+    if (!regResult || !regResult.groups) return;
 
     const res: any = await submitDataUrl({
-      twitter_id: groups.twitter_id,
-      tweet_id: groups.tweet_id,
+      twitter_id: regResult.groups.twitter_id,
+      tweet_id: regResult.groups.tweet_id,
     });
-    setStatusText(`Status: ${res.status} Msg: ${res.msg}`);
+    setStatusText(JSON.stringify(res));
     if (res.status == true) {
       setDataUrl("");
     }
