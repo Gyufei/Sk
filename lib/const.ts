@@ -67,4 +67,10 @@ export const ChainInfos: Record<
     isEVM: false,
     chainId: 2,
   },
+  Linea: {
+    name: "Linea",
+    logo: "/images/network-icons/linea.svg",
+    isEVM: true,
+    chainId: 59144,
+  }
 };

@@ -2,43 +2,101 @@
 
 import Image from "next/image";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
+import { useEventsData } from "@/lib/use-events-data";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useClaimData } from "@/lib/use-claim-data";
+import { useSolClaim } from "@/lib/use-sol-claim";
 
 interface IClaimToken {
   name: string;
   logo: string;
   chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
-  amount: number;
+  tokenDecimal: number;
 }
 
-const ClaimTokens: IClaimToken[] = [
-  {
-    name: "FOXY",
-    logo: "/images/coin/fox.png",
-    chainInfo: ChainInfos["Ethereum"],
-    amount: 3000200000,
-  },
-  {
-    name: "pepe",
-    logo: "/images/coin/pepe.png",
-    chainInfo: ChainInfos["Ethereum"],
-    amount: 0,
-  },
-];
-
 export default function EventsPage() {
+  const { data: eventsData } = useEventsData();
+
+  // eth
+  const chainId = useChainId();
+  const { address: ethAddress } = useAccount();
+  const { switchChain } = useSwitchChain();
+
+  // sol
   const { publicKey } = useWallet();
   const { setVisible: setSolanaModalVisible } = useWalletModal();
+  const solanaAddress = useMemo(
+    () => (publicKey ? publicKey.toBase58() : ""),
+    [publicKey],
+  );
 
-  const [currentToken, setCurrentToken] = useState(ClaimTokens[0]);
+  const claimTokens = useMemo(() => {
+    if (eventsData) {
+      const chainInfo = Object.values(ChainInfos).find(
+        (info) => String(info.chainId) === String(eventsData.chain_id),
+      );
+      return [
+        {
+          name: eventsData.token_name,
+          chainInfo: chainInfo || {
+            name: "Ethereum",
+            logo: "/images/network-icons/ethereum.svg",
+            isEVM: true,
+            chainId: 11155111,
+          },
+          logo: eventsData.token_url,
+          tokenDecimal: eventsData.token_decimal,
+        },
+      ];
+    } else {
+      return [];
+    }
+  }, [eventsData]);
 
-  const { claimAction, isPending } = useEthClaim();
+  const [currentToken, setCurrentToken] = useState(claimTokens[0]);
+
+  const accountAddress = useMemo(() => {
+    if (currentToken?.chainInfo?.isEVM) {
+      return ethAddress;
+    }
+
+    if (currentToken?.chainInfo?.name === "Solana") {
+      return solanaAddress;
+    }
+  }, [currentToken, ethAddress, publicKey]);
+
+  const { data: claimData } = useClaimData(accountAddress);
+  const { claimAction: claimEthAction, isPending: isEthPending } =
+    useEthClaim();
+  const { claimAction: claimSolanaAction, isPending: isSolPending } =
+    useSolClaim();
+
+  const isPending = useMemo(() => {
+    if (currentToken?.chainInfo?.isEVM) {
+      return isEthPending;
+    }
+
+    if (currentToken?.chainInfo?.name === "Solana") {
+      return isSolPending;
+    }
+  }, [currentToken, isEthPending, isSolPending]);
+
+  const claimAmount = useMemo(() => {
+    return claimData?.claim_amount;
+  }, [claimData]);
+
+  const showClaimAmount = useMemo(() => {
+    return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
+  }, [claimAmount, currentToken]);
 
   function handleClaim() {
+    if (!currentToken || !currentToken.chainInfo) return;
+
     if (currentToken.chainInfo.isEVM) {
       claimEvm();
       return;
@@ -49,20 +107,36 @@ export default function EventsPage() {
     }
   }
 
-  const solanaAddress = useMemo(
-    () => (publicKey ? publicKey.toBase58() : ""),
-    [publicKey],
-  );
-
   async function claimEvm() {
     if (isPending) return;
-    claimAction(currentToken.amount);
+
+    const claimChainId = currentToken.chainInfo.chainId;
+
+    if (String(chainId) !== String(claimChainId)) {
+      console.log("switch chain");
+      switchChain(
+        {
+          chainId: claimChainId!,
+        },
+        {
+          onError: (error: any) => {
+            console.error("switch chain error", error);
+          },
+          onSuccess: () => {
+            claimEthAction(claimAmount, claimData.proofs);
+          },
+        },
+      );
+    } else {
+      claimEthAction(claimAmount, claimData.proofs);
+    }
   }
 
   async function claimSolana() {
     if (!solanaAddress) {
       setSolanaModalVisible(true);
     } else {
+      claimSolanaAction(claimAmount, claimData.proofs, eventsData);
       return;
     }
   }
@@ -71,27 +145,30 @@ export default function EventsPage() {
     setCurrentToken(t);
   }
 
+  useEffect(() => {
+    if (claimTokens.length) {
+      setCurrentToken(claimTokens[0]);
+    }
+  }, [claimTokens]);
+
   return (
     <Dialog open={true} onOpenChange={() => {}}>
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className="flex w-[345px] flex-col rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-0 backdrop-blur-[7px] md:w-[469px]"
+        className="flex w-[345px] flex-col rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-0 outline-none backdrop-blur-[7px] md:w-[469px]"
       >
         <div className="relative flex w-full flex-col items-center p-[35px]">
           <div className="absolute -bottom-[80px] left-0 flex h-auto w-full flex-row justify-between md:-left-[80px] md:top-0 md:h-full md:w-auto md:flex-col">
             <CoinItem
-              onClick={() => handleClickToken(ClaimTokens[0])}
-              src={ClaimTokens[0].logo}
+              onClick={() => handleClickToken(claimTokens[0])}
+              src={claimTokens[0]?.logo}
             />
-            <CoinItem
-              onClick={() => handleClickToken(ClaimTokens[1])}
-              src={ClaimTokens[1].logo}
-            />
+            <CoinItem onClick={() => {}} src="" />
             <CoinItem onClick={() => {}} src="" />
             <CoinItem onClick={() => {}} src="" />
           </div>
-          {currentToken.amount ? (
+          {claimAmount ? (
             <>
               <div className="text-[28px] font-medium leading-9 text-white">
                 <span className="opacity-60">You&apos;re </span>
@@ -99,7 +176,7 @@ export default function EventsPage() {
               </div>
               <div className="mt-4 flex items-center gap-x-[10px]">
                 <div className="text-[36px] font-semibold leading-[54px] text-white">
-                  {currentToken.amount}
+                  {showClaimAmount}
                 </div>
                 <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
                   ${currentToken.name}
