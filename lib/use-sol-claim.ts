@@ -10,12 +10,14 @@ import {
 import BN from 'bn.js';
 import { useState } from "react";
 
-const ProgramAddress = '23WDf2virf2Ezw9fQs67Pv1DbpoidWFsCxKUyzqdspT3';
+const ProgramAddress = 'GDTrePtt7tmGZ5tzk8w6tYdDamY2TzYXozowWnRLsB3k';
 
 export function useSolClaim() {
   const [isPending, setIsPending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [data, setData] = useState<any>();
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<any>()
 
   const wallet = useAnchorWallet();
   const { connection } = useConnection();
@@ -51,67 +53,89 @@ export function useSolClaim() {
 
   const claimAction = async (amount: number, proofs: string[], eventsData: Record<string, any>) => {
     setIsPending(true);
-    const claim_version_buf = Buffer.alloc(8);
-    claim_version_buf.writeUint32LE(eventsData.claimVersion);
-    const claimConfig = PublicKey.findProgramAddressSync(
-        [
-            Buffer.from("claim_config"),
-            claim_version_buf,
-            authority!.toBuffer()
-        ],
-        chain_work_bench_program.programId
-    )[0];
+    try {
+      const claim_version_buf = Buffer.alloc(8);
+      claim_version_buf.writeUint32LE(eventsData.claimVersion);
 
-    const tokenMint = new PublicKey(eventsData.token_address);
+      const claimConfig = PublicKey.findProgramAddressSync(
+          [
+              Buffer.from("claim_config"),
+              claim_version_buf,
+              authority!.toBuffer()
+          ],
+          chain_work_bench_program.programId
+      )[0];
 
-    const poolTokenAuthority = PublicKey.findProgramAddressSync(
-        [
-            systemConfig.toBuffer()
-        ],
-        chain_work_bench_program.programId
-    )[0];
+      const tokenMint = new PublicKey(eventsData.token_address);
+      // const tokenMint = new PublicKey('BoXxLrd1FbYj4Dr22B5tNBSP92fiTmFhHEkRAhN2wDxZ');
 
-    const poolTokenAccount = await getAssociatedTokenAddress(
-        tokenMint,
-        poolTokenAuthority,
-        true
-    );
+      const poolTokenAuthority = PublicKey.findProgramAddressSync(
+          [
+              systemConfig.toBuffer()
+          ],
+          chain_work_bench_program.programId
+      )[0];
 
-    const userTokenAccount = await getAssociatedTokenAddress(
-        tokenMint,
-        authority!,
-        true
-    );
+      const poolTokenAccount = await getAssociatedTokenAddress(
+          tokenMint,
+          poolTokenAuthority,
+          true
+      );
 
-    const txHash = await chain_work_bench_program.methods.claim(
-        new BN(eventsData.claimVersion),
-        new BN(amount),
-        proofs
-    ).accounts({
-        authority,
-        recipient: authority,
-        claimConfig,
-        systemConfig,
-        poolTokenAuthority,
-        poolTokenAccount,
-        userTokenAccount,
-        tokenMint,
-        tokenProgram,
-        associatedTokenProgram,
-        systemProgram
-    }).signers([]).rpc();
+      const userTokenAccount = await getAssociatedTokenAddress(
+          tokenMint,
+          authority!,
+          true
+      );
 
-    setIsPending(false);
-    setIsSuccess(true);
-    setData(txHash);
+      const proofArg = proofs.map(
+          (proof) => new Uint8Array(Buffer.from(proof, 'hex'))
+      )
 
-    return txHash;
+      const txHash = await chain_work_bench_program.methods.claim(
+          new BN(eventsData.claimVersion),
+          // new BN(1000000000000),
+          new BN(amount),
+          proofArg
+          // [
+          //   '0x96201e95870d8a3471b4cdbd182ac5baa63ad44bf61cf345f6d7d8ec059fb00a'
+          // ].map(
+          //     (proof) => 
+          //       // Buffer.from(proof.slice(2), 'hex')
+          //       new Uint8Array(Buffer.from(proof.slice(2), 'hex'))
+          // )
+      ).accounts({
+          authority,
+          recipient: authority,
+          claimConfig,
+          systemConfig,
+          poolTokenAuthority,
+          poolTokenAccount,
+          userTokenAccount,
+          tokenMint,
+          tokenProgram,
+          associatedTokenProgram,
+          systemProgram
+      }).signers([]).rpc();
+
+      setIsPending(false);
+      setIsSuccess(true);
+      setData(txHash);
+
+      return txHash;
+    } catch(e) {
+      setIsError(true)
+      setError(e)
+      return error
+    }
   };
 
 
   return {
     isPending,
     isSuccess,
+    isError,
+    error,
     data,
     claimAction
   };

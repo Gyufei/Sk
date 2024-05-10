@@ -99,6 +99,7 @@ export default function EventsPage() {
 
     if (currentToken.chainInfo.isEVM) {
       claimEvm();
+      // claimSolana();
       return;
     }
 

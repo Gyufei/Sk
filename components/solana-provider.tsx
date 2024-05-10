@@ -17,8 +17,9 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
   const rpc =
-    "https://solana-api.solana.fm/" ||
-    clusterApiUrl(WalletAdapterNetwork.Mainnet);
+    // "https://solana-api.solana.fm/" ||
+    // clusterApiUrl(WalletAdapterNetwork.Mainnet);
+    clusterApiUrl(WalletAdapterNetwork.Devnet);
 
   const wallets = [
     ...(typeof window === "undefined" ? [] : [new SolflareWalletAdapter()]),
