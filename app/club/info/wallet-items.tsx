@@ -10,7 +10,12 @@ import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import { ApiHost } from "@/lib/path";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
-import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
+import {
+  useAccount,
+  useChainId,
+  useSignMessage,
+  useSwitchNetwork,
+} from "wagmi";
 import { ChainInfos } from "@/lib/const";
 import { useWalletVerify } from "@/lib/use-wallet-verify";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -44,10 +49,10 @@ export function WalletItem({
   walletOptions: any[];
   handleRemove: () => void;
 }) {
-  const { signMessage } = useSignMessage();
+  const { signMessageAsync: signMessage } = useSignMessage();
   const { address: walletAddress } = useAccount();
   const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
+  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
 
   const uuid = useAtomValue(UuidAtom);
   const [popOpen, setPopOpen] = useState(false);
@@ -128,19 +133,13 @@ export function WalletItem({
     const chainInfo = ChainInfos[name];
     if (String(chainId) !== String(chainInfo.chainId)) {
       console.log("switch chain");
-      switchChain(
-        {
-          chainId: chainInfo.chainId!,
-        },
-        {
-          onError: (error: any) => {
-            console.error("switch chain error", error);
-          },
-          onSuccess: () => {
-            signMsg();
-          },
-        },
-      );
+      switchChain!(chainInfo.chainId!)
+        .then(() => {
+          signMsg();
+        })
+        .catch((e) => {
+          console.error("switch chain error", e);
+        });
     } else {
       signMsg();
     }
@@ -150,30 +149,25 @@ export function WalletItem({
     console.log(walletAddress);
     const { salt, msg } = genSignMsg();
 
-    signMessage(
-      {
+    try {
+      const data = await signMessage({
         message: msg,
-      },
-      {
-        onSettled: () => {},
-        onError: (error: any) => {
-          console.log("error", error);
-        },
-        onSuccess: async (data) => {
-          const res = await walletVerify({
-            chain_name: name,
-            addr: walletAddress!,
-            signature: data,
-            salt,
-          });
+      });
 
-          if (res?.status) {
-            setAddress(walletAddress!);
-            setIsSign(true);
-          }
-        },
-      },
-    );
+      const res = await walletVerify({
+        chain_name: name,
+        addr: walletAddress!,
+        signature: data,
+        salt,
+      });
+
+      if (res?.status) {
+        setAddress(walletAddress!);
+        setIsSign(true);
+      }
+    } catch (e) {
+      console.error("error", e);
+    }
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

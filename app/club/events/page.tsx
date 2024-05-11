@@ -8,7 +8,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useEventsData } from "@/lib/use-events-data";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
 import { useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
 
@@ -25,7 +25,7 @@ export default function EventsPage() {
   // eth
   const chainId = useChainId();
   const { address: ethAddress } = useAccount();
-  const { switchChain } = useSwitchChain();
+  const { switchNetworkAsync: switchChain } = useSwitchNetwork()
 
   // sol
   const { publicKey } = useWallet();
@@ -114,19 +114,11 @@ export default function EventsPage() {
     const claimChainId = currentToken.chainInfo.chainId;
 
     if (String(chainId) !== String(claimChainId)) {
-      switchChain(
-        {
-          chainId: claimChainId!,
-        },
-        {
-          onError: (error: any) => {
-            console.error("switch chain error", error);
-          },
-          onSuccess: () => {
-            claimEthAction(claimAmount, claimData.proofs);
-          },
-        },
-      );
+      switchChain!(claimChainId!).then(() => {
+        claimEthAction(claimAmount, claimData.proofs);
+      }).catch((e) => {
+        console.error("switch chain error", e);
+      })
     } else {
       claimEthAction(claimAmount, claimData.proofs);
     }

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { manrope } from "./font";
 import Script from "next/script";
 import { HomeLayout } from "./home-layout";
-import { WcProvider } from "@/components/wc-provider";
+import { Web3Modal } from "@/components/web3-modal";
 
 export const metadata: Metadata = {
   title: {
@@ -87,9 +87,9 @@ export default function RootLayout({
         }}
       ></Script>
       <body className={`body ${manrope.className} !pointer-events-auto`}>
-        <WcProvider>
+        <Web3Modal>
           <HomeLayout>{children}</HomeLayout>
-        </WcProvider>
+        </Web3Modal>
       </body>
     </html>
   );

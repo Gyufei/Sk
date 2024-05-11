@@ -1,6 +1,11 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
-import { useAccount, useChainId, useSignMessage, useSwitchChain } from "wagmi";
+import {
+  useAccount,
+  useChainId,
+  useSignMessage,
+  useSwitchNetwork,
+} from "wagmi";
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
@@ -20,9 +25,9 @@ export default function SignDialog({
   const { address, isConnected, isDisconnected } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
   const { open: isWcModalOpen } = useWeb3ModalState();
-  const { signMessage } = useSignMessage();
+  const { signMessageAsync: signMessage } = useSignMessage();
   const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
+  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
 
   const [signing, setSigning] = useState(false);
 
@@ -42,19 +47,13 @@ export default function SignDialog({
 
     if (address && isConnected && !uuid) {
       if (chainId !== 10) {
-        switchChain(
-          {
-            chainId: 10,
-          },
-          {
-            onError: (e) => {
-              console.log("Change chain error", e);
-            },
-            onSuccess: () => {
-              signMsg();
-            },
-          },
-        );
+        switchChain!(10)
+          .then(() => {
+            signMsg();
+          })
+          .catch((e) => {
+            console.log("Change chain error", e);
+          });
       } else {
         console.log("signMsg");
         await signMsg();
@@ -66,27 +65,21 @@ export default function SignDialog({
     setSigning(true);
     const { salt, msg } = genSignMsg();
 
-    signMessage(
-      {
+    try {
+      const signature = await signMessage({
         message: msg,
-      },
-      {
-        onSettled: () => {
-          setSigning(false);
-        },
-        onError: (error) => {
-          console.error("error", error);
-          setSigning(false);
-        },
-        onSuccess: (signature) => {
-          postSignData(signature, salt);
-        },
-      },
-    );
+      });
+
+      postSignData(signature, salt);
+    } catch (e) {
+      console.error("error", e);
+      setSigning(false);
+    }
   }
 
   async function postSignData(signature: string, salt: string) {
     try {
+      console.log(chainId, "chainId");
       const currentChainInfo = Object.values(ChainInfos).find(
         (c) => c.chainId === chainId,
       );
@@ -154,9 +147,7 @@ export default function SignDialog({
       >
         <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
         {signing ? (
-          <div
-            className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6"
-          >
+          <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
             Signing...
           </div>
         ) : (
