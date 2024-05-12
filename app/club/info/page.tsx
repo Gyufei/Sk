@@ -10,12 +10,22 @@ import { useLang } from "@/lib/use-lang";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "@mysten/dapp-kit/dist/index.css";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function MemberInfo() {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!uuid) {
+      router.push("/club/");
+      return;
+    }
+  }, [uuid]);
 
   return (
     <>
