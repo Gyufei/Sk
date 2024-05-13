@@ -1,11 +1,11 @@
 {
   "linea": {
-    "work-bench": "0x11111111111"
+    "work-bench": ""
   },
   "ethereum": {
-    "work-bench": "0x11111111111"
+    "work-bench": ""
   },
   "solana": {
-    "work-bench": "xxxx1i1jdo1kdas"
+    "work-bench": ""
   }
 }
