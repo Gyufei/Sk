@@ -9,7 +9,7 @@ export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_ver
 
   const leaf = eventsData && amount ? keccak256(encodeAbiParameters(
     parseAbiParameters('address x, address y, uint256 z, uint256 k'),
-    [address!, '0xd2bB751e65fD6DBb224872ED7Df807f29b0F98aa', amount as any, eventsData?.claim_version])) : ''
+    [address!, eventsData?.token_address, amount as any, eventsData?.claim_version])) : ''
 
   const res = useContractRead({
     address: ContractAddress as `0x${string}`,
