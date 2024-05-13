@@ -8,7 +8,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useEventsData } from "@/lib/use-events-data";
-import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
+import { useChainId, useSwitchNetwork } from "wagmi";
 import { useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
 
@@ -24,8 +24,7 @@ export default function EventsPage() {
 
   // eth
   const chainId = useChainId();
-  const { address: ethAddress } = useAccount();
-  const { switchNetworkAsync: switchChain } = useSwitchNetwork()
+  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
 
   // sol
   const { publicKey } = useWallet();
@@ -37,9 +36,18 @@ export default function EventsPage() {
 
   const claimTokens = useMemo(() => {
     if (eventsData) {
-      const chainInfo = Object.values(ChainInfos).find(
-        (info) => String(info.chainId) === String(eventsData.chain_id),
-      );
+      const chainInfo = Object.values(ChainInfos).find((info) => {
+        if (
+          (String(eventsData.chain_id) === "901" ||
+            String(eventsData.chain_id) === "902") &&
+          info.name === "Solana"
+        ) {
+          return info;
+        }
+
+        return String(info.chainId) === String(eventsData.chain_id);
+      });
+
       return [
         {
           name: eventsData.token_name,
@@ -60,17 +68,7 @@ export default function EventsPage() {
 
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
-  const accountAddress = useMemo(() => {
-    if (currentToken?.chainInfo?.isEVM) {
-      return ethAddress;
-    }
-
-    if (currentToken?.chainInfo?.name === "Solana") {
-      return solanaAddress;
-    }
-  }, [currentToken, ethAddress, solanaAddress]);
-
-  const { data: claimData } = useClaimData(accountAddress);
+  const { data: claimData } = useClaimData();
   const { claimAction: claimEthAction, isPending: isEthPending } =
     useEthClaim();
   const { claimAction: claimSolanaAction, isPending: isSolPending } =
@@ -99,7 +97,6 @@ export default function EventsPage() {
 
     if (currentToken.chainInfo.isEVM) {
       claimEvm();
-      // claimSolana();
       return;
     }
 
@@ -114,11 +111,13 @@ export default function EventsPage() {
     const claimChainId = currentToken.chainInfo.chainId;
 
     if (String(chainId) !== String(claimChainId)) {
-      switchChain!(claimChainId!).then(() => {
-        claimEthAction(claimAmount, claimData.proofs);
-      }).catch((e) => {
-        console.error("switch chain error", e);
-      })
+      switchChain!(claimChainId!)
+        .then(() => {
+          claimEthAction(claimAmount, claimData.proofs);
+        })
+        .catch((e) => {
+          console.error("switch chain error", e);
+        });
     } else {
       claimEthAction(claimAmount, claimData.proofs);
     }

@@ -239,7 +239,6 @@ export function WalletItem({
       }),
     });
 
-    console.log(res);
     if (res.status) {
       handleRemove();
     }

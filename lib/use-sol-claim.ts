@@ -55,7 +55,7 @@ export function useSolClaim() {
     setIsPending(true);
     try {
       const claim_version_buf = Buffer.alloc(8);
-      claim_version_buf.writeUint32LE(eventsData.claimVersion);
+      claim_version_buf.writeUint32LE(eventsData.claim_version);
 
       const claimConfig = PublicKey.findProgramAddressSync(
           [
@@ -89,21 +89,16 @@ export function useSolClaim() {
       );
 
       const proofArg = proofs.map(
-          (proof) => new Uint8Array(Buffer.from(proof, 'hex'))
-      )
+        (p) => {
+          const bu = Buffer.from(p.slice(2), 'hex')
+          return Array.from(bu);
+        }
+      );
 
       const txHash = await chain_work_bench_program.methods.claim(
           new BN(eventsData.claimVersion),
-          // new BN(1000000000000),
           new BN(amount),
           proofArg
-          // [
-          //   '0x96201e95870d8a3471b4cdbd182ac5baa63ad44bf61cf345f6d7d8ec059fb00a'
-          // ].map(
-          //     (proof) => 
-          //       // Buffer.from(proof.slice(2), 'hex')
-          //       new Uint8Array(Buffer.from(proof.slice(2), 'hex'))
-          // )
       ).accounts({
           authority,
           recipient: authority,
@@ -126,6 +121,7 @@ export function useSolClaim() {
     } catch(e) {
       setIsError(true)
       setError(e)
+      console.error('solana claim, error', e)
       return error
     }
   };
