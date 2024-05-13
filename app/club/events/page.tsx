@@ -11,6 +11,8 @@ import { useEventsData } from "@/lib/use-events-data";
 import { useChainId, useSwitchNetwork } from "wagmi";
 import { useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
+import { useSolClaimed } from "@/lib/use-sol-claimed";
+import { useEthClaimed } from "@/lib/use-eth-claimed";
 
 interface IClaimToken {
   name: string;
@@ -69,8 +71,11 @@ export default function EventsPage() {
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
   const { data: claimData } = useClaimData();
-  const { claimAction: claimEthAction, isPending: isEthPending } =
-    useEthClaim();
+  const {
+    claimAction: claimEthAction,
+    isPending: isEthPending,
+    isSuccess: isEthSuccess,
+  } = useEthClaim();
   const { claimAction: claimSolanaAction, isPending: isSolPending } =
     useSolClaim();
 
@@ -92,7 +97,28 @@ export default function EventsPage() {
     return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
   }, [claimAmount, currentToken]);
 
+  const { data: solState, mutate: refreshSolClaim } = useSolClaimed(
+    currentToken?.chainInfo?.name === "Solana",
+    eventsData,
+  );
+  const { data: ethState, refetch: refreshEthClaim } = useEthClaimed(
+    !!currentToken?.chainInfo?.isEVM,
+    eventsData,
+    claimAmount,
+  );
+
+  const isClaimed = useMemo(() => {
+    if (currentToken?.chainInfo?.isEVM) {
+      return ethState?.claimed;
+    }
+
+    if (currentToken?.chainInfo?.name === "Solana") {
+      return solState?.claimed;
+    }
+  }, [solState]);
+
   function handleClaim() {
+    if (isClaimed) return;
     if (!currentToken || !currentToken.chainInfo) return;
 
     if (currentToken.chainInfo.isEVM) {
@@ -111,23 +137,35 @@ export default function EventsPage() {
     const claimChainId = currentToken.chainInfo.chainId;
 
     if (String(chainId) !== String(claimChainId)) {
-      switchChain!(claimChainId!)
-        .then(() => {
-          claimEthAction(claimAmount, claimData.proofs);
-        })
-        .catch((e) => {
-          console.error("switch chain error", e);
-        });
+      try {
+        await switchChain!(claimChainId!);
+        claimEthAction(claimAmount, claimData.proofs);
+      } catch (e) {
+        console.error("switch chain error", e);
+      }
     } else {
       claimEthAction(claimAmount, claimData.proofs);
     }
   }
 
+  useEffect(() => {
+    if (isEthSuccess) {
+      refreshEthClaim();
+    }
+  }, [isEthSuccess, refreshEthClaim]);
+
   async function claimSolana() {
     if (!solanaAddress) {
       setSolanaModalVisible(true);
     } else {
-      claimSolanaAction(claimAmount, claimData.proofs, eventsData);
+      const res = await claimSolanaAction(
+        claimAmount,
+        claimData.proofs,
+        eventsData,
+      );
+      if (res) {
+        refreshSolClaim();
+      }
       return;
     }
   }
@@ -185,11 +223,12 @@ export default function EventsPage() {
                 <div>{currentToken.chainInfo.name}</div>
               </div>
               <div
+                data-not={isClaimed || isPending}
                 onClick={handleClaim}
-                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70"
+                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
               >
                 <div className="text-base leading-6 text-white">
-                  {isPending ? "Claiming" : "Claim"}
+                  {isClaimed ? "Claimed" : isPending ? "Claiming" : "Claim"}
                 </div>
               </div>
             </>

@@ -1,16 +1,14 @@
 import * as anchor from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
-import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { ChainWorkBenchABI } from "@/lib/abi/sol/ChainWorkBench";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
   getAssociatedTokenAddress,
 } from "@solana/spl-token";
 import BN from 'bn.js';
+import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
-
-const ProgramAddress = 'GDTrePtt7tmGZ5tzk8w6tYdDamY2TzYXozowWnRLsB3k';
 
 export function useSolClaim() {
   const [isPending, setIsPending] = useState(false);
@@ -19,25 +17,9 @@ export function useSolClaim() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<any>()
 
-  const wallet = useAnchorWallet();
-  const { connection } = useConnection();
-  const provider = new anchor.AnchorProvider(
-    connection,
-    wallet!,
-    anchor.AnchorProvider.defaultOptions(),
-  );
-  anchor.setProvider(provider);
-
   const { publicKey: authority } = useWallet();
 
-  const programId = new PublicKey(
-    ProgramAddress
-  );
-  const chain_work_bench_program = new anchor.Program(
-    ChainWorkBenchABI as any,
-    programId,
-    provider,
-  );
+  const chain_work_bench_program = useSolProgram();
 
   const systemProgram = anchor.web3.SystemProgram.programId;
   const tokenProgram = TOKEN_PROGRAM_ID;
@@ -50,8 +32,7 @@ export function useSolClaim() {
       chain_work_bench_program.programId
   )[0];
 
-
-  const claimAction = async (amount: number, proofs: string[], eventsData: Record<string, any>) => {
+  const claimAction = async (amount: number, proofs: string[], eventsData: Record<'claim_version' | 'token_address', any>) => {
     setIsPending(true);
     try {
       const claim_version_buf = Buffer.alloc(8);
@@ -67,7 +48,6 @@ export function useSolClaim() {
       )[0];
 
       const tokenMint = new PublicKey(eventsData.token_address);
-      // const tokenMint = new PublicKey('BoXxLrd1FbYj4Dr22B5tNBSP92fiTmFhHEkRAhN2wDxZ');
 
       const poolTokenAuthority = PublicKey.findProgramAddressSync(
           [
@@ -96,7 +76,7 @@ export function useSolClaim() {
       );
 
       const txHash = await chain_work_bench_program.methods.claim(
-          new BN(eventsData.claimVersion),
+          new BN(eventsData.claim_version),
           new BN(amount),
           proofArg
       ).accounts({

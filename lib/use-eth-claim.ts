@@ -1,11 +1,12 @@
 import { useContractWrite } from "wagmi";
-import { ChainWorkBenchABI } from "./abi/eth/ChainWorkBench";
-
-const ContractAddress = '0x3A3dd3b87EC17475762Ba8c23ff93a2F53B37b6e';
+import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
+import { useContractAddress } from "./contract/use-contract-address";
 
 export function useEthClaim() {
+  const ContractAddress = useContractAddress("ethereum");
+
   const { write, data, isLoading, isError, isSuccess, error } = useContractWrite({
-    address: ContractAddress,
+    address: ContractAddress as `0x${string}`,
     abi: ChainWorkBenchABI.abi,
     functionName: 'claim',
   })
