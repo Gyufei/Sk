@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   useAccount,
   useChainId,
+  useDisconnect,
   useSignMessage,
   useSwitchNetwork,
 } from "wagmi";
@@ -28,6 +29,7 @@ export default function SignDialog({
   const { signMessageAsync: signMessage } = useSignMessage();
   const chainId = useChainId();
   const { switchNetworkAsync: switchChain } = useSwitchNetwork();
+  const { disconnect } = useDisconnect();
 
   const [signing, setSigning] = useState(false);
 
@@ -36,8 +38,9 @@ export default function SignDialog({
     if (isDisconnected && !address) {
       setUuid("");
       setDialogOpen(true);
+    } else {
+      switchChainAndSign();
     }
-    switchChainAndSign();
   }, [isDisconnected, address]);
 
   async function switchChainAndSign() {
@@ -70,10 +73,17 @@ export default function SignDialog({
         message: msg,
       });
 
+      setTimeout(() => {
+        if (!signature) {
+          throw new Error("sign error");
+        }
+      }, 5000);
+
       postSignData(signature, salt);
     } catch (e) {
       console.error("error", e);
       setSigning(false);
+      disconnect();
     }
   }
 
