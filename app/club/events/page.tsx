@@ -16,6 +16,7 @@ import { useEthClaimed } from "@/lib/use-eth-claimed";
 
 interface IClaimToken {
   name: string;
+  symbol: string;
   logo: string;
   chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
   tokenDecimal: number;
@@ -52,7 +53,8 @@ export default function EventsPage() {
 
       return [
         {
-          name: eventsData.token_name,
+          name: eventsData.name,
+          symbol: eventsData.token_symbol,
           chainInfo: chainInfo || {
             name: "Ethereum",
             logo: "/images/network-icons/ethereum.svg",
@@ -210,7 +212,7 @@ export default function EventsPage() {
                   {showClaimAmount}
                 </div>
                 <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
-                  ${currentToken.name}
+                  ${currentToken.symbol}
                 </div>
               </div>
               <div className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60">
