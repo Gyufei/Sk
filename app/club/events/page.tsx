@@ -53,7 +53,7 @@ export default function EventsPage() {
 
       return [
         {
-          name: eventsData.name,
+          name: eventsData.token_name,
           symbol: eventsData.token_symbol,
           chainInfo: chainInfo || {
             name: "Ethereum",
