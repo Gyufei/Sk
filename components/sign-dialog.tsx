@@ -33,15 +33,24 @@ export default function SignDialog({
 
   const [signing, setSigning] = useState(false);
 
+  const [isInit, setIsInit] = useState(false);
+
   useEffect(() => {
+    setIsInit(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isInit) return;
     console.log(`UE1 isDisconnected:${isDisconnected} address:${address}`);
     if (isDisconnected && !address) {
       setUuid("");
       setDialogOpen(true);
-    } else {
+    }
+
+    if (address) {
       switchChainAndSign();
     }
-  }, [isDisconnected, address]);
+  }, [isDisconnected, address, isInit]);
 
   async function switchChainAndSign() {
     console.log(

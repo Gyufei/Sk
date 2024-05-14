@@ -7,7 +7,7 @@ export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_ver
   const { address } = useAccount();
   const ContractAddress = useContractAddress("ethereum");
 
-  const leaf = eventsData && amount ? keccak256(encodeAbiParameters(
+  const leaf = eventsData && amount && isEthereum ? keccak256(encodeAbiParameters(
     parseAbiParameters('address x, address y, uint256 z, uint256 k'),
     [address!, eventsData?.token_address, amount as any, eventsData?.claim_version])) : ''
 
