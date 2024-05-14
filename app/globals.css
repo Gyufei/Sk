@@ -26,3 +26,8 @@
     border-radius: 10px;
   }
 }
+
+::placeholder {
+  color: #fff;
+  opacity: 0.4;
+}

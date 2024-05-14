@@ -9,14 +9,14 @@ import { UserInfoAtom } from "@/lib/state";
 export function SocialMedia() {
   const { isEn } = useLang();
   return (
-    <div className="mt-12">
+    <div className="mt-6 rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
       <div className="mb-7 text-xl leading-[30px] text-white">
         {isEn ? "Social Media" : "社交媒体"}
       </div>
-      <Twitter />
       <Email />
       <Discord />
       <Tg />
+      <Twitter />
       <Github />
     </div>
   );
@@ -27,6 +27,8 @@ function Twitter() {
   const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
+
+  const placeHolderText = "https://x.com/";
 
   useEffect(() => {
     if (userInfo?.social_media) {
@@ -52,8 +54,9 @@ function Twitter() {
 
   function checkRegex(x: string) {
     const regex = /^https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_-]{2,15}$/g;
+    const allValue = `${placeHolderText}${x}`;
 
-    return regex.test(x);
+    return regex.test(allValue);
   }
 
   const { saveSocial } = useSaveSocial();
@@ -66,21 +69,23 @@ function Twitter() {
 
   function handleSave() {
     if (disabled) return;
-    saveSocial({ name: "Twitter", data: x });
+    const allX = `${placeHolderText}${x}`;
+    saveSocial({ name: "Twitter", data: allX });
     setIsCheck(true);
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="mt-4 flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/x.svg" width={30} height={30} alt="" />
-          <div className="text-base leading-6 text-[#d6d6d6]">X (Twitter)</div>
+          <div className="text-base leading-6 text-[#fff]">X (Twitter)</div>
         </div>
         <InputWithClear
           isError={!isValid}
           value={x}
-          placeHolder="https://x.com/yourid"
+          placeHolderText={placeHolderText}
+          placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
           conClass="ml-4 flex-1"
@@ -153,7 +158,7 @@ function Email() {
   }
 
   return (
-    <div className="mt-4 flex flex-col">
+    <div className="flex flex-col">
       <div className="flex items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/email.svg" width={30} height={30} alt="" />
@@ -243,7 +248,7 @@ function Discord() {
         <InputWithClear
           isError={!isValid}
           value={discord}
-          placeHolder="@"
+          placeHolder="your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
@@ -267,6 +272,7 @@ function Discord() {
 }
 
 function Tg() {
+  const placeHolderText = "https://telegram.org/";
   const userInfo = useAtomValue(UserInfoAtom);
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
@@ -323,7 +329,8 @@ function Tg() {
         <InputWithClear
           isError={!isValid}
           value={tg}
-          placeHolder="@"
+          placeHolderText={placeHolderText}
+          placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"
@@ -347,6 +354,7 @@ function Tg() {
 }
 
 function Github() {
+  const placeHolderText = "https://github.com/";
   const userInfo = useAtomValue(UserInfoAtom);
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
@@ -358,7 +366,9 @@ function Github() {
 
   useEffect(() => {
     if (userInfo?.social_media) {
-      setGithub(userInfo?.social_media?.Github || "");
+      const g =
+        userInfo?.social_media?.Github.replace(placeHolderText, "") || "";
+      setGithub(g);
     }
   }, [userInfo]);
 
@@ -384,13 +394,15 @@ function Github() {
   function handleSave() {
     if (disabled) return;
 
-    saveSocial({ name: "Github", data: github });
+    const allValue = `${placeHolderText}${github}`;
+    saveSocial({ name: "Github", data: allValue });
   }
 
   function checkRegex(x: string) {
     const regex = /^https:\/\/github.com\/[a-zA-Z0-9_-]{1,40}$/g;
+    const allValue = `${placeHolderText}${x}`;
 
-    return regex.test(x);
+    return regex.test(allValue);
   }
 
   return (
@@ -403,7 +415,8 @@ function Github() {
         <InputWithClear
           isError={!isValid}
           value={github}
-          placeHolder="https://github.com/yourid"
+          placeHolderText="https://github.com/"
+          placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="ml-4 flex-1"

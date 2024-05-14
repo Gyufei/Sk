@@ -47,12 +47,14 @@ export function ShippingAddress() {
   const [streetValid, setStreetValid] = useState(true);
 
   const disabled = useMemo(() => {
+    if (saved) return true;
     if (!rcNameValid) return true;
     if (!streetValid) return true;
     if (!phoneValid) return true;
     if (!recipientName && !phoneNumber && !street && !code) return true;
     return false;
   }, [
+    saved,
     recipientName,
     streetValid,
     phoneValid,
@@ -126,14 +128,14 @@ export function ShippingAddress() {
       setSaved(true);
       setTimeout(() => {
         setSaved(false);
-      }, 5000);
+      }, 3000);
     }
 
     return res;
   }
 
   return (
-    <div className="mt-12">
+    <div className="mt-6 rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
       <div className="mb-7 text-xl leading-[30px] text-white">
         {isEn ? "Shipping Address" : "收货地址"}
       </div>
@@ -154,18 +156,15 @@ export function ShippingAddress() {
       <Address {...{ country, setCountry, state, setState, city, setCity }} />
       <StreetAndCode
         {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
-      />
-
-      <div className="mt-10 flex items-center justify-end">
-        {saved && <div className="mr-6">{isEn ? "Saved" : "已保存"}</div>}
+      >
         <div
-          onClick={handleSave}
           data-disabled={disabled}
-          className="normal-line-button flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+          onClick={handleSave}
+          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
         >
-          {isEn ? "Save" : "保存"}
+          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
         </div>
-      </div>
+      </StreetAndCode>
     </div>
   );
 }
@@ -496,6 +495,7 @@ function StreetAndCode({
   setCode,
   streetValid,
   setStreetValid,
+  children,
 }: {
   street: string;
   setStreet: (v: string) => void;
@@ -503,6 +503,7 @@ function StreetAndCode({
   setCode: (v: string) => void;
   streetValid: boolean;
   setStreetValid: (v: boolean) => void;
+  children: React.ReactNode;
 }) {
   const { isEn } = useLang();
 
@@ -564,6 +565,8 @@ function StreetAndCode({
           inputId="code"
         />
       </div>
+
+      {children}
     </div>
   );
 }

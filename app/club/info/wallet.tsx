@@ -87,7 +87,11 @@ export function WalletArray() {
   );
 
   return (
-    <div className="mt-10">
+    <div className="relative mt-6 rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
+      <div className="absolute -top-6 left-0 flex w-full items-center justify-between px-12">
+        <div className="h-6 w-[10px] bg-[rgba(255,255,255,0.1)] backdrop-blur"></div>
+        <div className="h-6 w-[10px] bg-[rgba(255,255,255,0.1)] backdrop-blur"></div>
+      </div>
       <div className="flex items-center space-x-[10px]">
         <div className="text-xl leading-[30px]">
           {isEn ? "Wallets" : "钱包"}

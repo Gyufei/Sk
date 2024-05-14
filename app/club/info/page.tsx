@@ -19,10 +19,10 @@ export default function MemberInfo() {
 
   return (
     <>
-      <div className="top-content active">
+      <div className="top-content active !rounded-none !bg-transparent !backdrop-blur-none">
         {!!(address && uuid) && (
-          <div className="content-inner-box trans-scroll-bar h-[96vh] !justify-start overflow-y-scroll">
-            <div className="flex justify-between">
+          <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-scroll !py-0 !pl-0 !pr-2">
+            <div className="flex justify-between rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
               <div className="flex items-center space-x-[75px]">
                 <div className="flex flex-col">
                   <div className="mb-1 text-xl leading-[30px] text-white">

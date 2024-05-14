@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 export function InputWithClear({
   value,
   placeHolder,
+  placeHolderText,
   onValueChange,
   isError = false,
   isSign = false,
@@ -17,6 +18,7 @@ export function InputWithClear({
 }: {
   value: string;
   placeHolder?: string;
+  placeHolderText?: string;
   onValueChange: (_v: string) => void;
   isError?: boolean;
   isSign: boolean;
@@ -41,15 +43,25 @@ export function InputWithClear({
   }
 
   return (
-    <div className={cn("relative ", conClass)}>
+    <div
+      data-error={isError}
+      className={cn(
+        "relative flex items-center border-b border-[rgba(255,255,255,0.2)] data-[error=true]:border-[#FF5A5A]",
+        conClass,
+      )}
+    >
+      {placeHolderText && (
+        <div className="mr-3 text-base font-medium leading-6 text-[#d6d6d6]">
+          {placeHolderText}
+        </div>
+      )}
       <Input
         id={inputId || ""}
-        data-error={isError}
         value={value}
         placeholder={placeHolder}
         onChange={(e: any) => onValueChange(e.target.value)}
         className={cn(
-          "h-12 rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[#d6d6d6] data-[error=true]:border-[#FF5A5A]",
+          "h-12 rounded-none border-none bg-transparent pl-0 text-[#d6d6d6] ",
           inputClass,
         )}
         onFocus={() => setIsFocus(true)}
