@@ -30,7 +30,7 @@
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "@web3modal/wagmi": "3.5.7",
-    "autoprefixer": "10.4.15",
+    "autoprefixer": "10.4.19",
     "bn.js": "5.2.1",
     "bs58": "4.0.1",
     "clsx": "2.1.1",
