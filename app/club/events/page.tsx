@@ -75,7 +75,7 @@ export default function EventsPage() {
     claimAction: claimEthAction,
     isPending: isEthPending,
     isSuccess: isEthSuccess,
-  } = useEthClaim();
+  } = useEthClaim(currentToken.chainInfo.name.toLowerCase() as any);
   const { claimAction: claimSolanaAction, isPending: isSolPending } =
     useSolClaim();
 
