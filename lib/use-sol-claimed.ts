@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { PublicKey } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useSolProgram } from "./use-sol-program";
+import { useMemo } from "react";
 
 export function useSolClaimed(isSolanaFlag: boolean, eventsData: Record<'claim_version' | 'token_address', any>) {
   const { publicKey: authority } = useWallet();
@@ -27,8 +28,17 @@ export function useSolClaimed(isSolanaFlag: boolean, eventsData: Record<'claim_v
     return res as { claimed: boolean};
   }
 
+  const apiPoint = useMemo(() => {
+    if (!eventsData || !authority || !isSolanaFlag) return null;
 
-  const res = useSWR('get-state', GetState);
+    return JSON.stringify({
+      eventsData,
+      authority: authority.toBase58(),
+      isSolanaFlag
+    })
+  }, [eventsData, authority, isSolanaFlag])
+
+  const res = useSWR(apiPoint, GetState);
 
   return res;
 }
