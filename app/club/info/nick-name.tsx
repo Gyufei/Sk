@@ -78,10 +78,10 @@ export function NickName({ nickName }: { nickName: string }) {
           onChange={(e) => setName(e.target.value)}
           onBlur={handleBlur}
           data-error={!isValid}
-          className="h-[60px] w-[200px] rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[40px]  data-[error=true]:border-[#FF5A5A]"
+          className="h-[60px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[40px] data-[error=true]:border-[#FF5A5A]  md:w-[200px]"
         />
       ) : (
-        <div className="flex items-center">
+        <div className="flex items-center justify-between md:justify-start">
           <div className="h-[60px] text-[40px] leading-[60px] text-[#d6d6d6]">
             {name}
           </div>

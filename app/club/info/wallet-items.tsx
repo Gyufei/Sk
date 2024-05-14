@@ -245,7 +245,7 @@ export function WalletItem({
   }
 
   return (
-    <div className="mt-6 flex items-center">
+    <div className="mt-6 flex flex-col items-start md:flex-row md:items-center">
       <Popover open={popOpen} onOpenChange={(isOpen) => setPopOpen(isOpen)}>
         <PopoverTrigger
           asChild
@@ -254,7 +254,7 @@ export function WalletItem({
         >
           <div
             onClick={() => setPopOpen(!popOpen)}
-            className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
+            className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] md:border-b"
           >
             <div className="flex items-center">
               {ChainInfos[name] ? (
@@ -302,7 +302,7 @@ export function WalletItem({
           ))}
         </PopoverContent>
       </Popover>
-      <div className="relative ml-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] ">
+      <div className="relative ml-0 mt-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] md:ml-4 md:mt-0 ">
         <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
         {isLastEvm && isSign && (
           <Image
@@ -318,12 +318,25 @@ export function WalletItem({
         <div
           onClick={handleOperation}
           data-disabled={disabled}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50"
+          className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4 md:mt-0  md:w-12"
         >
           {isSign ? (
-            <Image src="/icons/unlink.svg" width={24} height={24} alt="save" />
+            <>
+              <Image
+                src="/icons/unlink.svg"
+                width={24}
+                height={24}
+                alt="save"
+              />
+              <div className="ml-1 text-base leading-6 md:hidden">
+                Disconnect
+              </div>
+            </>
           ) : (
-            <Image src="/icons/link.svg" width={24} height={24} alt="save" />
+            <>
+              <Image src="/icons/link.svg" width={24} height={24} alt="save" />
+              <div className="ml-1 text-base leading-6 md:hidden">Connect</div>
+            </>
           )}
         </div>
       )}

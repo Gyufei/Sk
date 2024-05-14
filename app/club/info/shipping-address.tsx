@@ -13,6 +13,7 @@ import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
 import { useLang } from "@/lib/use-lang";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import { cn } from "@/lib/utils";
 
 const countryCodeList = ["86"];
 
@@ -135,36 +136,65 @@ export function ShippingAddress() {
   }
 
   return (
-    <div className="mt-6 rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
-      <div className="mb-7 text-xl leading-[30px] text-white">
-        {isEn ? "Shipping Address" : "收货地址"}
-      </div>
-      <NameAndPhone
-        {...{
-          recipientName,
-          setRecipientName,
-          countryCode,
-          setCountryCode,
-          phoneNumber,
-          setPhoneNumber,
-          rcNameValid,
-          setRcNameValid,
-          phoneValid,
-          setPhoneValid,
-        }}
-      />
-      <Address {...{ country, setCountry, state, setState, city, setCity }} />
-      <StreetAndCode
-        {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
-      >
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
+    <>
+      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[1.3em] md:p-[1.4em]">
+        <div className="mb-7 text-xl leading-[30px] text-white">
+          {isEn ? "Shipping Address" : "收货地址"}
         </div>
-      </StreetAndCode>
+        <NameAndPhone
+          {...{
+            recipientName,
+            setRecipientName,
+            countryCode,
+            setCountryCode,
+            phoneNumber,
+            setPhoneNumber,
+            rcNameValid,
+            setRcNameValid,
+            phoneValid,
+            setPhoneValid,
+          }}
+        />
+        <Address {...{ country, setCountry, state, setState, city, setCity }} />
+        <StreetAndCode
+          {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
+        >
+          <SaveBtn
+            className="hidden w-12 md:flex"
+            disabled={disabled}
+            onClick={handleSave}
+          />
+        </StreetAndCode>
+      </div>
+      <SaveBtn
+        className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
+        disabled={disabled}
+        onClick={handleSave}
+      />
+    </>
+  );
+}
+
+function SaveBtn({
+  disabled,
+  onClick,
+  className,
+}: {
+  disabled: boolean;
+  onClick: () => void;
+  className?: string;
+}) {
+  return (
+    <div
+      data-disabled={disabled}
+      onClick={onClick}
+      className={cn(
+        className,
+        "ml-0 h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4",
+      )}
+    >
+      <Image src="/icons/save.svg" width={24} height={24} alt="save" />
+      <div className="ml-1 text-base leading-6 md:hidden">Save</div>
     </div>
   );
 }
@@ -241,7 +271,7 @@ function NameAndPhone({
   }
 
   return (
-    <div className="flex items-center space-x-6">
+    <div className="flex flex-col items-stretch space-y-5 md:space-y-0 md:flex-row md:items-center md:space-x-6 space-x-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
@@ -314,6 +344,7 @@ function NameAndPhone({
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
             inputId="phone"
+            conClass="w-full md:w-auto"
             onBlur={handlePhoneBlur}
           />
         </div>
@@ -360,7 +391,7 @@ function Address({
   }
 
   return (
-    <div className="mt-10 flex items-center space-x-6">
+    <div className="mt-4 flex flex-col items-stretch space-y-5 md:mt-10 md:flex-row md:items-center space-x-0 md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <div className="text-lg font-normal leading-7 text-white opacity-60">
           {isEn ? "Country" : "国家"}
@@ -372,7 +403,7 @@ function Address({
           <PopoverTrigger asChild>
             <div
               onClick={() => setCountryPopOpen(!countryPopOpen)}
-              className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
+              className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
             >
               <div className="flex items-center text-sm">
                 <div className="leading-6 text-[#d6d6d6]">{country}</div>
@@ -414,7 +445,7 @@ function Address({
           <PopoverTrigger asChild>
             <div
               onClick={() => setStateOpen(!countryPopOpen)}
-              className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
+              className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
             >
               <div className="flex items-center">
                 <div className="text-sm leading-6 text-[#d6d6d6]">{state}</div>
@@ -453,7 +484,7 @@ function Address({
           <PopoverTrigger asChild>
             <div
               onClick={() => setCityOpen(!countryPopOpen)}
-              className="flex h-12 w-[200px] items-center justify-between border-b border-solid border-[#515151]"
+              className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
             >
               <div className="flex items-center">
                 <div className="text-sm leading-6 text-[#d6d6d6]">{city}</div>
@@ -531,7 +562,7 @@ function StreetAndCode({
   }
 
   return (
-    <div className="mt-10 flex items-center space-x-6">
+    <div className="relative mt-4 flex flex-col items-stretch space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 space-x-0 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="street"

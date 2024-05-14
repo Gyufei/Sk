@@ -9,7 +9,7 @@ import { UserInfoAtom } from "@/lib/state";
 export function SocialMedia() {
   const { isEn } = useLang();
   return (
-    <div className="mt-6 rounded-[1.3em] bg-[rgba(255,255,255,0.1)] p-[1.4em] backdrop-blur">
+    <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[1.3em] md:p-[1.4em]">
       <div className="mb-7 text-xl leading-[30px] text-white">
         {isEn ? "Social Media" : "社交媒体"}
       </div>
@@ -76,7 +76,7 @@ function Twitter() {
 
   return (
     <div className="mt-4 flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/x.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#fff]">X (Twitter)</div>
@@ -88,22 +88,13 @@ function Twitter() {
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
-          conClass="ml-4 flex-1"
+          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-        </div>
+        <MobileInValidTpl isValid={isValid} text="Invalid X (Twitter) link." />
+        <SaveBtn disabled={disabled} handleSave={handleSave} />
       </div>
-      {!isValid && (
-        <div className="ml-[150px] mt-3 text-sm leading-5 text-[#FF5A5A]">
-          Invalid X (Twitter) link.
-        </div>
-      )}
+      <PcInvalidTpl isValid={isValid} text="Invalid X (Twitter) link." />
     </div>
   );
 }
@@ -159,7 +150,7 @@ function Email() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/email.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Email</div>
@@ -170,22 +161,13 @@ function Email() {
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
-          conClass="ml-4 flex-1"
+          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-        </div>
+        <MobileInValidTpl isValid={isValid} text="Invalid Email." />
+        <SaveBtn disabled={disabled} handleSave={handleSave} />
       </div>
-      {!isValid && (
-        <div className="ml-[155px] mt-3 text-sm leading-5 text-[#FF5A5A]">
-          Invalid Email.
-        </div>
-      )}
+      <PcInvalidTpl isValid={isValid} text="Invalid Email." />
     </div>
   );
 }
@@ -240,7 +222,7 @@ function Discord() {
 
   return (
     <div className="mt-4 flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/discord.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Discord</div>
@@ -251,22 +233,13 @@ function Discord() {
           placeHolder="your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
-          conClass="ml-4 flex-1"
+          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-        </div>
+        <MobileInValidTpl isValid={isValid} text="Invalid Discord." />
+        <SaveBtn disabled={disabled} handleSave={handleSave} />
       </div>
-      {!isValid && (
-        <div className="ml-[155px] mt-3 text-sm leading-5 text-[#FF5A5A]">
-          Invalid Discord.
-        </div>
-      )}
+      <PcInvalidTpl isValid={isValid} text="Invalid Discord." />
     </div>
   );
 }
@@ -321,7 +294,7 @@ function Tg() {
 
   return (
     <div className="mt-4 flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/tg.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Telegram</div>
@@ -333,22 +306,13 @@ function Tg() {
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
-          conClass="ml-4 flex-1"
+          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-        </div>
+        <MobileInValidTpl isValid={isValid} text="Invalid Telegram." />
+        <SaveBtn disabled={disabled} handleSave={handleSave} />
       </div>
-      {!isValid && (
-        <div className="ml-[155px] mt-3 text-sm leading-5 text-[#FF5A5A]">
-          Invalid Telegram.
-        </div>
-      )}
+      <PcInvalidTpl isValid={isValid} text="Invalid Telegram." />
     </div>
   );
 }
@@ -407,7 +371,7 @@ function Github() {
 
   return (
     <div className="mt-4 flex flex-col">
-      <div className="flex items-center">
+      <div className="flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/github.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#d6d6d6]">Github</div>
@@ -419,22 +383,63 @@ function Github() {
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
-          conClass="ml-4 flex-1"
+          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
-        <div
-          data-disabled={disabled}
-          onClick={handleSave}
-          className="ml-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]  data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
-        >
-          <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-        </div>
+        <MobileInValidTpl isValid={isValid} text="Invalid Github." />
+        <SaveBtn disabled={disabled} handleSave={handleSave} />
       </div>
-      {!isValid && (
-        <div className="ml-[155px] mt-3 text-sm leading-5 text-[#FF5A5A]">
-          Invalid Github.
-        </div>
-      )}
+      <PcInvalidTpl isValid={isValid} text="Invalid Github." />
+    </div>
+  );
+}
+
+function SaveBtn({
+  disabled,
+  handleSave,
+}: {
+  disabled: boolean;
+  handleSave: () => void;
+}) {
+  return (
+    <div
+      data-disabled={disabled}
+      onClick={handleSave}
+      className="ml-0 mt-[10px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4  md:mt-0 md:w-12"
+    >
+      <Image src="/icons/save.svg" width={24} height={24} alt="save" />
+      <div className="ml-1 text-base leading-6 md:hidden">Save</div>
+    </div>
+  );
+}
+
+function InvalidTpl({ isValid, text }: { isValid: boolean; text: string }) {
+  if (isValid) return null;
+  return <div className="block text-sm leading-5 text-[#FF5A5A]">{text}</div>;
+}
+
+function MobileInValidTpl({
+  isValid,
+  text,
+}: {
+  isValid: boolean;
+  text: string;
+}) {
+  if (isValid) return null;
+
+  return (
+    <div className="my-1 md:hidden">
+      <InvalidTpl isValid={isValid} text={text} />
+    </div>
+  );
+}
+
+function PcInvalidTpl({ isValid, text }: { isValid: boolean; text: string }) {
+  if (isValid) return null;
+
+  return (
+    <div className="mt-3 hidden pl-[155px] md:block">
+      <InvalidTpl isValid={isValid} text={text} />
     </div>
   );
 }
