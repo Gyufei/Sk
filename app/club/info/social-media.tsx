@@ -330,8 +330,9 @@ function Github() {
 
   useEffect(() => {
     if (userInfo?.social_media) {
-      const g =
-        userInfo?.social_media?.Github.replace(placeHolderText, "") || "";
+      const g = userInfo?.social_media?.Github
+        ? userInfo?.social_media?.Github.replace(placeHolderText, "")
+        : "";
       setGithub(g);
     }
   }, [userInfo]);

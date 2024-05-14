@@ -73,12 +73,6 @@ export default function SignDialog({
         message: msg,
       });
 
-      setTimeout(() => {
-        if (!signature) {
-          throw new Error("sign error");
-        }
-      }, 5000);
-
       postSignData(signature, salt);
     } catch (e) {
       console.error("error", e);

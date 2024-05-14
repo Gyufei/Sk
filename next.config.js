@@ -9,8 +9,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 's2.coinmarketcap.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cf-ipfs.com'
       }
-
     ],
   },
   webpack: (config) => {

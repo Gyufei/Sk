@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignDialog from "@/components/sign-dialog";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
@@ -12,9 +12,16 @@ import "@mysten/dapp-kit/dist/index.css";
 export default function Club() {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
-  console.log(`Club uuid:${uuid}`);
 
   const [dialogOpen, setOpen] = useState(false);
+
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    setInit(true);
+  }, []);
+
+  if (!init) return null;
 
   return (
     <>
