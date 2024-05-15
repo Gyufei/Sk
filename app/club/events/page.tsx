@@ -73,6 +73,7 @@ export default function EventsPage() {
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
   const { data: claimData } = useClaimData();
+
   const {
     claimAction: claimEthAction,
     isPending: isEthPending,
@@ -94,6 +95,8 @@ export default function EventsPage() {
   }, [currentToken, isEthPending, isSolPending]);
 
   const claimAmount = useMemo(() => {
+    if (!claimData) return null;
+    if (claimData?.status === true && claimData.data === null) return 0;
     return claimData?.claim_amount;
   }, [claimData]);
 
@@ -105,6 +108,7 @@ export default function EventsPage() {
     currentToken?.chainInfo?.name === "Solana",
     eventsData,
   );
+
   const { data: ethState, refetch: refreshEthClaim } = useEthClaimed(
     !!currentToken?.chainInfo?.isEVM,
     eventsData,
@@ -201,7 +205,9 @@ export default function EventsPage() {
             <CoinItem onClick={() => {}} src="" />
             <CoinItem onClick={() => {}} src="" />
           </div>
-          {claimAmount ? (
+          {!claimData ? (
+            <div className="flex h-[202px] flex-col items-center justify-center"></div>
+          ) : claimAmount !== 0 ? (
             <>
               <div className="text-[28px] font-medium leading-9 text-white">
                 <span className="opacity-60">You&apos;re </span>
@@ -263,15 +269,7 @@ function CoinItem({ src, onClick }: { src: string; onClick: () => void }) {
       onClick={handleClick}
       className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-xl bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]"
     >
-      {src && (
-        <Image
-          src={src}
-          width={40}
-          height={40}
-          className="rounded-full"
-          alt="coin"
-        />
-      )}
+      {src && <Image src={src} width={40} height={40} alt="coin" />}
     </div>
   );
 }

@@ -13,6 +13,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cf-ipfs.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.juu17.com'
       }
     ],
   },
