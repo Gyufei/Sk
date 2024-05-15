@@ -8,14 +8,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 's2.coinmarketcap.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cf-ipfs.com'
-      },
-      {
-        protocol: 'https',
         hostname: 'api.juu17.com'
       }
     ],
