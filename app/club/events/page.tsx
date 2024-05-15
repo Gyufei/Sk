@@ -8,11 +8,14 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useEventsData } from "@/lib/use-events-data";
-import { useChainId, useSwitchNetwork } from "wagmi";
+import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
 import { useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { useSolClaimed } from "@/lib/use-sol-claimed";
 import { useEthClaimed } from "@/lib/use-eth-claimed";
+import { useAtomValue } from "jotai";
+import { UuidAtom } from "@/lib/state";
+import { useRouter } from "next/navigation";
 
 interface IClaimToken {
   name: string;
@@ -23,10 +26,22 @@ interface IClaimToken {
 }
 
 export default function EventsPage() {
+  const uuid = useAtomValue(UuidAtom);
+  const router = useRouter();
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    setInit(true);
+    if (init && !uuid) {
+      router.replace("/club");
+    }
+  }, [init, setInit, uuid, router]);
+
   const { data: eventsData } = useEventsData();
 
   // eth
   const chainId = useChainId();
+  const { address: ethAddress } = useAccount();
   const { switchNetworkAsync: switchChain } = useSwitchNetwork();
 
   // sol
@@ -72,7 +87,15 @@ export default function EventsPage() {
 
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
-  const { data: claimData } = useClaimData();
+  const currentAddress = useMemo(() => {
+    if (currentToken?.chainInfo?.isEVM) {
+      return ethAddress;
+    }
+
+    if (currentToken?.chainInfo?.name === "Solana") {
+      return solanaAddress;
+    }
+  }, [currentToken, ethAddress, solanaAddress]);
 
   const {
     claimAction: claimEthAction,
@@ -94,13 +117,19 @@ export default function EventsPage() {
     }
   }, [currentToken, isEthPending, isSolPending]);
 
+  const { data: claimData } = useClaimData(
+    currentToken?.chainInfo.name,
+    currentAddress,
+  );
+
   const claimAmount = useMemo(() => {
-    if (!claimData) return null;
+    if (!claimData) return 0;
     if (claimData?.status === true && claimData.data === null) return 0;
-    return claimData?.claim_amount;
+    return Number(claimData?.claim_amount);
   }, [claimData]);
 
   const showClaimAmount = useMemo(() => {
+    if (!claimAmount) return 0;
     return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
   }, [claimAmount, currentToken]);
 
@@ -147,12 +176,12 @@ export default function EventsPage() {
     if (String(chainId) !== String(claimChainId)) {
       try {
         await switchChain!(claimChainId!);
-        claimEthAction(claimAmount, claimData.proofs);
+        claimEthAction(claimAmount!, claimData.proofs);
       } catch (e) {
         console.error("switch chain error", e);
       }
     } else {
-      claimEthAction(claimAmount, claimData.proofs);
+      claimEthAction(claimAmount!, claimData.proofs);
     }
   }
 
@@ -167,7 +196,7 @@ export default function EventsPage() {
       setSolanaModalVisible(true);
     } else {
       const res = await claimSolanaAction(
-        claimAmount,
+        claimAmount!,
         claimData.proofs,
         eventsData,
       );

@@ -3,7 +3,7 @@ import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 
-export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_version' | 'token_address', any>, amount: number) {
+export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_version' | 'token_address', any>, amount: number | null) {
   const { address } = useAccount();
   const ContractAddress = useContractAddress("ethereum");
 

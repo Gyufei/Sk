@@ -2,23 +2,23 @@
 import useSWR from "swr";
 import fetcher from "./fetcher";
 import { ApiHost } from "./path";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { UuidAtom } from "./state";
-import { useRouter } from "next/navigation";
+import { useFetchUserInfo } from "./use-fetch-user-info";
 
-export function useClaimData() {
-  const [uuid, setUuid] = useAtom(UuidAtom);
-  const router = useRouter();
+export function useClaimData(chainName:string, address: string | undefined) {
+  const uuid = useAtomValue(UuidAtom);
+  const { data: userInfo } = useFetchUserInfo();
 
   async function fetchClaimData() {
-    if (!uuid) return;
+    if (!userInfo) return null;
 
-    if (!uuid) {
-      setUuid("");
-      router.push('/club');
+    const shouldAddress = userInfo.wallets[chainName]
+
+    if (shouldAddress !== address) return {
+      claim_amount: 0
     }
 
-    console.log('fetchClaimData', uuid);
     const res: any = await fetcher(`${ApiHost}/user/claim_markle_proof`, {
       method: "POST",
       headers: {
@@ -33,7 +33,10 @@ export function useClaimData() {
     return res;
   }
 
-  const res = useSWR(uuid, fetchClaimData);
+  const res = useSWR(() => JSON.stringify({
+    userInfo,
+    uuid
+  }), fetchClaimData);
 
   return res;
 }

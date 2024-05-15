@@ -17,13 +17,14 @@ export function useFetchUserInfo() {
 
     if (res && res.data !== false) {
       setUserInfo(res);
-      return;
+      return res;
     } 
 
     if (uuid && res && res.data === false) {
       setUserInfo({});
       setUuid("");
       router.push('/club');
+      return {}
     }
 
     return res;
