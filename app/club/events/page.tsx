@@ -217,6 +217,14 @@ export default function EventsPage() {
     }
   }, [claimTokens]);
 
+  function handleConnect() {
+    if (currentToken?.chainInfo?.isEVM) {
+      return;
+    } else {
+      setSolanaModalVisible(true);
+    }
+  }
+
   return (
     <Dialog open={true} onOpenChange={() => {}}>
       <DialogContent
@@ -234,7 +242,16 @@ export default function EventsPage() {
             <CoinItem onClick={() => {}} src="" />
             <CoinItem onClick={() => {}} src="" />
           </div>
-          {!claimData ? (
+          {!currentAddress ? (
+            <div className="flex h-[202px] flex-col items-center justify-center">
+              <div
+                onClick={handleConnect}
+                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
+              >
+                <div className="text-base leading-6 text-white">Connect</div>
+              </div>
+            </div>
+          ) : !claimData ? (
             <div className="flex h-[202px] flex-col items-center justify-center"></div>
           ) : claimAmount !== 0 ? (
             <>
