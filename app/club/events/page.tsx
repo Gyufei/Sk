@@ -9,21 +9,13 @@ import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useEventsData } from "@/lib/use-events-data";
 import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
-import { useClaimData } from "@/lib/use-claim-data";
+import { IClaimToken, useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { useSolClaimed } from "@/lib/use-sol-claimed";
 import { useEthClaimed } from "@/lib/use-eth-claimed";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "@/lib/state";
 import { useRouter } from "next/navigation";
-
-interface IClaimToken {
-  name: string;
-  symbol: string;
-  logo: string;
-  chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
-  tokenDecimal: number;
-}
 
 export default function EventsPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -53,36 +45,37 @@ export default function EventsPage() {
   );
 
   const claimTokens = useMemo(() => {
-    if (eventsData) {
+    if (!eventsData || !eventsData.length) return [];
+
+    const ts = eventsData.map((event) => {
       const chainInfo = Object.values(ChainInfos).find((info) => {
         if (
-          (String(eventsData.chain_id) === "901" ||
-            String(eventsData.chain_id) === "902") &&
+          (String(event.chain_id) === "901" ||
+            String(event.chain_id) === "902") &&
           info.name === "Solana"
         ) {
           return info;
         }
 
-        return String(info.chainId) === String(eventsData.chain_id);
+        return String(info.chainId) === String(event.chain_id);
       });
 
-      return [
-        {
-          name: eventsData.token_name,
-          symbol: eventsData.token_symbol,
-          chainInfo: chainInfo || {
-            name: "Ethereum",
-            logo: "/images/network-icons/ethereum.svg",
-            isEVM: true,
-            chainId: 11155111,
-          },
-          logo: eventsData.token_url,
-          tokenDecimal: eventsData.token_decimal,
+      return {
+        name: event.token_name,
+        symbol: event.token_symbol,
+        chainInfo: chainInfo || {
+          name: "Ethereum",
+          logo: "/images/network-icons/ethereum.svg",
+          isEVM: true,
+          chainId: 11155111,
         },
-      ];
-    } else {
-      return [];
-    }
+        logo: event.token_url,
+        tokenDecimal: event.token_decimal,
+        eventData: event,
+      } as IClaimToken;
+    });
+
+    return ts;
   }, [eventsData]);
 
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
@@ -117,10 +110,7 @@ export default function EventsPage() {
     }
   }, [currentToken, isEthPending, isSolPending]);
 
-  const { data: claimData } = useClaimData(
-    currentToken?.chainInfo.name,
-    currentAddress,
-  );
+  const { data: claimData } = useClaimData(currentToken, currentAddress);
 
   const claimAmount = useMemo(() => {
     if (!claimData) return 0;
@@ -135,12 +125,12 @@ export default function EventsPage() {
 
   const { data: solState, mutate: refreshSolClaim } = useSolClaimed(
     currentToken?.chainInfo?.name === "Solana",
-    eventsData,
+    currentToken?.eventData,
   );
 
   const { data: ethState, refetch: refreshEthClaim } = useEthClaimed(
     !!currentToken?.chainInfo?.isEVM,
-    eventsData,
+    currentToken?.eventData,
     claimAmount,
   );
 
@@ -198,7 +188,7 @@ export default function EventsPage() {
       const res = await claimSolanaAction(
         claimAmount!,
         claimData.proofs,
-        eventsData,
+        currentToken?.eventData,
       );
       if (res) {
         refreshSolClaim();

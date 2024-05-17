@@ -5,16 +5,28 @@ import { ApiHost } from "./path";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "./state";
 import { useFetchUserInfo } from "./use-fetch-user-info";
+import { ChainInfos } from "./const";
 
-export function useClaimData(chainName:string, address: string | undefined) {
+export interface IClaimToken {
+  name: string;
+  symbol: string;
+  logo: string;
+  chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
+  tokenDecimal: number;
+  eventData: Record<string, any>;
+}
+
+
+export function useClaimData(currentToken: IClaimToken, address: string | undefined) {
   const uuid = useAtomValue(UuidAtom);
   const { data: userInfo } = useFetchUserInfo();
 
   async function fetchClaimData() {
-    if (!userInfo) return null;
+    if (!userInfo || !currentToken) return null;
+    const projectName = currentToken.eventData.project_name
+    const chainName = currentToken.chainInfo.name
 
     const shouldAddress = userInfo.wallets[chainName]
-
     if (shouldAddress !== address) return {
       claim_amount: 0
     }
@@ -25,7 +37,8 @@ export function useClaimData(chainName:string, address: string | undefined) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: uuid
+        user_id: uuid,
+        project_name: projectName,
       }),
     });
     console.log(res);
@@ -34,7 +47,7 @@ export function useClaimData(chainName:string, address: string | undefined) {
   }
 
   const res = useSWR(() => JSON.stringify({
-    userInfo,
+    currentToken,
     uuid
   }), fetchClaimData);
 
