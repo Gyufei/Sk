@@ -100,6 +100,7 @@ export function useSolClaim() {
       return txHash;
     } catch(e) {
       setIsError(true)
+      setIsPending(false)
       setError(e)
       console.log(e);
       console.error('solana claim, error', e)
