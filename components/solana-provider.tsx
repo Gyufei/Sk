@@ -14,8 +14,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 const MainnetRpc =
   "https://mainnet.helius-rpc.com/?api-key=d1a8ae84-0080-4c46-b849-d1c5f84b808b";
 // "https://ultra-icy-valley.solana-mainnet.quiknode.pro/8e93a1a6537b875fef5f9a4f6f0499aec020bfa8";
-const DevnetRpc =
-  "https://rpc.ankr.com/solana_devnet" || clusterApiUrl("devnet");
+const DevnetRpc = "https://rpc.ankr.com/solana_devnet" || clusterApiUrl("devnet");
 
 export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
   const rpc = process.env.NODE_ENV === "production" ? MainnetRpc : DevnetRpc;
