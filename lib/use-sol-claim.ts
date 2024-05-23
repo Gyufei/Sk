@@ -101,6 +101,7 @@ export function useSolClaim() {
     } catch(e) {
       setIsError(true)
       setError(e)
+      console.log(e);
       console.error('solana claim, error', e)
       return error
     }

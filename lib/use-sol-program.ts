@@ -15,6 +15,7 @@ export function useSolProgram() {
   anchor.setProvider(provider);
 
   const ProgramAddress = useContractAddress("solana");
+  console.log(ProgramAddress);
 
   const programId = new PublicKey(
     ProgramAddress

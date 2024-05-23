@@ -145,7 +145,7 @@ export default function EventsPage() {
   }, [solState]);
 
   function handleClaim() {
-    if (isClaimed) return;
+    if (isClaimed || isPending) return;
     if (!currentToken || !currentToken.chainInfo) return;
 
     if (currentToken.chainInfo.isEVM) {
@@ -159,8 +159,6 @@ export default function EventsPage() {
   }
 
   async function claimEvm() {
-    if (isPending) return;
-
     const claimChainId = currentToken.chainInfo.chainId;
 
     if (String(chainId) !== String(claimChainId)) {
