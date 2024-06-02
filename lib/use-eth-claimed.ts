@@ -5,7 +5,7 @@ import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 
 export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_version' | 'token_address', any>, amount: number | null) {
   const { address } = useAccount();
-  const ContractAddress = useContractAddress("ethereum");
+  const { address: ContractAddress } = useContractAddress("ethereum");
 
   const leaf = eventsData && amount && isEthereum ? keccak256(encodeAbiParameters(
     parseAbiParameters('address x, address y, uint256 z, uint256 k'),
