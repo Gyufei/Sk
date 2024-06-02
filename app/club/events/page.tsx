@@ -75,6 +75,8 @@ export default function EventsPage() {
       } as IClaimToken;
     });
 
+    console.log(ts, 123)
+
     return ts;
   }, [eventsData]);
 
@@ -196,6 +198,7 @@ export default function EventsPage() {
   }
 
   function handleClickToken(t: IClaimToken) {
+    if (!t) return;
     setCurrentToken(t);
   }
 
@@ -226,9 +229,18 @@ export default function EventsPage() {
               onClick={() => handleClickToken(claimTokens[0])}
               src={claimTokens[0]?.logo}
             />
-            <CoinItem onClick={() => {}} src="" />
-            <CoinItem onClick={() => {}} src="" />
-            <CoinItem onClick={() => {}} src="" />
+            <CoinItem
+              onClick={() => handleClickToken(claimTokens[1])}
+              src={claimTokens[1]?.logo}
+            />
+            <CoinItem
+              onClick={() => handleClickToken(claimTokens[2])}
+              src={claimTokens[2]?.logo}
+            />
+            <CoinItem
+              onClick={() => handleClickToken(claimTokens[3])}
+              src={claimTokens[3]?.logo}
+            />
           </div>
           {!currentAddress ? (
             <div className="flex h-[202px] flex-col items-center justify-center">

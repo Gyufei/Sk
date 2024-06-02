@@ -14,10 +14,10 @@ export function useSolProgram() {
   );
   anchor.setProvider(provider);
 
-  const ProgramAddress = useContractAddress("solana");
+  const { address: ProgramAddress } = useContractAddress('solana');
 
   const programId = new PublicKey(
-    ProgramAddress
+    ProgramAddress || '8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6'
   );
 
   const chain_work_bench_program = new anchor.Program(
