@@ -75,12 +75,14 @@ export default function EventsPage() {
       } as IClaimToken;
     });
 
-    console.log(ts, 123)
+    console.log(ts, 123);
 
     return ts;
   }, [eventsData]);
 
-  const [currentToken, setCurrentToken] = useState(claimTokens[0]);
+  const [currentToken, setCurrentToken] = useState(
+    claimTokens[claimTokens.length - 1],
+  );
 
   const currentAddress = useMemo(() => {
     if (currentToken?.chainInfo?.isEVM) {
@@ -221,29 +223,33 @@ export default function EventsPage() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className="flex w-[345px] flex-col rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-0 outline-none backdrop-blur-[7px] md:w-[469px]"
+        className="flex w-[345px] flex-col rounded-[20px] border-none bg-[rgba(255,255,255,0.1)] p-0 outline-none backdrop-blur-[7px] md:w-[469px]"
       >
-        <div className="relative flex w-full flex-col items-center p-[35px]">
-          <div className="absolute -bottom-[80px] left-0 flex h-auto w-full flex-row justify-between md:-left-[80px] md:top-0 md:h-full md:w-auto md:flex-col">
+        <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
+          <div className="absolute -bottom-[80px] left-0 flex h-auto w-full flex-row items-end justify-between pl-4 pt-0 md:-left-[80px] md:top-0 md:h-full md:w-auto md:flex-col md:items-center md:py-2 md:pl-0 md:pt-4">
             <CoinItem
+              isActive={currentToken?.name === claimTokens[0]?.name}
               onClick={() => handleClickToken(claimTokens[0])}
               src={claimTokens[0]?.logo}
             />
             <CoinItem
+              isActive={currentToken?.name === claimTokens[1]?.name}
               onClick={() => handleClickToken(claimTokens[1])}
               src={claimTokens[1]?.logo}
             />
             <CoinItem
+              isActive={currentToken?.name === claimTokens[2]?.name}
               onClick={() => handleClickToken(claimTokens[2])}
               src={claimTokens[2]?.logo}
             />
             <CoinItem
+              isActive={currentToken?.name === claimTokens[3]?.name}
               onClick={() => handleClickToken(claimTokens[3])}
               src={claimTokens[3]?.logo}
             />
           </div>
           {!currentAddress ? (
-            <div className="flex h-[202px] flex-col items-center justify-center">
+            <div className="flex h-[208px] flex-col items-center justify-center">
               <div
                 onClick={handleConnect}
                 className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
@@ -252,7 +258,7 @@ export default function EventsPage() {
               </div>
             </div>
           ) : !claimData ? (
-            <div className="flex h-[202px] flex-col items-center justify-center"></div>
+            <div className="flex h-[208px] flex-col items-center justify-center"></div>
           ) : claimAmount !== 0 ? (
             <>
               <div className="text-[28px] font-medium leading-9 text-white">
@@ -289,7 +295,7 @@ export default function EventsPage() {
               </div>
             </>
           ) : (
-            <div className="flex h-[202px] flex-col items-center justify-center">
+            <div className="flex h-[208px] flex-col items-center justify-center">
               <div className="text-[40px] leading-9 text-white opacity-80">
                 Sorry!
               </div>
@@ -305,7 +311,15 @@ export default function EventsPage() {
   );
 }
 
-function CoinItem({ src, onClick }: { src: string; onClick: () => void }) {
+function CoinItem({
+  src,
+  onClick,
+  isActive,
+}: {
+  src: string;
+  onClick: () => void;
+  isActive: boolean;
+}) {
   function handleClick() {
     if (src) onClick();
   }
@@ -313,7 +327,8 @@ function CoinItem({ src, onClick }: { src: string; onClick: () => void }) {
   return (
     <div
       onClick={handleClick}
-      className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-xl bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]"
+      data-active={isActive}
+      className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
     >
       {src && <Image src={src} width={40} height={40} alt="coin" />}
     </div>
