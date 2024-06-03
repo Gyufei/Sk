@@ -12,7 +12,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             setTimeout(() => {
               const gitCon = document.getElementById("gif-animation");
               if (!gitCon) return;
-              gitCon.innerHTML = '<img src="./sphere_25-fps_small.gif" loading="lazy" alt="" />';
+              gitCon.innerHTML = '<img src="https://juu17.com/sphere_25-fps_small.gif" loading="lazy" alt="" />';
             }, 1000);
           });
         `,
