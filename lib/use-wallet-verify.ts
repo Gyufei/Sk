@@ -28,6 +28,7 @@ export function useWalletVerify() {
         wallet_address: addr,
         signature: signature,
         user_id: uuid,
+        serial_number: -1,
         salt: salt,
       }),
     });

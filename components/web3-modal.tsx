@@ -14,6 +14,7 @@ import {
   base,
   linea,
   sepolia,
+  zkSync
 } from 'viem/chains'
 
 const projectId = "554bbd76b2e66a095d2d38490bb42983";
@@ -38,6 +39,7 @@ const chains = [
   base,
   linea,
   sepolia,
+  zkSync
 ]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 

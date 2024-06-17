@@ -18,19 +18,42 @@ export function WalletArray() {
 
   const [wArr, setWArr] = useState<any[]>([]);
 
-  useEffect(() => {
-    const wallets = Object.entries(userInfo?.wallets || {}).map((w: any) => ({
-      name: w[0],
-      address: w[1],
-      isSign: true,
-    }));
+  const userWallets = useMemo(() => {
+    if (!userInfo?.wallets) return [];
+    const userWallets = userInfo.wallets;
+    const mainWallet = userWallets.main_wallet;
+    const altWallets = userWallets.alt_wallets;
+    const userAltWallets = altWallets.map((w: any, index: number) => {
+      return {
+        name: w.network,
+        address: w.address,
+        isSign: true,
+        serial_number: index + 2,
+      };
+    });
 
-    const uniqArr = wallets.map((w) => w.address + " " + w.name);
+    const wallets = [
+      {
+        name: "OP Mainnet",
+        address: mainWallet,
+        isSign: true,
+        serial_number: 1,
+      },
+      ...userAltWallets,
+    ];
+
+    return wallets;
+  }, [userInfo?.wallets]);
+
+  useEffect(() => {
+    const uniqArr = (userWallets || []).map(
+      (w: any) => w.address + " " + w.name,
+    );
     const arrWallet = wArr.filter(
       (w) => !uniqArr.includes(w.address + " " + w.name),
     );
-    setWArr([...wallets, ...arrWallet]);
-  }, [userInfo?.wallets]);
+    setWArr([...userWallets, ...arrWallet]);
+  }, [userWallets]);
 
   const handleNameChange = (index: number, value: string) => {
     setWArr((prev) => {
@@ -68,26 +91,24 @@ export function WalletArray() {
     });
   };
 
-  const onlyEvm = useMemo(() => {
-    let evmNum = 0;
-
-    for (const c of wArr) {
-      if (!c.isSign) continue;
-      const isEvm = ChainInfos[c.name]?.isEVM;
-      evmNum += isEvm ? 1 : 0;
+  const walletOptions = useMemo(() => {
+    const allWalletsInfo = Object.keys(ChainInfos);
+    const walletShowNum: any = {};
+    for (const w of wArr) {
+      if (walletShowNum[w.name]) {
+        walletShowNum[w.name] += 1;
+      } else {
+        walletShowNum[w.name] = 1;
+      }
     }
 
-    return evmNum === 1;
+    return allWalletsInfo.filter((w) => {
+      return !walletShowNum[w] || walletShowNum[w] < 5;
+    });
   }, [wArr]);
 
-  const walletOptions = useMemo(
-    () =>
-      Object.keys(ChainInfos).filter((c) => wArr.every((w) => w.name !== c)),
-    [wArr],
-  );
-
   return (
-    <div className="relative mt-6 md:rounded-[1.3em] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:p-[1.4em]">
+    <div className="relative mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[1.3em] md:p-[1.4em]">
       <div className="absolute -top-6 left-0 hidden w-full items-center justify-between px-12 md:flex">
         <div className="h-6 w-[10px] bg-[rgba(255,255,255,0.1)] backdrop-blur"></div>
         <div className="h-6 w-[10px] bg-[rgba(255,255,255,0.1)] backdrop-blur"></div>
@@ -112,10 +133,10 @@ export function WalletArray() {
             name={item.name}
             address={item.address}
             isSign={item.isSign}
+            serialNumber={item.serial_number}
             setName={(value) => handleNameChange(index, value)}
             setAddress={(value) => handleAddrChange(index, value)}
             setIsSign={(value) => handleSignChange(index, value)}
-            isLastEvm={item.isSign && ChainInfos[item.name]?.isEVM && onlyEvm}
             walletOptions={walletOptions}
             handleRemove={() => {
               removeWallet(index);

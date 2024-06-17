@@ -75,8 +75,6 @@ export default function EventsPage() {
       } as IClaimToken;
     });
 
-    console.log(ts, 123);
-
     return ts;
   }, [eventsData]);
 
@@ -287,7 +285,7 @@ export default function EventsPage() {
               <div
                 data-not={isClaimed || isPending}
                 onClick={handleClaim}
-                className="mt-5 mb-[6px] box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
+                className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
               >
                 <div className="text-base leading-6 text-white">
                   {isClaimed ? "Claimed" : isPending ? "Claiming" : "Claim"}

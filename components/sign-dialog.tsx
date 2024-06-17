@@ -14,6 +14,7 @@ import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
 import { genSignMsg } from "@/lib/sign-utils";
 import { ChainInfos } from "@/lib/const";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function SignDialog({
   dialogOpen,
@@ -30,6 +31,8 @@ export default function SignDialog({
   const chainId = useChainId();
   const { switchNetworkAsync: switchChain } = useSwitchNetwork();
   const { disconnect } = useDisconnect();
+
+  const { disconnect: solanaDisconnect } = useWallet();
 
   const [signing, setSigning] = useState(false);
 
@@ -54,10 +57,12 @@ export default function SignDialog({
 
   async function switchChainAndSign() {
     console.log(
-      `switchChainAndSign address:${address} isConnected:${isConnected} uuid:${uuid}`,
+      `switchChainAndSign address:${address} isConnected:${isConnected} uuid:${uuid} chainId: ${chainId}`,
     );
 
     if (address && isConnected && !uuid) {
+      solanaDisconnect();
+
       if (chainId !== 10) {
         switchChain!(10)
           .then(() => {
@@ -92,10 +97,7 @@ export default function SignDialog({
 
   async function postSignData(signature: string, salt: string) {
     try {
-      console.log(chainId, "chainId");
-      const currentChainInfo = Object.values(ChainInfos).find(
-        (c) => c.chainId === chainId,
-      );
+      const OpNetInfo = Object.values(ChainInfos).find((c) => c.chainId === 10);
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
         headers: {
@@ -105,7 +107,7 @@ export default function SignDialog({
           login_type: "wallet",
           login_data: {
             wallet_address: address,
-            chain_name: currentChainInfo?.name,
+            chain_name: OpNetInfo?.name,
             signature,
             salt,
           },
@@ -116,7 +118,7 @@ export default function SignDialog({
         throw new Error(
           "sign in error:" +
             `${
-              currentChainInfo?.name
+              OpNetInfo?.name
             } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
         );
       }

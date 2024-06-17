@@ -27,8 +27,8 @@ export function useClaimData(currentToken: IClaimToken, address: string | undefi
     const chainName = currentToken.chainInfo.name
     const isEVM = currentToken.chainInfo.isEVM
 
-    const shouldAddress = userInfo.wallets[chainName] || (isEVM ? userInfo.wallets['OP Mainnet'] : '')
-    if (shouldAddress !== address) return {
+    const shouldClaim = (isEVM ? userInfo.wallets['main_wallet']  === address : false) || userInfo.wallets['alt_wallets'].some((w: any) => w.network === chainName && w.address === address)
+    if (!shouldClaim) return {
       claim_amount: 0
     }
 

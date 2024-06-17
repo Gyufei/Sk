@@ -72,5 +72,11 @@ export const ChainInfos: Record<
     logo: "/images/network-icons/linea.svg",
     isEVM: true,
     chainId: 59144,
+  },
+  ZKSync: {
+    name: "ZKSync",
+    logo: "/images/network-icons/zksync.svg",
+    isEVM: true,
+    chainId: 324,
   }
 };

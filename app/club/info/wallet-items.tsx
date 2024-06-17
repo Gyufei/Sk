@@ -31,21 +31,21 @@ import { genSignMsg } from "@/lib/sign-utils";
 export function WalletItem({
   name,
   address,
+  serialNumber,
   setName,
   setAddress,
   isSign,
   setIsSign,
-  isLastEvm = false,
   walletOptions,
   handleRemove,
 }: {
   name: string;
   address: string;
   isSign: boolean;
+  serialNumber: number;
   setName: (_n: string) => void;
   setAddress: (_a: string) => void;
   setIsSign: (_i: boolean) => void;
-  isLastEvm?: boolean;
   walletOptions: any[];
   handleRemove: () => void;
 }) {
@@ -59,7 +59,7 @@ export function WalletItem({
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
 
-  const isOp = useMemo(() => name === "OP Mainnet", [name]);
+  const isMain = serialNumber === 1;
 
   //solana
   const { publicKey, signMessage: solanaSign } = useWallet();
@@ -236,6 +236,7 @@ export function WalletItem({
       body: JSON.stringify({
         user_id: uuid,
         chain_name: name,
+        serial_number: serialNumber,
       }),
     });
 
@@ -249,7 +250,7 @@ export function WalletItem({
       <Popover open={popOpen} onOpenChange={(isOpen) => setPopOpen(isOpen)}>
         <PopoverTrigger
           asChild
-          data-disabled={isLastEvm}
+          data-disabled={isMain || isSign}
           className="data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
         >
           <div
@@ -304,7 +305,7 @@ export function WalletItem({
       </Popover>
       <div className="relative ml-0 mt-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] md:ml-4 md:mt-0 ">
         <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
-        {isLastEvm && isSign && (
+        {isMain && isSign && (
           <Image
             src="/icons/sign.svg"
             width={20}
@@ -314,7 +315,7 @@ export function WalletItem({
           />
         )}
       </div>
-      {!isLastEvm && !isOp && (
+      {!isMain && (
         <div
           onClick={handleOperation}
           data-disabled={disabled}
