@@ -229,21 +229,25 @@ export default function EventsPage() {
               isActive={currentToken?.name === claimTokens[0]?.name}
               onClick={() => handleClickToken(claimTokens[0])}
               src={claimTokens[0]?.logo}
+              name={claimTokens[0]?.name}
             />
             <CoinItem
               isActive={currentToken?.name === claimTokens[1]?.name}
               onClick={() => handleClickToken(claimTokens[1])}
               src={claimTokens[1]?.logo}
+              name={claimTokens[1]?.name}
             />
             <CoinItem
               isActive={currentToken?.name === claimTokens[2]?.name}
               onClick={() => handleClickToken(claimTokens[2])}
               src={claimTokens[2]?.logo}
+              name={claimTokens[2]?.name}
             />
             <CoinItem
               isActive={currentToken?.name === claimTokens[3]?.name}
               onClick={() => handleClickToken(claimTokens[3])}
               src={claimTokens[3]?.logo}
+              name={claimTokens[3]?.name}
             />
           </div>
           {!currentAddress ? (
@@ -313,10 +317,12 @@ function CoinItem({
   src,
   onClick,
   isActive,
+  name,
 }: {
   src: string;
   onClick: () => void;
   isActive: boolean;
+  name: string;
 }) {
   function handleClick() {
     if (src) onClick();
@@ -328,7 +334,7 @@ function CoinItem({
       data-active={isActive}
       className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
     >
-      {src && <Image src={src} width={40} height={40} alt="coin" />}
+      {src && <Image src={src} width={40} height={40} alt={name} />}
     </div>
   );
 }

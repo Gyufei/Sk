@@ -38,11 +38,12 @@ export function useClaimData(currentToken: IClaimToken, address: string | undefi
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        wallet_address: address,
         user_id: uuid,
         project_name: projectName,
       }),
     });
-    console.log(res);
+    console.log('markle_proof', res);
 
     return res;
   }
