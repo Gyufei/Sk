@@ -61,6 +61,8 @@ export function WalletItem({
 
   const isMain = serialNumber === 1;
 
+  const [isOperating, setIsOperating] = useState(false);
+
   //solana
   const { publicKey, signMessage: solanaSign } = useWallet();
   const solanaAddress = useMemo(
@@ -94,24 +96,26 @@ export function WalletItem({
     }
   }, [name, isSign, suiAccount]);
 
-  const disabled = useMemo(() => {
+  const opBtnDisabled = useMemo(() => {
+    if (isOperating) {
+      return true;
+    }
     if (isSign) {
-      if (name === "OP Mainnet") {
-        return true;
-      }
       return false;
     }
     return !name;
   }, [name, isSign]);
 
   async function handleOperation() {
-    if (disabled) return;
+    if (opBtnDisabled) return;
+    setIsOperating(true);
     if (!isSign) {
       await linkWallet();
     } else {
       await removeWallet();
     }
     getUserInfo();
+    setIsOperating(false);
   }
 
   async function linkWallet() {
@@ -318,7 +322,7 @@ export function WalletItem({
       {!isMain && (
         <div
           onClick={handleOperation}
-          data-disabled={disabled}
+          data-disabled={opBtnDisabled}
           className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4 md:mt-0  md:w-12"
         >
           {isSign ? (
