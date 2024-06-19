@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Mainnet from './mainnet.json'
 import Testnet from './testnet.json'
 
-export function useContractAddress(chainName: 'linea' | 'ethereum' | 'solana') {
+export function useContractAddress(chainName: 'linea' | 'ethereum' | 'solana' | 'op mainnet') {
   const [address, setAddress] = useState('')
 
   useEffect(() => {

@@ -5,6 +5,9 @@
   "ethereum": {
     "work-bench": "0x3A3dd3b87EC17475762Ba8c23ff93a2F53B37b6e"
   },
+  "op mainnet": {
+    "work-bench": "0x3A3dd3b87EC17475762Ba8c23ff93a2F53B37b6e"
+  },
   "solana": {
     "work-bench": "GDTrePtt7tmGZ5tzk8w6tYdDamY2TzYXozowWnRLsB3k"
   }

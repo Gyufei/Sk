@@ -2,6 +2,9 @@
   "linea": {
     "work-bench": "0x7Eca5358d15Fcf871eF20d3f4F6d240B2F4569d2"
   },
+  "op mainnet": {
+    "work-bench": "0x7Eca5358d15Fcf871eF20d3f4F6d240B2F4569d2"
+  },
   "ethereum": {
     "work-bench": ""
   },

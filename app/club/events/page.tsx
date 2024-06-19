@@ -78,9 +78,7 @@ export default function EventsPage() {
     return ts;
   }, [eventsData]);
 
-  const [currentToken, setCurrentToken] = useState(
-    claimTokens[claimTokens.length - 1],
-  );
+  const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
   const currentAddress = useMemo(() => {
     if (currentToken?.chainInfo?.isEVM) {
@@ -132,6 +130,7 @@ export default function EventsPage() {
 
   const { data: ethState, refetch: refreshEthClaim } = useEthClaimed(
     !!currentToken?.chainInfo?.isEVM,
+    (currentToken?.chainInfo?.name?.toLowerCase() as any) || "ethereum",
     currentToken?.eventData,
     claimAmount,
   );

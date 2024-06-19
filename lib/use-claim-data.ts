@@ -49,7 +49,7 @@ export function useClaimData(currentToken: IClaimToken, address: string | undefi
   }
 
   const res = useSWR(() => JSON.stringify({
-    currentToken,
+    currentToken: currentToken || '',
     uuid
   }), fetchClaimData);
 

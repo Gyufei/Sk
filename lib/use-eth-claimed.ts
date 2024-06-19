@@ -3,9 +3,9 @@ import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 
-export function useEthClaimed(isEthereum: boolean, eventsData: Record<'claim_version' | 'token_address', any>, amount: number | null) {
+export function useEthClaimed(isEthereum: boolean, chainName: 'linea' | 'ethereum' | 'op mainnet', eventsData: Record<'claim_version' | 'token_address', any>, amount: number | null) {
   const { address } = useAccount();
-  const { address: ContractAddress } = useContractAddress("ethereum");
+  const { address: ContractAddress } = useContractAddress(chainName);
 
   const leaf = eventsData && amount && isEthereum ? keccak256(encodeAbiParameters(
     parseAbiParameters('address x, address y, uint256 z, uint256 k'),
