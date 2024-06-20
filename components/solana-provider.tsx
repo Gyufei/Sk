@@ -8,6 +8,7 @@ import {
   WalletProvider,
 } from "@solana/wallet-adapter-react";
 import { SolflareWalletAdapter } from "@solflare-wallet/wallet-adapter";
+import { OKXWalletAdapter } from "./okx-wallet-adapter";
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
@@ -21,7 +22,7 @@ export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
 
   const wallets = [
     ...(typeof window === "undefined" ? [] : [new SolflareWalletAdapter()]),
-    // new OKXWalletAdapter(),
+    new OKXWalletAdapter(),
   ];
 
   const onError = useCallback((err: WalletError, adapter?: Adapter) => {
