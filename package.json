@@ -35,7 +35,7 @@
     "bs58": "4.0.1",
     "clsx": "2.1.1",
     "eslint": "8.47.0",
-    "eslint-config-next": "13.4.19",
+    "eslint-config-next": "14.2.5",
     "jotai": "2.8.0",
     "next": "13.4.19",
     "postcss": "8.4.28",
