@@ -27,6 +27,7 @@ import {
   useSignPersonalMessage,
 } from "@mysten/dapp-kit";
 import { genSignMsg } from "@/lib/sign-utils";
+import { cn } from "@/lib/utils";
 
 export function WalletItem({
   name,
@@ -307,49 +308,92 @@ export function WalletItem({
           ))}
         </PopoverContent>
       </Popover>
-      <div className="relative ml-0 mt-4 flex h-12 flex-1 items-center border-b border-[rgba(255,255,255,0.2)] md:ml-4 md:mt-0 ">
-        <div className="text-base leading-6 text-[#d6d6d6]">{address}</div>
+      <div className="relative ml-0 mt-4 flex h-12 w-full flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] md:ml-4 md:mt-0 ">
+        <div
+          className={cn(
+            "flex-1 truncate text-base leading-6 text-[#d6d6d6] md:mr-0",
+            isMain ? "mr-[30px]" : "mr-0",
+          )}
+        >
+          {address}
+        </div>
         {isMain && isSign && (
           <Image
             src="/icons/sign.svg"
             width={20}
             height={20}
             alt="sign"
-            className="absolute right-0 top-[14px] cursor-pointer"
+            className="absolute right-0 top-0 cursor-pointer md:top-[14px]"
           />
         )}
       </div>
-      {!isMain && (
-        <div
-          onClick={handleOperation}
-          data-disabled={opBtnDisabled}
-          className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4 md:mt-0  md:w-12"
-        >
-          {isSign ? (
-            <>
-              <Image
-                src="/icons/unlink.svg"
-                width={24}
-                height={24}
-                alt="save"
-              />
-              <div className="ml-1 text-base leading-6 md:hidden">
-                Disconnect
-              </div>
-            </>
-          ) : (
-            <>
-              <Image src="/icons/link.svg" width={24} height={24} alt="save" />
-              <div className="ml-1 text-base leading-6 md:hidden">Connect</div>
-            </>
-          )}
-        </div>
-      )}
+      {!isMain &&
+        (isSign ? (
+          <UnlinkBtn onClick={handleOperation} disabled={opBtnDisabled} />
+        ) : (
+          <LinkBtn onClick={handleOperation} disabled={opBtnDisabled} />
+        ))}
       <ConnectModal
         trigger={<></>}
         open={suiOpen}
         onOpenChange={(isOpen: boolean) => setSuiOpen(isOpen)}
       />
+    </div>
+  );
+}
+
+function UnlinkBtn({
+  onClick,
+  disabled,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+}) {
+  const [isHover, setIsHover] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+      onClick={onClick}
+      data-disabled={disabled}
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:border-[#FF5A5A] data-[disabled=false]:hover:bg-[#FF5A5A] md:ml-4 md:mt-0 md:w-12"
+    >
+      <Image
+        src={isHover ? "/icons/unlink-white.svg" : "/icons/unlink.svg"}
+        width={24}
+        height={24}
+        alt="save"
+      />
+      <div className="ml-1 text-base leading-6 md:hidden">Disconnect</div>
+    </div>
+  );
+}
+
+function LinkBtn({
+  onClick,
+  disabled,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+}) {
+  const [isHover, setIsHover] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+      onClick={onClick}
+      data-disabled={disabled}
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:bg-[#fff] md:ml-4 md:mt-0 md:w-12"
+    >
+      <Image
+        src={isHover ? "/icons/link-black.svg" : "/icons/link.svg"}
+        width={24}
+        height={24}
+        alt="save"
+      />
+      <div className="ml-1 text-base leading-6 md:hidden">Connect</div>
     </div>
   );
 }

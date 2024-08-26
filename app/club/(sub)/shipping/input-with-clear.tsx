@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
+
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 

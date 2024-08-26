@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useAtomValue } from "jotai/react";
+
+import { Input } from "@/components/ui/input";
+
 import { UuidAtom } from "@/lib/state";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 import fetcher from "@/lib/fetcher";

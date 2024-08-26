@@ -1,18 +1,16 @@
 "use client";
-import { NickName } from "./nick-name";
-import { WalletArray } from "./wallet";
-import { SocialMedia } from "./social-media";
-import { ShippingAddress } from "./shipping-address";
+
+import { useMemo } from "react";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
+import Image from "next/image";
+
 import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
 
-import "@solana/wallet-adapter-react-ui/styles.css";
-import "@mysten/dapp-kit/dist/index.css";
-import { useMemo } from "react";
+import { NickName } from "./info/nick-name";
 
-export default function MemberInfo() {
+export default function SubLayout({ children }: { children: React.ReactNode }) {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
@@ -59,11 +57,25 @@ export default function MemberInfo() {
     );
   }, [isEn, userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
+  function handleBack() {
+    window.history.back();
+  }
+
   return (
     <>
+      <div className="absolute -left-[84px] top-[4px] hidden h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:flex">
+        <Image
+          onClick={handleBack}
+          className="cursor-pointer"
+          src="/icons/back.svg"
+          width={30}
+          height={30}
+          alt="back"
+        />
+      </div>
       <div className="top-content active !rounded-none !bg-transparent !backdrop-blur-none">
         {!!(address && uuid) && (
-          <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-scroll !py-0 !pl-0 !pr-2">
+          <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-visible md:overflow-y-scroll !py-0 !pl-0 !pr-2">
             <div className="flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[1.3em] md:p-[1.4em]">
               <div className="hidden items-center space-x-[75px] md:flex">
                 {memberInfoTpl}
@@ -82,9 +94,7 @@ export default function MemberInfo() {
               </div>
             </div>
 
-            <WalletArray />
-            <SocialMedia />
-            <ShippingAddress />
+            {children}
           </div>
         )}
       </div>

@@ -64,7 +64,10 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             <div className="text-block-4">© JUU17. All rights reserved.</div>
           </div>
 
-          <div data-id="" className="w-layout-grid right-grid-block">
+          <div
+            data-id=""
+            className="w-layout-grid right-grid-block md:min-h-unset relative min-h-[200px]"
+          >
             {children}
           </div>
         </div>

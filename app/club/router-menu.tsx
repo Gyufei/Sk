@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function RouterMenu() {
   return (
-    <div className="fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-between gap-x-10">
+    <div className="fixed left-1/2 md:top-1/2 top-[500px] flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-between w-[280px] flex-wrap gap-10">
       <Link href="/club/events">
         <MenuItem>
           <Image src="/icons/events.svg" width={40} height={40} alt="events" />
@@ -17,6 +17,14 @@ export default function RouterMenu() {
           <Image src="/icons/info.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
             Info
+          </div>
+        </MenuItem>
+      </Link>
+      <Link href="/club/shipping">
+        <MenuItem>
+          <Image src="/icons/shipping.svg" width={40} height={40} alt="events" />
+          <div className="text-base font-semibold leading-6 text-white opacity-60">
+            Shipping
           </div>
         </MenuItem>
       </Link>

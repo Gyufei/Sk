@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 import { InputWithClear } from "./input-with-clear";
 import {
@@ -17,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 const countryCodeList = ["86"];
 
-export function ShippingAddress() {
+export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
@@ -271,7 +273,7 @@ function NameAndPhone({
   }
 
   return (
-    <div className="flex flex-col items-stretch space-y-5 md:space-y-0 md:flex-row md:items-center md:space-x-6 space-x-0">
+    <div className="flex flex-col items-stretch space-x-0 space-y-5 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
@@ -391,7 +393,7 @@ function Address({
   }
 
   return (
-    <div className="mt-4 flex flex-col items-stretch space-y-5 md:mt-10 md:flex-row md:items-center space-x-0 md:space-x-6 md:space-y-0">
+    <div className="mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <div className="text-lg font-normal leading-7 text-white opacity-60">
           {isEn ? "Country" : "国家"}
@@ -562,7 +564,7 @@ function StreetAndCode({
   }
 
   return (
-    <div className="relative mt-4 flex flex-col items-stretch space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 space-x-0 md:space-y-0">
+    <div className="relative mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="street"

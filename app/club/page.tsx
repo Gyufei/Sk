@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import SignDialog from "@/components/sign-dialog";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
+
+import SignDialog from "@/components/sign-dialog";
+
 import { UuidAtom } from "@/lib/state";
+
 import RouterMenu from "./router-menu";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
