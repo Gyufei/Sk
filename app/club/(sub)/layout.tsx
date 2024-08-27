@@ -63,7 +63,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="absolute -left-[84px] top-[4px] hidden h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:flex">
+      <div className="absolute flex h-[60px] w-[60px] left-[0px] bottom-[-75px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:-left-[84px] md:top-[4px]">
         <Image
           onClick={handleBack}
           className="cursor-pointer"
@@ -75,7 +75,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="top-content active !rounded-none !bg-transparent !backdrop-blur-none">
         {!!(address && uuid) && (
-          <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-visible md:overflow-y-auto !py-0 !pl-0 !pr-2">
+          <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-visible !py-0 !pl-0 !pr-2 md:overflow-y-auto">
             <div className="flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px]">
               <div className="hidden items-center space-x-[75px] md:flex">
                 {memberInfoTpl}
