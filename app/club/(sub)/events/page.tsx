@@ -217,9 +217,9 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="mb-[100px] ml-0 mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:ml-[80px] md:rounded-[1.3em] md:p-[1.4em]">
+    <div className="mb-[100px] ml-0 mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:ml-[80px] md:rounded-[18px] md:p-[20px]">
       <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
-        <div className="absolute -bottom-[100px] left-0 flex h-auto w-full flex-row items-end justify-between pl-4 pt-0 md:-left-[101px] md:-top-[20px] md:h-full md:w-auto md:flex-col md:items-center md:py-2 md:pl-0 md:pt-4">
+        <div className="absolute -bottom-[100px] left-0 flex h-auto w-full flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-full md:w-auto md:flex-col md:items-center md:py-2 md:pl-0 md:pt-4">
           <CoinItem
             isActive={currentToken?.name === claimTokens[0]?.name}
             onClick={() => handleClickToken(claimTokens[0])}

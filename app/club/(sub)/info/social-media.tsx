@@ -9,7 +9,7 @@ import { UserInfoAtom } from "@/lib/state";
 export function SocialMedia() {
   const { isEn } = useLang();
   return (
-    <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[1.3em] md:p-[1.4em]">
+    <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
       <div className="mb-7 text-xl leading-[30px] text-white">
         {isEn ? "Social Media" : "社交媒体"}
       </div>

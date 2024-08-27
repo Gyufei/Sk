@@ -139,7 +139,7 @@ export default function ShippingAddressPage() {
 
   return (
     <>
-      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[1.3em] md:p-[1.4em]">
+      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
         <div className="mb-7 text-xl leading-[30px] text-white">
           {isEn ? "Shipping Address" : "收货地址"}
         </div>
