@@ -66,7 +66,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
 
           <div
             data-id=""
-            className="right-grid-block md:min-h-unset relative min-h-[200px]"
+            className="w-layout-grid right-grid-block md:min-h-unset relative min-h-[200px]"
           >
             {children}
           </div>
