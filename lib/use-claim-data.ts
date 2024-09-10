@@ -1,4 +1,3 @@
-
 import useSWR from "swr";
 import fetcher from "./fetcher";
 import { ApiHost } from "./path";
@@ -16,21 +15,39 @@ export interface IClaimToken {
   eventData: Record<string, any>;
 }
 
-
-export function useClaimData(currentToken: IClaimToken, address: string | undefined) {
+export function useClaimData(
+  currentToken: IClaimToken,
+  address: string | undefined,
+) {
   const uuid = useAtomValue(UuidAtom);
   const { data: userInfo } = useFetchUserInfo();
 
   async function fetchClaimData() {
     if (!userInfo || !currentToken) return null;
-    const projectName = currentToken.eventData.project_name
-    const chainName = currentToken.chainInfo.name
-    const isEVM = currentToken.chainInfo.isEVM
 
-    const shouldClaim = (isEVM ? userInfo.wallets['main_wallet']  === address : false) || userInfo.wallets['alt_wallets'].some((w: any) => w.network === chainName && w.address === address)
-    if (!shouldClaim) return {
-      claim_amount: 0
+    const isOffChain = (currentToken.chainInfo as any).isOffChain;
+    if (isOffChain) {
+      return {
+        claim_amount: 1,
+        status: true,
+      };
     }
+
+    const projectName = currentToken.eventData.project_name;
+    const chainName = currentToken.chainInfo.name;
+    const isEVM = currentToken.chainInfo.isEVM;
+
+    // should bind wallet of chain then claim
+    const shouldClaim =
+      (isEVM ? userInfo.wallets["main_wallet"] === address : false) ||
+      userInfo.wallets["alt_wallets"].some(
+        (w: any) => w.network === chainName && w.address === address,
+      );
+
+    if (!shouldClaim)
+      return {
+        claim_amount: 0,
+      };
 
     const res: any = await fetcher(`${ApiHost}/user/claim_markle_proof`, {
       method: "POST",
@@ -43,15 +60,20 @@ export function useClaimData(currentToken: IClaimToken, address: string | undefi
         project_name: projectName,
       }),
     });
-    console.log('markle_proof', res);
+
+    console.log("markle_proof", res);
 
     return res;
   }
 
-  const res = useSWR(() => JSON.stringify({
-    currentToken: currentToken || '',
-    uuid
-  }), fetchClaimData);
+  const res = useSWR(
+    () =>
+      JSON.stringify({
+        currentToken: currentToken || "",
+        uuid,
+      }),
+    fetchClaimData,
+  );
 
   return res;
 }

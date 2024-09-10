@@ -122,7 +122,7 @@ export function WalletItem({
   async function linkWallet() {
     const chainInfo = ChainInfos[name];
     if (chainInfo?.isEVM) {
-      await signEvm();
+      await signEvmMsg();
     }
 
     if (name === "Solana") {
@@ -134,23 +134,23 @@ export function WalletItem({
     }
   }
 
-  async function signEvm() {
+  async function signEvmMsg() {
     const chainInfo = ChainInfos[name];
     if (String(chainId) !== String(chainInfo.chainId)) {
       console.log("switch chain");
       switchChain!(chainInfo.chainId!)
         .then(() => {
-          signMsg();
+          signEvmMsgAction();
         })
         .catch((e) => {
           console.error("switch chain error", e);
         });
     } else {
-      signMsg();
+      signEvmMsgAction();
     }
   }
 
-  async function signMsg() {
+  async function signEvmMsgAction() {
     console.log(walletAddress);
     const { salt, msg } = genSignMsg();
 

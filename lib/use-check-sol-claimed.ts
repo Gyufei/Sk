@@ -4,7 +4,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useSolProgram } from "./use-sol-program";
 import { useMemo } from "react";
 
-export function useSolClaimed(isSolanaFlag: boolean, eventsData: Record<'claim_version' | 'token_address', any>) {
+export function useCheckSolClaimed(isSolanaFlag: boolean, eventsData: Record<'claim_version' | 'token_address', any>) {
   const { publicKey: authority } = useWallet();
   const chain_work_bench_program = useSolProgram();
 

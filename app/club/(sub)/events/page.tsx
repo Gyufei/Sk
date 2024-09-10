@@ -14,9 +14,11 @@ import { useEthClaim } from "@/lib/use-eth-claim";
 import { useEventsData } from "@/lib/use-events-data";
 import { IClaimToken, useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
-import { useSolClaimed } from "@/lib/use-sol-claimed";
-import { useEthClaimed } from "@/lib/use-eth-claimed";
+import { useCheckSolClaimed } from "@/lib/use-check-sol-claimed";
+import { useCheckEthClaimed } from "@/lib/use-check-eth-claimed";
 import { UuidAtom } from "@/lib/state";
+import { useCheckOffChainClaimed } from "@/lib/use-check-off-chain-claimed";
+import { useOffChainClaim } from "@/lib/use-off-chain-cliam";
 
 export default function EventsPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -49,17 +51,22 @@ export default function EventsPage() {
     if (!eventsData || !eventsData.length) return [];
 
     const ts = eventsData.map((event) => {
-      const chainInfo = Object.values(ChainInfos).find((info) => {
-        if (
-          (String(event.chain_id) === "901" ||
-            String(event.chain_id) === "902") &&
-          info.name === "Solana"
-        ) {
-          return info;
-        }
+      const chainInfo =
+        event.chain_id === 0
+          ? {
+              isOffChain: true,
+            }
+          : Object.values(ChainInfos).find((info) => {
+              if (
+                (String(event.chain_id) === "901" ||
+                  String(event.chain_id) === "902") &&
+                info.name === "Solana"
+              ) {
+                return info;
+              }
 
-        return String(info.chainId) === String(event.chain_id);
-      });
+              return String(info.chainId) === String(event.chain_id);
+            });
 
       return {
         name: event.token_name,
@@ -81,12 +88,16 @@ export default function EventsPage() {
 
   const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
+  const isOffChain = !!(currentToken?.chainInfo as any)?.isOffChain;
+  const isEVM = !!currentToken?.chainInfo?.isEVM;
+  const isSolana = currentToken?.chainInfo?.name === "Solana";
+
   const currentAddress = useMemo(() => {
-    if (currentToken?.chainInfo?.isEVM) {
+    if (isEVM || isOffChain) {
       return ethAddress;
     }
 
-    if (currentToken?.chainInfo?.name === "Solana") {
+    if (isSolana) {
       return solanaAddress;
     }
   }, [currentToken, ethAddress, solanaAddress]);
@@ -98,18 +109,36 @@ export default function EventsPage() {
   } = useEthClaim(
     (currentToken?.chainInfo?.name?.toLowerCase() as any) || "ethereum",
   );
+
   const { claimAction: claimSolanaAction, isPending: isSolPending } =
     useSolClaim();
 
+  const {
+    claimAction: claimOffChainAction,
+    isPending: isOffChainPending,
+    isSuccess: isOffChainSuccess,
+  } = useOffChainClaim();
+
   const isPending = useMemo(() => {
-    if (currentToken?.chainInfo?.isEVM) {
+    if (isOffChain) {
+      return isOffChainPending;
+    }
+
+    if (isEVM) {
       return isEthPending;
     }
 
-    if (currentToken?.chainInfo?.name === "Solana") {
+    if (isSolana) {
       return isSolPending;
     }
-  }, [currentToken, isEthPending, isSolPending]);
+  }, [
+    isOffChain,
+    isEVM,
+    isSolana,
+    isOffChainPending,
+    isEthPending,
+    isSolPending,
+  ]);
 
   const { data: claimData } = useClaimData(currentToken, currentAddress);
 
@@ -124,38 +153,54 @@ export default function EventsPage() {
     return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
   }, [claimAmount, currentToken]);
 
-  const { data: solState, mutate: refreshSolClaim } = useSolClaimed(
-    currentToken?.chainInfo?.name === "Solana",
-    currentToken?.eventData,
-  );
-
-  const { data: ethState, refetch: refreshEthClaim } = useEthClaimed(
-    !!currentToken?.chainInfo?.isEVM,
+  const { data: ethState, refetch: refreshEthClaim } = useCheckEthClaimed(
+    isEVM,
     (currentToken?.chainInfo?.name?.toLowerCase() as any) || "ethereum",
     currentToken?.eventData,
     claimAmount,
   );
 
+  const { data: solState, mutate: refreshSolClaim } = useCheckSolClaimed(
+    isSolana,
+    currentToken?.eventData,
+  );
+
+  const { data: offChainState, mutate: refreshOffChainClaim } =
+    useCheckOffChainClaimed(
+      isOffChain,
+      currentToken?.eventData?.project_name,
+      currentToken?.eventData?.claim_version,
+    );
+
   const isClaimed = useMemo(() => {
-    if (currentToken?.chainInfo?.isEVM) {
+    if (isOffChain) {
+      return offChainState?.claimed;
+    }
+
+    if (isEVM) {
       return ethState?.claimed;
     }
 
-    if (currentToken?.chainInfo?.name === "Solana") {
+    if (isSolana) {
       return solState?.claimed;
     }
-  }, [solState]);
+  }, [isEVM, isOffChain, isSolana, ethState, solState, offChainState]);
 
   function handleClaim() {
     if (isClaimed || isPending) return;
     if (!currentToken || !currentToken.chainInfo) return;
 
-    if (currentToken.chainInfo.isEVM) {
+    if (isEVM) {
       claimEvm();
       return;
     }
 
-    if (currentToken.chainInfo.name === "Solana") {
+    if (isOffChain) {
+      claimOffChain();
+      return;
+    }
+
+    if (isSolana) {
       claimSolana();
     }
   }
@@ -197,6 +242,33 @@ export default function EventsPage() {
     }
   }
 
+  async function claimOffChain() {
+    if (String(chainId) !== String(10)) {
+      try {
+        await switchChain!(10);
+        claimOffChainAction({
+          wallet: ethAddress,
+          event_name: currentToken.eventData.project_name,
+          claim_version: currentToken.eventData.claim_version,
+        } as any);
+      } catch (e) {
+        console.error("switch chain error", e);
+      }
+    } else {
+      claimOffChainAction({
+        wallet: ethAddress,
+        eventName: currentToken.eventData.project_name,
+        claimVersion: currentToken.eventData.claim_version,
+      } as any);
+    }
+  }
+
+  useEffect(() => {
+    if (isOffChainSuccess) {
+      refreshOffChainClaim();
+    }
+  }, [isOffChainSuccess, refreshOffChainClaim]);
+
   function handleClickToken(t: IClaimToken) {
     if (!t) return;
     setCurrentToken(t);
@@ -219,7 +291,7 @@ export default function EventsPage() {
   return (
     <div className="mb-[100px] ml-0 mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:ml-[80px] md:rounded-[18px] md:p-[20px]">
       <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
-        <div className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-full md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4">
+        <div className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4">
           {claimTokens.map((t, i) => (
             <CoinItem
               key={i}
@@ -260,10 +332,14 @@ export default function EventsPage() {
                 {showClaimAmount}
               </div>
               <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
-                ${currentToken.symbol}
+                {!isOffChain ? "$" : ""}
+                {currentToken.symbol}
               </div>
             </div>
-            <div className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60">
+            <div
+              style={{ visibility: isOffChain ? "hidden" : "visible" }}
+              className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
+            >
               <div>on</div>
               <ChainLogoText
                 logo={currentToken.chainInfo.logo}
@@ -283,7 +359,10 @@ export default function EventsPage() {
                 ) : (
                   <>
                     <span className="font-bold">Claim</span>
-                    <div className="ml-1 flex justify-start">
+                    <div
+                      style={{ visibility: isOffChain ? "hidden" : "visible" }}
+                      className="ml-1 flex justify-start"
+                    >
                       <span>on</span>
                       <ChainLogoText
                         logo={currentToken.chainInfo.logo}
