@@ -6,7 +6,7 @@ export default function Home() {
       <div className="top-content active">
         <div className="content-inner-box">
           <div className="div-block-7">
-            <p className="paragraph-009">Juu17 (🔫 , 📅)</p>
+            <p className="paragraph-009">About Juu17 (🔫 , 1️⃣7️⃣)</p>
           </div>
           <div className="text-block-para">Briefing / TL;DR</div>
           <div className="panel-para-text">
@@ -33,7 +33,7 @@ export default function Home() {
           <div className="social-item-wrapper panel-para-text">
             <a
               className="social-media-button"
-              href="https://twitter.com/0xjuu_17"
+              href="https://x.com/Juu17__"
               target="_blank"
             >
               <svg

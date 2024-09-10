@@ -7,8 +7,8 @@ import { Web3Modal } from "@/components/web3-modal";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Juu17 Platoon",
-    default: "Juu17 Platoon",
+    template: "%s | Juu17 Brands",
+    default: "Juu17 Brands",
   },
   metadataBase: new URL("https://juu17.com/"),
   description:
@@ -16,21 +16,21 @@ export const metadata: Metadata = {
   viewport: { width: "device-width", initialScale: 1 },
   openGraph: {
     url: "https://juu17.com/",
-    title: "Juu17 Platoon",
+    title: "Juu17 Brands",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
-    siteName: "Juu17 Platoon",
+    siteName: "Juu17 Brands",
     images: "/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Juu17 Platoon",
+    title: "Juu17 Brands",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
-    creator: "@0xjuu_17",
-    site: "@0xjuu_17",
+    creator: "@Juu17__",
+    site: "@Juu17__",
   },
   icons: {
     icon: [{ url: "/images/favicon-32x32.png" }],
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://juu17.com/",
+    canonical: "https://juu17.com/"
   },
 };
 
