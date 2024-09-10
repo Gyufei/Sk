@@ -219,31 +219,16 @@ export default function EventsPage() {
   return (
     <div className="mb-[100px] ml-0 mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:ml-[80px] md:rounded-[18px] md:p-[20px]">
       <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
-        <div className="absolute -bottom-[100px] left-0 flex h-auto w-full flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-full md:w-auto md:flex-col md:items-center md:py-2 md:pl-0 md:pt-4">
-          <CoinItem
-            isActive={currentToken?.name === claimTokens[0]?.name}
-            onClick={() => handleClickToken(claimTokens[0])}
-            src={claimTokens[0]?.logo}
-            name={claimTokens[0]?.name}
-          />
-          <CoinItem
-            isActive={currentToken?.name === claimTokens[1]?.name}
-            onClick={() => handleClickToken(claimTokens[1])}
-            src={claimTokens[1]?.logo}
-            name={claimTokens[1]?.name}
-          />
-          <CoinItem
-            isActive={currentToken?.name === claimTokens[2]?.name}
-            onClick={() => handleClickToken(claimTokens[2])}
-            src={claimTokens[2]?.logo}
-            name={claimTokens[2]?.name}
-          />
-          <CoinItem
-            isActive={currentToken?.name === claimTokens[3]?.name}
-            onClick={() => handleClickToken(claimTokens[3])}
-            src={claimTokens[3]?.logo}
-            name={claimTokens[3]?.name}
-          />
+        <div className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-full md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4">
+          {claimTokens.map((t, i) => (
+            <CoinItem
+              key={i}
+              isActive={currentToken?.name === t.name}
+              onClick={() => handleClickToken(t)}
+              src={t.logo}
+              name={t.name}
+            />
+          ))}
         </div>
         {!currentAddress ? (
           <div className="flex h-[208px] flex-col items-center justify-center">
@@ -251,7 +236,15 @@ export default function EventsPage() {
               onClick={handleConnect}
               className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
             >
-              <div className="text-base leading-6 text-white">Connect</div>
+              <div className="flex justify-between text-base leading-6 text-white">
+                <span>Connect</span>
+                {currentToken && (
+                  <ChainLogoText
+                    logo={currentToken.chainInfo.logo}
+                    name={currentToken.chainInfo.name}
+                  />
+                )}
+              </div>
             </div>
           </div>
         ) : !claimData ? (
@@ -272,22 +265,33 @@ export default function EventsPage() {
             </div>
             <div className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60">
               <div>on</div>
-              <Image
-                src={currentToken.chainInfo.logo}
-                width={16}
-                height={16}
-                alt="sol net"
-                className="ml-2 mr-1"
+              <ChainLogoText
+                logo={currentToken.chainInfo.logo}
+                name={currentToken.chainInfo.name}
               />
-              <div>{currentToken.chainInfo.name}</div>
             </div>
             <div
               data-not={isClaimed || isPending}
               onClick={handleClaim}
               className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
             >
-              <div className="text-base leading-6 text-white">
-                {isClaimed ? "Claimed" : isPending ? "Claiming" : "Claim"}
+              <div className="flex justify-between text-base leading-6 text-white">
+                {isClaimed ? (
+                  "Claimed"
+                ) : isPending ? (
+                  "Claiming"
+                ) : (
+                  <>
+                    <span className="font-bold">Claim</span>
+                    <div className="ml-1 flex justify-start">
+                      <span>on</span>
+                      <ChainLogoText
+                        logo={currentToken.chainInfo.logo}
+                        name={currentToken.chainInfo.name}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </>
@@ -326,9 +330,24 @@ function CoinItem({
     <div
       onClick={handleClick}
       data-active={isActive}
-      className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
+      className="flex h-[60px] w-[60px] flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
     >
       {src && <Image src={src} width={40} height={40} alt={name} />}
     </div>
+  );
+}
+
+function ChainLogoText({ logo, name }: { logo: string; name: string }) {
+  return (
+    <>
+      <Image
+        src={logo}
+        width={16}
+        height={16}
+        alt="sol net"
+        className="ml-2 mr-1"
+      />
+      <div className="text-base leading-6">{name}</div>
+    </>
   );
 }
