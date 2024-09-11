@@ -27,6 +27,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     setInit(true);
+    console.log(uuid);
     if (init && !uuid) {
       router.replace("/club");
     }

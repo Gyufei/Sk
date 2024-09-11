@@ -10,7 +10,6 @@ import { UuidAtom } from "@/lib/state";
 import RouterMenu from "./router-menu";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
-import "@mysten/dapp-kit/dist/index.css";
 
 export default function Club() {
   const { address } = useAccount();
