@@ -15,8 +15,6 @@ export default function Club() {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
 
-  const [dialogOpen, setOpen] = useState(false);
-
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -25,13 +23,5 @@ export default function Club() {
 
   if (!init) return null;
 
-  return (
-    <>
-      {uuid && address ? (
-        <RouterMenu />
-      ) : (
-        <SignDialog dialogOpen={dialogOpen} setDialogOpen={setOpen} />
-      )}
-    </>
-  );
+  return <>{uuid && address ? <RouterMenu /> : <SignDialog />}</>;
 }

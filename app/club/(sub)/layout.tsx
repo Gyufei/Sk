@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
 import Image from "next/image";
@@ -9,12 +9,23 @@ import { UserInfoAtom, UuidAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
 
 import { NickName } from "./info/nick-name";
+import { useRouter } from "next/navigation";
 
 export default function SubLayout({ children }: { children: React.ReactNode }) {
   const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
+  const router = useRouter();
+
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    setInit(true);
+    if (init && !uuid) {
+      router.replace("/club");
+    }
+  }, [init, setInit, uuid, router]);
 
   const memberInfoTpl = useMemo(() => {
     return (
@@ -63,7 +74,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="absolute flex h-[60px] w-[60px] left-[0px] bottom-[-75px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:-left-[84px] md:top-[4px]">
+      <div className="absolute bottom-[-75px] left-[0px] flex h-[60px] w-[60px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:-left-[84px] md:top-[4px]">
         <Image
           onClick={handleBack}
           className="cursor-pointer"

@@ -1,5 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   useAccount,
   useChainId,
@@ -7,8 +6,8 @@ import {
   useSignMessage,
   useSwitchNetwork,
 } from "wagmi";
-import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
-import { useAtom } from "jotai/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useSetAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/state";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
@@ -16,51 +15,26 @@ import { genSignMsg } from "@/lib/sign-utils";
 import { ChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 
-export default function SignDialog({
-  dialogOpen,
-  setDialogOpen,
+export function SignWithWalletBtn({
+  signing,
+  setSigning,
 }: {
-  dialogOpen: boolean;
-  setDialogOpen: (_o: boolean) => void;
+  signing: boolean;
+  setSigning: (b: boolean) => void;
 }) {
-  const [uuid, setUuid] = useAtom(UuidAtom);
-  const { address, isConnected, isDisconnected } = useAccount();
-  const { open: wcModalOpen } = useWeb3Modal();
-  const { open: isWcModalOpen } = useWeb3ModalState();
-  const { signMessageAsync: signMessage } = useSignMessage();
   const chainId = useChainId();
+  const setUuid = useSetAtom(UuidAtom);
+
+  const { address, isConnected } = useAccount();
+  const { open: wcModalOpen } = useWeb3Modal();
+  const { signMessageAsync: signMessage } = useSignMessage();
   const { switchNetworkAsync: switchChain } = useSwitchNetwork();
   const { disconnect } = useDisconnect();
 
   const { disconnect: solanaDisconnect } = useWallet();
 
-  const [signing, setSigning] = useState(false);
-
-  const [isInit, setIsInit] = useState(false);
-
-  useEffect(() => {
-    setIsInit(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isInit) return;
-    console.log(`UE1 isDisconnected:${isDisconnected} address:${address}`);
-    if (isDisconnected && !address) {
-      setUuid("");
-      setDialogOpen(true);
-    }
-
-    if (address) {
-      switchChainAndSign();
-    }
-  }, [isDisconnected, address, isInit]);
-
   async function switchChainAndSign() {
-    console.log(
-      `switchChainAndSign address:${address} isConnected:${isConnected} uuid:${uuid} chainId: ${chainId}`,
-    );
-
-    if (address && isConnected && !uuid) {
+    if (address && isConnected) {
       solanaDisconnect();
 
       if (chainId !== 10) {
@@ -114,7 +88,7 @@ export default function SignDialog({
         }),
       });
 
-      if (res.staus === false || !res.uuid) {
+      if (res.status === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
             `${
@@ -124,9 +98,7 @@ export default function SignDialog({
       }
 
       setUuid(res.uuid);
-      // console.log(`setUuid: ${res.uuid}`);
       setSigning(false);
-      setDialogOpen(false);
     } catch (e) {
       setSigning(false);
       console.log(e);
@@ -144,36 +116,19 @@ export default function SignDialog({
   }
 
   return (
-    <Dialog
-      open={dialogOpen}
-      onOpenChange={(isOpen) => {
-        if (signing && !isOpen) {
-          setDialogOpen(true);
-        }
-      }}
+    <button
+      disabled={signing}
+      onClick={handleSign}
+      className="mt-[20px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75"
     >
-      <DialogContent
-        showOverlay={false}
-        showClose={false}
-        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px]"
-        style={{
-          visibility: isWcModalOpen ? "hidden" : "visible",
-        }}
-      >
-        <div className="text-xl leading-[30px]">Welcome to Juu17 Club</div>
-        {signing ? (
-          <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
-            Signing...
-          </div>
-        ) : (
-          <div
-            onClick={handleSign}
-            className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
-          >
-            Sign In
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
+      <Image
+        className="mr-1"
+        src="/icons/wallet.svg"
+        width={20}
+        height={20}
+        alt=""
+      />
+      <div className="font-semibold">Sign in with Wallet</div>
+    </button>
   );
 }

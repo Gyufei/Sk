@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useAtomValue } from "jotai";
 import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 import { ChainInfos } from "@/lib/const";
 import { useEthClaim } from "@/lib/use-eth-claim";
@@ -16,29 +15,17 @@ import { IClaimToken, useClaimData } from "@/lib/use-claim-data";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { useCheckSolClaimed } from "@/lib/use-check-sol-claimed";
 import { useCheckEthClaimed } from "@/lib/use-check-eth-claimed";
-import { UuidAtom } from "@/lib/state";
 import { useCheckOffChainClaimed } from "@/lib/use-check-off-chain-claimed";
-import { useOffChainClaim } from "@/lib/use-off-chain-cliam";
+import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 
 export default function EventsPage() {
-  const uuid = useAtomValue(UuidAtom);
-  const router = useRouter();
-  const [init, setInit] = useState(false);
-
-  useEffect(() => {
-    setInit(true);
-    console.log(uuid);
-    if (init && !uuid) {
-      router.replace("/club");
-    }
-  }, [init, setInit, uuid, router]);
-
   const { data: eventsData } = useEventsData();
 
   // eth
   const chainId = useChainId();
   const { address: ethAddress } = useAccount();
   const { switchNetworkAsync: switchChain } = useSwitchNetwork();
+  const { open: wcModalOpen } = useWeb3Modal();
 
   // sol
   const { publicKey } = useWallet();
@@ -51,7 +38,7 @@ export default function EventsPage() {
   const claimTokens = useMemo(() => {
     if (!eventsData || !eventsData.length) return [];
 
-    const ts = eventsData.map((event) => {
+    const ts = eventsData.map((event: Record<string, any>) => {
       const chainInfo =
         event.chain_id === 0
           ? {
@@ -207,17 +194,21 @@ export default function EventsPage() {
   }
 
   async function claimEvm() {
-    const claimChainId = currentToken.chainInfo.chainId;
-
-    if (String(chainId) !== String(claimChainId)) {
-      try {
-        await switchChain!(claimChainId!);
-        claimEthAction(claimAmount!, claimData.proofs);
-      } catch (e) {
-        console.error("switch chain error", e);
-      }
+    if (!ethAddress) {
+      wcModalOpen();
     } else {
-      claimEthAction(claimAmount!, claimData.proofs);
+      const claimChainId = currentToken.chainInfo.chainId;
+
+      if (String(chainId) !== String(claimChainId)) {
+        try {
+          await switchChain!(claimChainId!);
+          claimEthAction(claimAmount!, claimData.proofs);
+        } catch (e) {
+          console.error("switch chain error", e);
+        }
+      } else {
+        claimEthAction(claimAmount!, claimData.proofs);
+      }
     }
   }
 
@@ -244,23 +235,27 @@ export default function EventsPage() {
   }
 
   async function claimOffChain() {
-    if (String(chainId) !== String(10)) {
-      try {
-        await switchChain!(10);
+    if (!ethAddress) {
+      wcModalOpen();
+    } else {
+      if (String(chainId) !== String(10)) {
+        try {
+          await switchChain!(10);
+          claimOffChainAction({
+            wallet: ethAddress,
+            event_name: currentToken.eventData.project_name,
+            claim_version: currentToken.eventData.claim_version,
+          } as any);
+        } catch (e) {
+          console.error("switch chain error", e);
+        }
+      } else {
         claimOffChainAction({
           wallet: ethAddress,
-          event_name: currentToken.eventData.project_name,
-          claim_version: currentToken.eventData.claim_version,
+          eventName: currentToken.eventData.project_name,
+          claimVersion: currentToken.eventData.claim_version,
         } as any);
-      } catch (e) {
-        console.error("switch chain error", e);
       }
-    } else {
-      claimOffChainAction({
-        wallet: ethAddress,
-        eventName: currentToken.eventData.project_name,
-        claimVersion: currentToken.eventData.claim_version,
-      } as any);
     }
   }
 

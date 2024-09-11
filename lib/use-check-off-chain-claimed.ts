@@ -15,7 +15,7 @@ export function useCheckOffChainClaimed(
 
   const res = useSWR(
     isOffChain && uuid && eventName && claimVersion
-      ? `${ApiHost}/event/claim_status?user_id=${uuid}&event_name=${eventName}&claim_version=${claimVersion}`
+      ? `${ApiHost}/events/claim_status?user_id=${uuid}&event_name=${eventName}&claim_version=${claimVersion}`
       : null,
     fetcher,
   );
