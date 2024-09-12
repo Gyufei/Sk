@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+
 import { Input } from "@/components/ui/input";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { LastSignInWithKey, SignInMethod } from "./type";
+import useSWR from "swr";
 
 export default function SignWithEmail({
   signing,
@@ -24,6 +26,9 @@ export default function SignWithEmail({
       setEmail(lastAccount);
     }
   }, [lastAccount]);
+
+  const code = searchParams.get("email");
+  useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
 
   const [isValid, setIsValid] = useState(true);
 
@@ -49,14 +54,7 @@ export default function SignWithEmail({
     }
   }
 
-  useEffect(() => {
-    if (!searchParams.has("code")) return;
-
-    const code = searchParams.get("code");
-    postSignData(code as string);
-  });
-
-  async function postSignData(code: string) {
+  async function postSignData() {
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -64,7 +62,7 @@ export default function SignWithEmail({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          login_type: "twitter",
+          login_type: "email",
           login_data: {
             signature: code,
           },
@@ -73,7 +71,7 @@ export default function SignWithEmail({
 
       if (res.status === false || !res.uuid) {
         throw new Error(
-          "twitter sign in error:" + `${code}  ${JSON.stringify(res)}`,
+          "email sign in error:" + `${email} ${code}  ${JSON.stringify(res)}`,
         );
       }
 
@@ -83,7 +81,7 @@ export default function SignWithEmail({
         LastSignInWithKey,
         JSON.stringify({
           method: SignInMethod.email,
-          account: res.uuid,
+          account: email,
         }),
       );
     } catch (e) {
@@ -110,7 +108,7 @@ export default function SignWithEmail({
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75"
       >
-        <div>Sign in</div>
+        <div>Sign In</div>
       </button>
     </div>
   );

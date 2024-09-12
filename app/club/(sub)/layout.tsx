@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
 import Image from "next/image";
 
@@ -12,7 +11,6 @@ import { NickName } from "./info/nick-name";
 import { useRouter } from "next/navigation";
 
 export default function SubLayout({ children }: { children: React.ReactNode }) {
-  const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
   const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
@@ -85,7 +83,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
         />
       </div>
       <div className="top-content active !rounded-none !bg-transparent !backdrop-blur-none">
-        {!!(address && uuid) && (
+        {uuid && (
           <div className="content-inner-box trans-scroll-bar !justify-start overflow-y-visible !py-0 !pl-0 !pr-2 md:overflow-y-auto">
             <div className="flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px]">
               <div className="hidden items-center space-x-[75px] md:flex">

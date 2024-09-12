@@ -1,10 +1,10 @@
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+
+import fetcher from "@/lib/fetcher";
+import { ApiHost } from "@/lib/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
-import useSWRMutation from "swr/mutation";
+import useSWR from "swr";
 
 export default function SignWithXBtn({
   signing,
@@ -20,17 +20,11 @@ export default function SignWithXBtn({
   onSuccess: (_i: string) => void;
 }) {
   const searchParams = useSearchParams();
+  const code = searchParams.get("code");
 
-  useEffect(() => {
-    if (!searchParams.has("code")) return;
+  useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
 
-    const code = searchParams.get("code");
-    mutation(code as any);
-  });
-
-  async function postSignData(_key: string, { arg }: { arg: string }) {
-    setSigning(true);
-
+  async function postSignData() {
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -40,14 +34,14 @@ export default function SignWithXBtn({
         body: JSON.stringify({
           login_type: "twitter",
           login_data: {
-            signature: arg,
+            signature: code,
           },
         }),
       });
 
       if (res.status === false || !res.uuid) {
         throw new Error(
-          "twitter sign in error:" + `${arg}  ${JSON.stringify(res)}`,
+          "twitter sign in error:" + `${code}  ${JSON.stringify(res)}`,
         );
       }
 
@@ -57,9 +51,10 @@ export default function SignWithXBtn({
         LastSignInWithKey,
         JSON.stringify({
           method: SignInMethod.twitter,
-          account: res.uuid,
+          account: "",
         }),
       );
+
       setSigning(false);
 
       return res;
@@ -69,11 +64,6 @@ export default function SignWithXBtn({
     }
   }
 
-  const { trigger: mutation } = useSWRMutation(
-    `sign-in-with-twitter`,
-    postSignData,
-  );
-
   function handleSign() {
     if (signing) return;
     goTwitter();
@@ -81,7 +71,9 @@ export default function SignWithXBtn({
 
   function goTwitter() {
     window.location.href =
-      "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=NlF6aWE5Yk9kU1hfQUl2bkhLX1Y6MTpjaQ&redirect_uri=https://juu17-api-dev.vercel.app/twitter/callback&scope=users.read%20tweet.read%20offline.access%20space.read&state=state&code_challenge=challenge&code_challenge_method=plain";
+      process.env.NODE_ENV === "production"
+        ? "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=NlF6aWE5Yk9kU1hfQUl2bkhLX1Y6MTpjaQ&redirect_uri=https://sk-delta.vercel.app/club&scope=users.read%20tweet.read%20offline.access%20space.read&state=state&code_challenge=challenge&code_challenge_method=plain"
+        : "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=NlF6aWE5Yk9kU1hfQUl2bkhLX1Y6MTpjaQ&redirect_uri=https://juu17-api-dev.vercel.app/twitter/callback&scope=users.read%20tweet.read%20offline.access%20space.read&state=state&code_challenge=challenge&code_challenge_method=plain";
   }
 
   return (

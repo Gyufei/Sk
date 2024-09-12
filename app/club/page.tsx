@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { useAtomValue } from "jotai/react";
 
 import SignDialog from "@/components/sign-dialog";
@@ -12,7 +11,6 @@ import RouterMenu from "./router-menu";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 export default function Club() {
-  const { address } = useAccount();
   const uuid = useAtomValue(UuidAtom);
 
   const [init, setInit] = useState(false);
@@ -23,5 +21,5 @@ export default function Club() {
 
   if (!init) return null;
 
-  return <>{uuid && address ? <RouterMenu /> : <SignDialog />}</>;
+  return <>{uuid ? <RouterMenu /> : <SignDialog />}</>;
 }
