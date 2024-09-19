@@ -24,7 +24,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             <a
               href="/home"
               aria-current="page"
-              className="link-block-2 w-inline-block w--current"
+              className="link-block-2 inline-block"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

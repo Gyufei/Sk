@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { manrope } from "./font";
+import { HaasGrotDisp, HaasGrotText } from "./font";
 import Script from "next/script";
 import { HomeLayout } from "./home-layout";
 import { Web3Modal } from "@/components/web3-modal";
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://juu17.com/"
+    canonical: "https://juu17.com/",
   },
 };
 
@@ -86,7 +86,11 @@ export default function RootLayout({
               `,
         }}
       ></Script>
-      <body className={`body ${manrope.className} !pointer-events-auto`}>
+      <body
+        className={`body ${
+          (HaasGrotDisp.variable, HaasGrotText.variable)
+        } !pointer-events-auto`}
+      >
         <Web3Modal>
           <HomeLayout>{children}</HomeLayout>
         </Web3Modal>

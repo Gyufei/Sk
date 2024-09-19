@@ -4,7 +4,7 @@ import { InputWithClear } from "../shipping/input-with-clear";
 import { useSaveSocial } from "@/lib/use-save-social";
 import { useLang } from "@/lib/use-lang";
 import { useAtomValue } from "jotai";
-import { UserInfoAtom } from "@/lib/state";
+import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
 export function SocialMedia() {
   const { isEn } = useLang();
@@ -23,7 +23,7 @@ export function SocialMedia() {
 }
 
 function Twitter() {
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
   const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -100,7 +100,7 @@ function Twitter() {
 }
 
 function Email() {
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
   const [email, setEmail] = useState(userInfo?.social_media?.Email || "");
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -173,7 +173,7 @@ function Email() {
 }
 
 function Discord() {
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
   const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
 
@@ -246,7 +246,7 @@ function Discord() {
 
 function Tg() {
   const placeHolderText = "https://telegram.org/";
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
 
@@ -319,7 +319,7 @@ function Tg() {
 
 function Github() {
   const placeHolderText = "https://github.com/";
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
 

@@ -3,12 +3,25 @@ import Link from "next/link";
 
 export default function RouterMenu() {
   return (
-    <div className="fixed left-1/2 md:top-1/2 top-[500px] flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-between w-[280px] flex-wrap gap-10">
+    <div className="flex flex-wrap items-center justify-between gap-5">
       <Link href="/club/events">
         <MenuItem>
           <Image src="/icons/events.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
             Events
+          </div>
+        </MenuItem>
+      </Link>
+      <Link href="/club/shipping">
+        <MenuItem>
+          <Image
+            src="/icons/shipping.svg"
+            width={40}
+            height={40}
+            alt="events"
+          />
+          <div className="text-base font-semibold leading-6 text-white opacity-60">
+            Shipping
           </div>
         </MenuItem>
       </Link>
@@ -20,11 +33,27 @@ export default function RouterMenu() {
           </div>
         </MenuItem>
       </Link>
-      <Link href="/club/shipping">
+      <Link href="/club/mart">
         <MenuItem>
-          <Image src="/icons/shipping.svg" width={40} height={40} alt="events" />
+          <Image src="/icons/mart.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Shipping
+            Mart
+          </div>
+        </MenuItem>
+      </Link>
+      <Link href="/club/club">
+        <MenuItem>
+          <Image src="/icons/club.svg" width={40} height={40} alt="events" />
+          <div className="text-base font-semibold leading-6 text-white opacity-60">
+            Club
+          </div>
+        </MenuItem>
+      </Link>
+      <Link href="/club/ticket">
+        <MenuItem>
+          <Image src="/icons/ticket.svg" width={40} height={40} alt="events" />
+          <div className="text-base font-semibold leading-6 text-white opacity-60">
+            Ticket
           </div>
         </MenuItem>
       </Link>

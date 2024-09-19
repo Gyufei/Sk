@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { useAtomValue } from "jotai/react";
-import { UserInfoAtom } from "@/lib/state";
 import { useLang } from "@/lib/use-lang";
 import { ChainInfos } from "@/lib/const";
 import { WalletItem } from "./wallet-items";
+import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
 
 export interface IWallet {
   name: string;
@@ -14,7 +13,7 @@ export interface IWallet {
 
 export function WalletArray() {
   const { isEn } = useLang();
-  const userInfo = useAtomValue(UserInfoAtom);
+  const { data: userInfo } = useFetchUserInfo();
 
   const [wArr, setWArr] = useState<any[]>([]);
 

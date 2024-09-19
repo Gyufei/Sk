@@ -72,7 +72,7 @@ export function NickName({ nickName }: { nickName: string }) {
   }
 
   return (
-    <div className="text-[40px] leading-[60px] text-[#d6d6d6]">
+    <>
       {isEditName ? (
         <Input
           onKeyDown={handleKeyDown}
@@ -80,23 +80,21 @@ export function NickName({ nickName }: { nickName: string }) {
           onChange={(e) => setName(e.target.value)}
           onBlur={handleBlur}
           data-error={!isValid}
-          className="h-[60px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-[40px] data-[error=true]:border-[#FF5A5A]  md:w-[200px]"
+          className="h-[24px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base data-[error=true]:border-[#FF5A5A]  md:w-[80px]"
         />
       ) : (
         <div className="flex items-center justify-between md:justify-start">
-          <div className="h-[60px] text-[40px] leading-[60px] text-[#d6d6d6]">
-            {name}
-          </div>
+          <div className="h-[24px] text-base leading-6 text-white">{name}</div>
           <Image
             onClick={() => setIsEditName(true)}
-            className="ml-2 mt-4 cursor-pointer text-white"
+            className="ml-2 cursor-pointer text-white"
             src="/icons/edit.svg"
-            width={24}
-            height={24}
+            width={12}
+            height={12}
             alt=""
           />
         </div>
       )}
-    </div>
+    </>
   );
 }

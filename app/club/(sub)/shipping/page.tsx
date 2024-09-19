@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/popover";
 import Image from "next/image";
 import { PcData } from "@/lib/pc";
-import { UserInfoAtom, UuidAtom } from "@/lib/state";
+import { UuidAtom } from "@/lib/state";
 import { useAtomValue } from "jotai/react";
 import fetcher from "@/lib/fetcher";
 import { ApiHost } from "@/lib/path";
@@ -21,9 +21,8 @@ const countryCodeList = ["86"];
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
-  const userInfo = useAtomValue(UserInfoAtom);
   const { isEn } = useLang();
-  const { getUserInfo } = useFetchUserInfo();
+  const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
 
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
