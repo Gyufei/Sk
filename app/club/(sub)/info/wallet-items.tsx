@@ -21,6 +21,11 @@ import { useWalletVerify } from "@/lib/use-wallet-verify";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import base58 from "bs58";
+import {
+  ConnectModal,
+  useCurrentAccount,
+  useSignPersonalMessage,
+} from "@mysten/dapp-kit";
 import { genSignMsg } from "@/lib/sign-utils";
 import { cn } from "@/lib/utils";
 
@@ -77,11 +82,25 @@ export function WalletItem({
     }
   }, [name, isSign, solanaAddress, signSolanaMsg, solHasShow]);
 
+  // sui
+  const suiAccount = useCurrentAccount();
+  const { mutate: signPersonalMessage } = useSignPersonalMessage();
+  const [suiOpen, setSuiOpen] = useState(false);
+  const [suiHasShow, setSuiHasShow] = useState(false);
+  useEffect(() => {
+    if (name !== "Sui") return;
+    if (suiHasShow) return;
+
+    if (suiAccount?.address && !isSign) {
+      signSuiMsg();
+      setSuiHasShow(true);
+    }
+  }, [name, isSign, suiAccount]);
+
   const opBtnDisabled = useMemo(() => {
     if (isOperating) {
       return true;
     }
-
     if (isSign) {
       return false;
     }
@@ -108,6 +127,10 @@ export function WalletItem({
 
     if (name === "Solana") {
       signSolanaMsg();
+    }
+
+    if (name === "Sui") {
+      signSuiMsg();
     }
   }
 
@@ -154,6 +177,7 @@ export function WalletItem({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   async function signSolanaMsg() {
+    console.log(solanaAddress);
     if (!solanaAddress) {
       setSolanaModalVisible(true);
     } else {
@@ -172,6 +196,39 @@ export function WalletItem({
       if (res?.status) {
         setIsSign(true);
       }
+    }
+  }
+
+  async function signSuiMsg() {
+    if (!suiAccount) {
+      setSuiOpen(true);
+    } else {
+      setAddress(suiAccount.address!);
+      const { salt, msg } = genSignMsg();
+      const message = new TextEncoder().encode(msg);
+
+      signPersonalMessage(
+        {
+          message,
+        },
+        {
+          onSuccess: async (data) => {
+            console.log(data);
+            const res = await walletVerify({
+              chain_name: name,
+              addr: suiAccount.address!,
+              signature: data.signature,
+              salt,
+            });
+
+            if (res?.status) {
+              setIsSign(true);
+            } else {
+              console.log("error, failed");
+            }
+          },
+        },
+      );
     }
   }
 
@@ -276,6 +333,11 @@ export function WalletItem({
         ) : (
           <LinkBtn onClick={handleOperation} disabled={opBtnDisabled} />
         ))}
+      <ConnectModal
+        trigger={<></>}
+        open={suiOpen}
+        onOpenChange={(isOpen: boolean) => setSuiOpen(isOpen)}
+      />
     </div>
   );
 }
