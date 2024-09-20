@@ -87,7 +87,7 @@ export default function RootLayout({
         }}
       ></Script>
       <body
-        className={`body ${
+        className={`${
           (HaasGrotDisp.variable, HaasGrotText.variable)
         } !pointer-events-auto`}
       >

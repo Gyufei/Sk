@@ -1,10 +1,18 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { InputWithClear } from "../shipping/input-with-clear";
+import { InputWithClear } from "../../../../components/input-with-clear";
 import { useSaveSocial } from "@/lib/use-save-social";
 import { useLang } from "@/lib/use-lang";
-import { useAtomValue } from "jotai";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import {
+  checkDiscordRegex,
+  checkEmailRegex,
+  checkGithubRegex,
+  checkTgRegex,
+  checkTwitterRegex,
+  githubPlaceHolderText,
+  twitterPlaceHolderText,
+} from "@/lib/utils";
 
 export function SocialMedia() {
   const { isEn } = useLang();
@@ -28,8 +36,6 @@ function Twitter() {
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const placeHolderText = "https://x.com/";
-
   useEffect(() => {
     if (userInfo?.social_media) {
       setX(userInfo?.social_media?.Twitter || "");
@@ -48,28 +54,21 @@ function Twitter() {
   }
 
   const disabled = useMemo(
-    () => !isValid || !x || (x && !checkRegex(x)),
+    () => !isValid || !x || (x && !checkTwitterRegex(x)),
     [isValid, x],
   );
-
-  function checkRegex(x: string) {
-    const regex = /^https:\/\/(twitter|x).com\/@?[a-zA-Z0-9_-]{2,15}$/g;
-    const allValue = `${placeHolderText}${x}`;
-
-    return regex.test(allValue);
-  }
 
   const { saveSocial } = useSaveSocial();
 
   function handleBlur() {
     if (!x) return;
 
-    setIsValid(checkRegex(x));
+    setIsValid(checkTwitterRegex(x));
   }
 
   function handleSave() {
     if (disabled) return;
-    const allX = `${placeHolderText}${x}`;
+    const allX = `${twitterPlaceHolderText}${x}`;
     saveSocial({ name: "Twitter", data: allX });
     setIsCheck(true);
   }
@@ -84,7 +83,7 @@ function Twitter() {
         <InputWithClear
           isError={!isValid}
           value={x}
-          placeHolderText={placeHolderText}
+          placeHolderText={twitterPlaceHolderText}
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false && isCheck}
@@ -106,7 +105,7 @@ function Email() {
   const [isValid, setIsValid] = useState(true);
 
   const disabled = useMemo(
-    () => !isValid || !email || (email && !checkRegex(email)),
+    () => !isValid || !email || (email && !checkEmailRegex(email)),
     [isValid, email],
   );
 
@@ -138,14 +137,7 @@ function Email() {
   function handleBlur() {
     if (!email) return;
 
-    setIsValid(checkRegex(email));
-  }
-
-  function checkRegex(x: string) {
-    const regex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
-
-    return regex.test(x);
+    setIsValid(checkEmailRegex(email));
   }
 
   return (
@@ -178,7 +170,7 @@ function Discord() {
   const [isValid, setIsValid] = useState(true);
 
   const disabled = useMemo(
-    () => !isValid || !discord || (discord && !checkRegex(discord)),
+    () => !isValid || !discord || (discord && !checkDiscordRegex(discord)),
     [isValid, discord],
   );
 
@@ -211,13 +203,7 @@ function Discord() {
   function handleBlur() {
     if (!discord) return;
 
-    setIsValid(checkRegex(discord));
-  }
-
-  function checkRegex(x: string) {
-    const regex = /^@?[a-zA-Z0-9_-]{5,40}$/g;
-
-    return regex.test(x);
+    setIsValid(checkDiscordRegex(discord));
   }
 
   return (
@@ -251,7 +237,7 @@ function Tg() {
   const [isValid, setIsValid] = useState(true);
 
   const disabled = useMemo(
-    () => !isValid || !tg || (tg && !checkRegex(tg)),
+    () => !isValid || !tg || (tg && !checkTgRegex(tg)),
     [isValid, tg],
   );
 
@@ -276,7 +262,7 @@ function Tg() {
   function handleBlur() {
     if (!tg) return;
 
-    setIsValid(checkRegex(tg));
+    setIsValid(checkTgRegex(tg));
   }
 
   const { saveSocial } = useSaveSocial();
@@ -284,12 +270,6 @@ function Tg() {
   function handleSave() {
     if (disabled) return;
     saveSocial({ name: "Telegram", data: tg });
-  }
-
-  function checkRegex(x: string) {
-    const regex = /^@?[a-zA-Z0-9_]{5,32}$/g;
-
-    return regex.test(x);
   }
 
   return (
@@ -318,20 +298,19 @@ function Tg() {
 }
 
 function Github() {
-  const placeHolderText = "https://github.com/";
   const { data: userInfo } = useFetchUserInfo();
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
 
   const disabled = useMemo(
-    () => !isValid || !github || (github && !checkRegex(github)),
+    () => !isValid || !github || (github && !checkGithubRegex(github)),
     [isValid, github],
   );
 
   useEffect(() => {
     if (userInfo?.social_media) {
       const g = userInfo?.social_media?.Github
-        ? userInfo?.social_media?.Github.replace(placeHolderText, "")
+        ? userInfo?.social_media?.Github.replace(githubPlaceHolderText, "")
         : "";
       setGithub(g);
     }
@@ -351,7 +330,7 @@ function Github() {
   function handleBlur() {
     if (!github) return;
 
-    setIsValid(checkRegex(github));
+    setIsValid(checkGithubRegex(github));
   }
 
   const { saveSocial } = useSaveSocial();
@@ -359,15 +338,8 @@ function Github() {
   function handleSave() {
     if (disabled) return;
 
-    const allValue = `${placeHolderText}${github}`;
+    const allValue = `${githubPlaceHolderText}${github}`;
     saveSocial({ name: "Github", data: allValue });
-  }
-
-  function checkRegex(x: string) {
-    const regex = /^https:\/\/github.com\/[a-zA-Z0-9_-]{1,40}$/g;
-    const allValue = `${placeHolderText}${x}`;
-
-    return regex.test(allValue);
   }
 
   return (
@@ -423,12 +395,25 @@ function SaveBtn({
   );
 }
 
-function InvalidTpl({ isValid, text }: { isValid: boolean; text: string }) {
+export function InvalidTpl({
+  isValid,
+  text,
+}: {
+  isValid: boolean;
+  text?: string;
+}) {
+  const { isEn } = useLang();
+
   if (isValid) return null;
-  return <div className="block text-sm leading-5 text-[#FF5A5A]">{text}</div>;
+
+  return (
+    <div className="block text-sm leading-5 text-[#FF5A5A]">
+      {text ? text : isEn ? "Invalid format" : "格式错误"}
+    </div>
+  );
 }
 
-function MobileInValidTpl({
+export function MobileInValidTpl({
   isValid,
   text,
 }: {
@@ -444,7 +429,13 @@ function MobileInValidTpl({
   );
 }
 
-function PcInvalidTpl({ isValid, text }: { isValid: boolean; text: string }) {
+export function PcInvalidTpl({
+  isValid,
+  text,
+}: {
+  isValid: boolean;
+  text: string;
+}) {
   if (isValid) return null;
 
   return (

@@ -14,7 +14,7 @@ export default function UserInfoBanner() {
           UID
         </div>
         <div className="h-[24px] text-base leading-6 text-white">
-          #{userInfo?.uid}
+          {userInfo?.uid}
         </div>
       </div>
     );
@@ -27,7 +27,7 @@ export default function UserInfoBanner() {
           {isEn ? "Membership No." : "会员编号"}
         </div>
         <div className="h-[24px] text-base leading-6 text-white">
-          #{userInfo?.membership_no}
+          No.{userInfo?.membership_no}
         </div>
       </div>
     );
@@ -50,12 +50,17 @@ export default function UserInfoBanner() {
         <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
           Level
         </div>
-        <div className="flex items-center justify-end text-base leading-6 text-white underline decoration-[rgba(255,255,255,0.1);] decoration-dashed underline-offset-2">
+        <div
+          className="flex items-center justify-end text-base leading-6 text-white underline decoration-[rgba(255,255,255,0.1);] decoration-dashed underline-offset-2"
+          style={{
+            cursor: userInfo?.level === 0 ? "pointer" : "default",
+          }}
+        >
           {` ${userInfo?.level}`}
         </div>
       </div>
     );
-  }, [isEn, userInfo?.level]);
+  }, [userInfo?.level]);
 
   return (
     <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px]">

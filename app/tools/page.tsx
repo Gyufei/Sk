@@ -53,7 +53,7 @@ export default function Tools() {
   }
 
   return (
-    <div className="top-content active">
+    <div className="top-content shift-animation">
       <div className="content-inner-box">
         <div className="div-block-7">
           <p className="paragraph-009">Tools</p>

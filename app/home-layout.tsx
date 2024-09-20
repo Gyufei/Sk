@@ -19,7 +19,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
         }}
       ></Script>
       <div className="main-container">
-        <div className="w-layout-grid grid">
+        <div className="grid">
           <div className="left-block">
             <a
               href="/home"
@@ -66,7 +66,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
 
           <div
             data-id=""
-            className="w-layout-grid right-grid-block md:min-h-unset relative min-h-[200px]"
+            className="right-block md:min-h-unset relative min-h-[200px]"
           >
             {children}
           </div>

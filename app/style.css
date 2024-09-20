@@ -4,13 +4,12 @@ html {
 
 body {
   min-height: 100%;
-  color: #333;
-  background-color: #fff;
-  margin: 0;
   font-family: var(--font-haas-text);
-  font-size: 14px;
+  font-size: 1vw;
   line-height: 20px;
   overflow-x: auto;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0d0d0d;
 }
 
 img {
@@ -130,21 +129,6 @@ textarea.w-select {
   }
 }
 
-.w-layout-grid {
-  grid-row-gap: 16px;
-  grid-column-gap: 16px;
-  grid-template-rows: auto minmax(50%, 800px);
-  grid-template-columns: 1fr 1fr;
-  display: grid;
-}
-
-body {
-  color: rgba(255, 255, 255, 0.8);
-  background-color: #0d0d0d;
-  font-size: 1vw;
-  line-height: 1.2;
-}
-
 .image {
   width: 740px;
 }
@@ -155,6 +139,9 @@ body {
   height: 100%;
   grid-template-rows: auto;
   position: relative;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
+  grid-template-columns: 1fr 1fr;
 }
 
 .main-container {
@@ -166,9 +153,10 @@ body {
   padding: 1.3em;
   display: flex;
   position: relative;
+  overflow-x: hidden;
 }
 
-.right-grid-block {
+.right-block {
   max-width: 800px;
   width: 100%;
   height: calc(100vh - 2.6em);
@@ -177,18 +165,16 @@ body {
   grid-template-columns: 1fr;
   align-items: stretch;
   display: flex;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
   grid-area: span 1 / span 1 / span 1 / span 1;
   justify-self: flex-end;
 }
 
-.right-grid-block .top-content {
-  display: none;
-}
-
-.right-grid-block .top-content.active {
+.shift-animation {
+  display: flex;
   animation-name: content-shift;
   animation-duration: 0.6s;
-  display: flex;
 }
 
 @keyframes content-shift {
@@ -212,10 +198,6 @@ body {
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
   background-color: rgba(255, 255, 255, 0.1);
-}
-
-.top-content.th-page {
-  height: 70%;
 }
 
 .top-content .content-inner-box {
@@ -262,14 +244,6 @@ body {
   max-width: 18em;
   font-size: 1.2em;
   display: none;
-}
-
-.grid-title {
-  z-index: 1;
-  width: 100%;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  grid-template-rows: auto auto 0;
 }
 
 .text-block {
@@ -620,7 +594,7 @@ body {
     position: relative;
   }
 
-  .right-grid-block {
+  .right-block {
     grid-column-gap: 16px;
     grid-row-gap: 16px;
     grid-template-rows: auto auto;
@@ -636,10 +610,6 @@ body {
     min-height: 30em;
     height: auto;
     border-radius: 5em;
-  }
-
-  .top-content.th-page {
-    height: 100%;
   }
 
   .top-content .content-inner-box {

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
 
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -17,9 +17,14 @@ import { useCheckSolClaimed } from "@/lib/use-check-sol-claimed";
 import { useCheckEthClaimed } from "@/lib/use-check-eth-claimed";
 import { useCheckOffChainClaimed } from "@/lib/use-check-off-chain-claimed";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
+import { useLang } from "@/lib/use-lang";
+import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import { GoBackTo } from "@/components/go-back-to";
 
 export default function EventsPage() {
   const { data: eventsData } = useEventsData();
+  const { data: userInfo } = useFetchUserInfo();
+  const { isEn } = useLang();
 
   // eth
   const chainId = useChainId();
@@ -265,9 +270,19 @@ export default function EventsPage() {
     }
   }, [isOffChainSuccess, refreshOffChainClaim]);
 
-  function handleClickToken(t: IClaimToken) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  function handleClickToken(t: IClaimToken, idx: number) {
     if (!t) return;
     setCurrentToken(t);
+
+    if (!scrollRef.current) return;
+
+    if (idx < 3) {
+      scrollRef.current.scrollTop = 0;
+    } else {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   }
 
   useEffect(() => {
@@ -284,103 +299,131 @@ export default function EventsPage() {
     }
   }
 
-  return (
-    <div className="mb-[100px] ml-0 mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:ml-[80px] md:rounded-[18px] md:p-[20px]">
-      <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
-        <div className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4">
-          {claimTokens.map((t, i) => (
-            <CoinItem
-              key={i}
-              isActive={currentToken?.name === t.name}
-              onClick={() => handleClickToken(t)}
-              src={t.logo}
-              name={t.name}
-            />
-          ))}
+  const windFallTpl = useMemo(() => {
+    return (
+      <div className="absolute -left-[70px] flex flex-col">
+        <div className="mb-1 text-xl leading-[30px] text-white">
+          {isEn ? "Windfalls" : "风落"}
         </div>
-        {!currentAddress ? (
-          <div className="flex h-[208px] flex-col items-center justify-center">
-            <div
-              onClick={handleConnect}
-              className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
-            >
-              <div className="flex justify-between text-base leading-6 text-white">
-                <span>Connect</span>
-                {currentToken && (
-                  <ChainLogoText
-                    logo={currentToken.chainInfo.logo}
-                    name={currentToken.chainInfo.name}
-                  />
-                )}
-              </div>
-            </div>
+        <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">
+          <div className="text-[#1FEFA3]">
+            {userInfo?.passed_windfalls || 0}
           </div>
-        ) : !claimData ? (
-          <div className="flex h-[208px] flex-col items-center justify-center"></div>
-        ) : claimAmount !== 0 ? (
-          <>
-            <div className="text-[28px] font-medium leading-9 text-white">
-              <span className="opacity-60">You&apos;re </span>
-              <span className="opacity-80">eligible!</span>
-            </div>
-            <div className="mt-4 flex items-center gap-x-[10px]">
-              <div className="text-[36px] font-semibold leading-[54px] text-white">
-                {showClaimAmount}
-              </div>
-              <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
-                {!isOffChain ? "$" : ""}
-                {currentToken.symbol}
-              </div>
-            </div>
-            <div
-              style={{ visibility: isOffChain ? "hidden" : "visible" }}
-              className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
-            >
-              <div>on</div>
-              <ChainLogoText
-                logo={currentToken.chainInfo.logo}
-                name={currentToken.chainInfo.name}
+          <div>/</div>
+          <div>{userInfo?.total_windfalls || 0}</div>
+        </div>
+      </div>
+    );
+  }, [isEn, userInfo?.passed_windfalls, userInfo?.total_windfalls]);
+
+  return (
+    <div className="absolute md:-left-1/2 md:top-[20%]">
+      <div className="relative flex items-center justify-end">
+        {windFallTpl}
+        <GoBackTo />
+      </div>
+      <div className="relative mb-[100px] ml-0 mt-6 w-[560px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
+        <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
+          <div
+            ref={scrollRef}
+            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4"
+          >
+            {claimTokens.map((t, i) => (
+              <CoinItem
+                key={i}
+                isActive={currentToken?.name === t.name}
+                onClick={() => handleClickToken(t, i)}
+                src={t.logo}
+                name={t.name}
               />
-            </div>
-            <div
-              data-not={isClaimed || isPending}
-              onClick={handleClaim}
-              className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
-            >
-              <div className="flex justify-between text-base leading-6 text-white">
-                {isClaimed ? (
-                  "Claimed"
-                ) : isPending ? (
-                  "Claiming"
-                ) : (
-                  <>
-                    <span className="font-bold">Claim</span>
-                    <div
-                      style={{ visibility: isOffChain ? "hidden" : "visible" }}
-                      className="ml-1 flex justify-start"
-                    >
-                      <span>on</span>
-                      <ChainLogoText
-                        logo={currentToken.chainInfo.logo}
-                        name={currentToken.chainInfo.name}
-                      />
-                    </div>
-                  </>
-                )}
+            ))}
+          </div>
+          {!currentAddress ? (
+            <div className="flex h-[208px] flex-col items-center justify-center">
+              <div
+                onClick={handleConnect}
+                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
+              >
+                <div className="flex justify-between text-base leading-6 text-white">
+                  <span>Connect</span>
+                  {currentToken && (
+                    <ChainLogoText
+                      logo={currentToken.chainInfo.logo}
+                      name={currentToken.chainInfo.name}
+                    />
+                  )}
+                </div>
               </div>
             </div>
-          </>
-        ) : (
-          <div className="flex h-[208px] flex-col items-center justify-center">
-            <div className="text-[40px] leading-9 text-white opacity-80">
-              Sorry!
+          ) : !claimData ? (
+            <div className="flex h-[208px] flex-col items-center justify-center"></div>
+          ) : claimAmount !== 0 ? (
+            <>
+              <div className="text-[28px] font-medium leading-9 text-white">
+                <span className="opacity-60">You&apos;re </span>
+                <span className="opacity-80">eligible!</span>
+              </div>
+              <div className="mt-4 flex items-center gap-x-[10px]">
+                <div className="text-[36px] font-semibold leading-[54px] text-white">
+                  {showClaimAmount}
+                </div>
+                <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
+                  {!isOffChain ? "$" : ""}
+                  {currentToken.symbol}
+                </div>
+              </div>
+              <div
+                style={{ visibility: isOffChain ? "hidden" : "visible" }}
+                className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
+              >
+                <div>on</div>
+                <ChainLogoText
+                  logo={currentToken.chainInfo.logo}
+                  name={currentToken.chainInfo.name}
+                />
+              </div>
+              <div
+                data-not={isClaimed || isPending}
+                onClick={handleClaim}
+                className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
+              >
+                <div className="flex justify-between text-base leading-6 text-white">
+                  {isClaimed ? (
+                    "Claimed"
+                  ) : isPending ? (
+                    "Claiming"
+                  ) : (
+                    <>
+                      <span className="font-bold">Claim</span>
+                      <div
+                        style={{
+                          visibility: isOffChain ? "hidden" : "visible",
+                        }}
+                        className="ml-1 flex justify-start"
+                      >
+                        <span>on</span>
+                        <ChainLogoText
+                          logo={currentToken.chainInfo.logo}
+                          name={currentToken.chainInfo.name}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="flex h-[208px] flex-col items-center justify-center">
+              <div className="text-[40px] leading-9 text-white opacity-80">
+                Sorry!
+              </div>
+              <div className="mt-[10px] text-center text-[28px] font-medium leading-9 text-white">
+                <span className="opacity-60">You&apos;re </span>
+                <span className="opacity-80">not eligible!</span>
+              </div>
             </div>
-            <div className="mt-[10px] text-center text-[28px] font-medium leading-9 text-white">
-              <span className="opacity-60">You&apos;re </span>
-              <span className="opacity-80">not eligible!</span>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
