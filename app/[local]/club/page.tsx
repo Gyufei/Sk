@@ -5,7 +5,7 @@ import SignDialog from "@/components/sign-dialog";
 
 import { UuidAtom } from "@/lib/state";
 
-import RouterMenu from "../../components/router-menu";
+import RouterMenu from "@/components/router-menu";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "@mysten/dapp-kit/dist/index.css";

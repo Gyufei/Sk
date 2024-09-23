@@ -3,7 +3,7 @@ import { UuidAtom } from "./state";
 import { ApiHost } from "./path";
 import useSWR from "swr";
 import fetcher from "./fetcher";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/app/navigation";
 
 export function useFetchUserInfo() {
   const [uuid, setUuid] = useAtom(UuidAtom);

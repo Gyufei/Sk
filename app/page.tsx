@@ -1,16 +1,5 @@
-"use client";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  const pathname = usePathname();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (pathname === "/") {
-      router.push("/home");
-    }
-  }, [pathname]);
-
-  return null;
+export default function RootPage() {
+  redirect("/en");
 }

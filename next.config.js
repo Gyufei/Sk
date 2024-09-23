@@ -14,28 +14,6 @@ const nextConfig = {
   },
   webpack: (config) => {
     config.externals.push("pino-pretty", "lokijs", "encoding");
-
-    // if (!isServer) {
-    //   config.optimization.minimize = true;
-    //   config.optimization.minimizer[0].options.minify = true;
-    //   config.optimization.minimizer[0].options.minify = true;
-
-    //   config.plugins.push(
-    //     new WebpackObfuscator({
-    //       rotateStringArray: false,
-    //       controlFlowFlattening: true,
-    //       deadCodeInjection: false,
-    //       stringArray: true,
-    //       splitStrings: true,
-    //       transformObjectKeys: true,
-    //       unicodeEscapeSequence: false,
-    //       compact: true,
-    //       shuffleStringArray: true,
-    //       identifierNamesGenerator: "hexadecimal",
-    //     }),
-    //   );
-    // }
-
     return config;
   },
   compiler: {
@@ -53,9 +31,12 @@ module.exports = nextConfig;
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
+const createNextIntlPlugin = require('next-intl/plugin');
+const withNextIntl = createNextIntlPlugin();
 
-module.exports = withSentryConfig(
-  module.exports,
+
+module.exports = withNextIntl(withSentryConfig(
+  (module.exports),
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
@@ -93,4 +74,4 @@ module.exports = withSentryConfig(
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
   }
-);
+));

@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/app/navigation";
 
 export default function HomeLinks() {
   const pathname = usePathname();

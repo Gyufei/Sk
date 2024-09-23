@@ -1,4 +1,4 @@
-import ContentFooter from "../content-footer";
+import ContentFooter from "@/components/content-footer";
 
 export default function Home() {
   return (
