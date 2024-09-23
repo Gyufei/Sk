@@ -89,7 +89,7 @@ export default function Tools() {
           </div>
         </div>
         <Image
-          src="./ellipse_ico.svg"
+          src="/icons/ellipse_ico.svg"
           loading="lazy"
           width={8}
           height={8}
@@ -97,7 +97,7 @@ export default function Tools() {
           className="point-1"
         />
         <Image
-          src="./ellipse_ico.svg"
+          src="/icons/ellipse_ico.svg"
           loading="lazy"
           width={8}
           height={8}

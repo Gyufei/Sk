@@ -38,18 +38,19 @@
     "eslint-config-next": "13.4.19",
     "jotai": "2.8.0",
     "next": "13.4.19",
+    "number-precision": "^1.6.0",
     "postcss": "8.4.28",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "0.2.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "rpc-websockets": "7.11.0",
     "swr": "2.2.5",
     "tailwind-merge": "1.14.0",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
     "viem": "1.21.4",
-    "wagmi": "1.4.13",
-    "rpc-websockets": "7.11.0"
+    "wagmi": "1.4.13"
   },
   "devDependencies": {
     "@types/bs58": "^4.0.4",

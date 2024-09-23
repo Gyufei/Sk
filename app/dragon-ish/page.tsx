@@ -13,7 +13,7 @@ export default function DragonIsh() {
       <div className="panel-para-text">
         <div className="div-block-5 unselected-item">
           <Image
-            src="./telegram_logo.svg"
+            src="/icons/telegram_logo.svg"
             loading="lazy"
             width={38}
             height={38}
@@ -26,7 +26,7 @@ export default function DragonIsh() {
         </div>
         <div className="div-block-5 unselected-item">
           <Image
-            src="./telegram_logo.svg"
+            src="/icons/telegram_logo.svg"
             width={38}
             height={38}
             loading="lazy"
@@ -39,7 +39,7 @@ export default function DragonIsh() {
         </div>
         <div className="div-block-5 unselected-item">
           <Image
-            src="./telegram_logo.svg"
+            src="/icons/telegram_logo.svg"
             width={38}
             height={38}
             loading="lazy"
@@ -52,7 +52,7 @@ export default function DragonIsh() {
         </div>
         <div className="div-block-5 unselected-item">
           <Image
-            src="./telegram_logo.svg"
+            src="/icons/telegram_logo.svg"
             width={38}
             height={38}
             loading="lazy"
@@ -65,7 +65,7 @@ export default function DragonIsh() {
         </div>
       </div>
       <Image
-        src="./ellipse_ico.svg"
+        src="/icons/ellipse_ico.svg"
         loading="lazy"
         width={8}
         height={8}
@@ -73,7 +73,7 @@ export default function DragonIsh() {
         className="point-1"
       />
       <Image
-        src="./ellipse_ico.svg"
+        src="/icons/ellipse_ico.svg"
         loading="lazy"
         width={8}
         height={8}

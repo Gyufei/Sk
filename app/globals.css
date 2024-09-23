@@ -31,3 +31,8 @@
   color: #fff;
   opacity: 0.4;
 }
+
+div[data-radix-popper-content-wrapper] {
+  z-index: 100 !important;
+  outline: none !important;
+}

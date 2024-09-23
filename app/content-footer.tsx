@@ -39,7 +39,7 @@ export default function ContentFooter() {
         </form>
       </div>
       <Image
-        src="./ellipse_ico.svg"
+        src="/icons/ellipse_ico.svg"
         loading="lazy"
         width={8}
         height={8}
@@ -47,7 +47,7 @@ export default function ContentFooter() {
         className="point-3"
       />
       <Image
-        src="./ellipse_ico.svg"
+        src="/icons/ellipse_ico.svg"
         loading="lazy"
         alt=""
         width={8}

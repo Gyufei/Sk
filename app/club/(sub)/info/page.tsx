@@ -1,5 +1,5 @@
 "use client";
-import { WalletArray } from "./wallet";
+import { WalletArray } from "./wallet-array";
 import { SocialMedia } from "./social-media";
 
 import "@solana/wallet-adapter-react-ui/styles.css";

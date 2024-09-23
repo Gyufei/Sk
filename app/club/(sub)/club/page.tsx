@@ -1,0 +1,133 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+
+import { GoBackTo } from "@/components/go-back-to";
+import { Input } from "@/components/ui/input";
+import { formatNum } from "@/lib/number";
+import { SaveBtn } from "../info/social-media/save-btn";
+
+export default function Page() {
+  const [yourId, setYourId] = useState<string | null>(null);
+  const [redirectHost, setRedirectHost] = useState<string | null>(null);
+
+  function handleKeyDown(event: any) {
+    if (event.keyCode === 13) {
+      return;
+    }
+  }
+
+  function handleSave() {
+    return;
+  }
+
+  return (
+    <div className="absolute md:-left-1/2 md:top-[15%]">
+      <div className="relative flex items-center justify-end">
+        <GoBackTo />
+      </div>
+      <div className="mb-[20px] mt-6 w-[600px]">
+        <div className="flex justify-between gap-5">
+          <div className="flex h-[290px] w-[290px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+            <div className="flex h-20 w-20 items-center justify-center">
+              <Image
+                src="/icons/mint-wallet.svg"
+                width={60}
+                height={60}
+                alt="mint wallet"
+              />
+            </div>
+            <div className="mt-5 flex h-12 w-[200px] cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] bg-[rgba(255,255,255,0.01)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:text-white">
+              <span className="mr-6 inline-block font-semibold">Mint</span>
+              <span>on</span>
+              <Image
+                src="/icons/network/solana.svg"
+                width={16}
+                height={16}
+                alt="solana"
+                className="ml-2 mr-1"
+              />
+              <span>Solana</span>
+            </div>
+          </div>
+
+          <div className="flex h-[290px] w-[290px] flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+            <div className="font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
+              Juu17 Club Points
+            </div>
+            <div className="mt-2 text-[40px] leading-[60px] text-white">
+              {formatNum(166.2)}
+            </div>
+            <div className="mt-5 font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
+              Multipliers
+            </div>
+            <div className="mt-[10px] flex items-center justify-start self-stretch">
+              <div className="mr-[85px] flex flex-col">
+                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                  Cup
+                </span>
+                <span className="text-[32px] leading-[40px] text-white">
+                  4x
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                  X Account
+                </span>
+                <span className="text-[32px] leading-[40px] text-white">
+                  1.4
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 flex h-[180px] w-full flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+          <div className="text-xl font-semibold leading-[30px] text-white">
+            Features
+          </div>
+          <div className="mt-5 text-base font-medium leading-6 text-[#D6D6D6]">
+            Domain Redirect
+          </div>
+          <div className="mt-[10px] flex items-center justify-between self-stretch">
+            <div className="relative flex-1">
+              <Input
+                onKeyDown={handleKeyDown}
+                value={yourId || ""}
+                onChange={(e: any) => setYourId(e.target.value)}
+                className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+                placeholder="yourid"
+              />
+              <div className="absolute right-0 top-[10px] flex items-center gap-3">
+                <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
+                <span className="text-base leading-6 text-[#d6d6d6]">
+                  .juu17.com
+                </span>
+              </div>
+            </div>
+            <Image
+              src="/icons/arrow-right.svg"
+              width={24}
+              height={24}
+              alt="right"
+              className="mx-3"
+            />
+            <div className="flex-1">
+              <Input
+                onKeyDown={handleKeyDown}
+                value={redirectHost || ""}
+                onChange={(e: any) => setRedirectHost(e.target.value)}
+                className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+                placeholder="https://"
+              />
+            </div>
+            <SaveBtn
+              disabled={!yourId || !redirectHost}
+              handleSave={handleSave}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

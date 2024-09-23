@@ -66,7 +66,7 @@ export default function EventsPage() {
         symbol: event.token_symbol,
         chainInfo: chainInfo || {
           name: "Ethereum",
-          logo: "/images/network-icons/ethereum.svg",
+          logo: "/icons/network/ethereum.svg",
           isEVM: true,
           chainId: 11155111,
         },

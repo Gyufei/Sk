@@ -1,5 +1,5 @@
 import { useLang } from "@/lib/use-lang";
-import { InvalidTpl } from "./social-media";
+import { InvalidTpl } from "./invalid-tpl";
 import { useState } from "react";
 import { InputWithClear } from "@/components/input-with-clear";
 import { checkEmailRegex } from "@/lib/utils";

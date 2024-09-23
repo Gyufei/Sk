@@ -12,19 +12,15 @@ export function useFetchUserInfo() {
   async function getUserInfo() {
     if (!uuid) return;
 
-    const res: any = await fetcher(`${ApiHost}/user/info?user_id=${uuid}`);
+    const fetchRes: any = await fetcher(`${ApiHost}/user/info?user_id=${uuid}`);
 
-    if (res && res.data !== false) {
-      return res;
-    }
-
-    if (uuid && res && res.data === false) {
+    if (uuid && fetchRes && fetchRes.data === false) {
       setUuid("");
       router.push("/club");
       return {};
     }
 
-    return res;
+    return fetchRes;
   }
 
   const res = useSWR(uuid, getUserInfo);

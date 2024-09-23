@@ -1,11 +1,24 @@
 import { useLang } from "@/lib/use-lang";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { NickName } from "./nick-name";
 import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import { SignInMethod } from "./sign-dialog/type";
 
 export default function UserInfoBanner() {
   const { data: userInfo } = useFetchUserInfo();
   const { isEn } = useLang();
+
+  useEffect(() => {
+    if (userInfo?.login_type === "twitter") {
+      localStorage.setItem(
+        "lastSignInWith",
+        JSON.stringify({
+          method: SignInMethod.twitter,
+          account: userInfo.login_data.nick_name,
+        }),
+      );
+    }
+  }, [userInfo?.login_type, userInfo?.login_data]);
 
   const uidInfoTpl = useMemo(() => {
     return (
@@ -56,7 +69,7 @@ export default function UserInfoBanner() {
             cursor: userInfo?.level === 0 ? "pointer" : "default",
           }}
         >
-          {` ${userInfo?.level}`}
+          {` ${userInfo?.level || 0}`}
         </div>
       </div>
     );

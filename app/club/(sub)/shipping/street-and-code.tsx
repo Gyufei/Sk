@@ -1,6 +1,6 @@
 import { InputWithClear } from "@/components/input-with-clear";
 import { useLang } from "@/lib/use-lang";
-import { InvalidTpl } from "../info/social-media";
+import { InvalidTpl } from "../info/invalid-tpl";
 
 export function StreetAndCode({
   street,

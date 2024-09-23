@@ -176,7 +176,7 @@ export default function ShippingAddressPage() {
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           Recent Logistics Order
         </div>
-        <div className="mt-5 bg-[rgba(255,255,255,0.01)]">
+        <div className="mt-5">
           <div
             className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
             style={{

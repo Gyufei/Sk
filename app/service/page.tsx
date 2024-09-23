@@ -31,7 +31,7 @@ export default function Service() {
             </div>
           </div>
           <Image
-            src="./ellipse_ico.svg"
+            src="/icons/ellipse_ico.svg"
             loading="lazy"
             alt=""
             width={8}
@@ -39,7 +39,7 @@ export default function Service() {
             className="point-1"
           />
           <Image
-            src="./ellipse_ico.svg"
+            src="/icons/ellipse_ico.svg"
             width={8}
             height={8}
             loading="lazy"
