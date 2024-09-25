@@ -5,7 +5,7 @@ import { useState } from "react";
 import { formatNum } from "@/lib/utils/number";
 
 export default function MartPage() {
-  const range = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const range: any[] = [];
 
   const [hoverIndex, setHoverIndex] = useState(-1);
 
