@@ -1,4 +1,4 @@
-import ContentFooter from "../content-footer";
+import ContentFooter from "@/components/content-footer";
 import Image from "next/image";
 
 export default function Service() {

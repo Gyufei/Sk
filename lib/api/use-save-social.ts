@@ -8,7 +8,11 @@ export function useSaveSocial() {
   const uuid = useAtomValue(UuidAtom);
   const { getUserInfo } = useFetchUserInfo();
 
-  async function saveSocial(params: { name: string; data: string }) {
+  async function saveSocial(params: {
+    name: string;
+    data: string;
+    code?: string;
+  }) {
     if (!uuid) return;
 
     const res: any = await fetcher(`${ApiHost}/user/social_media`, {
@@ -20,6 +24,11 @@ export function useSaveSocial() {
         user_id: uuid,
         social_media_name: params.name,
         social_media_data: params.data,
+        ...(params.code
+          ? {
+              code: params.code,
+            }
+          : {}),
       }),
     });
 

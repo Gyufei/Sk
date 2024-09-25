@@ -19,7 +19,7 @@ export function LinkBtn({
       className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:bg-[#fff] md:ml-4 md:mt-0 md:w-12"
     >
       <Image
-        src={isHover ? "/icons/link-black.svg" : "/icons/link.svg"}
+        src={isHover && !disabled ? "/icons/link-black.svg" : "/icons/link.svg"}
         width={24}
         height={24}
         alt="save"
@@ -47,7 +47,9 @@ export function UnlinkBtn({
       className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:border-[#FF5A5A] data-[disabled=false]:hover:bg-[#FF5A5A] md:ml-4 md:mt-0 md:w-12"
     >
       <Image
-        src={isHover ? "/icons/unlink-white.svg" : "/icons/unlink.svg"}
+        src={
+          isHover && !disabled ? "/icons/unlink-white.svg" : "/icons/unlink.svg"
+        }
         width={24}
         height={24}
         alt="save"

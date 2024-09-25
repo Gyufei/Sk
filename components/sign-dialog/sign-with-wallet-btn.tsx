@@ -8,12 +8,13 @@ import {
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useSetAtom } from "jotai/react";
-import { UuidAtom } from "@/lib/state";
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
-import { genSignMsg } from "@/lib/sign-utils";
-import { ChainInfos } from "@/lib/const";
+import { UuidAtom } from "@/lib/api/state";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
+import { genSignMsg } from "@/lib/utils/sign-utils";
+import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useEffect, useState } from "react";
 
 export function SignWithWalletBtn({
   signing,
@@ -32,19 +33,27 @@ export function SignWithWalletBtn({
   const { disconnect } = useDisconnect();
 
   const { disconnect: solanaDisconnect } = useWallet();
+  const [isModalOpenForSign, setIsModalOpenForSign] = useState(false);
+
+  const OpNetInfo = Object.values(EthChainInfos).find((c) => c.chainId === 10);
+
+  useEffect(() => {
+    if (address && isConnected && isModalOpenForSign) {
+      switchChainAndSign();
+      setIsModalOpenForSign(false);
+    }
+  }, [address, isConnected]);
 
   async function switchChainAndSign() {
     if (address && isConnected) {
       solanaDisconnect();
+      if (!OpNetInfo) {
+        return;
+      }
 
-      if (chainId !== 10) {
-        switchChain!(10)
-          .then(() => {
-            signMsg();
-          })
-          .catch((e) => {
-            console.log("Change chain error", e);
-          });
+      if (chainId !== OpNetInfo?.chainId) {
+        await switchChain!(OpNetInfo.chainId!);
+        signMsg();
       } else {
         console.log("signMsg");
         await signMsg();
@@ -71,7 +80,6 @@ export function SignWithWalletBtn({
 
   async function postSignData(signature: string, salt: string) {
     try {
-      const OpNetInfo = Object.values(ChainInfos).find((c) => c.chainId === 10);
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
         headers: {
@@ -81,7 +89,7 @@ export function SignWithWalletBtn({
           login_type: "wallet",
           login_data: {
             wallet_address: address,
-            chain_name: OpNetInfo?.name,
+            chain_name: OpNetInfo?.name + " Mainnet",
             signature,
             salt,
           },
@@ -110,6 +118,7 @@ export function SignWithWalletBtn({
 
     if (!address) {
       wcModalOpen();
+      setIsModalOpenForSign(true);
     } else {
       switchChainAndSign();
     }

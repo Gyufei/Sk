@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useAtomValue } from "jotai/react";
-import { UuidAtom } from "@/lib/state";
+import { UuidAtom } from "@/lib/api/state";
 import { useRouter } from "@/app/navigation";
 
 export default function SubLayout({ children }: { children: React.ReactNode }) {

@@ -1,3 +1,38 @@
 {
-  "Common": {}
+  "Common": {
+    "MembershipNo": "Membership No.",
+    "NickName": "Nick Name",
+    "Level": "Level",
+    "InvalidFormat": "Invalid format",
+
+    "Events": "Events",
+    "Windfalls": "Windfalls",
+    "Unavailable": "Unavailable",
+
+    "Shipping": "Shipping",
+    "SocialMedia": "Social Media",
+    "Country": "Country",
+    "State": "State",
+    "City": "City",
+    "RecipientName": "Recipient Name",
+    "Phone": "Phone",
+    "ShippingAddress": "ShippingAddress",
+    "AddressLine": "Address line / Street",
+    "ZipCode": "Zip Code",
+    "RecentLogisticsOrder": "Recent Logistics Order",
+
+    "Info": "Info",
+    "Exchanges": "Exchanges",
+    "Wallets": "Wallets",
+
+    "Mart": "Mart",
+    "Club": "Club",
+    "Ticket": "Ticket",
+
+    "SubmitTicket": "Submit Ticket",
+    "Topic": "Topic",
+    "Content": "Content",
+    "Contact": "Contact",
+    "RecentTickets": "Recent Ticket"
+  }
 }

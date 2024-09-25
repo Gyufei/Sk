@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { PcData } from "@/lib/pc";
-import { useLang } from "@/lib/use-lang";
+import { PcData } from "@/lib/const/pc";
+import { useTranslations } from "next-intl";
 import {
   Popover,
   PopoverTrigger,
@@ -23,7 +23,7 @@ export function AddressInput({
   city: string;
   setCity: (v: string) => void;
 }) {
-  const { isEn } = useLang();
+  const T = useTranslations("Common");
   const [countryPopOpen, setCountryPopOpen] = useState(false);
   const [stateOpen, setStateOpen] = useState(false);
   const [cityOpen, setCityOpen] = useState(false);
@@ -48,7 +48,7 @@ export function AddressInput({
     <div className="mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <div className="text-lg font-normal leading-7 text-white opacity-60">
-          {isEn ? "Country" : "国家"}
+          {T("Country")}
         </div>
         <Popover
           open={countryPopOpen}
@@ -90,7 +90,7 @@ export function AddressInput({
       </div>
       <div className="flex flex-1 flex-col">
         <div className="text-sm font-normal leading-7 text-white opacity-60">
-          {isEn ? "State" : "省"}
+          {T("State")}
         </div>
         <Popover
           open={stateOpen}
@@ -132,7 +132,7 @@ export function AddressInput({
       </div>
       <div className="flex flex-1 flex-col">
         <div className="text-sm font-normal leading-7 text-white opacity-60">
-          {isEn ? "City" : "市"}
+          {T("City")}
         </div>
         <Popover open={cityOpen} onOpenChange={(isOpen) => setCityOpen(isOpen)}>
           <PopoverTrigger asChild>

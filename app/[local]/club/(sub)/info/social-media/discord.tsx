@@ -1,7 +1,7 @@
 import { InputWithClear } from "@/components/input-with-clear";
-import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
-import { useSaveSocial } from "@/lib/use-save-social";
-import { checkDiscordRegex } from "@/lib/utils";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { useSaveSocial } from "@/lib/api/use-save-social";
+import { checkDiscordRegex } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";

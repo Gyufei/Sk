@@ -1,8 +1,8 @@
 import { useAtomValue } from "jotai";
-import { UuidAtom } from "./state";
+import { UuidAtom } from "./api/state";
 import useSWR from "swr";
-import { ApiHost } from "./path";
-import fetcher from "./fetcher";
+import { ApiHost } from "./api/path";
+import fetcher from "./api/fetcher";
 
 export function useCheckOffChainClaimed(
   isOffChain: boolean,

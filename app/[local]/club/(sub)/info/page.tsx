@@ -1,9 +1,8 @@
 "use client";
-import { WalletArray } from "./wallet-array";
+import { WalletArray } from "./wallets/wallet-array";
 import { SocialMedia } from "./social-media";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
-import "@mysten/dapp-kit/dist/index.css";
 import { GoBackTo } from "@/components/go-back-to";
 import { Exchanges } from "./exchanges";
 

@@ -3,12 +3,10 @@ import { useAtomValue } from "jotai/react";
 
 import SignDialog from "@/components/sign-dialog";
 
-import { UuidAtom } from "@/lib/state";
+import { UuidAtom } from "@/lib/api/state";
 
 import RouterMenu from "@/components/router-menu";
 
-import "@solana/wallet-adapter-react-ui/styles.css";
-import "@mysten/dapp-kit/dist/index.css";
 import UserInfoBanner from "@/components/user-info-banner";
 
 export default function Club() {

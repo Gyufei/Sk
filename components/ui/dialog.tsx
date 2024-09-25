@@ -4,7 +4,7 @@ import Image from "next/image";
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 const Dialog = DialogPrimitive.Root;
 

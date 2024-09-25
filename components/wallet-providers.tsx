@@ -1,7 +1,6 @@
 "use client";
 
 import { SolanaWalletProviders } from "@/components/solana-provider";
-import { SuiProvider } from "@/components/sui-provider";
 
 export default function WalletProviders({
   children,
@@ -10,7 +9,8 @@ export default function WalletProviders({
 }) {
   return (
     <SolanaWalletProviders>
-      <SuiProvider>{children}</SuiProvider>
+      {/* <SuiProvider>{children}</SuiProvider> */}
+      {children}
     </SolanaWalletProviders>
   );
 }

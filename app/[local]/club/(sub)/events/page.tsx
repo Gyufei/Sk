@@ -2,29 +2,28 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
-import { ChainInfos } from "@/lib/const";
-import { useEthClaim } from "@/lib/use-eth-claim";
-import { useEventsData } from "@/lib/use-events-data";
-import { IClaimToken, useClaimData } from "@/lib/use-claim-data";
-import { useSolClaim } from "@/lib/use-sol-claim";
-import { useCheckSolClaimed } from "@/lib/use-check-sol-claimed";
+import { GoBackTo } from "@/components/go-back-to";
+import { IClaimToken, useClaimTokens } from "@/lib/api/use-claim-tokens";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useCheckEthClaimed } from "@/lib/use-check-eth-claimed";
 import { useCheckOffChainClaimed } from "@/lib/use-check-off-chain-claimed";
+import { useCheckSolClaimed } from "@/lib/use-check-sol-claimed";
+import { useClaimData } from "@/lib/use-claim-data";
+import { useEthClaim } from "@/lib/use-eth-claim";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
-import { useLang } from "@/lib/use-lang";
-import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
-import { GoBackTo } from "@/components/go-back-to";
+import { useSolClaim } from "@/lib/use-sol-claim";
 
 export default function EventsPage() {
-  const { data: eventsData } = useEventsData();
+  const T = useTranslations("Common");
+  const { data: claimTokens } = useClaimTokens();
   const { data: userInfo } = useFetchUserInfo();
-  const { isEn } = useLang();
 
   // eth
   const chainId = useChainId();
@@ -40,46 +39,9 @@ export default function EventsPage() {
     [publicKey],
   );
 
-  const claimTokens = useMemo(() => {
-    if (!eventsData || !eventsData.length) return [];
-
-    const ts = eventsData.map((event: Record<string, any>) => {
-      const chainInfo =
-        event.chain_id === 0
-          ? {
-              isOffChain: true,
-            }
-          : Object.values(ChainInfos).find((info) => {
-              if (
-                (String(event.chain_id) === "901" ||
-                  String(event.chain_id) === "902") &&
-                info.name === "Solana"
-              ) {
-                return info;
-              }
-
-              return String(info.chainId) === String(event.chain_id);
-            });
-
-      return {
-        name: event.token_name,
-        symbol: event.token_symbol,
-        chainInfo: chainInfo || {
-          name: "Ethereum",
-          logo: "/icons/network/ethereum.svg",
-          isEVM: true,
-          chainId: 11155111,
-        },
-        logo: event.token_url,
-        tokenDecimal: event.token_decimal,
-        eventData: event,
-      } as IClaimToken;
-    });
-
-    return ts;
-  }, [eventsData]);
-
-  const [currentToken, setCurrentToken] = useState(claimTokens[0]);
+  const [currentToken, setCurrentToken] = useState(
+    claimTokens[claimTokens.length - 1],
+  );
 
   const isOffChain = !!(currentToken?.chainInfo as any)?.isOffChain;
   const isEVM = !!currentToken?.chainInfo?.isEVM;
@@ -93,7 +55,7 @@ export default function EventsPage() {
     if (isSolana) {
       return solanaAddress;
     }
-  }, [currentToken, ethAddress, solanaAddress]);
+  }, [ethAddress, solanaAddress, isEVM, isOffChain, isSolana]);
 
   const {
     claimAction: claimEthAction,
@@ -178,6 +140,17 @@ export default function EventsPage() {
       return solState?.claimed;
     }
   }, [isEVM, isOffChain, isSolana, ethState, solState, offChainState]);
+  useEffect(() => {
+    if (isOffChainSuccess) {
+      refreshOffChainClaim();
+    }
+  }, [isOffChainSuccess, refreshOffChainClaim]);
+
+  useEffect(() => {
+    if (claimTokens.length) {
+      setCurrentToken(claimTokens[claimTokens.length - 1]);
+    }
+  }, [claimTokens]);
 
   function handleClaim() {
     if (isClaimed || isPending) return;
@@ -264,12 +237,6 @@ export default function EventsPage() {
     }
   }
 
-  useEffect(() => {
-    if (isOffChainSuccess) {
-      refreshOffChainClaim();
-    }
-  }, [isOffChainSuccess, refreshOffChainClaim]);
-
   const scrollRef = useRef<HTMLDivElement>(null);
 
   function handleClickToken(t: IClaimToken, idx: number) {
@@ -285,12 +252,6 @@ export default function EventsPage() {
     }
   }
 
-  useEffect(() => {
-    if (claimTokens.length) {
-      setCurrentToken(claimTokens[0]);
-    }
-  }, [claimTokens]);
-
   function handleConnect() {
     if (currentToken?.chainInfo?.isEVM) {
       return;
@@ -303,7 +264,7 @@ export default function EventsPage() {
     return (
       <div className="absolute -left-[70px] flex flex-col">
         <div className="mb-1 text-xl leading-[30px] text-white">
-          {isEn ? "Windfalls" : "风落"}
+          {T("Windfalls")}
         </div>
         <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">
           <div className="text-[#1FEFA3]">
@@ -314,7 +275,7 @@ export default function EventsPage() {
         </div>
       </div>
     );
-  }, [isEn, userInfo?.passed_windfalls, userInfo?.total_windfalls]);
+  }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
     <div className="absolute md:-left-1/2 md:top-[20%]">
@@ -330,6 +291,7 @@ export default function EventsPage() {
           >
             {claimTokens.map((t, i) => (
               <CoinItem
+                disabled={t.isCutOff}
                 key={i}
                 isActive={currentToken?.name === t.name}
                 onClick={() => handleClickToken(t, i)}
@@ -338,11 +300,22 @@ export default function EventsPage() {
               />
             ))}
           </div>
-          {!currentAddress ? (
+          {!currentToken ? (
+            <div className="h-[208px]"></div>
+          ) : currentToken.isCutOff ? (
+            <div className="flex h-[208px] items-center justify-center">
+              <div
+                onClick={() => {}}
+                className="mt-5 box-border flex h-12 w-[240px] cursor-not-allowed items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 "
+              >
+                {T("Unavailable")}
+              </div>
+            </div>
+          ) : !currentAddress ? (
             <div className="flex h-[208px] flex-col items-center justify-center">
               <div
                 onClick={handleConnect}
-                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
+                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 "
               >
                 <div className="flex justify-between text-base leading-6 text-white">
                   <span>Connect</span>
@@ -430,25 +403,29 @@ export default function EventsPage() {
 }
 
 function CoinItem({
+  disabled,
   src,
   onClick,
   isActive,
   name,
 }: {
+  disabled: boolean;
   src: string;
   onClick: () => void;
   isActive: boolean;
   name: string;
 }) {
   function handleClick() {
+    if (disabled) return;
     if (src) onClick();
   }
 
   return (
     <div
       onClick={handleClick}
+      data-disabled={disabled}
       data-active={isActive}
-      className="flex h-[60px] w-[60px] flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
+      className="flex h-[60px] w-[60px] flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[disabled=true]:cursor-not-allowed data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl data-[disabled=true]:opacity-50 md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
     >
       {src && <Image src={src} width={40} height={40} alt={name} />}
     </div>

@@ -1,3 +1,38 @@
 {
-  "Common": {}
+  "Common": {
+    "MembershipNo": "会员编号",
+    "NickName": "昵称",
+    "Level": "等级",
+    "InvalidFormat": "格式错误",
+
+    "Events": "事件",
+    "Windfalls": "风落",
+    "Unavailable": "不可用",
+
+    "Shipping": "发货",
+    "Country": "国家",
+    "State": "省",
+    "City": "市",
+    "RecipientName": "收货人",
+    "Phone": "电话",
+    "ShippingAddress": "收货地址",
+    "AddressLine": "详细地址 / 街道",
+    "ZipCode": "邮编",
+    "RecentLogisticsOrder": "最近物流订单",
+
+    "Info": "信息",
+    "Wallets": "钱包",
+    "Exchanges": "交易所",
+    "SocialMedia": "社交媒体",
+
+    "Mart": "市场",
+    "Club": "俱乐部",
+    "Ticket": "工单",
+
+    "SubmitTicket": "提交工单",
+    "Topic": "主题",
+    "Content": "内容",
+    "Contact": "联系方式",
+    "RecentTickets": "最近工单"
+  }
 }

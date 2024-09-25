@@ -1,5 +1,5 @@
 import { InputWithClear } from "@/components/input-with-clear";
-import { useLang } from "@/lib/use-lang";
+import { useTranslations } from "next-intl";
 import { InvalidTpl } from "../info/invalid-tpl";
 
 export function StreetAndCode({
@@ -19,7 +19,7 @@ export function StreetAndCode({
   setStreetValid: (v: boolean) => void;
   children: React.ReactNode;
 }) {
-  const { isEn } = useLang();
+  const T = useTranslations("Common");
 
   function handleStreetChange(v: string) {
     const newV = v.replace(/(^\s*)|(\s*$)/g, "");
@@ -46,12 +46,12 @@ export function StreetAndCode({
 
   return (
     <div className="relative mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col pb-6">
         <label
           htmlFor="street"
           className="text-lg font-normal leading-7 text-white opacity-60"
         >
-          {isEn ? "Address line / Street" : "详细地址 / 街道"}
+          {T("AddressLine")}
         </label>
         <InputWithClear
           isError={!streetValid}
@@ -69,7 +69,7 @@ export function StreetAndCode({
           htmlFor="code"
           className="text-lg font-normal leading-7 text-white opacity-60"
         >
-          {isEn ? "Zip Code" : "邮编"}
+          {T("ZipCode")}
         </label>
         <InputWithClear
           isError={false}

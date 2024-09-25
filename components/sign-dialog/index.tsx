@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai/react";
-import { UuidAtom } from "@/lib/state";
+import { UuidAtom } from "@/lib/api/state";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import SignWithXBtn from "./sign-with-x-btn";
 import { SignWithWalletBtn } from "./sign-with-wallet-btn";

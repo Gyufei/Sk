@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
+import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 
 export default function SignWithXBtn({
   signing,
@@ -19,8 +19,7 @@ export default function SignWithXBtn({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
-  const searchParams = useSearchParams();
-  const code = searchParams.get("code");
+  const { code, goTwitter } = useTwitterSign();
 
   useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
 
@@ -67,13 +66,6 @@ export default function SignWithXBtn({
   function handleSign() {
     if (signing) return;
     goTwitter();
-  }
-
-  function goTwitter() {
-    window.location.href =
-      process.env.NODE_ENV === "production"
-        ? "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=NlF6aWE5Yk9kU1hfQUl2bkhLX1Y6MTpjaQ&redirect_uri=https://sk-delta.vercel.app/club&scope=users.read%20tweet.read%20offline.access%20space.read&state=state&code_challenge=challenge&code_challenge_method=plain"
-        : "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=NlF6aWE5Yk9kU1hfQUl2bkhLX1Y6MTpjaQ&redirect_uri=https://juu17-api-dev.vercel.app/twitter/callback&scope=users.read%20tweet.read%20offline.access%20space.read&state=state&code_challenge=challenge&code_challenge_method=plain";
   }
 
   return (

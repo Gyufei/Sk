@@ -1,4 +1,4 @@
-export const ChainInfos: Record<
+export const EthChainInfos: Record<
   string,
   {
     name: string;
@@ -7,8 +7,8 @@ export const ChainInfos: Record<
     chainId?: number;
   }
 > = {
-  "OP Mainnet": {
-    name: "OP Mainnet",
+  OP: {
+    name: "OP",
     logo: "/icons/network/op.svg",
     isEVM: true,
     chainId: 10,
@@ -19,8 +19,8 @@ export const ChainInfos: Record<
     isEVM: true,
     chainId: 1,
   },
-  "BNB Chain": {
-    name: "BNB Chain",
+  BNB: {
+    name: "BNB",
     logo: "/icons/network/bnb.svg",
     isEVM: true,
     chainId: 56,
@@ -55,18 +55,12 @@ export const ChainInfos: Record<
     isEVM: true,
     chainId: 8453,
   },
-  Solana: {
-    name: "Solana",
-    logo: "/icons/network/solana.svg",
-    isEVM: false,
-    chainId: 1,
-  },
-  Sui: {
-    name: "Sui",
-    logo: "/icons/network/sui.svg",
-    isEVM: false,
-    chainId: 2,
-  },
+  // Sui: {
+  //   name: "Sui",
+  //   logo: "/icons/network/sui.svg",
+  //   isEVM: false,
+  //   chainId: 2,
+  // },
   Linea: {
     name: "Linea",
     logo: "/icons/network/linea.svg",
@@ -78,5 +72,27 @@ export const ChainInfos: Record<
     logo: "/icons/network/zksync.svg",
     isEVM: true,
     chainId: 324,
+  },
+};
+
+export const SolanaChainInfos: Record<
+  string,
+  {
+    name: string;
+    logo: string;
+    isEVM?: boolean;
+    chainId?: number;
   }
+> = {
+  Solana: {
+    name: "Solana",
+    logo: "/icons/network/solana.svg",
+    isEVM: false,
+    chainId: 1,
+  },
+};
+
+export const ChainInfos = {
+  ...EthChainInfos,
+  ...SolanaChainInfos,
 };

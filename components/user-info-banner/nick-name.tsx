@@ -4,10 +4,10 @@ import { useAtomValue } from "jotai/react";
 
 import { Input } from "@/components/ui/input";
 
-import { UuidAtom } from "@/lib/state";
-import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
+import { UuidAtom } from "@/lib/api/state";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
 
 export function NickName({ nickName }: { nickName: string }) {
   const uuid = useAtomValue(UuidAtom);

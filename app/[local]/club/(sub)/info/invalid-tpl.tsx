@@ -1,4 +1,4 @@
-import { useLang } from "@/lib/use-lang";
+import { useTranslations } from "next-intl";
 
 export function InvalidTpl({
   isValid,
@@ -7,13 +7,13 @@ export function InvalidTpl({
   isValid: boolean;
   text?: string;
 }) {
-  const { isEn } = useLang();
+  const T = useTranslations("Common");
 
   if (isValid) return null;
 
   return (
     <div className="block text-sm leading-5 text-[#FF5A5A]">
-      {text ? text : isEn ? "Invalid format" : "格式错误"}
+      {text || T("InvalidFormat")}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { InputWithClear } from "@/components/input-with-clear";
-import { useLang } from "@/lib/use-lang";
+import { useTranslations } from "next-intl";
 import {
   Popover,
   PopoverTrigger,
@@ -34,7 +34,7 @@ export function NameAndPhone({
   setRcNameValid: (v: boolean) => void;
   setPhoneValid: (v: boolean) => void;
 }) {
-  const { isEn } = useLang();
+  const T = useTranslations("Common");
 
   const [countryCodeOpen, setCountryCodeOpen] = useState(false);
 
@@ -89,7 +89,7 @@ export function NameAndPhone({
           htmlFor="recipientName"
           className="text-lg font-normal leading-7 text-white opacity-60"
         >
-          {isEn ? "Recipient Name" : "收货人"}
+          {T("RecipientName")}
         </label>
         <InputWithClear
           isError={!rcNameValid}
@@ -107,9 +107,9 @@ export function NameAndPhone({
           htmlFor="phone"
           className="text-lg font-normal leading-7 text-white opacity-60"
         >
-          {isEn ? "Phone" : "电话"}
+          {T("Phone")}
         </label>
-        <div className="flex">
+        <div className="flex items-end">
           <Popover
             open={countryCodeOpen}
             onOpenChange={(isOpen) => setCountryCodeOpen(isOpen)}

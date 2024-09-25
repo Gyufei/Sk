@@ -1,14 +1,17 @@
 import Image from "next/image";
 import { Link } from "@/app/navigation";
+import { useTranslations } from "next-intl";
 
 export default function RouterMenu() {
+  const T = useTranslations("Common");
+
   return (
     <div className="flex flex-wrap items-center justify-between gap-5">
       <Link href="/club/events">
         <MenuItem>
           <Image src="/icons/events.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Events
+            {T("Events")}
           </div>
         </MenuItem>
       </Link>
@@ -21,7 +24,7 @@ export default function RouterMenu() {
             alt="events"
           />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Shipping
+            {T("Shipping")}
           </div>
         </MenuItem>
       </Link>
@@ -29,7 +32,7 @@ export default function RouterMenu() {
         <MenuItem>
           <Image src="/icons/info.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Info
+            {T("Info")}
           </div>
         </MenuItem>
       </Link>
@@ -37,7 +40,7 @@ export default function RouterMenu() {
         <MenuItem>
           <Image src="/icons/mart.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Mart
+            {T("Mart")}
           </div>
         </MenuItem>
       </Link>
@@ -45,7 +48,7 @@ export default function RouterMenu() {
         <MenuItem>
           <Image src="/icons/club.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Club
+            {T("Club")}
           </div>
         </MenuItem>
       </Link>
@@ -53,7 +56,7 @@ export default function RouterMenu() {
         <MenuItem>
           <Image src="/icons/ticket.svg" width={40} height={40} alt="events" />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
-            Ticket
+            {T("Ticket")}
           </div>
         </MenuItem>
       </Link>

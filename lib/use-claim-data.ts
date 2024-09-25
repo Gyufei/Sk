@@ -1,19 +1,10 @@
 import useSWR from "swr";
-import fetcher from "./fetcher";
-import { ApiHost } from "./path";
+import fetcher from "./api/fetcher";
+import { ApiHost } from "./api/path";
 import { useAtomValue } from "jotai";
-import { UuidAtom } from "./state";
-import { useFetchUserInfo } from "./use-fetch-user-info";
-import { ChainInfos } from "./const";
-
-export interface IClaimToken {
-  name: string;
-  symbol: string;
-  logo: string;
-  chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
-  tokenDecimal: number;
-  eventData: Record<string, any>;
-}
+import { UuidAtom } from "./api/state";
+import { useFetchUserInfo } from "./api/use-fetch-user-info";
+import { IClaimToken } from "./api/use-claim-tokens";
 
 export function useClaimData(
   currentToken: IClaimToken,
@@ -34,15 +25,13 @@ export function useClaimData(
     }
 
     const projectName = currentToken.eventData.project_name;
-    const chainName = currentToken.chainInfo.name;
     const isEVM = currentToken.chainInfo.isEVM;
+    const walletChainName = isEVM ? "EVM" : "Solana";
 
     // should bind wallet of chain then claim
-    const shouldClaim =
-      (isEVM ? userInfo.wallets["main_wallet"] === address : false) ||
-      userInfo.wallets["alt_wallets"].some(
-        (w: any) => w.network === chainName && w.address === address,
-      );
+    const shouldClaim = userInfo.wallets[walletChainName].some(
+      (w: any) => w === address,
+    );
 
     if (!shouldClaim)
       return {

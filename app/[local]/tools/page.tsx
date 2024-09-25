@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSubmitDataUrl } from "@/lib/use-submit-data-url";
+import { useSubmitDataUrl } from "@/lib/api/use-submit-data-url";
 import Image from "next/image";
 
 export default function Tools() {

@@ -5,7 +5,7 @@ import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 
 export function useCheckEthClaimed(
   isEthereum: boolean,
-  chainName: "linea" | "ethereum" | "op mainnet",
+  chainName: "linea" | "ethereum" | "op",
   eventsData: Record<"claim_version" | "token_address", any>,
   amount: number | null,
 ) {

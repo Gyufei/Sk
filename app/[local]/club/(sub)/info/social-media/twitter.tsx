@@ -1,19 +1,26 @@
 import { InputWithClear } from "@/components/input-with-clear";
-import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
-import { useSaveSocial } from "@/lib/use-save-social";
-import { checkTwitterRegex, twitterPlaceHolderText } from "@/lib/utils";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { useSaveSocial } from "@/lib/api/use-save-social";
+import { checkTwitterRegex, twitterPlaceHolderText } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { MobileInValidTpl, PcInvalidTpl } from "../invalid-tpl";
 import { LinkBtn, UnlinkBtn } from "../link-btn";
+import { useTwitterSign } from "@/lib/api/use-twitter-sign";
+import useSWR from "swr";
 
 export function Twitter() {
   const { data: userInfo } = useFetchUserInfo();
+  const { saveSocial } = useSaveSocial();
+
   const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
+  const isLink = userInfo?.social_media?.Twitter;
   const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const isLink = false;
+  const { code, goTwitter, removeCode } = useTwitterSign();
+
+  useSWR(code ? `save-twitter:${code}` : null, saveTwitter);
 
   useEffect(() => {
     if (userInfo?.social_media) {
@@ -28,16 +35,14 @@ export function Twitter() {
       return;
     }
 
-    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
-    setX(trimedVal);
+    const trimVal = val.replace(/(^\s*)|(\s*$)/g, "");
+    setX(trimVal);
   }
 
   const disabled = useMemo(
     () => !isValid || !x || (x && !checkTwitterRegex(x)),
     [isValid, x],
   );
-
-  const { saveSocial } = useSaveSocial();
 
   function handleBlur() {
     if (!x) return;
@@ -47,13 +52,21 @@ export function Twitter() {
 
   function handleLink() {
     if (disabled) return;
-    const allX = `${twitterPlaceHolderText}${x}`;
-    saveSocial({ name: "Twitter", data: allX });
-    setIsCheck(true);
+    goTwitter();
   }
 
   function handleUnLink() {
     if (disabled) return;
+    saveSocial({ name: "Twitter", data: "" });
+    setIsCheck(false);
+  }
+
+  function saveTwitter() {
+    if (!code) return;
+
+    saveSocial({ name: "Twitter", data: "", code });
+    setIsCheck(true);
+    removeCode();
   }
 
   return (
@@ -75,7 +88,7 @@ export function Twitter() {
         />
         <MobileInValidTpl isValid={isValid} text="Invalid X (Twitter) link." />
         {isLink ? (
-          <UnlinkBtn onClick={handleUnLink} disabled={disabled} />
+          <UnlinkBtn onClick={handleUnLink} disabled={false} />
         ) : (
           <LinkBtn onClick={handleLink} disabled={disabled} />
         )}

@@ -1,10 +1,10 @@
 import useSWRMutation from "swr/mutation";
-import { UuidAtom } from "./state";
+import { UuidAtom } from "./api/state";
 import { useAtomValue } from "jotai";
 import { useChainId, useSignMessage, useSwitchNetwork } from "wagmi";
-import { genOffChainClaimMsg } from "./sign-utils";
-import fetcher from "./fetcher";
-import { ApiHost } from "./path";
+import { genOffChainClaimMsg } from "./utils/sign-utils";
+import fetcher from "./api/fetcher";
+import { ApiHost } from "./api/path";
 
 export function useOffChainClaim() {
   const uuid = useAtomValue(UuidAtom);

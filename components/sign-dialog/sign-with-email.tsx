@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
+import { useSendEmail } from "@/lib/api/use-send-email";
+import { useLocale } from "next-intl";
 
 export default function SignWithEmail({
   signing,
@@ -18,19 +19,25 @@ export default function SignWithEmail({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
-  const searchParams = useSearchParams();
+  const locale = useLocale();
   const [email, setEmail] = useState("");
+
+  const { email: cbEmail, code, hasSend, sendEmail } = useSendEmail();
+  useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
+
+  useEffect(() => {
+    if (cbEmail) {
+      setEmail(cbEmail);
+    }
+  }, [cbEmail]);
+
+  const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     if (lastAccount) {
       setEmail(lastAccount);
     }
   }, [lastAccount]);
-
-  const code = searchParams.get("email");
-  useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
-
-  const [isValid, setIsValid] = useState(true);
 
   function checkRegex(x: string) {
     const regex =
@@ -52,9 +59,15 @@ export default function SignWithEmail({
       setIsValid(false);
       return;
     }
+
+    sendEmail(email, `${locale}/club`);
   }
 
   async function postSignData() {
+    if (cbEmail) {
+      setEmail(cbEmail);
+    }
+
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -64,6 +77,7 @@ export default function SignWithEmail({
         body: JSON.stringify({
           login_type: "email",
           login_data: {
+            email: cbEmail,
             signature: code,
           },
         }),
@@ -104,7 +118,7 @@ export default function SignWithEmail({
         className="h-12 w-full rounded-lg  border border-[rgba(255,255,255,0.6)] bg-transparent p-4 text-base data-[error=true]:border-[#FF5A5A]"
       />
       <button
-        disabled={signing}
+        disabled={signing || hasSend}
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75"
       >

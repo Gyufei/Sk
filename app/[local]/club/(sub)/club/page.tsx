@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 
 import { GoBackTo } from "@/components/go-back-to";
 import { Input } from "@/components/ui/input";
-import { formatNum } from "@/lib/number";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { formatNum } from "@/lib/utils/number";
 import { SaveBtn } from "../info/social-media/save-btn";
 
 export default function Page() {
+  const { data: userInfo } = useFetchUserInfo();
   const [yourId, setYourId] = useState<string | null>(null);
   const [redirectHost, setRedirectHost] = useState<string | null>(null);
 
@@ -56,7 +58,7 @@ export default function Page() {
               Juu17 Club Points
             </div>
             <div className="mt-2 text-[40px] leading-[60px] text-white">
-              {formatNum(166.2)}
+              {formatNum(userInfo?.j_points || 0)}
             </div>
             <div className="mt-5 font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
               Multipliers
@@ -67,7 +69,7 @@ export default function Page() {
                   Cup
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
-                  4x
+                  {formatNum(userInfo?.multipliers?.cup || 0)}x
                 </span>
               </div>
               <div className="flex flex-col">
@@ -75,7 +77,7 @@ export default function Page() {
                   X Account
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
-                  1.4
+                  {formatNum(userInfo?.multipliers?.x_account || 0)}
                 </span>
               </div>
             </div>

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { UuidAtom } from "@/lib/state";
+import { UuidAtom } from "@/lib/api/state";
 import { useAtomValue } from "jotai/react";
-import fetcher from "@/lib/fetcher";
-import { ApiHost } from "@/lib/path";
-import { useLang } from "@/lib/use-lang";
-import { useFetchUserInfo } from "@/lib/use-fetch-user-info";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
+import { useTranslations } from "next-intl";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { GoBackTo } from "@/components/go-back-to";
 import { SaveBtn } from "./save-btn";
 import { countryCodeList, NameAndPhone } from "./name-and-phone";
@@ -15,7 +15,7 @@ import { StreetAndCode } from "./street-and-code";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
-  const { isEn } = useLang();
+  const T = useTranslations("Common");
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
 
   const [recipientName, setRecipientName] = useState(
@@ -99,6 +99,8 @@ export default function ShippingAddressPage() {
     getUserInfo();
   }
 
+  const logisticsOrders: Array<any> = [];
+
   async function saveShip() {
     if (!uuid) return;
 
@@ -137,7 +139,7 @@ export default function ShippingAddressPage() {
       </div>
       <div className="mt-6 w-[800px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
         <div className="mb-7 text-xl leading-[30px] text-white">
-          {isEn ? "Shipping Address" : "收货地址"}
+          {T("ShippingAddress")}
         </div>
         <NameAndPhone
           {...{
@@ -174,19 +176,23 @@ export default function ShippingAddressPage() {
 
       <div className="mt-10 px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
-          Recent Logistics Order
+          {T("RecentLogisticsOrder")}
         </div>
         <div className="mt-5">
-          <div
-            className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
-            style={{
-              boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
-            }}
-          >
-            <div>ZT912803810120KS01</div>
-            <div>中通</div>
-            <div>2024-4-1 23:11:11</div>
-          </div>
+          {!logisticsOrders.length && (
+            <div className="flex h-[50px] items-center justify-start">
+              No Data
+            </div>
+          )}
+          {logisticsOrders.map((item, index) => (
+            <div
+              key={index}
+              className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
+              style={{
+                boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+              }}
+            ></div>
+          ))}
         </div>
       </div>
     </div>
