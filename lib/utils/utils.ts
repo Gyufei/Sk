@@ -47,7 +47,9 @@ export function checkGithubRegex(x: string) {
 
 // 2024-09-23T17:39:47.932Z  => 2024-4-1 23:11:11
 export function formatDate(isoString: string) {
+  console.log(isoString);
   const date = new Date(isoString);
+  console.log(date);
 
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1;

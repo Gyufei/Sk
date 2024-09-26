@@ -20,7 +20,6 @@ export default function ShippingAddressPage() {
   const T = useTranslations("Common");
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
   const { data: logisticsOrders } = useRecentLogisticsOrder();
-  console.log(logisticsOrders, 111);
 
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
@@ -196,7 +195,7 @@ export default function ShippingAddressPage() {
             >
               <div>{item.order_id}</div>
               <div>{item.delivery}</div>
-              <div>{formatDate(item.created_at)}</div>
+              <div>{formatDate(item.create_at)}</div>
             </div>
           ))}
         </div>

@@ -39,9 +39,7 @@ export default function EventsPage() {
     [publicKey],
   );
 
-  const [currentToken, setCurrentToken] = useState(
-    claimTokens[claimTokens.length - 1],
-  );
+  const [currentToken, setCurrentToken] = useState(claimTokens[0]);
 
   const isOffChain = !!(currentToken?.chainInfo as any)?.isOffChain;
   const isEVM = !!currentToken?.chainInfo?.isEVM;
@@ -148,7 +146,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     if (claimTokens.length) {
-      setCurrentToken(claimTokens[claimTokens.length - 1]);
+      setCurrentToken(claimTokens[0]);
     }
   }, [claimTokens]);
 
