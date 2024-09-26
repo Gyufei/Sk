@@ -97,14 +97,14 @@ export default async function RootLayout({
         } !pointer-events-auto`}
       >
         <GlobalMsgProvider>
-          <Web3Modal>
-            <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages}>
+            <Web3Modal>
               <HomeLayout>
                 {children}
                 <GlobalActionTip />
               </HomeLayout>
-            </NextIntlClientProvider>
-          </Web3Modal>
+            </Web3Modal>
+          </NextIntlClientProvider>
         </GlobalMsgProvider>
       </body>
     </html>

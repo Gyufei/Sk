@@ -28,7 +28,8 @@ export function EthWalletItem({
 }) {
   const { address: connectAddress } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
-  const { disconnectAsync: disconnect } = useDisconnect();
+  const { disconnectAsync: disconnect, isLoading: isDisconnecting } =
+    useDisconnect();
 
   const { signMessageAsync: signMessage } = useSignMessage();
   const { address: walletAddress } = useAccount();
@@ -51,7 +52,8 @@ export function EthWalletItem({
   async function handleOperation() {
     if (isOperating) return;
     setIsOperating(true);
-    if (!isSign || !connectAddress) {
+
+    if (isSign && (!connectAddress || connectAddress !== address)) {
       await linkWallet();
     } else {
       await unlinkWallet();
@@ -66,12 +68,13 @@ export function EthWalletItem({
     } else {
       await disconnect();
       setIsWaitingForNewConnect(true);
-      wcModalOpen();
+      await wcModalOpen();
     }
   }
 
   async function unlinkWallet() {
-    disconnect();
+    if (isDisconnecting) return;
+    await disconnect();
   }
 
   async function signEvmMsg() {

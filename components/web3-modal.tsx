@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 
-import { WagmiConfig } from 'wagmi'
-import { 
+import { WagmiConfig } from "wagmi";
+import {
   mainnet,
   optimism,
   // blast,
@@ -14,8 +14,8 @@ import {
   base,
   linea,
   sepolia,
-  zkSync
-} from 'viem/chains'
+  zkSync,
+} from "viem/chains";
 
 const projectId = "554bbd76b2e66a095d2d38490bb42983";
 
@@ -39,18 +39,18 @@ const chains = [
   base,
   linea,
   sepolia,
-  zkSync
-]
-const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
-
-// 3. Create modal
-createWeb3Modal({
-  wagmiConfig,
-  projectId,
-  chains,
-  enableAnalytics: true // Optional - defaults to your Cloud configuration
-})
+  zkSync,
+];
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 export function Web3Modal({ children }: { children: React.ReactNode }) {
-  return <WagmiConfig config={wagmiConfig as any}>{children}</WagmiConfig>
+  // 3. Create modal
+  createWeb3Modal({
+    wagmiConfig,
+    projectId,
+    chains,
+    enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  });
+
+  return <WagmiConfig config={wagmiConfig as any}>{children}</WagmiConfig>;
 }
