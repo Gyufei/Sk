@@ -8,7 +8,8 @@ export interface IClaimToken {
   name: string;
   symbol: string;
   logo: string;
-  chainInfo: (typeof ChainInfos)[keyof typeof ChainInfos];
+  chainInfo:
+    | (typeof ChainInfos)[keyof typeof ChainInfos] & { isOffChain: boolean };
   tokenDecimal: number;
   eventData: Record<string, any>;
   isCutOff: boolean;

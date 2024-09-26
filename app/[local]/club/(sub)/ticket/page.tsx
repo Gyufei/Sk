@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import {
@@ -14,10 +14,15 @@ import { ApiHost } from "@/lib/api/path";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "@/lib/api/state";
 import { useTranslations } from "next-intl";
+import { useRecentTickets } from "@/lib/api/use-recent-tickets";
+import { formatDate } from "@/lib/utils/utils";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export default function Page() {
   const T = useTranslations("Common");
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const uuid = useAtomValue(UuidAtom);
+  const { data: recentTickets } = useRecentTickets();
 
   const [topic, setTopic] = useState("");
   const [topicOpen, setTopicOpen] = useState(false);
@@ -61,7 +66,17 @@ export default function Page() {
 
     if (!res) {
       console.error("saveExchange error");
+      setGlobalMessage({
+        type: "error",
+        message: "Submit failed, please try again",
+      });
+      return;
     }
+
+    setGlobalMessage({
+      type: "success",
+      message: "Ticket submitted successfully",
+    });
 
     setTopic("");
     setContent("");
@@ -89,8 +104,6 @@ export default function Page() {
       setContactValid(true);
     }
   }
-
-  const recentTickets: Array<any> = [];
 
   return (
     <div className="absolute md:-left-1/2 md:top-[5%]">
@@ -189,21 +202,21 @@ export default function Page() {
           {T("RecentTickets")}
         </div>
         <div className="mt-5">
-          {!recentTickets.length && (
+          {!recentTickets?.length && (
             <div className="flex h-[50px] items-center justify-start">
               No Data
             </div>
           )}
-          {recentTickets.map((c) => (
+          {(recentTickets || []).map((c: any) => (
             <div
-              key={c}
+              key={c.id}
               className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
               style={{
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
-              <div></div>
-              <div></div>
+              <div>{c.id}</div>
+              <div>{formatDate(c.create_at)}</div>
             </div>
           ))}
         </div>

@@ -44,3 +44,20 @@ export function checkGithubRegex(x: string) {
 
   return regex.test(allValue);
 }
+
+// 2024-09-23T17:39:47.932Z  => 2024-4-1 23:11:11
+export function formatDate(isoString: string) {
+  const date = new Date(isoString);
+
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
+  const minute = date.getUTCMinutes();
+  const second = date.getUTCSeconds();
+
+  const min = minute < 10 ? `0${minute}` : minute;
+  const sec = second < 10 ? `0${second}` : second;
+
+  return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+}

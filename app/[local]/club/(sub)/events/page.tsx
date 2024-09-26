@@ -213,27 +213,15 @@ export default function EventsPage() {
   }
 
   async function claimOffChain() {
-    if (!ethAddress) {
-      wcModalOpen();
-    } else {
-      if (String(chainId) !== String(10)) {
-        try {
-          await switchChain!(10);
-          claimOffChainAction({
-            wallet: ethAddress,
-            event_name: currentToken.eventData.project_name,
-            claim_version: currentToken.eventData.claim_version,
-          } as any);
-        } catch (e) {
-          console.error("switch chain error", e);
-        }
-      } else {
-        claimOffChainAction({
-          wallet: ethAddress,
-          eventName: currentToken.eventData.project_name,
-          claimVersion: currentToken.eventData.claim_version,
-        } as any);
-      }
+    console.log("currentToken", currentToken);
+    try {
+      claimOffChainAction({
+        wallet: ethAddress,
+        eventName: currentToken.eventData.project_name,
+        claimVersion: currentToken.eventData.claim_version,
+      } as any);
+    } catch (e) {
+      console.error("switch chain error", e);
     }
   }
 
@@ -253,8 +241,8 @@ export default function EventsPage() {
   }
 
   function handleConnect() {
-    if (currentToken?.chainInfo?.isEVM) {
-      return;
+    if (isEVM || isOffChain) {
+      wcModalOpen();
     } else {
       setSolanaModalVisible(true);
     }
@@ -321,8 +309,12 @@ export default function EventsPage() {
                   <span>Connect</span>
                   {currentToken && (
                     <ChainLogoText
-                      logo={currentToken.chainInfo.logo}
-                      name={currentToken.chainInfo.name}
+                      logo={
+                        isOffChain
+                          ? "/icons/network/ethereum.svg"
+                          : currentToken.chainInfo.logo
+                      }
+                      name={isOffChain ? "EVM" : currentToken.chainInfo.name}
                     />
                   )}
                 </div>
@@ -368,18 +360,20 @@ export default function EventsPage() {
                   ) : (
                     <>
                       <span className="font-bold">Claim</span>
-                      <div
-                        style={{
-                          visibility: isOffChain ? "hidden" : "visible",
-                        }}
-                        className="ml-1 flex justify-start"
-                      >
-                        <span>on</span>
-                        <ChainLogoText
-                          logo={currentToken.chainInfo.logo}
-                          name={currentToken.chainInfo.name}
-                        />
-                      </div>
+                      {!currentToken.chainInfo.isOffChain && (
+                        <div
+                          style={{
+                            visibility: isOffChain ? "hidden" : "visible",
+                          }}
+                          className="ml-1 flex justify-start"
+                        >
+                          <span>on</span>
+                          <ChainLogoText
+                            logo={currentToken.chainInfo.logo}
+                            name={currentToken.chainInfo.name}
+                          />
+                        </div>
+                      )}
                     </>
                   )}
                 </div>

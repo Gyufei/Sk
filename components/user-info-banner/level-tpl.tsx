@@ -13,13 +13,13 @@ export function LevelTpl() {
   const { open: wcModalOpen } = useWeb3Modal();
 
   const { write: levelUpAction, isPending, isSuccess } = useLevelUp();
-  console.log("levelUpAction", levelUpAction);
+  levelUpAction;
 
   function handleClick() {
     if (!address || isPending) {
       wcModalOpen();
     } else {
-      // levelUpAction();
+      levelUpAction();
     }
   }
 

@@ -12,11 +12,14 @@ import { SaveBtn } from "./save-btn";
 import { countryCodeList, NameAndPhone } from "./name-and-phone";
 import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
+import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
   const T = useTranslations("Common");
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
+  const { data: logisticsOrders } = useRecentLogisticsOrder();
+  console.log(logisticsOrders, 111);
 
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
@@ -99,8 +102,6 @@ export default function ShippingAddressPage() {
     getUserInfo();
   }
 
-  const logisticsOrders: Array<any> = [];
-
   async function saveShip() {
     if (!uuid) return;
 
@@ -179,19 +180,23 @@ export default function ShippingAddressPage() {
           {T("RecentLogisticsOrder")}
         </div>
         <div className="mt-5">
-          {!logisticsOrders.length && (
+          {!logisticsOrders?.length && (
             <div className="flex h-[50px] items-center justify-start">
               No Data
             </div>
           )}
-          {logisticsOrders.map((item, index) => (
+          {(logisticsOrders || [])?.map((item: any, index: number) => (
             <div
               key={index}
               className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
               style={{
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
-            ></div>
+            >
+              <div>ZT912803810120KS01</div>
+              <div>中通</div>
+              <div>2024-4-1 23:11:11</div>
+            </div>
           ))}
         </div>
       </div>
