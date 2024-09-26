@@ -265,7 +265,7 @@ export default function EventsPage() {
   }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
-    <div className="absolute md:-left-1/2 md:top-[20%]">
+    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[20%]">
       <div className="relative flex items-center justify-end">
         {windFallTpl}
         <GoBackTo />

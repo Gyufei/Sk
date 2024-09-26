@@ -100,7 +100,7 @@ export default function Page() {
   }
 
   return (
-    <div className="absolute -translate-x-1/2 md:top-[5%]">
+    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[5%]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>

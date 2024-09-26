@@ -134,7 +134,7 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="no-scroll-bar absolute h-full overflow-y-auto md:-left-[calc(50%+80px)]">
+    <div className="no-scroll-bar absolute h-full overflow-y-auto md:-left-[calc(50vw-500px)]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>

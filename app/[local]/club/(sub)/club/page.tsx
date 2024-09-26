@@ -24,7 +24,7 @@ export default function Page() {
   }
 
   return (
-    <div className="absolute md:-left-1/2 md:top-[15%]">
+    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[15%]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
