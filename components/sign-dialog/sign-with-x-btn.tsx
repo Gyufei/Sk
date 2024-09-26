@@ -32,7 +32,7 @@ export default function SignWithXBtn({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          login_type: "twitter",
+          login_type: "Twitter",
           login_data: {
             code: code,
             redirect_uri: currentPageUrl,

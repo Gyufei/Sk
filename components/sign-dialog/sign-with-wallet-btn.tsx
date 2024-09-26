@@ -86,7 +86,7 @@ export function SignWithWalletBtn({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          login_type: "wallet",
+          login_type: "Wallet",
           login_data: {
             wallet_address: address,
             chain_name: OpNetInfo?.name + " Mainnet",

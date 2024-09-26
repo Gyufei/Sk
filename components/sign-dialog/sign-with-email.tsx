@@ -91,7 +91,7 @@ export default function SignWithEmail({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          login_type: "email",
+          login_type: "Email",
           login_data: {
             email: cbEmail,
             code,

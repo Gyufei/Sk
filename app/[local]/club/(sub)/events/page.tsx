@@ -213,7 +213,6 @@ export default function EventsPage() {
   }
 
   async function claimOffChain() {
-    console.log("currentToken", currentToken);
     try {
       claimOffChainAction({
         wallet: ethAddress,

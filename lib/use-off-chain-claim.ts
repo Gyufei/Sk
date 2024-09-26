@@ -1,7 +1,7 @@
 import useSWRMutation from "swr/mutation";
 import { UuidAtom } from "./api/state";
 import { useAtomValue } from "jotai";
-import { useChainId, useSignMessage, useSwitchNetwork } from "wagmi";
+import { useSignMessage } from "wagmi";
 import { genOffChainClaimMsg } from "./utils/sign-utils";
 import fetcher from "./api/fetcher";
 import { ApiHost } from "./api/path";
@@ -9,9 +9,7 @@ import { ApiHost } from "./api/path";
 export function useOffChainClaim() {
   const uuid = useAtomValue(UuidAtom);
 
-  const chainId = useChainId();
   const { signMessageAsync: signMessage } = useSignMessage();
-  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
 
   async function claimActionFetcher(
     _key: string,
@@ -26,14 +24,8 @@ export function useOffChainClaim() {
     },
   ) {
     const { wallet, eventName, claimVersion } = arg;
-    if (String(chainId) !== String(10)) {
-      await switchChain!(10);
-      const res = await signEvmMsgAction(wallet, eventName, claimVersion);
-      return res;
-    } else {
-      const res = await signEvmMsgAction(wallet, eventName, claimVersion);
-      return res;
-    }
+    const res = await signEvmMsgAction(wallet, eventName, claimVersion);
+    return res;
   }
 
   async function signEvmMsgAction(

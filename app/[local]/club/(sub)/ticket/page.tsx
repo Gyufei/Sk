@@ -84,29 +84,23 @@ export default function Page() {
   }
 
   function handleTopicSelected(v: string) {
-    if (v) {
-      setTopic(v);
-      setTopicValid(true);
-      setTopicOpen(false);
-    }
+    setTopic(v);
+    setTopicValid(true);
+    setTopicOpen(false);
   }
 
   function handleContentInput(v: string) {
-    if (v) {
-      setContent(v);
-      setContentValid(true);
-    }
+    setContent(v);
+    setContentValid(!!v);
   }
 
   function handleContactInput(v: string) {
-    if (v) {
-      setContact(v);
-      setContactValid(true);
-    }
+    setContact(v);
+    setContactValid(!!v);
   }
 
   return (
-    <div className="absolute md:-left-1/2 md:top-[5%]">
+    <div className="absolute -translate-x-1/2 md:top-[5%]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
