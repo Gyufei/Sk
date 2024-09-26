@@ -53,7 +53,10 @@ export function EthWalletItem({
     if (isOperating) return;
     setIsOperating(true);
 
-    if (isSign && (!connectAddress || connectAddress !== address)) {
+    if (
+      !address ||
+      (isSign && (!connectAddress || connectAddress !== address))
+    ) {
       await linkWallet();
     } else {
       await unlinkWallet();

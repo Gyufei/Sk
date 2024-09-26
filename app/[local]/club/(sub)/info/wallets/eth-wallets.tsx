@@ -63,9 +63,10 @@ export function EthWallets() {
         setSwitchChainDelay(false);
       }, 2000);
     }
-  }, [chainId]);
+  }, [chainId, switchChainDelay]);
 
   useEffect(() => {
+    if (switchChainDelay) return;
     const currChain = Object.values(EthChainInfos).find(
       (c) => c.name === currentChainName,
     );
@@ -79,9 +80,9 @@ export function EthWallets() {
     const timer = setTimeout(() => {
       setSwitchChainDelay(false);
     }, 2000);
-    
+
     return () => clearTimeout(timer);
-  }, [currentChainName, chainId]);
+  }, [switchChainDelay, currentChainName, chainId]);
 
   const handleAddrChange = (index: number, value: string) => {
     setWArr((prev) => {
