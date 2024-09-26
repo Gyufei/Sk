@@ -49,7 +49,7 @@ export default function UserInfoBanner() {
 
   const nickNameTpl = useMemo(() => {
     return (
-      <div className="flex flex-col md:mr-14 ">
+      <div className="flex flex-1 flex-col">
         <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
           {T("NickName")}
         </div>
