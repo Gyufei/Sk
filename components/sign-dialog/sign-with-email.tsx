@@ -29,6 +29,7 @@ export default function SignWithEmail({
     email: cbEmail,
     code,
     hasSend,
+    sending,
     sendEmail,
     removeCode,
   } = useSendEmail();
@@ -140,7 +141,7 @@ export default function SignWithEmail({
         className="h-12 w-full rounded-lg  border border-[rgba(255,255,255,0.6)] bg-transparent p-4 text-base data-[error=true]:border-[#FF5A5A]"
       />
       <button
-        data-disabled={signing}
+        data-disabled={signing || sending}
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
       >

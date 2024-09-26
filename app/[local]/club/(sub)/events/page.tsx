@@ -67,7 +67,7 @@ export default function EventsPage() {
     useSolClaim();
 
   const {
-    claimAction: claimOffChainAction,
+    trigger: claimOffChainAction,
     isPending: isOffChainPending,
     isSuccess: isOffChainSuccess,
   } = useOffChainClaim();

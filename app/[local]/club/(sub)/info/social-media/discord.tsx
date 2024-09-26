@@ -3,11 +3,13 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useSaveSocial } from "@/lib/api/use-save-social";
 import { checkDiscordRegex } from "@/lib/utils/utils";
 import Image from "next/image";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export function Discord() {
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo } = useFetchUserInfo();
   const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
@@ -35,12 +37,22 @@ export function Discord() {
     setDiscord(trimedVal);
   }
 
-  const { saveSocial } = useSaveSocial();
+  const { data: saveRes, trigger: saveSocial } = useSaveSocial();
+
+  useEffect(() => {
+    if (saveRes) {
+      setIsValid(true);
+      setGlobalMessage({
+        type: "success",
+        message: "Saved successfully",
+      });
+    }
+  }, [saveRes]);
 
   function handleSave() {
     if (disabled) return;
     const saveDiscord = discord.startsWith("@") ? discord.slice(1) : discord;
-    saveSocial({ name: "Discord", data: saveDiscord });
+    saveSocial({ name: "Discord", data: saveDiscord } as any);
   }
 
   function handleBlur() {

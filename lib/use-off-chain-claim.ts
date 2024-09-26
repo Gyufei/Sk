@@ -57,19 +57,17 @@ export function useOffChainClaim() {
     return res;
   }
 
-  const {
-    data,
-    isMutating,
-    trigger: claimAction,
-    error,
-  } = useSWRMutation<any>("ClaimOffChain", claimActionFetcher);
+  const { data, isMutating, trigger, error } = useSWRMutation<any>(
+    "ClaimOffChain",
+    claimActionFetcher,
+  );
 
   const isSuccess = !!data;
   const isError = !!error;
 
   return {
     data,
-    claimAction,
+    trigger,
     isPending: isMutating,
     isError,
     isSuccess,

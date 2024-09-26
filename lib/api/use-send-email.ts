@@ -19,6 +19,7 @@ export function useSendEmail() {
   const code = searchParams.get("verify_code");
   const email = searchParams.get("email");
   const [hasSend, setHasSend] = useState(false);
+  const [sending, setSending] = useState(false);
   const [lastSendTime, setLastSendTime] = useState("");
   const uuid = useAtomValue(UuidAtom);
 
@@ -49,6 +50,8 @@ export function useSendEmail() {
   async function sendEmail(email: string, cb: string) {
     if (hasSend) return;
 
+    setSending(true);
+
     setHasSend(true);
     try {
       const res: any = await fetcher(`${ApiHost}/user/send_email`, {
@@ -74,8 +77,10 @@ export function useSendEmail() {
           message: "Email sent successfully",
         });
       }
+      setSending(false);
     } catch (error) {
       setHasSend(false);
+      setSending(false);
     }
   }
 
@@ -94,6 +99,7 @@ export function useSendEmail() {
   return {
     code,
     email,
+    sending,
     hasSend,
     sendEmail,
     removeCode,

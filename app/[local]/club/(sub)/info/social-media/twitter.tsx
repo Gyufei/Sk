@@ -12,7 +12,7 @@ import useSWR from "swr";
 export function Twitter() {
   const currentPageUrl = window.location.origin + window.location.pathname;
   const { data: userInfo } = useFetchUserInfo();
-  const { saveSocial } = useSaveSocial();
+  const { trigger: saveSocial } = useSaveSocial();
 
   const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
   const [isValid, setIsValid] = useState(true);
@@ -60,7 +60,7 @@ export function Twitter() {
         code,
         redirect_uri: currentPageUrl,
       },
-    });
+    } as any);
     removeCode();
   }
 

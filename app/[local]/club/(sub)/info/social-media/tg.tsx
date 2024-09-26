@@ -3,15 +3,19 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useSaveSocial } from "@/lib/api/use-save-social";
 import { checkTgRegex } from "@/lib/utils/utils";
 import Image from "next/image";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export function Tg() {
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const placeHolderText = "https://telegram.org/";
   const { data: userInfo } = useFetchUserInfo();
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
+
+  const { data: saveRes, trigger: saveSocial } = useSaveSocial();
 
   const disabled = useMemo(
     () => !isValid || !tg || (tg && !checkTgRegex(tg)),
@@ -24,6 +28,16 @@ export function Tg() {
       setTg(tg);
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (saveRes) {
+      setIsValid(true);
+      setGlobalMessage({
+        type: "success",
+        message: "Saved successfully",
+      });
+    }
+  }, [saveRes]);
 
   function handleXInput(val: string) {
     if (!val) {
@@ -42,11 +56,9 @@ export function Tg() {
     setIsValid(checkTgRegex(tg));
   }
 
-  const { saveSocial } = useSaveSocial();
-
   function handleSave() {
     if (disabled) return;
-    saveSocial({ name: "Telegram", data: tg });
+    saveSocial({ name: "Telegram", data: tg } as any);
   }
 
   return (

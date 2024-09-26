@@ -12,14 +12,14 @@ import { useSendEmail } from "@/lib/api/use-send-email";
 export function Email() {
   const currentPageUrl = window.location.origin + window.location.pathname;
   const { data: userInfo } = useFetchUserInfo();
-  const { saveSocial } = useSaveSocial();
+  const { trigger: saveSocial } = useSaveSocial();
 
-  const [email, setEmail] = useState(userInfo?.social_media?.email || "");
+  const [email, setEmail] = useState(userInfo?.social_media?.Email || "");
 
   const [isValid, setIsValid] = useState(true);
 
   const isLink =
-    userInfo?.social_media?.email && email === userInfo?.social_media?.email;
+    userInfo?.social_media?.Email && email === userInfo?.social_media?.Email;
 
   const {
     email: cbEmail,
@@ -46,8 +46,8 @@ export function Email() {
   }, [cbEmail]);
 
   useEffect(() => {
-    if (userInfo?.social_media.email) {
-      setEmail(userInfo?.social_media.email);
+    if (userInfo?.social_media.Email) {
+      setEmail(userInfo?.social_media.Email);
     }
   }, [userInfo]);
 
@@ -77,7 +77,7 @@ export function Email() {
         code,
         redirect_uri: currentPageUrl,
       },
-    });
+    } as any);
     removeCode();
   }
 

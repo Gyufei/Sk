@@ -3,14 +3,18 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useSaveSocial } from "@/lib/api/use-save-social";
 import { checkGithubRegex, githubPlaceHolderText } from "@/lib/utils/utils";
 import Image from "next/image";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export function Github() {
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
+
   const { data: userInfo } = useFetchUserInfo();
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
+  const { data: saveRes, trigger: saveSocial } = useSaveSocial();
 
   const disabled = useMemo(
     () => !isValid || !github || (github && !checkGithubRegex(github)),
@@ -25,6 +29,16 @@ export function Github() {
       setGithub(g);
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (saveRes) {
+      setIsValid(true);
+      setGlobalMessage({
+        type: "success",
+        message: "Saved successfully",
+      });
+    }
+  }, [saveRes]);
 
   function handleXInput(val: string) {
     if (!val) {
@@ -43,13 +57,11 @@ export function Github() {
     setIsValid(checkGithubRegex(github));
   }
 
-  const { saveSocial } = useSaveSocial();
-
   function handleSave() {
     if (disabled) return;
 
     const allValue = `${githubPlaceHolderText}${github}`;
-    saveSocial({ name: "Github", data: allValue });
+    saveSocial({ name: "Github", data: allValue } as any);
   }
 
   return (
