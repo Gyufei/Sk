@@ -31,7 +31,10 @@ export function Exchanges() {
   }, [userInfo]);
 
   function handleBnBlur() {
-    if (!bnUID) return true;
+    if (!bnUID) {
+      saveExchange();
+      return;
+    }
 
     const isNumRegex = checkUIdRegex(bnUID);
     const isEmailRegex = checkEmailRegex(bnUID);
@@ -45,7 +48,10 @@ export function Exchanges() {
   }
 
   function handleOkxBlur() {
-    if (!okxUID) return true;
+    if (!okxUID) {
+      saveExchange();
+      return;
+    }
 
     const isNumRegex = checkUIdRegex(okxUID);
     const isEmailRegex = checkEmailRegex(okxUID);
@@ -59,7 +65,10 @@ export function Exchanges() {
   }
 
   function handleByBitBlur() {
-    if (!byBitUID) return true;
+    if (!byBitUID) {
+      saveExchange();
+      return;
+    }
 
     const isNumRegex = checkUIdRegex(byBitUID);
     const isEmailRegex = checkEmailRegex(byBitUID);

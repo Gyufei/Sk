@@ -13,6 +13,7 @@ import { countryCodeList, NameAndPhone } from "./name-and-phone";
 import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
+import { formatDate } from "@/lib/utils/utils";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -193,9 +194,9 @@ export default function ShippingAddressPage() {
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
-              <div>ZT912803810120KS01</div>
-              <div>中通</div>
-              <div>2024-4-1 23:11:11</div>
+              <div>{item.order_id}</div>
+              <div>{item.delivery}</div>
+              <div>{formatDate(item.created_at)}</div>
             </div>
           ))}
         </div>
