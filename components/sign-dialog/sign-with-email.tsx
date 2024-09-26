@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import fetcher from "@/lib/api/fetcher";
@@ -6,7 +6,8 @@ import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
-import { useLocale } from "next-intl";
+import { GlobalMsgContext } from "../global-msg-context";
+import { checkEmailRegex } from "@/lib/utils/utils";
 
 export default function SignWithEmail({
   signing,
@@ -19,10 +20,18 @@ export default function SignWithEmail({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
-  const locale = useLocale();
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
+  const currentPageUrl = window.location.origin + window.location.pathname;
+
   const [email, setEmail] = useState("");
 
-  const { email: cbEmail, code, hasSend, sendEmail } = useSendEmail();
+  const {
+    email: cbEmail,
+    code,
+    hasSend,
+    sendEmail,
+    removeCode,
+  } = useSendEmail();
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
   useEffect(() => {
@@ -53,6 +62,13 @@ export default function SignWithEmail({
   }
 
   function handleConfirm() {
+    if (hasSend) {
+      setGlobalMessage({
+        type: "warning",
+        message: "Too many requests, please try again later",
+      });
+      return;
+    }
     const valid = checkRegex(email);
 
     if (!valid) {
@@ -60,7 +76,7 @@ export default function SignWithEmail({
       return;
     }
 
-    sendEmail(email, `${locale}/club`);
+    sendEmail(email, currentPageUrl);
   }
 
   async function postSignData() {
@@ -78,7 +94,8 @@ export default function SignWithEmail({
           login_type: "email",
           login_data: {
             email: cbEmail,
-            signature: code,
+            code,
+            redirect_uri: currentPageUrl,
           },
         }),
       });
@@ -98,6 +115,8 @@ export default function SignWithEmail({
           account: email,
         }),
       );
+
+      removeCode();
     } catch (e) {
       console.log(e);
     }
@@ -113,14 +132,17 @@ export default function SignWithEmail({
       <Input
         onKeyDown={handleKeyDown}
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setIsValid(checkEmailRegex(e.target.value));
+        }}
         data-error={!isValid}
         className="h-12 w-full rounded-lg  border border-[rgba(255,255,255,0.6)] bg-transparent p-4 text-base data-[error=true]:border-[#FF5A5A]"
       />
       <button
-        disabled={signing || hasSend}
+        data-disabled={signing}
         onClick={handleConfirm}
-        className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75"
+        className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
       >
         <div>Sign In</div>
       </button>

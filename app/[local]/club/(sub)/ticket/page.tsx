@@ -21,12 +21,7 @@ export default function Page() {
 
   const [topic, setTopic] = useState("");
   const [topicOpen, setTopicOpen] = useState(false);
-  const topicArr = [
-    "TextTextTextTextTextText1",
-    "TextTextTextTextTextText2",
-    "TextTextTextTextTextText3",
-    "TextTextTextTextTextText4",
-  ];
+  const topicArr = ["General", "clothSizes"];
   const [content, setContent] = useState("");
   const [contact, setContact] = useState("");
 
@@ -150,7 +145,7 @@ export default function Page() {
                         : "rgba(255,255,255,0.6)",
                   }}
                 >
-                  {c}
+                  {T(c)}
                 </div>
               </div>
             ))}
@@ -207,8 +202,8 @@ export default function Page() {
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
-              <div>ZT912803810120KS01</div>
-              <div>2024-4-1 23:11:11</div>
+              <div></div>
+              <div></div>
             </div>
           ))}
         </div>

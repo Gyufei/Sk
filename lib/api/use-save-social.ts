@@ -10,8 +10,7 @@ export function useSaveSocial() {
 
   async function saveSocial(params: {
     name: string;
-    data: string;
-    code?: string;
+    data: string | Record<string, any>;
   }) {
     if (!uuid) return;
 
@@ -24,11 +23,6 @@ export function useSaveSocial() {
         user_id: uuid,
         social_media_name: params.name,
         social_media_data: params.data,
-        ...(params.code
-          ? {
-              code: params.code,
-            }
-          : {}),
       }),
     });
 

@@ -5,30 +5,39 @@ import { checkEmailRegex } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
-import { LinkBtn, UnlinkBtn } from "../link-btn";
+import { LinkBtn } from "../link-btn";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
-import { useLocale } from "next-intl";
 
 export function Email() {
+  const currentPageUrl = window.location.origin + window.location.pathname;
   const { data: userInfo } = useFetchUserInfo();
   const { saveSocial } = useSaveSocial();
-  const locale = useLocale();
 
-  const [email, setEmail] = useState(userInfo?.social_media?.Email || "");
-  const isLink = userInfo?.social_media?.Email;
+  const [email, setEmail] = useState(userInfo?.social_media?.email || "");
 
-  const [isCheck, setIsCheck] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const { email: cbEmail, code, hasSend, sendEmail } = useSendEmail();
+  const isLink =
+    userInfo?.social_media?.email && email === userInfo?.social_media?.email;
+
+  const {
+    email: cbEmail,
+    code,
+    hasSend,
+    sendEmail,
+    removeCode,
+  } = useSendEmail();
 
   const disabled = useMemo(
     () => !isValid || !email || (email && !checkEmailRegex(email)),
     [isValid, email],
   );
 
-  useSWR(code ? `save-twitter:${code}` : null, handleSaveEmail);
+  useSWR(
+    code && cbEmail ? `save-twitter:${code}-${cbEmail}` : null,
+    handleSaveEmail,
+  );
 
   useEffect(() => {
     if (cbEmail) {
@@ -37,8 +46,8 @@ export function Email() {
   }, [cbEmail]);
 
   useEffect(() => {
-    if (userInfo?.social_media) {
-      setEmail(userInfo?.social_media?.Email || "");
+    if (userInfo?.social_media.email) {
+      setEmail(userInfo?.social_media.email);
     }
   }, [userInfo]);
 
@@ -60,23 +69,21 @@ export function Email() {
   }
 
   function handleSaveEmail() {
-    if (disabled) return;
-    if (!email || !isValid) return;
-    saveSocial({ name: "Email", data: email });
-    setIsCheck(true);
+    if (!cbEmail || !code) return;
+    saveSocial({
+      name: "Email",
+      data: {
+        email: cbEmail,
+        code,
+        redirect_uri: currentPageUrl,
+      },
+    });
+    removeCode();
   }
 
   function handleLink() {
     if (disabled) return;
-    sendEmail(email, `${locale}/club/info`);
-  }
-
-  function handleUnLink() {
-    if (disabled) return;
-    setEmail("");
-    setIsValid(true);
-    setIsCheck(false);
-    saveSocial({ name: "Email", data: "" });
+    sendEmail(email, window.location.origin + window.location.pathname);
   }
 
   return (
@@ -91,16 +98,15 @@ export function Email() {
           value={email}
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleEmailInput(v)}
-          isSign={false && isCheck}
+          isSign={isLink}
           conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           onBlur={handleBlur}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Email." />
-        {isLink ? (
-          <UnlinkBtn onClick={handleUnLink} disabled={disabled} />
-        ) : (
-          <LinkBtn onClick={handleLink} disabled={disabled || hasSend} />
-        )}
+        <LinkBtn
+          onClick={handleLink}
+          disabled={disabled || hasSend || isLink}
+        />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />
     </div>

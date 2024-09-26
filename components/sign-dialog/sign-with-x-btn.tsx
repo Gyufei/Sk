@@ -19,6 +19,7 @@ export default function SignWithXBtn({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
+  const currentPageUrl = window.location.origin + window.location.pathname;
   const { code, goTwitter } = useTwitterSign();
 
   useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
@@ -33,7 +34,8 @@ export default function SignWithXBtn({
         body: JSON.stringify({
           login_type: "twitter",
           login_data: {
-            signature: code,
+            code: code,
+            redirect_uri: currentPageUrl,
           },
         }),
       });
@@ -65,7 +67,7 @@ export default function SignWithXBtn({
 
   function handleSign() {
     if (signing) return;
-    goTwitter();
+    goTwitter(currentPageUrl);
   }
 
   return (

@@ -5,6 +5,8 @@ import { HomeLayout } from "./home-layout";
 import { Web3Modal } from "@/components/web3-modal";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import GlobalActionTip from "@/components/global-action-tip";
+import { GlobalMsgProvider } from "@/components/global-msg-context";
 
 export const metadata: Metadata = {
   title: {
@@ -94,11 +96,16 @@ export default async function RootLayout({
           (HaasGrotDisp.variable, HaasGrotText.variable)
         } !pointer-events-auto`}
       >
-        <Web3Modal>
-          <NextIntlClientProvider messages={messages}>
-            <HomeLayout>{children}</HomeLayout>
-          </NextIntlClientProvider>
-        </Web3Modal>
+        <GlobalMsgProvider>
+          <Web3Modal>
+            <NextIntlClientProvider messages={messages}>
+              <HomeLayout>
+                {children}
+                <GlobalActionTip />
+              </HomeLayout>
+            </NextIntlClientProvider>
+          </Web3Modal>
+        </GlobalMsgProvider>
       </body>
     </html>
   );

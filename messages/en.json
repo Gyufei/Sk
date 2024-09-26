@@ -33,6 +33,8 @@
     "Topic": "Topic",
     "Content": "Content",
     "Contact": "Contact",
-    "RecentTickets": "Recent Ticket"
+    "RecentTickets": "Recent Ticket",
+    "General": "general",
+    "clothSizes": "cloth sizes"
   }
 }

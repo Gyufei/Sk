@@ -33,6 +33,8 @@
     "Topic": "主题",
     "Content": "内容",
     "Contact": "联系方式",
-    "RecentTickets": "最近工单"
+    "RecentTickets": "最近工单",
+    "General": "常规",
+    "clothSizes": "衣物尺寸"
   }
 }
