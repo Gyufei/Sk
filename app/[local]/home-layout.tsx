@@ -1,5 +1,6 @@
 import Script from "next/script";
 import HomeLinks from "./home-links";
+import { Link } from "@/app/navigation";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -21,7 +22,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
       <div className="main-container">
         <div className="grid">
           <div className="left-block">
-            <a
+            <Link
               href="/home"
               aria-current="page"
               className="link-block-2 inline-block"
@@ -49,7 +50,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
                   </g>
                 </g>
               </svg>
-            </a>
+            </Link>
             <HomeLinks />
             <div className="text-block-4">© JUU17.</div>
           </div>
