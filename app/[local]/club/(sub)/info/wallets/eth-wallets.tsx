@@ -11,12 +11,20 @@ import { EthWalletItem } from "./eth-wallet-item";
 import { useChainId, useSwitchNetwork } from "wagmi";
 
 export function EthWallets() {
-  const { data: userInfo } = useFetchUserInfo();
   const chainId = useChainId();
   const { switchNetwork } = useSwitchNetwork();
 
-  const [currentChainName, setCurrentChainName] = useState("");
+  const { data: userInfo } = useFetchUserInfo();
+
   const [popOpen, setPopOpen] = useState(false);
+  const [currentChainName, setCurrentChainName] = useState("");
+
+  const currChainInfo = useMemo(() => {
+    const currChain = Object.values(EthChainInfos).find(
+      (c) => c.name === currentChainName,
+    );
+    return currChain;
+  }, [currentChainName]);
 
   const walletOptions = useMemo(() => {
     const allWalletsInfo = Object.keys(EthChainInfos);
@@ -41,61 +49,39 @@ export function EthWallets() {
     const wallets = evmWallets.map((w: any, index: number) => {
       return {
         address: w,
-        isSign: true,
+        isVerify: true,
         serial_number: index + 2,
       };
     });
     setWArr(wallets);
   }, [userInfo]);
 
-  const [switchChainDelay, setSwitchChainDelay] = useState(false);
-
   useEffect(() => {
-    if (chainId && !switchChainDelay) {
-      setSwitchChainDelay(true);
-      const currChain = Object.values(EthChainInfos).find(
+    if (chainId && currChainInfo?.chainId !== chainId) {
+      const targetChain = Object.values(EthChainInfos).find(
         (c) => c.chainId === chainId,
       );
 
-      setCurrentChainName(currChain?.name || "");
-
-      setTimeout(() => {
-        setSwitchChainDelay(false);
-      }, 2000);
+      setCurrentChainName(targetChain?.name || "");
     }
-  }, [chainId, switchChainDelay]);
+  }, [chainId, currentChainName, currChainInfo?.chainId]);
 
-  useEffect(() => {
-    if (switchChainDelay) return;
-    const currChain = Object.values(EthChainInfos).find(
-      (c) => c.name === currentChainName,
+  const handleChangeChain = (cName: string) => {
+    const changeChain = Object.values(EthChainInfos).find(
+      (c) => c.name === cName,
     );
+    if (!changeChain) return;
 
-    const currChainId = currChain?.chainId;
-
+    const currChainId = changeChain.chainId;
     if (currChainId && chainId !== currChainId) {
       switchNetwork && switchNetwork(currChainId);
     }
-
-    const timer = setTimeout(() => {
-      setSwitchChainDelay(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [switchChainDelay, currentChainName, chainId]);
+  };
 
   const handleAddrChange = (index: number, value: string) => {
     setWArr((prev) => {
       const updatedPeople = [...prev];
       updatedPeople[index].address = value;
-      return updatedPeople;
-    });
-  };
-
-  const handleSignChange = (index: number, value: boolean) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      updatedPeople[index].isSign = value;
       return updatedPeople;
     });
   };
@@ -154,10 +140,7 @@ export function EthWallets() {
             <div
               key={c}
               className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
-              onClick={() => {
-                setCurrentChainName(c);
-                setPopOpen(false);
-              }}
+              onClick={() => handleChangeChain(c)}
             >
               <Image
                 src={EthChainInfos[c].logo}
@@ -175,10 +158,9 @@ export function EthWallets() {
           <EthWalletItem
             key={index}
             address={item.address}
-            isSign={item.isSign}
+            isVerify={item.isVerify}
             serialNumber={item.serial_number}
             setAddress={(value) => handleAddrChange(index, value)}
-            setIsSign={(value) => handleSignChange(index, value)}
             handleRemove={() => {
               handleRemove(index);
             }}

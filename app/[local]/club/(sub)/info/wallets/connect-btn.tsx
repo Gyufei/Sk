@@ -1,40 +1,50 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useState } from "react";
 
 export function ConnectBtn({
-  onClick,
-  disabled,
-  isSign,
   isConnect,
+  handleConnect,
+  handleDisconnect,
 }: {
-  onClick: () => void;
-  disabled: boolean;
-  isSign: boolean;
   isConnect: boolean;
+  handleConnect: () => void;
+  handleDisconnect: () => void;
 }) {
-  return (
+  const T = useTranslations("Common");
+  const [isHover, setIsHover] = useState(false);
+
+  return isConnect ? (
     <div
-      onClick={onClick}
-      data-disabled={disabled}
-      className="data- ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4 md:mt-0 md:w-[200px]"
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+      onClick={handleDisconnect}
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:border-[#ff5a5a] hover:bg-[#FF5A5A] md:ml-4 md:mt-0 md:w-[200px]"
     >
-      {isConnect && isSign && (
+      {isHover ? (
         <>
-          <Image src="/icons/unlink.svg" width={24} height={24} alt="save" />
-          <div className="ml-1 text-base leading-6">Disconnect</div>
+          <Image
+            src="/icons/unlink-white.svg"
+            width={24}
+            height={24}
+            alt="save"
+          />
+          <div className="ml-1 text-base leading-6">{T("Disconnect")}</div>
         </>
-      )}
-      {!isConnect && isSign && (
+      ) : (
         <>
           <Image src="/icons/linked.svg" width={24} height={24} alt="save" />
-          <div className="ml-1 text-base leading-6">Connected</div>
+          <div className="ml-1 text-base leading-6 ">{T("Connected")}</div>
         </>
       )}
-      {!isSign && (
-        <>
-          <Image src="/icons/link.svg" width={24} height={24} alt="save" />
-          <div className="ml-1 text-base leading-6">Connect</div>
-        </>
-      )}
+    </div>
+  ) : (
+    <div
+      onClick={handleConnect}
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:brightness-75 md:ml-4 md:mt-0 md:w-[200px]"
+    >
+      <Image src="/icons/link.svg" width={24} height={24} alt="save" />
+      <div className="ml-1 text-base leading-6">{T("Connect")}</div>
     </div>
   );
 }

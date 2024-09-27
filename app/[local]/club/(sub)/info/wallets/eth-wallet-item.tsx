@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
-import { genSignMsg } from "@/lib/utils/sign-utils";
 import { cn } from "@/lib/utils/utils";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
@@ -11,18 +10,16 @@ import { ConnectBtn } from "./connect-btn";
 
 export function EthWalletItem({
   address,
+  isVerify,
   setAddress,
-  isSign,
-  setIsSign,
   handleRemove,
   serialNumber,
   handleAdd,
 }: {
   address: string;
-  isSign: boolean;
+  isVerify: boolean;
   serialNumber: number;
   setAddress: (_a: string) => void;
-  setIsSign: (_i: boolean) => void;
   handleRemove: () => void;
   handleAdd: () => void;
 }) {
@@ -31,75 +28,57 @@ export function EthWalletItem({
   const { disconnectAsync: disconnect, isLoading: isDisconnecting } =
     useDisconnect();
 
-  const { signMessageAsync: signMessage } = useSignMessage();
-  const { address: walletAddress } = useAccount();
-
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
-  const { removeWalletAction } = useRemoveWallet();
+  const { trigger: removeWalletAction } = useRemoveWallet();
 
   const [isWaitingForNewConnect, setIsWaitingForNewConnect] = useState(false);
   const [isOperating, setIsOperating] = useState(false);
 
   useEffect(() => {
     if (!isWaitingForNewConnect || !connectAddress) return;
-
-    if (connectAddress && !address) {
-      signEvmMsg();
+    if (connectAddress === address) {
+      return;
     }
+
+    verifyWalletAction();
   }, [isWaitingForNewConnect, connectAddress, address]);
 
-  async function handleOperation() {
+  async function handleConnect() {
     if (isOperating) return;
     setIsOperating(true);
-
-    if (
-      !address ||
-      (isSign && (!connectAddress || connectAddress !== address))
-    ) {
-      await linkWallet();
-    } else {
-      await unlinkWallet();
+    if (address && connectAddress === address) {
+      return;
     }
-    getUserInfo();
+
+    await disconnect();
+    setIsWaitingForNewConnect(true);
+    await wcModalOpen();
     setIsOperating(false);
   }
 
-  async function linkWallet() {
-    if (address && connectAddress === address) {
-      signEvmMsg();
-    } else {
-      await disconnect();
-      setIsWaitingForNewConnect(true);
-      await wcModalOpen();
-    }
-  }
-
-  async function unlinkWallet() {
-    if (isDisconnecting) return;
+  async function handleDisconnect() {
+    if (isOperating || isDisconnecting) return;
+    setIsOperating(true);
     await disconnect();
+    setIsOperating(false);
   }
 
-  async function signEvmMsg() {
-    const { salt, msg } = genSignMsg();
-
+  async function verifyWalletAction() {
     try {
-      const data = await signMessage({
-        message: msg,
-      });
-
       const res = await walletVerify({
         chain_name: "EVM",
-        addr: walletAddress!,
-        signature: data,
-        salt,
+        addr: connectAddress!,
+        signature: "",
+        salt: "",
       });
 
-      if (res?.status) {
-        setAddress(walletAddress!);
-        setIsSign(true);
+      console.log(res, "res");
+
+      if (res) {
         setAddress(connectAddress!);
         setIsWaitingForNewConnect(false);
+        getUserInfo();
       }
     } catch (e) {
       console.error("error", e);
@@ -109,7 +88,10 @@ export function EthWalletItem({
   // TODO: remove
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function removeWallet() {
-    const res: any = await removeWalletAction("EVM", serialNumber);
+    const res: any = await removeWalletAction({
+      chainName: "EVM",
+      serialNumber,
+    });
 
     if (res.status) {
       handleRemove();
@@ -126,7 +108,7 @@ export function EthWalletItem({
         >
           {address}
         </div>
-        {isSign && (
+        {isVerify && (
           <Image
             src="/icons/sign.svg"
             width={20}
@@ -147,10 +129,9 @@ export function EthWalletItem({
         />
       </div>
       <ConnectBtn
-        onClick={handleOperation}
-        disabled={isOperating}
-        isConnect={connectAddress === address}
-        isSign={isSign}
+        handleConnect={handleConnect}
+        handleDisconnect={handleDisconnect}
+        isConnect={!!connectAddress && connectAddress === address}
       />
     </div>
   );

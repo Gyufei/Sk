@@ -264,7 +264,7 @@ export default function EventsPage() {
   }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
-    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[20%]">
+    <div className="relative -left-[100px] mt-[150px]">
       <div className="relative flex items-center justify-end">
         {windFallTpl}
         <GoBackTo />
@@ -315,8 +315,8 @@ export default function EventsPage() {
           ) : claimAmount !== 0 ? (
             <>
               <div className="text-[28px] font-medium leading-9 text-white">
-                <span className="opacity-60">You&apos;re </span>
-                <span className="opacity-80">eligible!</span>
+                <span className="opacity-60">{T("YouAre")}</span>
+                <span className="opacity-80">{T("Eligible")}</span>
               </div>
               <div className="mt-4 flex items-center gap-x-[10px]">
                 <div className="text-[36px] font-semibold leading-[54px] text-white">
@@ -331,7 +331,7 @@ export default function EventsPage() {
                 style={{ visibility: isOffChain ? "hidden" : "visible" }}
                 className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
               >
-                <div>on</div>
+                <div>{T("On")}</div>
                 <ChainLogoText
                   logo={currentToken.chainInfo.logo}
                   name={currentToken.chainInfo.name}
@@ -345,14 +345,14 @@ export default function EventsPage() {
                 >
                   <div className="flex justify-between text-base leading-6 text-white">
                     {isClaimed ? (
-                      "Claimed"
+                      T("Claimed")
                     ) : currentToken.isCutOff ? (
-                      "Unavailable"
+                      T("Unavailable")
                     ) : isPending ? (
-                      "Claiming"
+                      T("Claiming")
                     ) : (
                       <>
-                        <span className="font-bold">Claim</span>
+                        <span className="font-bold">{T("Claim")}</span>
                         {!currentToken.chainInfo.isOffChain && (
                           <div
                             style={{
@@ -360,7 +360,7 @@ export default function EventsPage() {
                             }}
                             className="ml-1 flex justify-start"
                           >
-                            <span>on</span>
+                            <span>{T("On")}</span>
                             <ChainLogoText
                               logo={currentToken.chainInfo.logo}
                               name={currentToken.chainInfo.name}
@@ -376,11 +376,11 @@ export default function EventsPage() {
           ) : (
             <div className="flex h-[208px] flex-col items-center justify-center">
               <div className="text-[40px] leading-9 text-white opacity-80">
-                Sorry!
+                {T("Sorry")}
               </div>
               <div className="mt-[10px] text-center text-[28px] font-medium leading-9 text-white">
-                <span className="opacity-60">You&apos;re </span>
-                <span className="opacity-80">not eligible!</span>
+                <span className="opacity-60">{T("YouAre")}</span>
+                <span className="opacity-80">{T("NotEligible")}</span>
               </div>
             </div>
           )}

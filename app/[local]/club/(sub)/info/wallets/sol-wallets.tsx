@@ -38,7 +38,7 @@ export function SolWallets() {
     const wallets = solWallets.map((w: any, index: number) => {
       return {
         address: w,
-        isSign: true,
+        isVerify: true,
         serial_number: index + 2,
       };
     });
@@ -49,14 +49,6 @@ export function SolWallets() {
     setWArr((prev) => {
       const updatedPeople = [...prev];
       updatedPeople[index].address = value;
-      return updatedPeople;
-    });
-  };
-
-  const handleSignChange = (index: number, value: boolean) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      updatedPeople[index].isSign = value;
       return updatedPeople;
     });
   };
@@ -136,10 +128,9 @@ export function SolWallets() {
           <SolWalletItem
             key={index}
             address={item.address}
-            isSign={item.isSign}
+            isVerify={item.isVerify}
             serialNumber={item.serial_number}
             setAddress={(value) => handleAddrChange(index, value)}
-            setIsSign={(value) => handleSignChange(index, value)}
             handleRemove={() => {
               handleRemove(index);
             }}

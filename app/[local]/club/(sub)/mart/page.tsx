@@ -10,7 +10,7 @@ export default function MartPage() {
   const [hoverIndex, setHoverIndex] = useState(-1);
 
   return (
-    <div className="absolute h-full md:-left-[calc(50vw-500px)]">
+    <div className="relative -left-[100px]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>

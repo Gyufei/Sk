@@ -2,32 +2,28 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
-import { genSignMsg } from "@/lib/utils/sign-utils";
 import { cn } from "@/lib/utils/utils";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { ConnectBtn } from "./connect-btn";
-import base58 from "bs58";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 export function SolWalletItem({
   address,
   setAddress,
-  isSign,
-  setIsSign,
+  isVerify,
   handleRemove,
   serialNumber,
   handleAdd,
 }: {
   address: string;
-  isSign: boolean;
+  isVerify: boolean;
   serialNumber: number;
   setAddress: (_a: string) => void;
-  setIsSign: (_i: boolean) => void;
   handleRemove: () => void;
   handleAdd: () => void;
 }) {
-  const { publicKey, signMessage: solanaSign, disconnect } = useWallet();
+  const { publicKey, disconnect } = useWallet();
   const connectAddress = useMemo(
     () => (publicKey ? publicKey.toBase58() : ""),
     [publicKey],
@@ -36,63 +32,51 @@ export function SolWalletItem({
   const { setVisible: solanaModalOpen } = useWalletModal();
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
-  const { removeWalletAction } = useRemoveWallet();
+  const { trigger: removeWalletAction } = useRemoveWallet();
 
   const [isWaitingForNewConnect, setIsWaitingForNewConnect] = useState(false);
   const [isOperating, setIsOperating] = useState(false);
 
   useEffect(() => {
     if (!isWaitingForNewConnect || !connectAddress) return;
-
-    if (connectAddress && !address) {
-      signSolanaMsg();
+    if (connectAddress === address) {
+      return;
     }
+
+    verifyWallet();
   }, [isWaitingForNewConnect, connectAddress, address]);
 
-  async function handleOperation() {
+  async function handleConnect() {
     if (isOperating) return;
     setIsOperating(true);
-    if (!isSign || !connectAddress) {
-      await linkWallet();
-    } else {
-      await unlinkWallet();
-    }
-    getUserInfo();
+    await disconnect();
+    setIsWaitingForNewConnect(true);
+    solanaModalOpen(true);
     setIsOperating(false);
   }
 
-  async function linkWallet() {
-    if (address && connectAddress === address) {
-      signSolanaMsg();
-    } else {
-      await disconnect();
-      setIsWaitingForNewConnect(true);
-      solanaModalOpen(true);
-    }
+  async function handleDisconnect() {
+    if (isOperating) return;
+    setIsOperating(true);
+    await disconnect();
+    setIsOperating(false);
   }
 
-  async function unlinkWallet() {
-    disconnect();
-  }
-
-  async function signSolanaMsg() {
+  async function verifyWallet() {
     if (!connectAddress) {
       solanaModalOpen(true);
     } else {
-      setAddress(connectAddress);
-      const { salt, msg } = genSignMsg();
-      const message = new TextEncoder().encode(msg);
-      const signature = await solanaSign!(message);
-      const data = base58.encode(signature);
       const res = await walletVerify({
         chain_name: "Solana",
         addr: connectAddress!,
-        signature: data,
-        salt,
+        signature: "",
+        salt: "",
       });
 
-      if (res?.status) {
-        setIsSign(true);
+      if (res) {
+        setAddress(connectAddress);
+        setIsWaitingForNewConnect(false);
+        getUserInfo();
       }
     }
   }
@@ -100,7 +84,10 @@ export function SolWalletItem({
   // TODO: remove
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function removeWallet() {
-    const res: any = await removeWalletAction("Solana", serialNumber);
+    const res: any = await removeWalletAction({
+      chainName: "Solana",
+      serialNumber,
+    });
 
     if (res.status) {
       handleRemove();
@@ -117,7 +104,7 @@ export function SolWalletItem({
         >
           {address}
         </div>
-        {isSign && (
+        {isVerify && (
           <Image
             src="/icons/sign.svg"
             width={20}
@@ -138,10 +125,9 @@ export function SolWalletItem({
         />
       </div>
       <ConnectBtn
-        onClick={handleOperation}
-        disabled={isOperating}
-        isConnect={connectAddress === address}
-        isSign={isSign}
+        handleConnect={handleConnect}
+        handleDisconnect={handleDisconnect}
+        isConnect={!!connectAddress && connectAddress === address}
       />
     </div>
   );

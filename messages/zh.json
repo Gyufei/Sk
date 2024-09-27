@@ -1,5 +1,13 @@
 {
   "Common": {
+    "WelcomeTo": "欢迎来到Juu17品牌",
+    "SignIn": "登录",
+    "Signing": "登录中",
+    "Or": "或",
+    "ChangeAccount": "切换账户",
+    "SignInWithX": "使用X登录",
+    "SignInWithWallet": "使用钱包登录",
+
     "MembershipNo": "会员编号",
     "NickName": "昵称",
     "Level": "等级",
@@ -7,7 +15,15 @@
 
     "Events": "事件",
     "Windfalls": "风落",
+    "On": "到",
     "Unavailable": "不可用",
+    "YouAre": "你是",
+    "Eligible": "有资格的",
+    "Sorry": "对不起",
+    "NotEligible": "没有资格的",
+    "Claim": "领取",
+    "Claiming": "领取中...",
+    "Claimed": "已领取",
 
     "Shipping": "发货",
     "Country": "国家",
@@ -27,14 +43,25 @@
 
     "Mart": "市场",
     "Club": "俱乐部",
-    "Ticket": "工单",
+    "Multipliers": "系数",
+    "Points": "积分",
+    "Cup": "马克杯",
+    "XAccount": "X账号",
+    "Features": "功能",
+    "DomainRedirect": "网站重定向",
 
+    "Ticket": "工单",
     "SubmitTicket": "提交工单",
     "Topic": "主题",
     "Content": "内容",
     "Contact": "联系方式",
     "RecentTickets": "最近工单",
     "General": "常规",
-    "clothSizes": "衣物尺寸"
+    "ClothSizes": "衣物尺寸",
+
+    "Connect": "连接",
+    "Connected": "已连接",
+    "Disconnect": "断开连接",
+    "NoData": "无数据"
   }
 }

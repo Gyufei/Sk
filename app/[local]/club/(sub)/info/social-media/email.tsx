@@ -46,7 +46,7 @@ export function Email() {
   }, [cbEmail]);
 
   useEffect(() => {
-    if (userInfo?.social_media.Email) {
+    if (userInfo?.social_media?.Email) {
       setEmail(userInfo?.social_media.Email);
     }
   }, [userInfo]);

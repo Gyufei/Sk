@@ -7,6 +7,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import GlobalActionTip from "@/components/global-action-tip";
 import { GlobalMsgProvider } from "@/components/global-msg-context";
+import { SolWalletProviders } from "@/components/sol-wallet-providers";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
 export const metadata: Metadata = {
   title: {
@@ -99,10 +101,12 @@ export default async function RootLayout({
         <GlobalMsgProvider>
           <NextIntlClientProvider messages={messages}>
             <Web3Modal>
-              <HomeLayout>
-                {children}
-                <GlobalActionTip />
-              </HomeLayout>
+              <SolWalletProviders>
+                <HomeLayout>
+                  {children}
+                  <GlobalActionTip />
+                </HomeLayout>
+              </SolWalletProviders>
             </Web3Modal>
           </NextIntlClientProvider>
         </GlobalMsgProvider>

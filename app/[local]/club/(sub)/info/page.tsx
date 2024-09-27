@@ -8,7 +8,7 @@ import { Exchanges } from "./exchanges";
 
 export default function MemberInfo() {
   return (
-    <div className="no-scroll-bar absolute mb-[100px] h-full overflow-y-auto md:-left-[calc(50vw-500px)]">
+    <div className="no-scroll-bar relative -left-[100px] h-full overflow-y-auto">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>

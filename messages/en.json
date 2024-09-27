@@ -1,5 +1,13 @@
 {
   "Common": {
+    "WelcomeTo": "Welcome to Juu17 Brands",
+    "SignIn": "Sign In",
+    "Signing": "Signing...",
+    "Or": "Or",
+    "ChangeAccount": "Change Account",
+    "SignInWithX": "Sign in with X",
+    "SignInWithWallet": "Sign in with Wallet",
+
     "MembershipNo": "Membership No.",
     "NickName": "Nick Name",
     "Level": "Level",
@@ -7,7 +15,15 @@
 
     "Events": "Events",
     "Windfalls": "Windfalls",
+    "On": "on",
     "Unavailable": "Unavailable",
+    "YouAre": "You're ",
+    "Eligible": "eligible!",
+    "Sorry": "Sorry!",
+    "NotEligible": "not eligible",
+    "Claim": "Claim",
+    "Claiming": "Claiming",
+    "Claimed": "Claimed",
 
     "Shipping": "Shipping",
     "SocialMedia": "Social Media",
@@ -26,15 +42,27 @@
     "Wallets": "Wallets",
 
     "Mart": "Mart",
-    "Club": "Club",
-    "Ticket": "Ticket",
+    "Multipliers": "Multipliers",
+    "Points": "Points",
+    "Cup": "Cup",
+    "XAccount": "X Account",
+    "Features": "Features",
+    "DomainRedirect": "Domain Redirect",
 
+    "Club": "Club",
+
+    "Ticket": "Ticket",
     "SubmitTicket": "Submit Ticket",
     "Topic": "Topic",
     "Content": "Content",
     "Contact": "Contact",
     "RecentTickets": "Recent Ticket",
     "General": "general",
-    "clothSizes": "cloth sizes"
+    "ClothSizes": "cloth sizes",
+
+    "Connect": "Connect",
+    "Connected": "Connected",
+    "Disconnect": "Disconnect",
+    "NoData": "No Data"
   }
 }

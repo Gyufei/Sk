@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { formatNum } from "@/lib/utils/number";
 import { SaveBtn } from "../info/social-media/save-btn";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
+  const T = useTranslations("Common");
   const { data: userInfo } = useFetchUserInfo();
   const [yourId, setYourId] = useState<string | null>(null);
   const [redirectHost, setRedirectHost] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export default function Page() {
   }
 
   return (
-    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[15%]">
+    <div className="relative -left-[100px]  mt-[150px]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
@@ -55,18 +57,18 @@ export default function Page() {
 
           <div className="flex h-[290px] w-[290px] flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
             <div className="font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
-              Juu17 Club Points
+              Juu17 {T("Club")} {T("Points")}
             </div>
             <div className="mt-2 text-[40px] leading-[60px] text-white">
               {formatNum(userInfo?.j_points || 0)}
             </div>
             <div className="mt-5 font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
-              Multipliers
+              {T("Multipliers")}
             </div>
             <div className="mt-[10px] flex items-center justify-start self-stretch">
               <div className="mr-[85px] flex flex-col">
                 <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
-                  Cup
+                  {T("Cup")}
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.cup || 0)}x
@@ -74,7 +76,7 @@ export default function Page() {
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
-                  X Account
+                  {T("XAccount")}
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.x_account || 0)}
@@ -86,10 +88,10 @@ export default function Page() {
 
         <div className="mt-5 flex h-[180px] w-full flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
           <div className="text-xl font-semibold leading-[30px] text-white">
-            Features
+            {T("Features")}
           </div>
           <div className="mt-5 text-base font-medium leading-6 text-[#D6D6D6]">
-            Domain Redirect
+            {T("DomainRedirect")}
           </div>
           <div className="mt-[10px] flex items-center justify-between self-stretch">
             <div className="relative flex-1">

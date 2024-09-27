@@ -8,6 +8,7 @@ import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
 import { GlobalMsgContext } from "../global-msg-context";
 import { checkEmailRegex } from "@/lib/utils/utils";
+import { useTranslations } from "next-intl";
 
 export default function SignWithEmail({
   signing,
@@ -20,6 +21,7 @@ export default function SignWithEmail({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
+  const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const currentPageUrl = window.location.origin + window.location.pathname;
 
@@ -145,7 +147,7 @@ export default function SignWithEmail({
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
       >
-        <div>Sign In</div>
+        <div>{T("SignIn")}</div>
       </button>
     </div>
   );

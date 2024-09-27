@@ -134,7 +134,7 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="no-scroll-bar absolute h-full overflow-y-auto md:-left-[calc(50vw-500px)]">
+    <div className="no-scroll-bar relative -left-[100px] h-full overflow-y-auto">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
@@ -182,7 +182,7 @@ export default function ShippingAddressPage() {
         <div className="mt-5">
           {!logisticsOrders?.length && (
             <div className="flex h-[50px] items-center justify-start">
-              No Data
+              {T("NoData")}
             </div>
           )}
           {(logisticsOrders || [])?.map((item: any, index: number) => (

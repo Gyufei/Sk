@@ -5,6 +5,7 @@ import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
+import { useTranslations } from "next-intl";
 
 export default function SignWithXBtn({
   signing,
@@ -19,6 +20,7 @@ export default function SignWithXBtn({
   show: boolean;
   onSuccess: (_i: string) => void;
 }) {
+  const T = useTranslations("Common");
   const currentPageUrl = window.location.origin + window.location.pathname;
   const { code, goTwitter } = useTwitterSign();
 
@@ -87,7 +89,7 @@ export default function SignWithXBtn({
           height={20}
           alt=""
         />
-        <div className="font-semibold">Sign in with X</div>
+        <div className="font-semibold">{T("SignInWithX")}</div>
         {lastAccount && <div>: {lastAccount}</div>}
       </div>
     </button>

@@ -17,7 +17,7 @@ export function useWalletVerify() {
     signature: string;
     salt: string;
   }) {
-    if (!addr || !signature || !salt) return;
+    if (!addr) return;
     const res: any = await fetcher(`${ApiHost}/wallet/verify`, {
       method: "POST",
       headers: {
@@ -26,9 +26,9 @@ export function useWalletVerify() {
       body: JSON.stringify({
         chain_name: chain_name,
         wallet_address: addr,
-        signature: signature,
         user_id: uuid,
         serial_number: -1,
+        signature: signature,
         salt: salt,
       }),
     });

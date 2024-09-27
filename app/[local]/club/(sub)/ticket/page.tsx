@@ -26,7 +26,7 @@ export default function Page() {
 
   const [topic, setTopic] = useState("");
   const [topicOpen, setTopicOpen] = useState(false);
-  const topicArr = ["General", "clothSizes"];
+  const topicArr = ["General", "ClothSizes"];
   const [content, setContent] = useState("");
   const [contact, setContact] = useState("");
 
@@ -100,8 +100,8 @@ export default function Page() {
   }
 
   return (
-    <div className="absolute md:-left-[calc(50vw-500px)] md:top-[5%]">
-      <div className="relative flex items-center justify-end">
+    <div className="relative -left-[100px]">
+      <div className="relative  flex items-center justify-end">
         <GoBackTo />
       </div>
       <div className="mb-[20px] mt-6 w-[600px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
@@ -198,7 +198,7 @@ export default function Page() {
         <div className="mt-5">
           {!recentTickets?.length && (
             <div className="flex h-[50px] items-center justify-start">
-              No Data
+              {T("NoData")}
             </div>
           )}
           {(recentTickets || []).map((c: any) => (

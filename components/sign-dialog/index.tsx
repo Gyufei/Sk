@@ -6,8 +6,10 @@ import { LastSignInWithKey, SignInMethod } from "./type";
 import SignWithXBtn from "./sign-with-x-btn";
 import { SignWithWalletBtn } from "./sign-with-wallet-btn";
 import SignWithEmail from "./sign-with-email";
+import { useTranslations } from "next-intl";
 
 export default function SignDialog() {
+  const T = useTranslations("Common");
   const [uuid, setUuid] = useAtom(UuidAtom);
   const [isInit, setIsInit] = useState(false);
 
@@ -83,18 +85,18 @@ export default function SignDialog() {
         showClose={false}
         className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px]"
       >
-        <div className="text-xl leading-[30px]">Welcome to Juu17 Brands</div>
+        <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
         {noMethodShow &&
           (signing ? (
             <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
-              Signing...
+              {T("Signing")}
             </div>
           ) : (
             <div
               onClick={handleSign}
               className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
             >
-              Sign In
+              {T("SignIn")}
             </div>
           ))}
         <SignWithXBtn
@@ -117,7 +119,7 @@ export default function SignDialog() {
               }}
             ></div>
             <div className="mx-[15px] text-base leading-4 text-white opacity-60">
-              Or
+              {T("Or")}
             </div>
             <div
               className="h-[1px] flex-1 opacity-40"
@@ -139,7 +141,7 @@ export default function SignDialog() {
             onClick={handleUseOtherAccount}
             className="mt-[10px] cursor-pointer border-b border-dashed border-[rgba(255,255,255,0.3)] text-center text-[14px] leading-5 text-[rgba(255,255,255,0.3);]"
           >
-            Change Account
+            {T("ChangeAccount")}
           </div>
         )}
       </DialogContent>

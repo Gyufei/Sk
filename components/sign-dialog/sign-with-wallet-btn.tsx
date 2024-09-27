@@ -1,14 +1,15 @@
 import Image from "next/image";
-import { useAccount, useChainId, useDisconnect, useSignMessage } from "wagmi";
+import { useAccount, useChainId, useDisconnect } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useSetAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
-import { genSignMsg } from "@/lib/utils/sign-utils";
 import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
+import { useSignWithWalletExpire } from "@/lib/use-sign-with-wallet-expire";
+import { useTranslations } from "next-intl";
 
 export function SignWithWalletBtn({
   signing,
@@ -17,13 +18,15 @@ export function SignWithWalletBtn({
   signing: boolean;
   setSigning: (b: boolean) => void;
 }) {
+  const T = useTranslations("Common");
   const chainId = useChainId();
   const setUuid = useSetAtom(UuidAtom);
 
   const { address, isConnected } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
-  const { signMessageAsync: signMessage } = useSignMessage();
   const { disconnect } = useDisconnect();
+
+  const { setSignWithWalletTime } = useSignWithWalletExpire();
 
   const { disconnect: solanaDisconnect } = useWallet();
   const [isModalOpenForSign, setIsModalOpenForSign] = useState(false);
@@ -42,25 +45,17 @@ export function SignWithWalletBtn({
   async function signForAddress() {
     if (address && isConnected) {
       solanaDisconnect();
-      if (!chainNetInfo) {
-        return;
-      }
 
       console.log("signMsg");
-      await signMsg();
+      await signTo();
     }
   }
 
-  async function signMsg() {
+  async function signTo() {
     setSigning(true);
-    const { salt, msg } = genSignMsg();
-
     try {
-      const signature = await signMessage({
-        message: msg,
-      });
-
-      postSignData(signature, salt);
+      postSignData();
+      setSigning(false);
     } catch (e) {
       console.error("error", e);
       setSigning(false);
@@ -68,7 +63,8 @@ export function SignWithWalletBtn({
     }
   }
 
-  async function postSignData(signature: string, salt: string) {
+  async function postSignData() {
+    const randomCode = btoa(Date.now().toString());
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -79,9 +75,9 @@ export function SignWithWalletBtn({
           login_type: "Wallet",
           login_data: {
             wallet_address: address,
-            chain_name: chainNetInfo?.name + " Mainnet",
-            signature,
-            salt,
+            chain_name: "EVM",
+            signature: btoa(randomCode),
+            salt: randomCode,
           },
         }),
       });
@@ -89,14 +85,13 @@ export function SignWithWalletBtn({
       if (res.status === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
-            `${
-              chainNetInfo?.name
-            } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
+            `${chainNetInfo?.name} ${address} ${JSON.stringify(res)}`,
         );
       }
 
       setUuid(res.uuid);
       setSigning(false);
+      setSignWithWalletTime();
     } catch (e) {
       setSigning(false);
       console.log(e);
@@ -127,7 +122,7 @@ export function SignWithWalletBtn({
         height={20}
         alt=""
       />
-      <div className="font-semibold">Sign in with Wallet</div>
+      <div className="font-semibold">{T("SignInWithWallet")}</div>
     </button>
   );
 }
