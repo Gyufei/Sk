@@ -12,7 +12,7 @@ export default function ContentFooter() {
   }
 
   return (
-    <div className="bottom-content">
+    <div className="bottom-content relative -left-[100px]">
       <div className="field-label-text">Dive a bit deeper</div>
       <div className="html-embed-4 w-embed">
         <form
@@ -33,7 +33,10 @@ export default function ContentFooter() {
             onChange={(e: any) => handleValChange(e.target.value)}
             style={{ fontWeight: "400" }}
           />
-          <button className="normal-line-button submit-button w-button" type="submit">
+          <button
+            className="normal-line-button submit-button w-button"
+            type="submit"
+          >
             Submit a request
           </button>
         </form>

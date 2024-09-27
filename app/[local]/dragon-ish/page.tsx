@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function DragonIsh() {
   return (
-    <div className="content-inner-box active">
+    <div className="content-inner-box active relative -left-[100px]">
       <div className="div-block-7">
         <p className="paragraph-009">Dragon-ish Program</p>
       </div>

@@ -95,11 +95,29 @@ export default function EventsPage() {
 
   const { data: claimData } = useClaimData(currentToken, currentAddress);
 
+  const canClaim = useMemo(() => {
+    if (!currentAddress) return false;
+
+    if (isOffChain || isEVM) {
+      return (
+        userInfo?.wallets?.EVM.length &&
+        userInfo?.wallets?.EVM[0] === currentAddress
+      );
+    } else if (isSolana) {
+      return (
+        userInfo?.wallets?.Solana.length &&
+        userInfo?.wallets?.Solana[0] === currentAddress
+      );
+    }
+
+    return false;
+  }, [isEVM, isOffChain, isSolana, userInfo, currentAddress]);
+
   const claimAmount = useMemo(() => {
-    if (!claimData) return 0;
+    if (!claimData || !canClaim) return 0;
     if (claimData?.status === true && claimData.data === null) return 0;
     return Number(claimData?.claim_amount);
-  }, [claimData]);
+  }, [claimData, canClaim]);
 
   const showClaimAmount = useMemo(() => {
     if (!claimAmount) return 0;
@@ -138,6 +156,7 @@ export default function EventsPage() {
       return solState?.claimed;
     }
   }, [isEVM, isOffChain, isSolana, ethState, solState, offChainState]);
+
   useEffect(() => {
     if (isOffChainSuccess) {
       refreshOffChainClaim();
@@ -151,7 +170,7 @@ export default function EventsPage() {
   }, [claimTokens]);
 
   function handleClaim() {
-    if (isClaimed || isPending) return;
+    if (isClaimed || isPending || !canClaim) return;
     if (!currentToken || !currentToken.chainInfo || currentToken.isCutOff)
       return;
 
