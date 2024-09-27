@@ -26,7 +26,7 @@ export default function Page() {
 
   const [topic, setTopic] = useState("");
   const [topicOpen, setTopicOpen] = useState(false);
-  const topicArr = ["General", "ClothSizes"];
+  const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
   const [content, setContent] = useState("");
   const [contact, setContact] = useState("");
 
