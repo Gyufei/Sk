@@ -1,18 +1,16 @@
 {
   "Common": {
-    "WelcomeTo": "欢迎来到Juu17品牌",
+    "WelcomeTo": "欢迎来到Juu17 Brands",
     "SignIn": "登录",
     "Signing": "登录中",
     "Or": "或",
     "ChangeAccount": "切换账户",
     "SignInWithX": "使用X登录",
     "SignInWithWallet": "使用钱包登录",
-
     "MembershipNo": "会员编号",
     "NickName": "昵称",
     "Level": "等级",
     "InvalidFormat": "格式错误",
-
     "Events": "事件",
     "Windfalls": "风落",
     "On": "到",
@@ -24,8 +22,7 @@
     "Claim": "领取",
     "Claiming": "领取中...",
     "Claimed": "已领取",
-
-    "Shipping": "发货",
+    "Shipping": "运输",
     "Country": "国家",
     "State": "省",
     "City": "市",
@@ -34,22 +31,19 @@
     "ShippingAddress": "收货地址",
     "AddressLine": "详细地址 / 街道",
     "ZipCode": "邮编",
-    "RecentLogisticsOrder": "最近物流订单",
-
+    "RecentLogisticsOrder": "物流单号",
     "Info": "信息",
     "Wallets": "钱包",
     "Exchanges": "交易所",
     "SocialMedia": "社交媒体",
-
-    "Mart": "市场",
+    "Mart": "商场",
     "Club": "俱乐部",
-    "Multipliers": "系数",
+    "Multipliers": "加成系数",
     "Points": "积分",
     "Cup": "马克杯",
     "XAccount": "X账号",
-    "Features": "功能",
-    "DomainRedirect": "网站重定向",
-
+    "Features": "特性",
+    "DomainRedirect": "域名指向",
     "Ticket": "工单",
     "SubmitTicket": "提交工单",
     "Topic": "主题",
@@ -58,7 +52,6 @@
     "RecentTickets": "最近工单",
     "General": "常规",
     "ClothSizes": "衣物尺寸",
-
     "Connect": "连接",
     "Connected": "已连接",
     "Disconnect": "断开连接",

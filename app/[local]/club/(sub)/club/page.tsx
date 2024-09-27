@@ -71,7 +71,7 @@ export default function Page() {
                   {T("Cup")}
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
-                  {formatNum(userInfo?.multipliers?.cup || 0)}x
+                  {formatNum(userInfo?.multipliers?.cup || 0)}×
                 </span>
               </div>
               <div className="flex flex-col">
@@ -79,7 +79,7 @@ export default function Page() {
                   {T("XAccount")}
                 </span>
                 <span className="text-[32px] leading-[40px] text-white">
-                  {formatNum(userInfo?.multipliers?.x_account || 0)}
+                  {formatNum(userInfo?.multipliers?.x_account || 0)}×
                 </span>
               </div>
             </div>

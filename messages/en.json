@@ -7,12 +7,10 @@
     "ChangeAccount": "Change Account",
     "SignInWithX": "Sign in with X",
     "SignInWithWallet": "Sign in with Wallet",
-
     "MembershipNo": "Membership No.",
     "NickName": "Nick Name",
     "Level": "Level",
     "InvalidFormat": "Invalid format",
-
     "Events": "Events",
     "Windfalls": "Windfalls",
     "On": "on",
@@ -24,7 +22,6 @@
     "Claim": "Claim",
     "Claiming": "Claiming",
     "Claimed": "Claimed",
-
     "Shipping": "Shipping",
     "SocialMedia": "Social Media",
     "Country": "Country",
@@ -36,11 +33,9 @@
     "AddressLine": "Address line / Street",
     "ZipCode": "Zip Code",
     "RecentLogisticsOrder": "Recent Logistics Order",
-
     "Info": "Info",
     "Exchanges": "Exchanges",
     "Wallets": "Wallets",
-
     "Mart": "Mart",
     "Multipliers": "Multipliers",
     "Points": "Points",
@@ -48,18 +43,15 @@
     "XAccount": "X Account",
     "Features": "Features",
     "DomainRedirect": "Domain Redirect",
-
     "Club": "Club",
-
     "Ticket": "Ticket",
     "SubmitTicket": "Submit Ticket",
     "Topic": "Topic",
     "Content": "Content",
     "Contact": "Contact",
     "RecentTickets": "Recent Ticket",
-    "General": "general",
-    "ClothSizes": "cloth sizes",
-
+    "General": "General",
+    "ClothSizes": "Clothing sizes",
     "Connect": "Connect",
     "Connected": "Connected",
     "Disconnect": "Disconnect",
