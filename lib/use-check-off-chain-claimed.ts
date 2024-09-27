@@ -11,8 +11,6 @@ export function useCheckOffChainClaimed(
 ) {
   const uuid = useAtomValue(UuidAtom);
 
-  console.log(isOffChain, uuid, eventName, claimVersion);
-
   const res = useSWR(
     isOffChain && uuid && eventName && claimVersion
       ? `${ApiHost}/events/claim_status?user_id=${uuid}&event_name=${eventName}&claim_version=${claimVersion}`

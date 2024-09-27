@@ -98,14 +98,20 @@ export default function EventsPage() {
   const canClaim = useMemo(() => {
     if (!currentAddress) return false;
 
-    if (isOffChain || isEVM) {
+    if (isOffChain) {
       return (
-        userInfo?.wallets?.EVM.length &&
+        userInfo?.membership_no &&
+        userInfo?.wallets?.EVM?.length &&
+        userInfo?.wallets?.EVM[0] === currentAddress
+      );
+    } else if (isEVM) {
+      return (
+        userInfo?.wallets?.EVM?.length &&
         userInfo?.wallets?.EVM[0] === currentAddress
       );
     } else if (isSolana) {
       return (
-        userInfo?.wallets?.Solana.length &&
+        userInfo?.wallets?.Solana?.length &&
         userInfo?.wallets?.Solana[0] === currentAddress
       );
     }
@@ -164,7 +170,7 @@ export default function EventsPage() {
   }, [isOffChainSuccess, refreshOffChainClaim]);
 
   useEffect(() => {
-    if (claimTokens.length) {
+    if (claimTokens?.length) {
       setCurrentToken(claimTokens[0]);
     }
   }, [claimTokens]);
@@ -238,7 +244,7 @@ export default function EventsPage() {
         claimVersion: currentToken.eventData.claim_version,
       } as any);
     } catch (e) {
-      console.error("switch chain error", e);
+      console.error("claim off chain error", e);
     }
   }
 

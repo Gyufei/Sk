@@ -73,8 +73,6 @@ export function EthWalletItem({
         salt: "",
       });
 
-      console.log(res, "res");
-
       if (res) {
         setAddress(connectAddress!);
         setIsWaitingForNewConnect(false);

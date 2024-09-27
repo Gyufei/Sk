@@ -46,7 +46,6 @@ export function SignWithWalletBtn({
     if (address && isConnected) {
       solanaDisconnect();
 
-      console.log("signMsg");
       await signTo();
     }
   }
