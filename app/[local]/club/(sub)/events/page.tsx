@@ -152,7 +152,8 @@ export default function EventsPage() {
 
   function handleClaim() {
     if (isClaimed || isPending) return;
-    if (!currentToken || !currentToken.chainInfo) return;
+    if (!currentToken || !currentToken.chainInfo || currentToken.isCutOff)
+      return;
 
     if (isEVM) {
       claimEvm();
@@ -276,7 +277,7 @@ export default function EventsPage() {
           >
             {claimTokens.map((t, i) => (
               <CoinItem
-                disabled={t.isCutOff}
+                disabled={false}
                 key={i}
                 isActive={currentToken?.name === t.name}
                 onClick={() => handleClickToken(t, i)}
@@ -287,20 +288,12 @@ export default function EventsPage() {
           </div>
           {!currentToken ? (
             <div className="h-[208px]"></div>
-          ) : currentToken.isCutOff ? (
-            <div className="flex h-[208px] items-center justify-center">
-              <div
-                onClick={() => {}}
-                className="mt-5 box-border flex h-12 w-[240px] cursor-not-allowed items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 "
-              >
-                {T("Unavailable")}
-              </div>
-            </div>
           ) : !currentAddress ? (
             <div className="flex h-[208px] flex-col items-center justify-center">
               <div
+                data-disabled={false}
                 onClick={handleConnect}
-                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 "
+                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50"
               >
                 <div className="flex justify-between text-base leading-6 text-white">
                   <span>Connect</span>
@@ -344,37 +337,41 @@ export default function EventsPage() {
                   name={currentToken.chainInfo.name}
                 />
               </div>
-              <div
-                data-not={isClaimed || isPending}
-                onClick={handleClaim}
-                className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[not=true]:cursor-not-allowed"
-              >
-                <div className="flex justify-between text-base leading-6 text-white">
-                  {isClaimed ? (
-                    "Claimed"
-                  ) : isPending ? (
-                    "Claiming"
-                  ) : (
-                    <>
-                      <span className="font-bold">Claim</span>
-                      {!currentToken.chainInfo.isOffChain && (
-                        <div
-                          style={{
-                            visibility: isOffChain ? "hidden" : "visible",
-                          }}
-                          className="ml-1 flex justify-start"
-                        >
-                          <span>on</span>
-                          <ChainLogoText
-                            logo={currentToken.chainInfo.logo}
-                            name={currentToken.chainInfo.name}
-                          />
-                        </div>
-                      )}
-                    </>
-                  )}
+              {
+                <div
+                  data-not={isClaimed || isPending || currentToken.isCutOff}
+                  onClick={handleClaim}
+                  className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50"
+                >
+                  <div className="flex justify-between text-base leading-6 text-white">
+                    {isClaimed ? (
+                      "Claimed"
+                    ) : currentToken.isCutOff ? (
+                      "Unavailable"
+                    ) : isPending ? (
+                      "Claiming"
+                    ) : (
+                      <>
+                        <span className="font-bold">Claim</span>
+                        {!currentToken.chainInfo.isOffChain && (
+                          <div
+                            style={{
+                              visibility: isOffChain ? "hidden" : "visible",
+                            }}
+                            className="ml-1 flex justify-start"
+                          >
+                            <span>on</span>
+                            <ChainLogoText
+                              logo={currentToken.chainInfo.logo}
+                              name={currentToken.chainInfo.name}
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
+              }
             </>
           ) : (
             <div className="flex h-[208px] flex-col items-center justify-center">

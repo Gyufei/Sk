@@ -1,11 +1,5 @@
 import Image from "next/image";
-import {
-  useAccount,
-  useChainId,
-  useDisconnect,
-  useSignMessage,
-  useSwitchNetwork,
-} from "wagmi";
+import { useAccount, useChainId, useDisconnect, useSignMessage } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useSetAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
@@ -29,35 +23,31 @@ export function SignWithWalletBtn({
   const { address, isConnected } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
   const { signMessageAsync: signMessage } = useSignMessage();
-  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
   const { disconnect } = useDisconnect();
 
   const { disconnect: solanaDisconnect } = useWallet();
   const [isModalOpenForSign, setIsModalOpenForSign] = useState(false);
 
-  const OpNetInfo = Object.values(EthChainInfos).find((c) => c.chainId === 10);
+  const chainNetInfo = Object.values(EthChainInfos).find(
+    (c) => c.chainId === chainId,
+  );
 
   useEffect(() => {
     if (address && isConnected && isModalOpenForSign) {
-      switchChainAndSign();
+      signForAddress();
       setIsModalOpenForSign(false);
     }
   }, [address, isConnected]);
 
-  async function switchChainAndSign() {
+  async function signForAddress() {
     if (address && isConnected) {
       solanaDisconnect();
-      if (!OpNetInfo) {
+      if (!chainNetInfo) {
         return;
       }
 
-      if (chainId !== OpNetInfo?.chainId) {
-        await switchChain!(OpNetInfo.chainId!);
-        signMsg();
-      } else {
-        console.log("signMsg");
-        await signMsg();
-      }
+      console.log("signMsg");
+      await signMsg();
     }
   }
 
@@ -89,7 +79,7 @@ export function SignWithWalletBtn({
           login_type: "Wallet",
           login_data: {
             wallet_address: address,
-            chain_name: OpNetInfo?.name + " Mainnet",
+            chain_name: chainNetInfo?.name + " Mainnet",
             signature,
             salt,
           },
@@ -100,7 +90,7 @@ export function SignWithWalletBtn({
         throw new Error(
           "sign in error:" +
             `${
-              OpNetInfo?.name
+              chainNetInfo?.name
             } ${address} ${signature} ${salt} ${JSON.stringify(res)}`,
         );
       }
@@ -120,7 +110,7 @@ export function SignWithWalletBtn({
       wcModalOpen();
       setIsModalOpenForSign(true);
     } else {
-      switchChainAndSign();
+      signForAddress();
     }
   }
 
