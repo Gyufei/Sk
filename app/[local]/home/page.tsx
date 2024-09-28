@@ -1,5 +1,3 @@
-import ContentFooter from "@/components/content-footer";
-
 export default function Home() {
   return (
     <>
@@ -90,7 +88,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <ContentFooter />
     </>
   );
 }

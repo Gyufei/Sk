@@ -52,7 +52,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
               </svg>
             </Link>
             <HomeLinks />
-            <div className="text-block-4">© JUU17.</div>
+            <div className="text-block-4">© JUU17 Brands.</div>
           </div>
 
           <div
@@ -64,7 +64,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
         </div>
         <div id="gif-animation" className="gif-animation"></div>
         <div className="mob-div">
-          <div className="text-block-4 mobile">© JUU17.</div>
+          <div className="text-block-4 mobile">© JUU17 Brands.</div>
         </div>
       </div>
     </div>

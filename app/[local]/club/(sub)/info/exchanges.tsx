@@ -123,7 +123,7 @@ export function Exchanges() {
             inputId="phone"
             conClass="w-full md:w-auto"
             onBlur={handleBnBlur}
-            placeHolder="UID/Email"
+            placeHolder="UID / Email"
           />
           <InvalidTpl isValid={bnUIDValid} />
         </div>
@@ -139,7 +139,7 @@ export function Exchanges() {
             inputId="phone"
             conClass="w-full md:w-auto"
             onBlur={handleOkxBlur}
-            placeHolder="UID/Email"
+            placeHolder="UID / Email"
           />
           <InvalidTpl isValid={okxUIDValid} />
         </div>
@@ -155,7 +155,7 @@ export function Exchanges() {
             inputId="phone"
             conClass="w-full md:w-auto"
             onBlur={handleByBitBlur}
-            placeHolder="UID/Email"
+            placeHolder="UID / Email"
           />
           <InvalidTpl isValid={byBitUIDValid} />
         </div>
