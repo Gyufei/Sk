@@ -22,16 +22,7 @@ const nextConfig = {
   compress: process.env.NODE_ENV === "production",
   experimental: {
     optimizePackageImports: ["@dynamic-labs/sdk-react-core"],
-  },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true
-      },
-    ];
-  },
+  }
 };
 
 module.exports = nextConfig;
