@@ -58,7 +58,7 @@ export default function UserInfoBanner() {
     );
   }, [userInfo?.nick_name]);
 
-  return (
+  return ( 
     <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px]">
       <div className="hidden items-center md:flex">
         {uidInfoTpl}

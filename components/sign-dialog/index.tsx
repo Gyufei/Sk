@@ -83,7 +83,7 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className="flex w-[400px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px]"
+        className="flex md:w-[400px] w-[345px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px] "
       >
         <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
         {noMethodShow &&

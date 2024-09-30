@@ -23,17 +23,23 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["@dynamic-labs/sdk-react-core"],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
-
-
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
 const createNextIntlPlugin = require('next-intl/plugin');
 const withNextIntl = createNextIntlPlugin();
-
 
 module.exports = withNextIntl(withSentryConfig(
   (module.exports),
@@ -75,3 +81,4 @@ module.exports = withNextIntl(withSentryConfig(
     automaticVercelMonitors: true,
   }
 ));
+

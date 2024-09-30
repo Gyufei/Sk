@@ -1,16 +1,18 @@
 html {
   height: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
+  margin: 0;
   min-height: 100%;
   font-family: var(--font-haas-text);
-  font-size: 16px;
-  line-height: 20px;
-  overflow-x: auto;
+  font-size: 1vw;
+  line-height: 1.2;
   color: rgba(255, 255, 255, 0.8);
   background-color: #0d0d0d;
-  min-width: 1200px;
+  overflow-x: hidden;
 }
 
 img {
@@ -133,6 +135,7 @@ textarea.w-select {
 .image {
   width: 740px;
 }
+
 
 .grid {
   z-index: 5;
@@ -563,6 +566,7 @@ textarea.w-select {
 }
 
 @media screen and (max-width: 479px) {
+
   .grid {
     grid-template-columns: 1fr;
     margin-bottom: 30em;
@@ -574,7 +578,7 @@ textarea.w-select {
 
   .main-container {
     min-width: unset;
-    width: auto;
+    width: 100%;
     height: auto;
     flex-direction: column;
     padding: 4em 4em 10em;
@@ -702,6 +706,7 @@ textarea.w-select {
 
   .text-block-4.mobile {
     display: block;
+    text-align: center;
   }
 
   .image-3 {
@@ -709,7 +714,7 @@ textarea.w-select {
   }
 
   .left-block {
-    height: 85em;
+    height: 85em; 
   }
 
   .point-1 {
