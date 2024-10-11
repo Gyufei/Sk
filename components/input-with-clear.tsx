@@ -16,6 +16,8 @@ export function InputWithClear({
   iconClass,
   inputId,
   onBlur,
+  readOnly = false,
+  showClearButton = true,
 }: {
   value: string;
   placeHolder?: string;
@@ -28,6 +30,8 @@ export function InputWithClear({
   iconClass?: string;
   inputId?: string;
   onBlur?: () => void;
+  readOnly?: boolean;
+  showClearButton?: boolean;
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -40,6 +44,12 @@ export function InputWithClear({
 
     if (onBlur) {
       onBlur();
+    }
+  }
+
+  function handleFocus() {
+    if (!readOnly) {
+      setIsFocus(true);
     }
   }
 
@@ -65,10 +75,11 @@ export function InputWithClear({
           "h-12 rounded-none border-none bg-transparent pl-0 text-[#d6d6d6] ",
           inputClass,
         )}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => handleBlur()}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        readOnly={readOnly}
       />
-      {isFocus && (
+      {showClearButton && isFocus && !readOnly && (
         <Image
           src="/icons/close.svg"
           width={20}

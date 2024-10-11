@@ -2,15 +2,14 @@
 import { usePathname, useRouter } from "@/app/navigation";
 import { useEffect } from "react";
 
-export default function Home() {
+export default function LocalePage() {
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    if (pathname === "/") {
-      router.push("/home");
+    if (pathname === "/" || pathname === "/en" || pathname === "/zh") {
+      router.push(`${pathname === "/" ? "/en" : pathname}/home`);
     }
-  }, [pathname]);
-
+  }, [pathname, router]);
   return null;
 }

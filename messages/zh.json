@@ -56,6 +56,7 @@
     "Connect": "连接",
     "Connected": "已连接",
     "Disconnect": "断开连接",
-    "NoData": "无数据"
+    "NoData": "无数据",
+    "MembershipRequired": "提交工单功能只对俱乐部会员开放"
   }
 }

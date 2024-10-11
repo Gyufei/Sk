@@ -1,7 +1,7 @@
 import { InputWithClear } from "@/components/input-with-clear";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useSaveSocial } from "@/lib/api/use-save-social";
-import { checkTwitterRegex, twitterPlaceHolderText } from "@/lib/utils/utils";
+import { twitterPlaceHolderText } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MobileInValidTpl, PcInvalidTpl } from "../invalid-tpl";
@@ -10,7 +10,9 @@ import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import useSWR from "swr";
 
 export function Twitter() {
-  const currentPageUrl = window.location.origin + window.location.pathname;
+  const currentPageUrl = typeof window !== "undefined"
+    ? window.location.origin + window.location.pathname
+    : "";
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
@@ -30,22 +32,22 @@ export function Twitter() {
     }
   }, [userInfo]);
 
-  function handleXInput(val: string) {
-    if (!val) {
-      setX(val);
-      setIsValid(true);
-      return;
-    }
+  // function handleXInput(val: string) {
+  //   if (!val) {
+  //     setX(val);
+  //     setIsValid(true);
+  //     return;
+  //   }
 
-    const trimVal = val.replace(/(^\s*)|(\s*$)/g, "");
-    setX(trimVal);
-  }
+  //   const trimVal = val.replace(/(^\s*)|(\s*$)/g, "");
+  //   setX(trimVal);
+  // }
 
-  function handleBlur() {
-    if (!x) return;
+  // function handleBlur() {
+  //   if (!x) return;
 
-    setIsValid(checkTwitterRegex(x));
-  }
+  //   setIsValid(checkTwitterRegex(x));
+  // }
 
   function handleLink() {
     goTwitter(currentPageUrl);
@@ -72,14 +74,14 @@ export function Twitter() {
           <div className="text-base leading-6 text-[#fff]">X (Twitter)</div>
         </div>
         <InputWithClear
-          isError={!isValid}
           value={x}
           placeHolderText={twitterPlaceHolderText}
           placeHolder="|  your id"
-          onValueChange={(v) => handleXInput(v)}
+          onValueChange={() => {}}
           isSign={isLink}
           conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
-          onBlur={handleBlur}
+          readOnly={true}
+          showClearButton={false}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid X (Twitter) link." />
         <LinkBtn onClick={handleLink} disabled={isLink} />

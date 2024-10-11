@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useCallback } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import {
@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { useRecentTickets } from "@/lib/api/use-recent-tickets";
 import { formatDate } from "@/lib/utils/utils";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Page() {
   const T = useTranslations("Common");
@@ -25,6 +26,7 @@ export default function Page() {
   const { data: recentTickets } = useRecentTickets();
 
   const [topic, setTopic] = useState("");
+
   const [topicOpen, setTopicOpen] = useState(false);
   const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
   const [content, setContent] = useState("");
@@ -34,20 +36,26 @@ export default function Page() {
   const [contactValid, setContactValid] = useState(true);
   const [contentValid, setContentValid] = useState(true);
 
+  const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+
+  const handleRecaptchaChange = useCallback((value: string | null) => {
+    setRecaptchaValue(value);
+  }, []);
+
   async function saveTopic() {
     if (!topic) {
       setTopicValid(false);
     }
 
-    if (!content) {
+    if (!content || content.length < 20) {
       setContentValid(false);
     }
 
-    if (!contact) {
+    if (!contact || contact.length < 8) {
       setContactValid(false);
     }
 
-    if (!topic || !content || !contact) {
+    if (!topic || !content || content.length < 20 || !contact || contact.length < 8 || !recaptchaValue) {
       return;
     }
 
@@ -61,6 +69,7 @@ export default function Page() {
         topic,
         content,
         contact,
+        recaptcha: recaptchaValue,
       }),
     });
 
@@ -81,6 +90,7 @@ export default function Page() {
     setTopic("");
     setContent("");
     setContact("");
+    setRecaptchaValue(null);
   }
 
   function handleTopicSelected(v: string) {
@@ -91,12 +101,12 @@ export default function Page() {
 
   function handleContentInput(v: string) {
     setContent(v);
-    setContentValid(!!v);
+    setContentValid(v.length >= 20);
   }
 
   function handleContactInput(v: string) {
     setContact(v);
-    setContactValid(!!v);
+    setContactValid(v.length >= 8);
   }
 
   return (
@@ -168,6 +178,11 @@ export default function Page() {
               borderBottomColor: contentValid ? "#464646" : "#ff5a5a",
             }}
           />
+          {!contentValid && (
+            <div className="mt-1 text-sm text-red-500">
+              Content must be at least 20 characters long.
+            </div>
+          )}
         </div>
         <div className="mt-10">{T("Contact")}</div>
 
@@ -181,13 +196,24 @@ export default function Page() {
               borderBottomColor: contactValid ? "#464646" : "#ff5a5a",
             }}
           />
+          {!contactValid && (
+            <div className="mt-1 text-sm text-red-500">
+              Contact must be at least 8 characters long.
+            </div>
+          )}
         </div>
 
-        <div
-          onClick={saveTopic}
-          className="mt-10 flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white"
-        >
-          Submit
+        <div className="mt-10 flex items-center">
+          <div
+            onClick={saveTopic}
+            className="mr-4 flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white"
+          >
+            Submit
+          </div>
+          <ReCAPTCHA
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            onChange={handleRecaptchaChange}
+          />
         </div>
       </div>
 

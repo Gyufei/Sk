@@ -7,7 +7,7 @@
     "ChangeAccount": "Change Account",
     "SignInWithX": "Sign in with X",
     "SignInWithWallet": "Sign in with Wallet",
-    "MembershipNo": "Membership No.",
+    "MembershipNo": "Membership",
     "NickName": "Nick Name",
     "Level": "Level",
     "InvalidFormat": "Invalid format",
@@ -56,6 +56,7 @@
     "Connect": "Connect",
     "Connected": "Connected",
     "Disconnect": "Disconnect",
-    "NoData": "No data yet"
+    "NoData": "No data yet",
+    "MembershipRequired": "Submitting tickets is only available to club members"
   }
 }

@@ -14,9 +14,15 @@ import { useTranslations } from "next-intl";
 export function SignWithWalletBtn({
   signing,
   setSigning,
+  incrementWalletAttempts,
+  showReCaptcha,
+  reCaptchaValue,
 }: {
   signing: boolean;
   setSigning: (b: boolean) => void;
+  incrementWalletAttempts: () => void;
+  showReCaptcha: boolean;
+  reCaptchaValue: string | null;
 }) {
   const T = useTranslations("Common");
   const chainId = useChainId();
@@ -45,6 +51,12 @@ export function SignWithWalletBtn({
   async function signForAddress() {
     if (address && isConnected) {
       solanaDisconnect();
+      incrementWalletAttempts();
+
+      if (showReCaptcha && !reCaptchaValue) {
+        // 显示错误消息或阻止登录
+        return;
+      }
 
       await signTo();
     }

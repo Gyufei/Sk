@@ -7,6 +7,8 @@ import SignWithXBtn from "./sign-with-x-btn";
 import { SignWithWalletBtn } from "./sign-with-wallet-btn";
 import SignWithEmail from "./sign-with-email";
 import { useTranslations } from "next-intl";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useCallback } from "react";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -21,6 +23,10 @@ export default function SignDialog() {
   const [showWallet, setShowWallet] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
   const [lastSignInEmail, setLastSignInEmail] = useState("");
+
+  const [walletAttempts, setWalletAttempts] = useState(0);
+  const [showReCaptcha, setShowReCaptcha] = useState(false);
+  const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
 
   useEffect(() => {
     setIsInit(true);
@@ -77,6 +83,20 @@ export default function SignDialog() {
     setUuid(uId);
     setSignDialogOpen(false);
   }
+
+  const handleReCaptchaChange = useCallback((value: string | null) => {
+    setReCaptchaValue(value);
+  }, []);
+
+  const incrementWalletAttempts = useCallback(() => {
+    setWalletAttempts((prev) => {
+      const newValue = prev + 1;
+      if (newValue >= 6) {
+        setShowReCaptcha(true);
+      }
+      return newValue;
+    });
+  }, []);
 
   return (
     <Dialog open={signDialogOpen}>
@@ -143,6 +163,12 @@ export default function SignDialog() {
           >
             {T("ChangeAccount")}
           </div>
+        )}
+        {showReCaptcha && (
+          <ReCAPTCHA
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            onChange={handleReCaptchaChange}
+          />
         )}
       </DialogContent>
     </Dialog>

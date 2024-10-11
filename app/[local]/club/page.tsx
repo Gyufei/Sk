@@ -15,7 +15,7 @@ export default function Club() {
   return (
     <>
       {uuid ? (
-        <div className="md:fixed left-1/2 md:top-[500px] md:w-[400px] md:-translate-x-1/2 md:-translate-y-1/2 transform md:top-1/2">
+        <div className="md:w-[400px]">
           <UserInfoBanner />
           <RouterMenu />
         </div>

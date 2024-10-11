@@ -11,6 +11,7 @@ const nextConfig = {
         hostname: 'api.juu17.com'
       }
     ],
+    domains: ['localhost', 'juu17.com'], // 在这里添加您的域名
   },
   webpack: (config) => {
     config.externals.push("pino-pretty", "lokijs", "encoding");
@@ -72,4 +73,3 @@ module.exports = withNextIntl(withSentryConfig(
     automaticVercelMonitors: true,
   }
 ));
-
