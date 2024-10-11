@@ -8,17 +8,17 @@ export default function MartPage() {
   const range: any[] = [{
     "product_id": "7cf00f4d262da76a934faf6be8995e74322f32f24aa6f9b309596c861a40505e",
     "product_name": "T-shirt",
-    "product_price": '$1000',
+    "product_price": '1000',
     "product_display_picture": "/images/goods/tshirt.svg"
   }, {
     "product_id": "ee503760a0ad3f6175a63f1d279df2f169d06dbcfc344bab1b50fada699989b9",
     "product_name": "Juu17 Cup",
-    "product_price": "$340",
+    "product_price": "340",
     "product_display_picture": "/images/goods/cup.svg"
   }, {
     "product_id": "acdb9b8e28796051ac969937fc6fdeee20588761915d34de0ffbf6009805ac1d",
     "product_name": "Safu Talk",
-    "product_price": "$1700",
+    "product_price": "1700",
     "product_display_picture": "/images/goods/safu.svg"
   }];
 
