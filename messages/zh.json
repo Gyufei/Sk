@@ -57,6 +57,8 @@
     "Connected": "已连接",
     "Disconnect": "断开连接",
     "NoData": "无数据",
-    "MembershipRequired": "提交工单功能只对俱乐部会员开放"
+    "MembershipRequired": "提交工单功能只对俱乐部会员开放",
+    "PageNotFound": "找不到该页面。",
+    "RedirectingToHome": "2秒后重定向到首页..."
   }
 }

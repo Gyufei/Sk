@@ -127,7 +127,13 @@ export default function SignDialog() {
           onSuccess={handleSuccess}
         />
         {showWallet && (
-          <SignWithWalletBtn signing={signing} setSigning={setSigning} />
+          <SignWithWalletBtn
+            signing={signing}
+            setSigning={setSigning}
+            incrementWalletAttempts={incrementWalletAttempts}
+            showReCaptcha={showReCaptcha}
+            reCaptchaValue={reCaptchaValue}
+          />
         )}
         {(showTwitter || showWallet) && showEmail && (
           <div className="mt-[15px] flex w-full items-center justify-between">

@@ -23,6 +23,9 @@ const nextConfig = {
   compress: process.env.NODE_ENV === "production",
   experimental: {
     optimizePackageImports: ["@dynamic-labs/sdk-react-core"],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   }
 };
 

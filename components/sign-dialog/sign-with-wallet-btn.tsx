@@ -46,7 +46,7 @@ export function SignWithWalletBtn({
       signForAddress();
       setIsModalOpenForSign(false);
     }
-  }, [address, isConnected]);
+  }, [address, isConnected, isModalOpenForSign, signForAddress]);
 
   async function signForAddress() {
     if (address && isConnected) {

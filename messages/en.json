@@ -57,6 +57,8 @@
     "Connected": "Connected",
     "Disconnect": "Disconnect",
     "NoData": "No data yet",
-    "MembershipRequired": "Submitting tickets is only available to club members"
+    "MembershipRequired": "Submitting tickets is only available to club members",
+     "PageNotFound": "This page could not be found.",
+      "RedirectingToHome": "Redirecting to home page in 2 seconds..."
   }
 }

@@ -46,8 +46,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "app/[local]/not-found"  ],
+    ".next/types/**/*.ts", "app/[local]/not-found"  ],
   "exclude": [
     "node_modules"
   ]
