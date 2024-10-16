@@ -24,10 +24,10 @@ export default function UserInfoBanner() {
   const uidInfoTpl = useMemo(() => {
     return (
       <div className="flex flex-col md:mr-10">
-        <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
+        <div className="mb-1 text-sm md:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
           UID
         </div>
-        <div className="h-[24px] text-base leading-6 text-white">
+        <div className="h-[24px] text-base leading-6 opacity-60">
           {userInfo?.uid}
         </div>
       </div>
@@ -37,10 +37,10 @@ export default function UserInfoBanner() {
   const memberInfoTpl = useMemo(() => {
     return (
       <div className="flex flex-col md:mr-7">
-        <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
+        <div className="mb-1 text-sm md:text-base text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
           {T("MembershipNo")}
         </div>
-        <div className="h-[24px] text-base leading-6 text-white">
+        <div className="h-[24px] text-base leading-6 opacity-60">
           No.{userInfo?.membership_no}
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function UserInfoBanner() {
   const nickNameTpl = useMemo(() => {
     return (
       <div className="flex flex-1 flex-col">
-        <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
+        <div className="mb-1 text-sm md:text-base text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
           {T("NickName")}
         </div>
         <NickName nickName={userInfo?.nick_name || ""} />
@@ -58,24 +58,29 @@ export default function UserInfoBanner() {
     );
   }, [userInfo?.nick_name]);
 
-  return ( 
-    <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px]">
+  return (
+    <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px] h-auto md:h-auto">
       <div className="hidden items-center md:flex">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
       </div>
 
-      <div className="flex w-full items-center md:hidden">{nickNameTpl}</div>
+      <div className="flex w-full items-center md:hidden h-[68px] space-x-3">
+        {uidInfoTpl}
+        {memberInfoTpl}
+        {nickNameTpl}
+        <LevelTpl />
+      </div>
 
       <div className="hidden md:block">
         <LevelTpl />
       </div>
 
-      <div className="mt-5 flex items-center justify-between md:hidden">
+      {/* <div className="mt-5 flex items-center justify-between md:hidden">
         {memberInfoTpl}
         <LevelTpl />
-      </div>
+      </div> */}
     </div>
   );
 }

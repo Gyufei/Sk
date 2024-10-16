@@ -289,16 +289,16 @@ export default function EventsPage() {
   }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
-    <div className="relative -left-[100px] mt-[150px]">
+    <div className="relative m-t-20">
       <div className="relative flex items-center justify-end">
         {windFallTpl}
         <GoBackTo />
       </div>
-      <div className="relative mb-[100px] ml-0 mt-6 w-[560px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
+      <div className="relative mb-[100px] ml-0 mt-6 md:w-[560px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
         <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
           <div
             ref={scrollRef}
-            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pl-4 pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4"
+            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4"
           >
             {claimTokens.map((t, i) => (
               <CoinItem

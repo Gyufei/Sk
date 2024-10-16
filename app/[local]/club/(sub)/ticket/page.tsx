@@ -110,15 +110,15 @@ export default function Page() {
   }
 
   return (
-    <div className="relative -left-[100px]">
+    <div className="relative w-full">
       <div className="relative  flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 w-[600px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+      <div className="mb-[20px] mt-6 md:w-[600px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
-        <div className="mt-5">{T("Topic")}</div>
+        <div className="mt-5 text-xl ">{T("Topic")}</div>
         <Popover
           open={topicOpen}
           onOpenChange={(isOpen) => setTopicOpen(isOpen)}
@@ -168,7 +168,7 @@ export default function Page() {
             ))}
           </PopoverContent>
         </Popover>
-        <div className="mt-10">{T("Content")}</div>
+        <div className="mt-10 text-xl">{T("Content")}</div>
         <div>
           <textarea
             value={content}
@@ -184,7 +184,7 @@ export default function Page() {
             </div>
           )}
         </div>
-        <div className="mt-10">{T("Contact")}</div>
+        <div className="mt-10 text-xl">{T("Contact")}</div>
 
         <div>
           <Input
@@ -210,10 +210,12 @@ export default function Page() {
           >
             Submit
           </div>
-          <ReCAPTCHA
-            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-            onChange={handleRecaptchaChange}
-          />
+          <div className="recaptcha-container">
+            <ReCAPTCHA
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={handleRecaptchaChange}
+            />
+          </div>
         </div>
       </div>
 
@@ -221,7 +223,7 @@ export default function Page() {
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentTickets")}
         </div>
-        <div className="mt-5">
+        <div className="mt-5 text-xl">
           {!recentTickets?.length && (
             <div className="flex h-[50px] items-center justify-start">
               {T("NoData")}

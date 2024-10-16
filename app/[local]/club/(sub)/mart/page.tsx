@@ -25,15 +25,15 @@ export default function MartPage() {
   const [hoverIndex, setHoverIndex] = useState(-1);
 
   return (
-    <div className="relative md:-left-[100px]">
+    <div className="relative w-full">
       <div className="relative flex items-center md:justify-end">
         <GoBackTo />
       </div>
-      <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] w-[540px] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto pr-3">
+      <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] md:w-[540px] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
         {range.map((item, index) => (
           <div
             key={item}
-            className="box-border flex md:w-[250px] cursor-pointer justify-center rounded-[20px] border border-transparent p-[5px] hover:border-white"
+            className="box-border flex md:w-[250px] cursor-pointer justify-center rounded-[20px] border border-transparent md:p-[5px] hover:border-white"
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
           >

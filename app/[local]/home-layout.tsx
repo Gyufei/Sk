@@ -38,7 +38,9 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
               />
             </Link>
             <HomeLinks />
-            <div className="text-block-4">© JUU17 Brands.</div>
+            <div className="text-block-4 w-full whitespace-nowrap overflow-hidden text-ellipsis">
+              © JUU17 Brands.
+            </div>
           </div>
 
           <div

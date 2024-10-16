@@ -26,13 +26,13 @@ export default function Page() {
   }
 
   return (
-    <div className="relative -left-[100px]  mt-[150px]">
+    <div className="relative w-full  m-t-20 ">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 w-[600px]">
+      <div className="mb-[20px] mt-6 md:w-[600px]">
         <div className="flex justify-between gap-5">
-          <div className="flex h-[290px] w-[290px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+          <div className="flex h-[290px] md:w-[290px] w-full flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
             <div className="flex h-20 w-20 items-center justify-center">
               <Image
                 src="/icons/mint-wallet.svg"
@@ -41,8 +41,8 @@ export default function Page() {
                 alt="mint wallet"
               />
             </div>
-            <div className="mt-5 flex h-12 w-[200px] cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] bg-[rgba(255,255,255,0.01)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:text-white">
-              <span className="mr-6 inline-block font-semibold">Mint</span>
+            <div className="mt-5 flex h-12 md:w-[200px] cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] bg-[rgba(255,255,255,0.01)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:text-white">
+              <span className="md:mr-6 inline-block font-semibold">Mint</span>
               <span>on</span>
               <Image
                 src="/icons/network/solana.svg"
@@ -55,7 +55,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="flex h-[290px] w-[290px] flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+          <div className="flex h-[290px] md:w-[290px] w-full  flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] md:p-6 p-1 backdrop-blur-md">
             <div className="font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
               Juu17 {T("Club")} {T("Points")}
             </div>
@@ -66,7 +66,7 @@ export default function Page() {
               {T("Multipliers")}
             </div>
             <div className="mt-[10px] flex items-center justify-start self-stretch">
-              <div className="mr-[85px] flex flex-col">
+              <div className="md:mr-[85px] mr-[10px] flex flex-col">
                 <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
@@ -93,7 +93,7 @@ export default function Page() {
           <div className="mt-5 text-base font-medium leading-6 text-[#D6D6D6]">
             {T("DomainRedirect")}
           </div>
-          <div className="mt-[10px] flex items-center justify-between self-stretch">
+          <div className="md:mt-[10px] flex items-center justify-between self-stretch">
             <div className="relative flex-1">
               <Input
                 onKeyDown={handleKeyDown}
@@ -102,7 +102,7 @@ export default function Page() {
                 className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
                 placeholder="yourid"
               />
-              <div className="absolute right-0 top-[10px] flex items-center gap-3">
+              <div className="absolute right-2 top-[10px] flex items-center gap-3">
                 <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
                 <span className="text-base leading-6 text-[#d6d6d6]">
                   .juu17.com

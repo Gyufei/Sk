@@ -31,12 +31,12 @@ export function LevelTpl() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-1 text-base leading-6 text-[rgba(255,255,255,0.6)]">
+      <div className="mb-1 text-sm md:text-base text-white leading-6 text-[rgba(255,255,255,0.6)]">
         {T("Level")}
       </div>
       <div
         onClick={() => handleClick()}
-        className="flex items-center justify-end text-base leading-6 text-white underline decoration-[rgba(255,255,255,0.1);] decoration-dashed underline-offset-2 hover:decoration-white"
+        className="flex items-center justify-end text-base leading-6 underline decoration-[rgba(255,255,255,0.1);] decoration-dashed underline-offset-2 hover:decoration-white"
         style={{
           cursor: userInfo?.level === 0 ? "pointer" : "default",
         }}
