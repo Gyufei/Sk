@@ -138,7 +138,7 @@ export default function ShippingAddressPage() {
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mt-6 md:w-[800px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
+      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
         <div className="mb-7 text-xl leading-[30px] text-white">
           {T("ShippingAddress")}
         </div>

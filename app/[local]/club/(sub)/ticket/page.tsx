@@ -203,18 +203,18 @@ export default function Page() {
           )}
         </div>
 
-        <div className="mt-10 flex items-center">
-          <div
-            onClick={saveTopic}
-            className="mr-4 flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white"
-          >
-            Submit
-          </div>
-          <div className="recaptcha-container">
+        <div className="mt-10 flex flex-col md:flex-row items-center">
+          <div className="recaptcha-container mb-4 md:mb-0">
             <ReCAPTCHA
               sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
               onChange={handleRecaptchaChange}
             />
+          </div>
+          <div
+            onClick={saveTopic}
+            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white md:ml-4"
+          >
+            Submit
           </div>
         </div>
       </div>

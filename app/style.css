@@ -752,7 +752,7 @@ textarea.w-select {
   } */
 
   .recaptcha-container {
-    transform: scale(0.8);
+    transform: scale(0.7);
     /* 缩小到80% */
     transform-origin: 0 0;
     /* 确保缩放从左上角开始 */
@@ -1085,7 +1085,7 @@ html.w-mod-touch * {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   max-height: 100vh;
   box-sizing: border-box;
   padding: 20px;

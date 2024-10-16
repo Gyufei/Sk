@@ -93,7 +93,7 @@ export default function RouterMenu() {
         />
       </div>
       {showTooltip && (
-        <div className="fixed md:ml-[-25px] md:ml-[50%]  bottom-[37px] md:w-[450px] w-[calc(100%-30px)]  h-[56px] pl-[20px] flex rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-[12px] opacity-1 z-50">
+        <div className="fixed md:ml-[-25px]  bottom-[37px] md:w-[450px] w-[calc(100%-30px)]  h-[56px] pl-[20px] flex rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-[12px] opacity-1 z-50">
           <div className="flex items-center">
             <Image src="/icons/lamp.svg" width={24} height={24} alt="info" className="mr-2" />
             <span className="text-white text-sm md:text-base font-semibold leading-6 text-white opacity-60" >{T("MembershipRequired")}</span>
