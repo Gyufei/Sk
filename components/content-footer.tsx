@@ -12,7 +12,7 @@ export default function ContentFooter() {
   }
 
   return (
-    <div className="bottom-content relative ">
+    <div className="bottom-content relative lg:-ml-[200px]">
       <div className="field-label-text">Dive a bit deeper</div>
       <div className="html-embed-4 w-embed">
         <form

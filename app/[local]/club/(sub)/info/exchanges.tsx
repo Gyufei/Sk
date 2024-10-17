@@ -144,7 +144,7 @@ export function Exchanges() {
           <InvalidTpl isValid={okxUIDValid} />
         </div>
         <div className="flex flex-col items-start">
-          <div className="flex w-[140px] items-center space-x-2">
+          <div className="flex md:w-[140px] items-center space-x-2">
             <div className="text-base leading-6 text-[#D6D6D6]">Bybit</div>
           </div>
           <InputWithClear

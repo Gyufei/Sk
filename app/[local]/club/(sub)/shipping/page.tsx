@@ -134,7 +134,7 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="no-scroll-bar relative  w-full overflow-y-auto">
+    <div className="no-scroll-bar relative lg:-ml-[200px]  w-full overflow-y-auto">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
@@ -181,7 +181,7 @@ export default function ShippingAddressPage() {
         </div>
         <div className="mt-5">
           {!logisticsOrders?.length && (
-            <div className="flex h-[50px] items-center justify-start">
+            <div className="flex h-[50px] text-xl items-center justify-start">
               {T("NoData")}
             </div>
           )}

@@ -746,10 +746,10 @@ textarea.w-select {
     padding-top: 20px;
   }
 
-  /* .point-1 {
+  .point-1 {
     top: 5em;
     left: 5em;
-  } */
+  }
 
   .recaptcha-container {
     transform: scale(0.7);

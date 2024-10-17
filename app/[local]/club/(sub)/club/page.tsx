@@ -26,7 +26,7 @@ export default function Page() {
   }
 
   return (
-    <div className="relative w-full  m-t-20 ">
+    <div className="relative w-full   m-t-20 ">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
@@ -55,14 +55,14 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="flex h-[290px] md:w-[290px] w-full  flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] md:p-6 p-1 backdrop-blur-md">
-            <div className="font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
+          <div className="flex h-[290px] md:w-[290px] w-full  flex-col items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] md:p-6 p-3 backdrop-blur-md">
+            <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
               Juu17 {T("Club")} {T("Points")}
             </div>
             <div className="mt-2 text-[40px] leading-[60px] text-white">
               {formatNum(userInfo?.j_points || 0)}
             </div>
-            <div className="mt-5 font-haasDisp text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
+            <div className="mt-5 font-haasDisp text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
             <div className="mt-[10px] flex items-center justify-start self-stretch">
@@ -99,12 +99,12 @@ export default function Page() {
                 onKeyDown={handleKeyDown}
                 value={yourId || ""}
                 onChange={(e: any) => setYourId(e.target.value)}
-                className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+                className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 md:text-base text-sm text-white"
                 placeholder="yourid"
               />
-              <div className="absolute right-2 top-[10px] flex items-center gap-3">
+              <div className="absolute md:right-2 left-11 top-[10px] flex items-center md:gap-3">
                 <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
-                <span className="text-base leading-6 text-[#d6d6d6]">
+                <span className="md:text-base text-sm leading-6 text-[#d6d6d6]">
                   .juu17.com
                 </span>
               </div>
