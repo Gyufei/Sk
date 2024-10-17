@@ -72,7 +72,7 @@ export function InputWithClear({
         placeholder={placeHolder}
         onChange={(e: any) => onValueChange(e.target.value)}
         className={cn(
-          "h-12 rounded-none border-none bg-transparent pl-0 text-[#d6d6d6] ",
+          "h-12 rounded-none border-none bg-transparent pl-0 pr-6 text-[#d6d6d6] ",
           inputClass,
         )}
         onFocus={handleFocus}

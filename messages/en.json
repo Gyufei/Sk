@@ -57,8 +57,10 @@
     "Connected": "Connected",
     "Disconnect": "Disconnect",
     "NoData": "No data yet",
-    "MembershipRequired": "Submitting tickets is only available to club members",
-     "PageNotFound": "This page could not be found.",
-      "RedirectingToHome": "Redirecting to home page in 2 seconds..."
+    "MembershipRequired": "Club features are only available to club members.",
+    "PageNotFound": "This page could not be found.",
+    "RedirectingToHome": "Redirecting to home page in 2 seconds...",
+    "EventsMembershipRequired": "Participating in events is only available to club members",
+    "TicketMembershipRequired": "Submitting tickets is only available to club members"
   }
 }

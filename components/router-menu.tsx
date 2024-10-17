@@ -4,12 +4,20 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 
-function ProtectedMenuItem({ href, icon, label, requiresMembership, setShowTooltip }: {
+function ProtectedMenuItem({
+  href,
+  icon,
+  label,
+  requiresMembership,
+  setShowTooltip,
+  tooltipMessage,
+}: {
   href: string;
   icon: string;
   label: string;
   requiresMembership: boolean;
-  setShowTooltip: (show: boolean) => void;
+  setShowTooltip: (show: boolean, message: string) => void;
+  tooltipMessage: string;
 }) {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");
@@ -18,9 +26,9 @@ function ProtectedMenuItem({ href, icon, label, requiresMembership, setShowToolt
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (requiresMembership && !hasMembership) {
-      setShowTooltip(true);
-      // setTimeout(() => setShowTooltip(false), 5000);
-      // e.preventDefault();
+      setShowTooltip(true, tooltipMessage);
+      setTimeout(() => setShowTooltip(false, ''), 5000);
+      e.preventDefault();
     }
   };
 
@@ -41,6 +49,12 @@ function ProtectedMenuItem({ href, icon, label, requiresMembership, setShowToolt
 export default function RouterMenu() {
   const T = useTranslations("Common");
   const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState('');
+
+  const handleSetShowTooltip = (show: boolean, message: string) => {
+    setShowTooltip(show);
+    setTooltipMessage(message);
+  };
 
   return (
     <>
@@ -50,7 +64,8 @@ export default function RouterMenu() {
           icon="/icons/events.svg"
           label="Events"
           requiresMembership={true}
-          setShowTooltip={setShowTooltip}
+          setShowTooltip={handleSetShowTooltip}
+          tooltipMessage={T("EventsMembershipRequired")}
         />
         <Link href="/club/shipping">
           <MenuItem>
@@ -82,21 +97,23 @@ export default function RouterMenu() {
           icon="/icons/club.svg"
           label="Club"
           requiresMembership={true}
-          setShowTooltip={setShowTooltip}
+          setShowTooltip={handleSetShowTooltip}
+          tooltipMessage={T("MembershipRequired")}
         />
         <ProtectedMenuItem
           href="/club/ticket"
           icon="/icons/ticket.svg"
           label="Ticket"
           requiresMembership={true}
-          setShowTooltip={setShowTooltip}
+          setShowTooltip={handleSetShowTooltip}
+          tooltipMessage={T("TicketMembershipRequired")}
         />
       </div>
       {showTooltip && (
-        <div className="fixed md:ml-[-25px]  bottom-[37px] w-[calc(100%-30px)] md:w-[450px] h-[56px] pl-[20px] flex rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-[12px] opacity-1 z-50">
+        <div className="fixed md:ml-[-25px] bottom-[37px] w-[calc(100%-30px)] md:w-[450px] h-[56px] pl-[20px] flex rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-[12px] opacity-1 z-50">
           <div className="flex items-center">
             <Image src="/icons/lamp.svg" width={24} height={24} alt="info" className="mr-2" />
-            <span className="text-white text-sm md:text-base font-semibold leading-6 text-white opacity-60" >{T("MembershipRequired")}</span>
+            <span className="text-white text-sm md:text-base font-semibold leading-6 text-white opacity-60">{tooltipMessage}</span>
           </div>
         </div>
       )}

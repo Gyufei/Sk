@@ -294,7 +294,7 @@ export default function EventsPage() {
         {windFallTpl}
         <GoBackTo />
       </div>
-      <div className="relative mb-[100px] ml-0 mt-6 md:w-[560px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
+      <div className="relative mb-[100px] ml-0 mt-6 md:w-[560px] min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
         <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
           <div
             ref={scrollRef}
