@@ -29,21 +29,21 @@ export default function MartPage() {
       <div className="relative flex items-center md:justify-end">
         <GoBackTo />
       </div>
-      <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] md:w-[540px] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
+      <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] content-w-540 flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
         {range.map((item, index) => (
           <div
             key={item}
-            className="box-border flex md:w-[250px] cursor-pointer justify-center rounded-[20px] border border-transparent md:p-[5px] hover:border-white"
+            className="box-border flex content-w-250 content-w-165  cursor-pointer justify-center rounded-[20px] border border-transparent md:p-[5px] hover:border-white"
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
           >
-            <div className="flex md:w-[240px] w-[165px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+            <div className="flex content-w-240  content-w-165 flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
               <Image
                 src={item.product_display_picture || '/images/590.png'}
                 width={240}
                 height={240}
                 alt="mart"
-                className="rounded-[20px] md:w-[240px] md:h-[240px] w-[165px] h-[165px]"
+                className="rounded-[20px] content-w-165 content-h-165 "
               ></Image>
               <div
                 className="p-[15px]"

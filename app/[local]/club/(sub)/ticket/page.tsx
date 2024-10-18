@@ -114,7 +114,7 @@ export default function Page() {
       <div className="relative  flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 md:w-[600px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+      <div className="mb-[20px] mt-6 content-w-600 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
