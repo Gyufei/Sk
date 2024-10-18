@@ -110,7 +110,7 @@ export default function Page() {
   }
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-full">
       <div className="relative  flex items-center justify-end">
         <GoBackTo />
       </div>

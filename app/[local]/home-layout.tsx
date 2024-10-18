@@ -45,7 +45,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
 
           <div
             data-id=""
-            className="right-block content-container md:min-h-unset relative min-h-[200.0025px]"
+            className="right-block  content-container md:min-h-unset relative min-h-[200.0025px]"
           >
             {children}
           </div>

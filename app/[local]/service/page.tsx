@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Service() {
   return (
     <>
-      <div className="top-content shift-animation lg:-ml-[200px] relative mb-[20px]">
+      <div className="top-content shift-animation lg:-ml-[200px] md:w-[800px] relative mb-[20px]">
         <div className="content-inner-box">
           <div className="div-block-7">
             <p className="paragraph-009">Service</p>
