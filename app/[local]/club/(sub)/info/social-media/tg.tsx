@@ -79,7 +79,7 @@ export function Tg() {
           onBlur={handleBlur}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Telegram." />
-        <SaveBtn disabled={disabled} handleSave={handleSave} />
+        <SaveBtn disabled={disabled} handleSave={handleSave} className="w-full"/>
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Telegram." />
     </div>

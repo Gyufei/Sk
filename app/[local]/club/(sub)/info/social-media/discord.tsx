@@ -78,7 +78,7 @@ export function Discord() {
           onBlur={handleBlur}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Discord." />
-        <SaveBtn disabled={disabled} handleSave={handleSave} />
+        <SaveBtn disabled={disabled} handleSave={handleSave} className="w-full"/>
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Discord." />
     </div>

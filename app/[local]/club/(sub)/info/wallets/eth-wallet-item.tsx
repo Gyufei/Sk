@@ -97,7 +97,7 @@ export function EthWalletItem({
   }
 
   return (
-    <div className="mb-6 flex flex-col items-start md:flex-row md:items-center">
+    <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
       <div className="relative ml-0 md:mr-4 pr-8 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)]">
         <div
           className={cn(

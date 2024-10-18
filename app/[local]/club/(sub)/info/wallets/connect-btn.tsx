@@ -41,7 +41,7 @@ export function ConnectBtn({
   ) : (
     <div
       onClick={handleConnect}
-      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:brightness-75 md:ml-4 md:mt-0 md:w-[200px]"
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:brightness-75 jm:ml-4 jm:mt-0 jm:w-[200px]"
     >
       <Image src="/icons/link.svg" width={24} height={24} alt="save" />
       <div className="ml-1 text-base leading-6">{T("Connect")}</div>

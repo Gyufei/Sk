@@ -30,7 +30,7 @@ export default function Page() {
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 md:w-[600px]">
+      <div className="mb-[20px] mt-6 content-w-600 ">
         <div className="flex justify-between gap-5">
           <div className="flex h-[290px] md:w-[290px] w-full flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
             <div className="flex h-20 w-20 items-center justify-center">
