@@ -28,7 +28,7 @@ function ProtectedMenuItem({
     if (requiresMembership && !hasMembership) {
       setShowTooltip(true, tooltipMessage);
       setTimeout(() => setShowTooltip(false, ''), 5000);
-      // e.preventDefault();
+      e.preventDefault();
     }
   };
 
