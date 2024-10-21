@@ -84,7 +84,12 @@ export function Twitter() {
           showClearButton={false}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid X (Twitter) link." />
-        <LinkBtn onClick={handleLink} disabled={isLink} />
+        <LinkBtn 
+          onClick={handleLink} 
+          disabled={isLink} 
+          isConnected={isLink}
+          isTwitterLogin={true}
+        />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid X (Twitter) link." />
     </div>

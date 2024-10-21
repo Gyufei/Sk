@@ -79,7 +79,7 @@ export function InputWithClear({
         onBlur={handleBlur}
         readOnly={readOnly}
       />
-      {showClearButton && isFocus && !readOnly && (
+      {/* {showClearButton && isFocus && !readOnly && (
         <Image
           src="/icons/close.svg"
           width={20}
@@ -95,6 +95,17 @@ export function InputWithClear({
             clearInput();
           }}
         />
+      )} */}
+      {value && (
+        <button
+          onClick={() => onValueChange('')}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+        >
+          <Image src="/icons/close.svg" width={20} height={20} alt="sign"
+            className={cn(
+              iconClass
+            )} />
+        </button>
       )}
       {isSign && !isFocus && (
         <Image

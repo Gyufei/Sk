@@ -17,14 +17,14 @@ export function EthWallets() {
   const { data: userInfo } = useFetchUserInfo();
 
   const [popOpen, setPopOpen] = useState(false);
-  const [currentChainName, setCurrentChainName] = useState("");
+  const [selectedChainName, setSelectedChainName] = useState("");
 
   const currChainInfo = useMemo(() => {
     const currChain = Object.values(EthChainInfos).find(
-      (c) => c.name === currentChainName,
+      (c) => c.name === selectedChainName,
     );
     return currChain;
-  }, [currentChainName]);
+  }, [selectedChainName]);
 
   const walletOptions = useMemo(() => {
     const allWalletsInfo = Object.keys(EthChainInfos);
@@ -57,25 +57,17 @@ export function EthWallets() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (chainId && currChainInfo?.chainId !== chainId) {
+    if (chainId) {
       const targetChain = Object.values(EthChainInfos).find(
-        (c) => c.chainId === chainId,
+        (c) => c.chainId === chainId
       );
-
-      setCurrentChainName(targetChain?.name || "");
+      setSelectedChainName(targetChain?.name || "");
     }
-  }, [chainId, currentChainName, currChainInfo?.chainId]);
+  }, [chainId]);
 
   const handleChangeChain = (cName: string) => {
-    const changeChain = Object.values(EthChainInfos).find(
-      (c) => c.name === cName,
-    );
-    if (!changeChain) return;
-
-    const currChainId = changeChain.chainId;
-    if (currChainId && chainId !== currChainId) {
-      switchNetwork && switchNetwork(currChainId);
-    }
+    setSelectedChainName(cName);
+    setPopOpen(false);
   };
 
   const handleAddrChange = (index: number, value: string) => {
@@ -108,12 +100,12 @@ export function EthWallets() {
         >
           <div
             onClick={() => setPopOpen(!popOpen)}
-            className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151]"
+            className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] cursor-pointer"
           >
             <div className="flex items-center">
-              {EthChainInfos[currentChainName] ? (
+              {EthChainInfos[selectedChainName] ? (
                 <Image
-                  src={EthChainInfos[currentChainName].logo}
+                  src={EthChainInfos[selectedChainName].logo}
                   width={30}
                   height={30}
                   alt="wallet"
@@ -122,7 +114,7 @@ export function EthWallets() {
                 <div className="h-[30px] w-[30px] rounded-full bg-slate-400"></div>
               )}
               <div className="ml-3 text-base leading-6 text-[#d6d6d6]">
-                EVM {currentChainName ? `(${currentChainName})` : ""}
+                EVM {selectedChainName ? `(${selectedChainName})` : ""}
               </div>
             </div>
             <Image

@@ -108,6 +108,8 @@ export function Email() {
         <LinkBtn
           onClick={handleLink}
           disabled={disabled || hasSend || isLink}
+          isConnected={isLink}
+          isTwitterLogin={false}
         />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />

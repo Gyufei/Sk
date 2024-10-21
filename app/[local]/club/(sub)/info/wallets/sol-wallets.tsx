@@ -92,14 +92,14 @@ export function SolWallets() {
                 {currentChainName}
               </div>
             </div>
-            <Image
+            {/* <Image
               data-open={popOpen}
               src="/icons/arrow-down.svg"
               width={24}
               height={24}
               alt="down"
               className="data-[open=true]:rotate-180"
-            />
+            /> */}
           </div>
         </PopoverTrigger>
         <PopoverContent className="no-scroll-bar flex h-[80px] w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">

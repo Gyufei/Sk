@@ -19,7 +19,7 @@ export function ConnectBtn({
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={handleDisconnect}
-      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:border-[#ff5a5a] hover:bg-[#FF5A5A] md:ml-4 md:mt-0 md:w-[200px]"
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:border-[#ff5a5a] hover:bg-[#FF5A5A] jm:ml-4 jm:mt-0 jm:w-[200px]"
     >
       {isHover ? (
         <>
@@ -33,7 +33,7 @@ export function ConnectBtn({
         </>
       ) : (
         <>
-          <Image src="/icons/linked.svg" width={24} height={24} alt="save" />
+          <Image src="/icons/linked.svg" width={24} height={24} alt="save"/>
           <div className="ml-1 text-base leading-6 ">{T("Connected")}</div>
         </>
       )}

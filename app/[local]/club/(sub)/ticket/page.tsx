@@ -206,7 +206,7 @@ export default function Page() {
         <div className="mt-10 flex flex-col md:flex-row items-center">
           <div className="recaptcha-container mb-4 md:mb-0">
             <ReCAPTCHA
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              sitekey="6LfjY2cqAAAAAOu-5K148mkeFQz42tmA_MlfloVp"
               onChange={handleRecaptchaChange}
             />
           </div>

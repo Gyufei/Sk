@@ -3,6 +3,7 @@ import { Link } from "@/app/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { useRouter } from "@/app/navigation";
 
 function ProtectedMenuItem({
   href,
@@ -21,27 +22,31 @@ function ProtectedMenuItem({
 }) {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");
+  const router = useRouter();
 
   const hasMembership = userInfo?.membership_no;
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (requiresMembership && !hasMembership) {
+      e.preventDefault();
+      e.stopPropagation();
       setShowTooltip(true, tooltipMessage);
       setTimeout(() => setShowTooltip(false, ''), 5000);
-      e.preventDefault();
+    } else {
+      router.push(href);
     }
   };
 
   return (
     <div className="relative">
-      <Link href={href} onClick={handleClick}>
+      <div onClick={handleClick}>
         <MenuItem>
           <Image src={icon} width={40} height={40} alt={label} />
           <div className="text-base font-semibold leading-6 text-white opacity-60">
             {T(label)}
           </div>
         </MenuItem>
-      </Link>
+      </div>
     </div>
   );
 }
@@ -59,14 +64,15 @@ export default function RouterMenu() {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-5">
-        <ProtectedMenuItem
-          href="/club/events"
-          icon="/icons/events.svg"
-          label="Events"
-          requiresMembership={true}
-          setShowTooltip={handleSetShowTooltip}
-          tooltipMessage={T("EventsMembershipRequired")}
-        />
+      <Link href="/club/mart">
+          <MenuItem>
+            <Image src="/icons/mart.svg" width={40} height={40} alt="mart" />
+            <div className="text-base font-semibold leading-6 text-white opacity-60">
+              {T("Mart")}
+            </div>
+          </MenuItem>
+        </Link>
+        
         <Link href="/club/shipping">
           <MenuItem>
             <Image src="/icons/shipping.svg" width={40} height={40} alt="shipping" />
@@ -83,14 +89,15 @@ export default function RouterMenu() {
             </div>
           </MenuItem>
         </Link>
-        <Link href="/club/mart">
-          <MenuItem>
-            <Image src="/icons/mart.svg" width={40} height={40} alt="mart" />
-            <div className="text-base font-semibold leading-6 text-white opacity-60">
-              {T("Mart")}
-            </div>
-          </MenuItem>
-        </Link>
+
+        <ProtectedMenuItem
+          href="/club/events"
+          icon="/icons/events.svg"
+          label="Events"
+          requiresMembership={true}
+          setShowTooltip={handleSetShowTooltip}
+          tooltipMessage={T("EventsMembershipRequired")}
+        />
 
         <ProtectedMenuItem
           href="/club/club"

@@ -1,28 +1,41 @@
 "use client";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
+import { ApiHost } from "@/lib/api/path";
+import fetcher from "@/lib/api/fetcher";
+
+interface Product {
+  product_id: string;
+  product_display_picture: string;
+  product_name: string;
+  product_price: number;
+}
 
 export default function MartPage() {
-  const range: any[] = [{
-    "product_id": "7cf00f4d262da76a934faf6be8995e74322f32f24aa6f9b309596c861a40505e",
-    "product_name": "T-shirt",
-    "product_price": '1000',
-    "product_display_picture": "/images/goods/tshirt.svg"
-  }, {
-    "product_id": "ee503760a0ad3f6175a63f1d279df2f169d06dbcfc344bab1b50fada699989b9",
-    "product_name": "Juu17 Cup",
-    "product_price": "340",
-    "product_display_picture": "/images/goods/cup.svg"
-  }, {
-    "product_id": "acdb9b8e28796051ac969937fc6fdeee20588761915d34de0ffbf6009805ac1d",
-    "product_name": "Safu Talk",
-    "product_price": "1700",
-    "product_display_picture": "/images/goods/safu.svg"
-  }];
-
+  const [products, setProducts] = useState<Product[]>([]);
   const [hoverIndex, setHoverIndex] = useState(-1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const data = await fetcher(`${ApiHost}/static/products.json`);
+        setProducts(data);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+        setIsLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading products</div>;
 
   return (
     <div className="relative">
@@ -30,9 +43,9 @@ export default function MartPage() {
         <GoBackTo />
       </div>
       <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] content-w-540 flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
-        {range.map((item, index) => (
+        {products.map((item, index) => (
           <div
-            key={item}
+            key={item.product_id}
             className="box-border flex content-w-250 content-w-165  cursor-pointer justify-center rounded-[20px] border border-transparent md:p-[5px] hover:border-white"
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}

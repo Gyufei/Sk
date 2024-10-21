@@ -96,11 +96,10 @@ export function SolWalletItem({
 
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
-      <div className="relative ml-0 md:mr-4 pr-8 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)]">
+      <div className="relative jm:ml-0 jm:mr-4 jm:pr-8  flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)]">
         <div
           className={cn(
-            "mr-0 flex-1 truncate text-base leading-6 text-[#d6d6d6] md:mr-0",
-            "max-w-[280px] sm:max-w-[400px] md:max-w-[400px] overflow-hidden overflow-ellipsis whitespace-nowrap"
+            "mr-0 flex-1 text-sm md:text-base leading-6 text-[#d6d6d6] md:mr-0"
           )}
         >
           {address}
@@ -111,7 +110,7 @@ export function SolWalletItem({
             width={20}
             height={20}
             alt="sign"
-            className="absolute right-0 top-0 cursor-pointer md:top-[14px]"
+            className="absolute right-0 top-0 cursor-pointer jm:top-[14px]"
           />
         )}
       </div>

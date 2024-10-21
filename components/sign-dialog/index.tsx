@@ -172,7 +172,7 @@ export default function SignDialog() {
         )}
         {showReCaptcha && (
           <ReCAPTCHA
-            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            sitekey="6LfjY2cqAAAAAOu-5K148mkeFQz42tmA_MlfloVp"
             onChange={handleReCaptchaChange}
           />
         )}
