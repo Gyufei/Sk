@@ -96,13 +96,14 @@ export function EthWalletItem({
     }
   }
 
+
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
       <div className="relative jm:ml-0 mr-4 pr-8 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)]">
         <div
           className={cn(
-            "mr-0 flex-1 truncate text-xs sm:text-sm md:text-base leading-6 text-[#d6d6d6] md:mr-0",
-            "w-full max-w-[280px] sm:max-w-full overflow-hidden overflow-ellipsis whitespace-nowrap"
+            "mr-0 flex-1 text-xs sm:text-sm md:text-base leading-6 text-[#d6d6d6] md:mr-0",
+            "w-full max-w-[280px] sm:max-w-full overflow-hidden text-ellipsis whitespace-nowrap"
           )}
         >
           {address}
