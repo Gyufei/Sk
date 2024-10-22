@@ -19,6 +19,8 @@ import { formatDate } from "@/lib/utils/utils";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 
+const ReCAPTCHAKey = "6LfKa2gqAAAAAKHzkIIOPUd2RUIjFilBb6n5uznQ";
+
 export default function Page() {
   const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -36,10 +38,10 @@ export default function Page() {
   const [contactValid, setContactValid] = useState(true);
   const [contentValid, setContentValid] = useState(true);
 
-  const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
+  const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
 
-  const handleRecaptchaChange = useCallback((value: string | null) => {
-    setRecaptchaValue(value);
+  const handleReCaptchaChange = useCallback((value: string | null) => {
+    setReCaptchaValue(value);
   }, []);
 
   async function saveTopic() {
@@ -55,7 +57,14 @@ export default function Page() {
       setContactValid(false);
     }
 
-    if (!topic || !content || content.length < 20 || !contact || contact.length < 8 || !recaptchaValue) {
+    if (
+      !topic ||
+      !content ||
+      content.length < 20 ||
+      !contact ||
+      contact.length < 8 ||
+      !reCaptchaValue
+    ) {
       return;
     }
 
@@ -69,7 +78,7 @@ export default function Page() {
         topic,
         content,
         contact,
-        recaptcha: recaptchaValue,
+        recaptcha: reCaptchaValue,
       }),
     });
 
@@ -90,7 +99,7 @@ export default function Page() {
     setTopic("");
     setContent("");
     setContact("");
-    setRecaptchaValue(null);
+    setReCaptchaValue(null);
   }
 
   function handleTopicSelected(v: string) {
@@ -110,11 +119,11 @@ export default function Page() {
   }
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full">
       <div className="relative  flex items-center justify-end">
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 content-w-600 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+      <div className="content-w-600 mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
@@ -203,19 +212,22 @@ export default function Page() {
           )}
         </div>
 
-        <div className="mt-10 flex flex-col md:flex-row items-center">
+        <div className="mt-10 flex flex-col items-center md:flex-row">
           <div className="recaptcha-container mb-4 md:mb-0">
             <ReCAPTCHA
-              sitekey="6LfjY2cqAAAAAOu-5K148mkeFQz42tmA_MlfloVp"
-              onChange={handleRecaptchaChange}
+              sitekey={ReCAPTCHAKey}
+              onChange={handleReCaptchaChange}
             />
           </div>
-          <div
-            onClick={saveTopic}
-            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white md:ml-4"
+          <button
+            disabled={
+              !topicValid || !contentValid || !contactValid || !reCaptchaValue
+            }
+            onClick={() => saveTopic}
+            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:brightness-90 md:ml-4"
           >
             Submit
-          </div>
+          </button>
         </div>
       </div>
 

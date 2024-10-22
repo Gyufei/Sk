@@ -26,7 +26,9 @@ export default function MartPage() {
         setProducts(data);
         setIsLoading(false);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+        setError(
+          err instanceof Error ? err : new Error("An unknown error occurred"),
+        );
         setIsLoading(false);
       }
     }
@@ -42,21 +44,21 @@ export default function MartPage() {
       <div className="relative flex items-center md:justify-end">
         <GoBackTo />
       </div>
-      <div className="trans-scroll-bar  mt-6 flex h-[calc(100%-100px)] content-w-540 flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
+      <div className="trans-scroll-bar  content-w-540 mt-6 flex h-[calc(100%-100px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
         {products.map((item, index) => (
           <div
             key={item.product_id}
-            className="box-border flex content-w-250 content-w-165  cursor-pointer justify-center rounded-[20px] border border-transparent md:p-[5px] hover:border-white"
+            className="content-w-250 content-w-165 box-border flex  cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]"
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
           >
-            <div className="flex content-w-240  content-w-165 flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+            <div className="content-w-240 content-w-165  flex flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
               <Image
-                src={item.product_display_picture || '/images/590.png'}
+                src={item.product_display_picture || "/images/590.png"}
                 width={240}
                 height={240}
                 alt="mart"
-                className="rounded-[20px] content-w-165 content-h-165 "
+                className="content-w-165 content-h-165 rounded-[20px] "
               ></Image>
               <div
                 className="p-[15px]"
@@ -71,7 +73,7 @@ export default function MartPage() {
                   <div>
                     <span className="text-base leading-6">$</span>
                     <span className="text-2xl leading-9">
-                      {formatNum(item.product_price)}
+                      {formatNum(String(item.product_price).replace("$", ""))}
                     </span>
                   </div>
                   <div

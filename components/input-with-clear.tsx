@@ -17,7 +17,6 @@ export function InputWithClear({
   inputId,
   onBlur,
   readOnly = false,
-  showClearButton = true,
 }: {
   value: string;
   placeHolder?: string;
@@ -31,13 +30,8 @@ export function InputWithClear({
   inputId?: string;
   onBlur?: () => void;
   readOnly?: boolean;
-  showClearButton?: boolean;
 }) {
   const [isFocus, setIsFocus] = useState(false);
-
-  function clearInput() {
-    onValueChange("");
-  }
 
   function handleBlur() {
     setIsFocus(false);
@@ -79,32 +73,22 @@ export function InputWithClear({
         onBlur={handleBlur}
         readOnly={readOnly}
       />
-      {/* {showClearButton && isFocus && !readOnly && (
-        <Image
-          src="/icons/close.svg"
-          width={20}
-          height={20}
-          alt="sign"
-          className={cn(
-            "absolute right-0 top-[14px] cursor-pointer",
-            iconClass,
-          )}
-          onMouseDown={($event) => {
+      {isFocus && !readOnly && value && (
+        <button
+          onClick={($event) => {
             $event.preventDefault();
             $event.stopPropagation();
-            clearInput();
+            onValueChange("");
           }}
-        />
-      )} */}
-      {value && (
-        <button
-          onClick={() => onValueChange('')}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          className="absolute right-2 top-1/2 -translate-y-1/2 transform"
         >
-          <Image src="/icons/close.svg" width={20} height={20} alt="sign"
-            className={cn(
-              iconClass
-            )} />
+          <Image
+            src="/icons/close.svg"
+            width={20}
+            height={20}
+            alt="sign"
+            className={cn(iconClass)}
+          />
         </button>
       )}
       {isSign && !isFocus && (
@@ -114,7 +98,7 @@ export function InputWithClear({
           height={20}
           alt="sign"
           className={cn(
-            "absolute right-0 top-[14px] cursor-pointer",
+            "absolute right-2 top-[14px] cursor-pointer",
             iconClass,
           )}
         />

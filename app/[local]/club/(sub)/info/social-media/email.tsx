@@ -10,9 +10,10 @@ import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
 
 export function Email() {
-  const currentPageUrl = typeof window !== "undefined"
-    ? window.location.origin + window.location.pathname
-    : "";
+  const currentPageUrl =
+    typeof window !== "undefined"
+      ? window.location.origin + window.location.pathname
+      : "";
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
@@ -107,9 +108,8 @@ export function Email() {
         <MobileInValidTpl isValid={isValid} text="Invalid Email." />
         <LinkBtn
           onClick={handleLink}
-          disabled={disabled || hasSend || isLink}
+          disabled={disabled || hasSend}
           isConnected={isLink}
-          isTwitterLogin={false}
         />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />

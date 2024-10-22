@@ -4,20 +4,21 @@ import { useSaveSocial } from "@/lib/api/use-save-social";
 import { twitterPlaceHolderText } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { MobileInValidTpl, PcInvalidTpl } from "../invalid-tpl";
 import { LinkBtn } from "../link-btn";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import useSWR from "swr";
 
 export function Twitter() {
-  const currentPageUrl = typeof window !== "undefined"
-    ? window.location.origin + window.location.pathname
-    : "";
+  const currentPageUrl =
+    typeof window !== "undefined"
+      ? window.location.origin + window.location.pathname
+      : "";
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
+  const isTwitterLogin = userInfo?.login_data?.twitter_id;
+
   const [x, setX] = useState(userInfo?.social_media?.Twitter || "");
-  const [isValid, setIsValid] = useState(true);
 
   const isLink =
     userInfo?.social_media?.Twitter && x === userInfo?.social_media?.Twitter;
@@ -31,23 +32,6 @@ export function Twitter() {
       setX(userInfo?.social_media?.Twitter || "");
     }
   }, [userInfo]);
-
-  // function handleXInput(val: string) {
-  //   if (!val) {
-  //     setX(val);
-  //     setIsValid(true);
-  //     return;
-  //   }
-
-  //   const trimVal = val.replace(/(^\s*)|(\s*$)/g, "");
-  //   setX(trimVal);
-  // }
-
-  // function handleBlur() {
-  //   if (!x) return;
-
-  //   setIsValid(checkTwitterRegex(x));
-  // }
 
   function handleLink() {
     goTwitter(currentPageUrl);
@@ -81,17 +65,13 @@ export function Twitter() {
           isSign={isLink}
           conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
           readOnly={true}
-          showClearButton={false}
         />
-        <MobileInValidTpl isValid={isValid} text="Invalid X (Twitter) link." />
-        <LinkBtn 
-          onClick={handleLink} 
-          disabled={isLink} 
+        <LinkBtn
+          onClick={handleLink}
+          disabled={isTwitterLogin}
           isConnected={isLink}
-          isTwitterLogin={true}
         />
       </div>
-      <PcInvalidTpl isValid={isValid} text="Invalid X (Twitter) link." />
     </div>
   );
 }
