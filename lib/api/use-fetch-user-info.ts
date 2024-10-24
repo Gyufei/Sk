@@ -20,8 +20,6 @@ export function useFetchUserInfo() {
       return {};
     }
 
-    fetchRes.membership_no = "123";
-
     return fetchRes;
   }
 
