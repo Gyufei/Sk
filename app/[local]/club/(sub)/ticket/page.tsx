@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useCallback } from "react";
+import { useContext, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import {
@@ -26,6 +26,7 @@ export default function Page() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const uuid = useAtomValue(UuidAtom);
   const { data: recentTickets } = useRecentTickets();
+  const captchaInst = useRef<ReCAPTCHA>(null);
 
   const [topic, setTopic] = useState("");
 
@@ -99,6 +100,8 @@ export default function Page() {
     setTopic("");
     setContent("");
     setContact("");
+
+    captchaInst.current?.reset();
     setReCaptchaValue(null);
   }
 
@@ -215,6 +218,7 @@ export default function Page() {
         <div className="mt-10 flex flex-col items-center md:flex-row">
           <div className="recaptcha-container mb-4 md:mb-0">
             <ReCAPTCHA
+              ref={captchaInst}
               sitekey={ReCAPTCHAKey}
               onChange={handleReCaptchaChange}
               onErrored={console.log}
@@ -224,8 +228,8 @@ export default function Page() {
             disabled={
               !topicValid || !contentValid || !contactValid || !reCaptchaValue
             }
-            onClick={() => saveTopic}
-            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:brightness-90 md:ml-4"
+            onClick={() => saveTopic()}
+            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] md:ml-4"
           >
             Submit
           </button>
