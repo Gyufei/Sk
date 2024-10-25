@@ -19,7 +19,7 @@ import { formatDate } from "@/lib/utils/utils";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const ReCAPTCHAKey = "6LfKa2gqAAAAAKHzkIIOPUd2RUIjFilBb6n5uznQ";
+const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function Page() {
   const T = useTranslations("Common");
@@ -217,6 +217,7 @@ export default function Page() {
             <ReCAPTCHA
               sitekey={ReCAPTCHAKey}
               onChange={handleReCaptchaChange}
+              onErrored={console.log}
             />
           </div>
           <button
