@@ -17,35 +17,10 @@ export default function GlobalActionTip() {
     }
   }, [globalMessage, setGlobalMessage]);
 
-  const colorMap = {
-    success: {
-      bg: "#D8F0E9",
-      border: "#85DFC4",
-      icon: "#070709",
-    },
-    warning: {
-      bg: "#F1E5D1",
-      border: "#DFCA9C",
-      icon: "#B38828",
-    },
-    error: {
-      bg: "#F8DEDA",
-      border: "#DEA69C",
-      icon: "black",
-    },
-  };
-
   return (
     <>
       {message && type ? (
-        <div
-          className="tip-con fixed bottom-6 left-1/2 z-[1000] mt-4 flex -translate-x-1/2 items-center gap-x-2 rounded-md border px-5 py-3"
-          style={{
-            color: colorMap[type].icon,
-            backgroundColor: colorMap[type].bg,
-            borderColor: colorMap[type].border,
-          }}
-        >
+        <div className="opacity-1 fixed bottom-10 left-1/2 z-50 flex h-[56px] w-[calc(100%-30px)] -translate-x-1/2 items-center gap-x-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] px-4 backdrop-blur-[12px] md:w-fit md:max-w-[500px]">
           {((type) => {
             switch (type) {
               case "success":
@@ -62,12 +37,12 @@ export default function GlobalActionTip() {
               case "warning":
                 return (
                   <Image
-                    width={16}
-                    height={16}
-                    className="tip-icon"
-                    src="/icons/tip-info.svg"
+                    src="/icons/lamp.svg"
+                    width={24}
+                    height={24}
+                    alt="info"
+                    className="mr-2"
                     loading="lazy"
-                    alt=""
                   />
                 );
               case "error":
@@ -85,7 +60,9 @@ export default function GlobalActionTip() {
                 return null;
             }
           })(type)}
-          <div className="tip-text">{message}</div>
+          <span className="text-sm font-semibold leading-6 text-white opacity-60 md:text-base">
+            {message}
+          </span>
         </div>
       ) : null}
     </>

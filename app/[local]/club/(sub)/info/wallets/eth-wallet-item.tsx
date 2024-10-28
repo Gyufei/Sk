@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useAccount, useDisconnect } from "wagmi";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
-import { cn } from "@/lib/utils/utils";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { ConnectBtn } from "./connect-btn";
@@ -96,16 +95,10 @@ export function EthWalletItem({
     }
   }
 
-
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
-      <div className="relative jm:ml-0 mr-4 pr-8 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)]">
-        <div
-          className={cn(
-            "mr-0 flex-1 text-xs sm:text-sm md:text-base leading-6 text-[#d6d6d6] md:mr-0",
-            "w-full max-w-[280px] sm:max-w-full overflow-hidden text-ellipsis whitespace-nowrap"
-          )}
-        >
+      <div className="relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
+        <div className="mr-0 w-full max-w-full flex-1 text-xs leading-6 text-[#d6d6d6] md:mr-0 md:text-base">
           {address}
         </div>
         {isVerify && (
@@ -118,7 +111,7 @@ export function EthWalletItem({
           />
         )}
       </div>
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)]">
+      <div className="mt-4 flex h-12 w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] md:mt-0">
         <Image
           onClick={handleAdd}
           className="cursor-pointer"

@@ -1,129 +1,100 @@
 import Image from "next/image";
 import { Link } from "@/app/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useContext } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useRouter } from "@/app/navigation";
-
-function ProtectedMenuItem({
-  href,
-  icon,
-  label,
-  requiresMembership,
-  setShowTooltip,
-  tooltipMessage,
-}: {
-  href: string;
-  icon: string;
-  label: string;
-  requiresMembership: boolean;
-  setShowTooltip: (show: boolean, message: string) => void;
-  tooltipMessage: string;
-}) {
-  const { data: userInfo } = useFetchUserInfo();
-  const T = useTranslations("Common");
-  const router = useRouter();
-
-  const hasMembership = userInfo?.membership_no;
-
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (requiresMembership && !hasMembership) {
-      e.preventDefault();
-      e.stopPropagation();
-      setShowTooltip(true, tooltipMessage);
-      setTimeout(() => setShowTooltip(false, ''), 5000);
-    } else {
-      router.push(href);
-    }
-  };
-
-  return (
-    <div className="relative">
-      <div onClick={handleClick}>
-        <MenuItem>
-          <Image src={icon} width={40} height={40} alt={label} />
-          <div className="text-base font-semibold leading-6 text-white opacity-60">
-            {T(label)}
-          </div>
-        </MenuItem>
-      </div>
-    </div>
-  );
-}
+import { GlobalMsgContext } from "./global-msg-context";
+import { cn } from "@/lib/utils/utils";
 
 export default function RouterMenu() {
   const T = useTranslations("Common");
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipMessage, setTooltipMessage] = useState('');
+  const router = useRouter();
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
 
-  const handleSetShowTooltip = (show: boolean, message: string) => {
-    setShowTooltip(show);
-    setTooltipMessage(message);
-  };
+  const { data: userInfo } = useFetchUserInfo();
+  const hasMembership = userInfo?.membership_no;
+
+  function handleGoWithMembership(href: string, msg: string) {
+    if (!hasMembership) {
+      setGlobalMessage({
+        type: "warning",
+        message: msg,
+      });
+    } else {
+      router.push(href);
+    }
+  }
+
+  const linkText = "text-base font-semibold leading-6 text-white opacity-60";
 
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-5">
-      <Link href="/club/mart">
+        <Link href="/club/mart">
           <MenuItem>
             <Image src="/icons/mart.svg" width={40} height={40} alt="mart" />
-            <div className="text-base font-semibold leading-6 text-white opacity-60">
-              {T("Mart")}
-            </div>
+            <div className={cn(linkText)}>{T("Mart")}</div>
           </MenuItem>
         </Link>
-        
+
         <Link href="/club/shipping">
           <MenuItem>
-            <Image src="/icons/shipping.svg" width={40} height={40} alt="shipping" />
-            <div className="text-base font-semibold leading-6 text-white opacity-60">
-              {T("Shipping")}
-            </div>
+            <Image
+              src="/icons/shipping.svg"
+              width={40}
+              height={40}
+              alt="shipping"
+            />
+            <div className={cn(linkText)}>{T("Shipping")}</div>
           </MenuItem>
         </Link>
         <Link href="/club/info">
           <MenuItem>
             <Image src="/icons/info.svg" width={40} height={40} alt="info" />
-            <div className="text-base font-semibold leading-6 text-white opacity-60">
-              {T("Info")}
-            </div>
+            <div className={cn(linkText)}>{T("Info")}</div>
           </MenuItem>
         </Link>
 
-        <ProtectedMenuItem
-          href="/club/events"
-          icon="/icons/events.svg"
-          label="Events"
-          requiresMembership={true}
-          setShowTooltip={handleSetShowTooltip}
-          tooltipMessage={T("EventsMembershipRequired")}
-        />
-
-        <ProtectedMenuItem
-          href="/club/club"
-          icon="/icons/club.svg"
-          label="Club"
-          requiresMembership={true}
-          setShowTooltip={handleSetShowTooltip}
-          tooltipMessage={T("MembershipRequired")}
-        />
-        <ProtectedMenuItem
-          href="/club/ticket"
-          icon="/icons/ticket.svg"
-          label="Ticket"
-          requiresMembership={true}
-          setShowTooltip={handleSetShowTooltip}
-          tooltipMessage={T("TicketMembershipRequired")}
-        />
-      </div>
-      {showTooltip && (
-        <div className="fixed md:ml-[-25px] bottom-[37px] w-[calc(100%-30px)] md:w-[450px] h-[56px] pl-[20px] flex rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-[12px] opacity-1 z-50">
-          <div className="flex items-center">
-            <Image src="/icons/lamp.svg" width={24} height={24} alt="info" className="mr-2" />
-            <span className="text-white text-sm md:text-base font-semibold leading-6 text-white opacity-60">{tooltipMessage}</span>
-          </div>
+        <div
+          onClick={() =>
+            handleGoWithMembership(
+              "/club/events",
+              T("EventsMembershipRequired"),
+            )
+          }
+        >
+          <MenuItem>
+            <Image src="/icons/events.svg" width={40} height={40} alt="info" />
+            <div className={cn(linkText)}>{T("Events")}</div>
+          </MenuItem>
         </div>
-      )}
+
+        <div
+          onClick={() =>
+            handleGoWithMembership("/club/club", T("MembershipRequired"))
+          }
+        >
+          <MenuItem>
+            <Image src="/icons/club.svg" width={40} height={40} alt="info" />
+            <div className={cn(linkText)}>{T("Club")}</div>
+          </MenuItem>
+        </div>
+
+        <div
+          onClick={() =>
+            handleGoWithMembership(
+              "/club/ticket",
+              T("TicketMembershipRequired"),
+            )
+          }
+        >
+          <MenuItem>
+            <Image src="/icons/ticket.svg" width={40} height={40} alt="info" />
+            <div className={cn(linkText)}>{T("Ticket")}</div>
+          </MenuItem>
+        </div>
+      </div>
     </>
   );
 }
@@ -131,7 +102,7 @@ export default function RouterMenu() {
 function MenuItem({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="flex md:h-[120px] h-[105px] md:w-[120px] w-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]"
+      className="flex h-[105px] w-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] md:h-[120px] md:w-[120px]"
       style={{
         backdropFilter: "blur(12px)",
       }}

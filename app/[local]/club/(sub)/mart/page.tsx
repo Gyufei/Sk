@@ -1,51 +1,50 @@
 "use client";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
-import { ApiHost } from "@/lib/api/path";
-import fetcher from "@/lib/api/fetcher";
-
-interface Product {
-  product_id: string;
-  product_display_picture: string;
-  product_name: string;
-  product_price: number;
-}
+import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";
+import { useMartBuy } from "@/lib/api/use-mart-buy";
+import { GlobalMsgContext } from "@/components/global-msg-context";
+import { useTranslations } from "next-intl";
 
 export default function MartPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const T = useTranslations("Common");
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const [hoverIndex, setHoverIndex] = useState(-1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+
+  const { data: products } = useMartProducts();
+
+  const { trigger: buyAction, isMutating } = useMartBuy();
+
+  async function handleBuy(item: IProduct) {
+    const res = await buyAction({
+      productId: item.product_id,
+    } as any);
+
+    if (res.webUrl) {
+      window.open(res.webUrl);
+    }
+  }
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const data = await fetcher(`${ApiHost}/static/products.json`);
-        setProducts(data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("An unknown error occurred"),
-        );
-        setIsLoading(false);
-      }
+    if (isMutating) {
+      setGlobalMessage({
+        type: "success",
+        message: T("PayingIsBeingInitiated"),
+      });
+    } else {
+      setGlobalMessage(null);
     }
-
-    fetchProducts();
-  }, []);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading products</div>;
+  }, [isMutating, T, setGlobalMessage]);
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <div className="relative flex items-center md:justify-end">
         <GoBackTo />
       </div>
-      <div className="trans-scroll-bar  content-w-540 mt-6 flex h-[calc(100%-100px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
-        {products.map((item, index) => (
+      <div className="trans-scroll-bar  content-w-540 mt-6 flex h-[calc(100%-70px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto md:pr-3">
+        {(products || []).map((item, index) => (
           <div
             key={item.product_id}
             className="content-w-250 content-w-165 box-border flex  cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]"
@@ -86,6 +85,7 @@ export default function MartPage() {
                     }}
                   >
                     <Image
+                      onClick={() => handleBuy(item)}
                       src={
                         hoverIndex === index
                           ? "/icons/buy-car.svg"
@@ -94,6 +94,7 @@ export default function MartPage() {
                       width={18}
                       height={18}
                       alt="buy-car"
+                      className="cursor-pointer"
                     />
                   </div>
                 </div>
