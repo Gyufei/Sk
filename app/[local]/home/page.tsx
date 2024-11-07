@@ -13,10 +13,6 @@ export default function Home() {
             <br />
             In-depth research on diverse blockchain products.
             <br />
-            An ordinary guy working at
-            <a className="mx-2" href="https://hedgue.com">
-              Hedgue LLP.
-            </a>
             Ex VC post-investment management.
             <br />
             Computer / Finance / Mathematics triple degrees.
