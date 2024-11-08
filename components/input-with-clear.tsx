@@ -73,7 +73,7 @@ export function InputWithClear({
         onBlur={handleBlur}
         readOnly={readOnly}
       />
-      {isFocus && !readOnly && value && (
+      {!readOnly && value && (
         <button
           onClick={($event) => {
             $event.preventDefault();
