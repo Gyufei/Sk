@@ -50,7 +50,7 @@ export default function ShippingAddressPage() {
     if (!rcNameValid) return true;
     if (!streetValid) return true;
     if (!phoneValid) return true;
-    if (!recipientName && !phoneNumber && !street && !code) return true;
+    if (!recipientName || !phoneNumber || !street || !code) return true;
     return false;
   }, [
     saved,
@@ -134,7 +134,7 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="no-scroll-bar relative lg:-ml-[200px] content-w-800  overflow-y-auto">
+    <div className="no-scroll-bar content-w-800 relative overflow-y-auto  lg:-ml-[200px]">
       <div className="relative flex items-center justify-end">
         <GoBackTo />
       </div>
@@ -181,7 +181,7 @@ export default function ShippingAddressPage() {
         </div>
         <div className="mt-5">
           {!logisticsOrders?.length && (
-            <div className="flex h-[50px] text-xl items-center justify-start">
+            <div className="flex h-[50px] items-center justify-start text-xl">
               {T("NoData")}
             </div>
           )}
