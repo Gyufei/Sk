@@ -9,6 +9,7 @@ import SignWithEmail from "./sign-with-email";
 import { useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
+import CircleText from "./circle-text";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -27,6 +28,9 @@ export default function SignDialog() {
   const [walletAttempts, setWalletAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
+  const words = ["Hello", "World", "Ciaoo", "World"];
+  
+
 
   useEffect(() => {
     setIsInit(true);
@@ -105,20 +109,30 @@ export default function SignDialog() {
         showClose={false}
         className="flex md:w-[400px] w-[345px] flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px] "
       >
-        <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
-        {noMethodShow &&
-          (signing ? (
-            <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
-              {T("Signing")}
-            </div>
-          ) : (
-            <div
-              onClick={handleSign}
-              className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
-            >
-              {T("SignIn")}
-            </div>
-          ))}
+        {noMethodShow && (
+          <div className="flex flex-col items-center">
+             <div className="text-4xl leading-[70px]">Juu17 Brands</div>
+             <div className="text-2xl font-normal">Build cypto new orders</div>
+             <div className="text-lg mt-16">A cryptopia for <CircleText words={words}/></div> 
+            {
+              (signing ? (
+                <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
+                  {T("Signing")}
+                </div>
+              ) : (
+                <div
+                  onClick={handleSign}
+                  className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
+                >
+                  {T("SignIn")}
+                </div>
+              ))
+            }
+          </div>
+        )}
+        {!noMethodShow && (
+           <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
+        )}
         <SignWithXBtn
           show={showTwitter}
           signing={signing}
