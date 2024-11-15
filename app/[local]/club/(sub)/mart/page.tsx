@@ -7,6 +7,7 @@ import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";
 import { useMartBuy } from "@/lib/api/use-mart-buy";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { useTranslations } from "next-intl";
+import MartMenu from "./mart-menu";
 
 export default function MartPage() {
   const T = useTranslations("Common");
@@ -40,9 +41,7 @@ export default function MartPage() {
 
   return (
     <div className="relative h-full">
-      <div className="relative flex items-center md:justify-end">
-        <GoBackTo />
-      </div>
+      <div className="absolute right-[-120px] top-[5px] mt-6"><MartMenu /></div>
       <div className="trans-scroll-bar content-w-540 mt-6 flex h-fit max-h-[calc(100%-70px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto align-top md:pr-3">
         {(products || []).map((item, index) => (
           <div
