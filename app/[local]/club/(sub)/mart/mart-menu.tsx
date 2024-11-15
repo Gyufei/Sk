@@ -32,9 +32,8 @@ export default function MartMenu() {
                     width={40}
                     height={40}
                     alt={T(item.name)}
-                    style={{ opacity: 1}}
                   />
-                  <div  data-active={isAcitive} className={`${cn(linkText)}`}>{T(item.name)}</div>
+                  <div data-active={isAcitive} className={`${cn(linkText)}`}>{T(item.name)}</div>
                 </MenuItem>
               </Link>
             )

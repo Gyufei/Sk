@@ -7,6 +7,14 @@ import { useRouter } from "@/app/navigation";
 import { GlobalMsgContext } from "./global-msg-context";
 import { cn } from "@/lib/utils/utils";
 
+const clubList = [
+  { name: "Events", href: "/club/events", iconSrc: "/icons/events.svg", msg: "EventsMembershipRequired"},
+  { name: "Wallets", href: "/club/wallets", iconSrc: "/icons/wallets.svg"},
+  { name: "Features", href: "/club/features", iconSrc: "/icons/features.svg", msg: "MembershipRequired"},
+  { name: "Assets", href: "/club/assets", iconSrc: "/icons/assets.svg" , msg: "MembershipRequired"},
+  { name: "SocialMedia", href: "/club/socialMedia", iconSrc: "/icons/socialMedia.svg"},
+  { name: "Ticket", href: "/club/ticket", iconSrc: "/icons/ticket.svg",  msg: "TicketMembershipRequired"},
+]
 export default function RouterMenu() {
   const T = useTranslations("Common");
   const router = useRouter();
@@ -31,69 +39,32 @@ export default function RouterMenu() {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-5">
-        <Link href="/club/mart">
-          <MenuItem>
-            <Image src="/icons/mart.svg" width={40} height={40} alt="mart" />
-            <div className={cn(linkText)}>{T("Mart")}</div>
-          </MenuItem>
-        </Link>
-
-        <Link href="/club/shipping">
-          <MenuItem>
-            <Image
-              src="/icons/shipping.svg"
-              width={40}
-              height={40}
-              alt="shipping"
-            />
-            <div className={cn(linkText)}>{T("Shipping")}</div>
-          </MenuItem>
-        </Link>
-        <Link href="/club/info">
-          <MenuItem>
-            <Image src="/icons/info.svg" width={40} height={40} alt="info" />
-            <div className={cn(linkText)}>{T("Info")}</div>
-          </MenuItem>
-        </Link>
-
-        <div
-          onClick={() =>
-            handleGoWithMembership(
-              "/club/events",
-              T("EventsMembershipRequired"),
+        {
+          clubList.map((item) => {
+            return (
+              <div
+                key={item.href}
+                onClick={() => {
+                  if (item.msg) {
+                    handleGoWithMembership(item.href, T(item.msg))
+                    return
+                  }
+                  router.push(item.href);
+                }}
+              >
+                <MenuItem>
+                  <Image
+                    src={item.iconSrc}
+                    width={40}
+                    height={40}
+                    alt={T(item.name)}
+                  />
+                  <div className={cn(linkText)}>{T(item.name)}</div>
+                </MenuItem>
+              </div>
             )
-          }
-        >
-          <MenuItem>
-            <Image src="/icons/events.svg" width={40} height={40} alt="info" />
-            <div className={cn(linkText)}>{T("Events")}</div>
-          </MenuItem>
-        </div>
-
-        <div
-          onClick={() =>
-            handleGoWithMembership("/club/club", T("MembershipRequired"))
-          }
-        >
-          <MenuItem>
-            <Image src="/icons/club.svg" width={40} height={40} alt="info" />
-            <div className={cn(linkText)}>{T("Club")}</div>
-          </MenuItem>
-        </div>
-
-        <div
-          onClick={() =>
-            handleGoWithMembership(
-              "/club/ticket",
-              T("TicketMembershipRequired"),
-            )
-          }
-        >
-          <MenuItem>
-            <Image src="/icons/ticket.svg" width={40} height={40} alt="info" />
-            <div className={cn(linkText)}>{T("Ticket")}</div>
-          </MenuItem>
-        </div>
+          })
+        }
       </div>
     </>
   );
