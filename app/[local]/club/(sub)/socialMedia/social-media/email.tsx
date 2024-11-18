@@ -8,6 +8,7 @@ import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { LinkBtn } from "../link-btn";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
+import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
 
 export function Email() {
   const currentPageUrl =
@@ -31,6 +32,11 @@ export function Email() {
     sendEmail,
     removeCode,
   } = useSendEmail();
+
+  const {
+    eyeState,
+    handleToggle
+  } = useEyeToggle({ keyword: 'emailEyeShow'})
 
   const disabled = useMemo(
     () => !isValid || !email || (email && !checkEmailRegex(email)),
@@ -99,6 +105,7 @@ export function Email() {
         <InputWithClear
           isError={!isValid}
           value={email}
+          type={eyeState ? 'password' : 'text'}
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleEmailInput(v)}
           isSign={isLink}
@@ -110,6 +117,10 @@ export function Email() {
           onClick={handleLink}
           disabled={disabled || hasSend}
           isConnected={isLink}
+        />
+        <EyetoggleBtn
+          eyeState={eyeState}
+          handleToggle={handleToggle}
         />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />

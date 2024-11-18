@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { LinkBtn } from "../link-btn";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import useSWR from "swr";
+import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
 
 export function Twitter() {
   const currentPageUrl =
@@ -26,6 +27,10 @@ export function Twitter() {
   const { code, goTwitter, removeCode } = useTwitterSign();
 
   useSWR(code ? `save-twitter:${code}` : null, saveTwitter);
+  const {
+    eyeState,
+    handleToggle
+  } = useEyeToggle({ keyword: 'twitterEyeShow'})
 
   useEffect(() => {
     if (userInfo?.social_media?.Twitter) {
@@ -59,6 +64,7 @@ export function Twitter() {
         </div>
         <InputWithClear
           value={x}
+          type={eyeState ? 'password' : 'text'}
           placeHolderText={twitterPlaceHolderText}
           placeHolder="|  your id"
           onValueChange={() => {}}
@@ -70,6 +76,10 @@ export function Twitter() {
           onClick={handleLink}
           disabled={isTwitterLogin}
           isConnected={isLink}
+        />
+        <EyetoggleBtn
+          eyeState={eyeState}
+          handleToggle={handleToggle}
         />
       </div>
     </div>

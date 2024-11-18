@@ -7,6 +7,7 @@ import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
 
 export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -16,6 +17,10 @@ export function Tg() {
   const [isValid, setIsValid] = useState(true);
 
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
+  const {
+    eyeState,
+    handleToggle
+  } = useEyeToggle({ keyword: 'tgEyeShow'})
 
   const disabled = useMemo(
     () => !isValid || !tg || (tg && !checkTgRegex(tg)),
@@ -71,6 +76,7 @@ export function Tg() {
         <InputWithClear
           isError={!isValid}
           value={tg}
+          type={eyeState ? 'password' : 'text'}
           placeHolderText={placeHolderText}
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
@@ -80,6 +86,10 @@ export function Tg() {
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Telegram." />
         <SaveBtn disabled={disabled} handleSave={handleSave} className="w-full"/>
+        <EyetoggleBtn
+          eyeState={eyeState}
+          handleToggle={handleToggle}
+        />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Telegram." />
     </div>

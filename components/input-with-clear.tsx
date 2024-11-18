@@ -8,6 +8,7 @@ export function InputWithClear({
   value,
   placeHolder,
   placeHolderText,
+  type,
   onValueChange,
   isError = false,
   isSign = false,
@@ -21,6 +22,7 @@ export function InputWithClear({
   value: string;
   placeHolder?: string;
   placeHolderText?: string;
+  type?: string,
   onValueChange: (_v: string) => void;
   isError?: boolean;
   isSign: boolean;
@@ -63,6 +65,7 @@ export function InputWithClear({
       <Input
         id={inputId || ""}
         value={value}
+        type={type}
         placeholder={placeHolder}
         onChange={(e: any) => onValueChange(e.target.value)}
         className={cn(

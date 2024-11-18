@@ -7,6 +7,7 @@ import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
 
 export function Github() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -15,6 +16,10 @@ export function Github() {
   const [github, setGithub] = useState(userInfo?.social_media?.Github || "");
   const [isValid, setIsValid] = useState(true);
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
+  const {
+    eyeState,
+    handleToggle
+  } = useEyeToggle({ keyword: 'githubEyeShow'})
 
   const disabled = useMemo(
     () => !isValid || !github || (github && !checkGithubRegex(github)),
@@ -74,6 +79,7 @@ export function Github() {
         <InputWithClear
           isError={!isValid}
           value={github}
+          type={eyeState ? 'password' : 'text'}
           placeHolderText="https://github.com/"
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
@@ -83,6 +89,10 @@ export function Github() {
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Github." />
         <SaveBtn disabled={disabled} handleSave={handleSave} className="w-full" />
+        <EyetoggleBtn
+          eyeState={eyeState}
+          handleToggle={handleToggle}
+        />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Github." />
     </div>

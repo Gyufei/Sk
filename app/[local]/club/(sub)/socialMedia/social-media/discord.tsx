@@ -7,12 +7,17 @@ import { useState, useMemo, useEffect, useContext } from "react";
 import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
 import { SaveBtn } from "./save-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
 
 export function Discord() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo } = useFetchUserInfo();
   const [discord, setDiscord] = useState(userInfo?.social_media?.Discord || "");
   const [isValid, setIsValid] = useState(true);
+  const {
+    eyeState,
+    handleToggle
+  } = useEyeToggle({ keyword: 'discordEyeShow'})
 
   const disabled = useMemo(
     () => !isValid || !discord || (discord && !checkDiscordRegex(discord)),
@@ -71,6 +76,7 @@ export function Discord() {
         <InputWithClear
           isError={!isValid}
           value={discord}
+          type={eyeState ? 'password' : 'text'}
           placeHolder="your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
@@ -79,6 +85,10 @@ export function Discord() {
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Discord." />
         <SaveBtn disabled={disabled} handleSave={handleSave} className="w-full"/>
+        <EyetoggleBtn
+          eyeState={eyeState}
+          handleToggle={handleToggle}
+        />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Discord." />
     </div>
