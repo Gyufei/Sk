@@ -7,7 +7,7 @@ import {
   PopoverContent,
 } from "@radix-ui/react-popover";
 import { useState } from "react";
-import { InvalidTpl } from "../info/invalid-tpl";
+import { InvalidTpl } from "@/app/[local]/club/(sub)/info/invalid-tpl";
 
 export const countryCodeList = ["86"];
 

@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/utils";
 
 const menuItems = [
-  { name: "Shipping", href: "/club/shipping", iconSrc: "/icons/shipping.svg"},
-  { name: "Mart", href: "/club/mart", iconSrc: "/icons/mart-items.svg"},
+  { name: "Shipping", href: "/mart/shipping", iconSrc: "/icons/shipping.svg"},
+  { name: "Mart", href: "/mart", iconSrc: "/icons/mart-items.svg"},
 ]
 
 export default function MartMenu() {

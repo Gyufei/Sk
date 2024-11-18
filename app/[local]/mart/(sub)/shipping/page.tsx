@@ -7,14 +7,13 @@ import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { useTranslations } from "next-intl";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { GoBackTo } from "@/components/go-back-to";
 import { SaveBtn } from "./save-btn";
 import { countryCodeList, NameAndPhone } from "./name-and-phone";
 import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 import { formatDate } from "@/lib/utils/utils";
-import MartMenu from "../mart/mart-menu";
+import MartMenu from "../../mart-menu";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -138,9 +137,6 @@ export default function ShippingAddressPage() {
     <div className="relative h-full">
       <div className="absolute right-[-140px] top-[5px] mt-6"><MartMenu /></div>
       <div className="no-scroll-bar content-w-800 relative overflow-y-auto  lg:-ml-[200px]">
-        {/* <div className="relative flex items-center justify-end">
-          <GoBackTo />
-        </div> */}
         <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
           <div className="mb-7 text-xl leading-[30px] text-white">
             {T("ShippingAddress")}

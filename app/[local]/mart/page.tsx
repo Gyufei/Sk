@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { GoBackTo } from "@/components/go-back-to";
 import { useContext, useEffect, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
 import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";

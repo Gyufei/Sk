@@ -1,6 +1,6 @@
 import { InputWithClear } from "@/components/input-with-clear";
 import { useTranslations } from "next-intl";
-import { InvalidTpl } from "../info/invalid-tpl";
+import { InvalidTpl } from "@/app/[local]/club/(sub)/info/invalid-tpl";
 
 export function StreetAndCode({
   street,
