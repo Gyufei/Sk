@@ -16,6 +16,7 @@ const validRoutes = [
   "info",
   "mart",
   "ticket",
+  "point"
 ];
 
 export default function middleware(request: NextRequest) {

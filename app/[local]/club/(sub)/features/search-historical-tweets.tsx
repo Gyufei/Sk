@@ -72,7 +72,7 @@ export default function SearchHistoricalTweets() {
               </div>
             ))}
           </div>
-        </div>
+      </div>
     </>
   );
 }
