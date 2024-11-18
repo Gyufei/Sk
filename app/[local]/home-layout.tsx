@@ -1,9 +1,16 @@
+"use client";
+import { useAtomValue } from "jotai/react";
+
+import SignDialog from "@/components/sign-dialog";
+
+import { UuidAtom } from "@/lib/api/state";
 import Script from "next/script";
 import HomeLinks from "./home-links";
 import { Link } from "@/app/navigation";
 import Image from "next/image";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
+  const uuid = useAtomValue(UuidAtom);
   return (
     <div className="section !pointer-events-auto" id="__next">
       <Script
@@ -47,7 +54,9 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             data-id=""
             className="right-block  content-container md:min-h-unset relative min-h-[200.0025px]"
           >
-            {children}
+            {uuid ? children : (
+              <SignDialog />
+            )}
           </div>
         </div>
         <div id="gif-animation" className="gif-animation"></div>
