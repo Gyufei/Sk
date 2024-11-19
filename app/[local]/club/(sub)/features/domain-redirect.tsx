@@ -24,7 +24,7 @@ export default function DomainRedirect() {
 
   return (
     <FeatureItem title={T("DomainRedirect")}>
-      <div className="md:mt-[10px] flex items-center justify-between self-stretch">
+      <div className="md:mt-[10px] flex flex-1 items-center justify-between self-stretch">
         <div className="relative flex-1">
           <Input
             onKeyDown={handleKeyDown}

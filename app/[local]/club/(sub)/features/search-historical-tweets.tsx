@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
-import { SaveBtn } from "../info/social-media/save-btn";
 import { useTranslations } from "next-intl";
 import FeatureItem from "./feature-item";
 import { IconBtn } from "@/components/icon-btn";
