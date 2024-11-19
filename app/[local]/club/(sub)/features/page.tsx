@@ -6,6 +6,7 @@ import SearchHistoricalTweets from "./search-historical-tweets";
 import FeatureItem from "./feature-item";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function Page() {
   const T = useTranslations("Common");
@@ -14,7 +15,8 @@ export default function Page() {
 
   return (
     <div className="relative content-w-600 m-t-20 ">
-      <div className="relative flex items-center justify-end">
+      <div className="relative flex items-end justify-between">
+        <BreadCrumbs />
         <GoBackTo />
       </div>
       <div className="mb-[20px] mt-6 content-w-600 ">
@@ -23,7 +25,7 @@ export default function Page() {
           <div className="md:mt-[10px] flex items-center justify-between self-stretch">
               <Switch 
                 checked={notificationChecked}
-                disabled={Notification.permission === 'denied'}
+                disabled={Notification.permission ==='denied'}
                 onCheckedChange={(value) => {
                   if (value === true) {
                     Notification.requestPermission().then((result) => {

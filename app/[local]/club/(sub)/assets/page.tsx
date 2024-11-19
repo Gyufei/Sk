@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
+import { BreadCrumbs } from "@/components/bread-crumbs";
 const mockList = ["A", "B", "C", "D"];
 export default function Page() {
   console.log(mockList)
   return (
     <div className="relative w-full   m-t-20 ">
-      <div className="relative flex items-center justify-end">
+      <div className="relative flex items-end justify-between">
+        <BreadCrumbs />
         <GoBackTo />
       </div>
       <div className="mb-[20px] mt-6 content-w-700 ">

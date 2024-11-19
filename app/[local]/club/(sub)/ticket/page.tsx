@@ -18,6 +18,7 @@ import { useRecentTickets } from "@/lib/api/use-recent-tickets";
 import { formatDate } from "@/lib/utils/utils";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
+import { BreadCrumbs } from "@/components/bread-crumbs";
 
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
@@ -123,7 +124,8 @@ export default function Page() {
 
   return (
     <div className="relative h-full w-full">
-      <div className="relative  flex items-center justify-end">
+      <div className="relative flex items-end justify-between">
+        <BreadCrumbs />
         <GoBackTo />
       </div>
       <div className="content-w-600 mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
