@@ -14,12 +14,12 @@ export default function Page() {
 
 
   return (
-    <div className="relative content-w-600 m-t-20 ">
+    <div className="no-scroll-bar relative content-w-600 m-t-20  md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] overflow-y-auto">
       <div className="relative flex items-end justify-between">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 content-w-600 ">
+      <div className="mb-[20px] mt-6 content-w-600">
         <DomainRedirect />
         <FeatureItem title={T("Notification")}>
           <div className="md:mt-[10px] flex items-center justify-between self-stretch">
