@@ -41,7 +41,7 @@ export default function Page() {
                 disabled={Notification.permission ==='denied'}
                 onCheckedChange={onNotificationChecked}
               />
-              <div className="ml-4 text-[#D6D6D6] data-[checked=true]:text-white" data-checked="false">{T(notificationChecked ? "OFF" : "ON")}</div>
+              <div className="ml-4 text-[#D6D6D6] data-[checked=true]:text-white" data-checked={notificationChecked}>{T(notificationChecked ? "ON" : "OFF")}</div>
           </div>
         </FeatureItem>
         <SearchHistoricalTweets />
