@@ -14,8 +14,8 @@ export default function Page() {
   ];
 
   return (
-    <div className="relative w-full  m-t-20">
-      <div className="mb-[20px] mt-6 content-w-700 ">
+    <div className="relative w-full m-t-20">
+      <div className="mb-[20px] mt-6 content-w-700 md:-ml-[250px]">
         <div className="flex flex-row items-start justify-start md:p-6 p-3 backdrop-blur-md">
           <div className="flex-1">
             <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">

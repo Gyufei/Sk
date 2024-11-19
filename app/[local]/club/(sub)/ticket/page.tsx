@@ -124,7 +124,7 @@ export default function Page() {
 
   return (
     <div className="relative h-full w-full">
-      <div className="relative flex items-end justify-between">
+      <div className="relative flex items-end justify-between content-w-600">
         <BreadCrumbs />
         <GoBackTo />
       </div>

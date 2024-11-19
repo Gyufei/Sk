@@ -33,7 +33,7 @@ export function LinkBtn({
       onClick={handleClick}
       data-disabled={disabled}
       data-connected={isConnected}
-      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[connected=true]:hover:border-[#FF5A5A] data-[connected=true]:hover:bg-[#FF5A5A] data-[disabled=false]:hover:bg-[#fff] md:ml-4 md:mt-0 md:w-12"
+      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[connected=true]:hover:border-[#FF5A5A] data-[connected=true]:hover:bg-[#FF5A5A] data-[disabled=false]:hover:bg-[#FF5A5A] md:ml-4 md:mt-0 md:w-12"
     >
       <Image src={showSrc} width={24} height={24} alt="save" />
       <div className="ml-1 text-base leading-6 md:hidden">

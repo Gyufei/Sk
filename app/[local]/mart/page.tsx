@@ -40,8 +40,8 @@ export default function MartPage() {
 
   return (
     <div className="relative h-full">
-      <div className="absolute right-[-120px] top-[5px] mt-6"><MartMenu /></div>
-      <div className="trans-scroll-bar content-w-540 mt-6 flex h-fit max-h-[calc(100%-70px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto align-top md:pr-3">
+      <div className="absolute right-[-140px] top-[5px] mt-6"><MartMenu /></div>
+      <div className="trans-scroll-bar content-w-540 mt-6 md:-ml-[250px] flex h-fit max-h-[calc(100%-70px)] flex-wrap gap-x-[10px] gap-y-5 overflow-y-auto align-top md:pr-3">
         {(products || []).map((item, index) => (
           <div
             key={item.product_id}
