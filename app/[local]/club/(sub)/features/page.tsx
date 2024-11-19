@@ -12,6 +12,19 @@ export default function Page() {
   const T = useTranslations("Common");
   const [notificationChecked, setNotificationChecked] = useState<boolean>(Notification.permission === 'granted');
 
+  function onNotificationChecked(value: boolean) {
+    if (value === true) {
+      Notification.requestPermission().then((result) => {
+        if (result === 'granted') {
+          setNotificationChecked(true)
+        }
+      });
+      return
+    }
+    const notification = new Notification('close notification');
+    notification.close()
+    setNotificationChecked(false)
+  }
 
   return (
     <div className="no-scroll-bar relative content-w-600 m-t-20  md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] overflow-y-auto">
@@ -26,19 +39,7 @@ export default function Page() {
               <Switch 
                 checked={notificationChecked}
                 disabled={Notification.permission ==='denied'}
-                onCheckedChange={(value) => {
-                  if (value === true) {
-                    Notification.requestPermission().then((result) => {
-                      if (result === 'granted') {
-                        setNotificationChecked(true)
-                      }
-                    });
-                    return
-                  }
-                  const notification = new Notification('close notification');
-                  notification.close()
-                  setNotificationChecked(false)
-                }}
+                onCheckedChange={onNotificationChecked}
               />
               <div className="ml-4 text-[#D6D6D6] data-[checked=true]:text-white" data-checked="false">{T(notificationChecked ? "OFF" : "ON")}</div>
           </div>
