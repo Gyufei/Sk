@@ -47,6 +47,8 @@
     "Features": "特性",
     "DomainRedirect": "域名指向",
     "Notification": "通知",
+    "ON": "开",
+    "OFF": "关",
     "SearchHistoricalTweets": "搜索历史推文",
     "SearchKeyword": "搜索关键词",
     "SearchResults": "搜索结果",

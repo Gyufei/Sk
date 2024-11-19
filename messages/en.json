@@ -46,6 +46,8 @@
     "Features": "Features",
     "DomainRedirect": "Domain Redirect",
     "Notification": "Notification",
+    "ON": "ON",
+    "OFF": "OFF",
     "SearchHistoricalTweets": "Search Historical Tweets",
     "SearchKeyword": "Search keyword",
     "SearchResults": "Search Results",
