@@ -19,6 +19,15 @@ const config: Config = {
       },
       screens: {
         'jm': '480px',
+      },
+      keyframes: {
+        textCircle: {
+          '0%': { opacity: '0.05' },
+          '60%, 100%': { opacity: '1' },
+        }
+      },
+      animation: {
+        textCircle: 'textCircle 2s ease-in-out infinite'
       }
     },
   },

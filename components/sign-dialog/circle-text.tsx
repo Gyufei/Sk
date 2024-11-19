@@ -4,22 +4,27 @@ import { useEffect, useState } from "react";
 type CircleTextProps = {
   words: string[]
 }
+
+
 function CircleText({
   words
 }: CircleTextProps) {
   const [wordIndex, setWordIndex] = useState(0);
  
   const wordTotal = words.length;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setWordIndex((current) => (current + 1) % wordTotal);
-    }, 1300);
+    }, 2000);
     return () => clearInterval(interval);
   }, [wordTotal]);
 
   return (
-    <div className="inline-block">
-      
+    <div
+      data-active=""
+      className="inline-flex items-center justify-center ml-1 px-1 h-8 text-center border border-white/60 rounded-lg text-base">
+        <span className={`animate-[textCircle_2s_ease-in_infinite]`}>{words[wordIndex]}</span>
     </div>
   )
 }
