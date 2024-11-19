@@ -11,7 +11,6 @@ export function useEyeToggle({
   handleToggle: (newEyeState: boolean) => void;
 } {
   const  eyeDefaultState = !!localStorage.getItem(keyword);
-  console.log(localStorage.getItem(keyword),localStorage.getItem(keyword))
   const [eyeState, setEyeState] = useState<boolean>(eyeDefaultState);
   const handleToggle = (newEyeState: boolean) => {
     setEyeState(newEyeState);

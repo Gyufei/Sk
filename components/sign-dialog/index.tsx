@@ -107,12 +107,12 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className={(`flex md:w-[400px] w-[345px] ${noMethodShow ? 'md:w-[500px]' : 'w-[345px]'} flex-col items-center gap-0 rounded-3xl border-none bg-[rgba(255,255,255,0.1)] p-[35px] backdrop-blur-[7px] `)}
+        className={(`flex md:w-[400px] w-[345px] ${noMethodShow ? 'md:w-[500px] md:h-[500px] justify-center bg-transparent' : 'bg-[rgba(255,255,255,0.1)]'} flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `)}
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-3xl font-normal">Build cypto new orders</div>
-             <div className="text-6xl mt-8">Juu17 Brands</div>
+            <div className="text-3xl font-normal text-center">Build cypto new orders</div>
+             <div className="text-6xl mt-8 text-center">Juu17 Brands</div>
              <div className="text-lg mt-16">A cryptopia for <CircleText words={words}/></div> 
             {
               (signing ? (
