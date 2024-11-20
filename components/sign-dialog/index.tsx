@@ -107,7 +107,7 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className={(`flex md:w-[400px] w-[345px] ${noMethodShow ? 'md:w-[500px] md:h-[500px] justify-center bg-transparent' : 'bg-[rgba(255,255,255,0.1)]'} flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `)}
+        className={(`flex md:w-[400px] w-[345px] ${noMethodShow ? 'md:w-[500px] md:h-[500px] justify-center bg-[rgba(255,255,255,0.1)] md:bg-transparent' : 'bg-[rgba(255,255,255,0.1)]'} flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `)}
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
