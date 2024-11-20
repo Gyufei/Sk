@@ -1,0 +1,1 @@
+export const ciclewords = ["Hello", "World", "Ciaoo", "World"];

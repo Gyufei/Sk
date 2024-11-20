@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
+import { ciclewords } from "./constant";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -28,7 +29,7 @@ export default function SignDialog() {
   const [walletAttempts, setWalletAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
-  const words = ["Hello", "World", "Ciaoo", "World"];
+  const words = ciclewords;
   
 
 
