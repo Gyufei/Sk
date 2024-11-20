@@ -8,6 +8,7 @@ import Script from "next/script";
 import HomeLinks from "./home-links";
 import { Link } from "@/app/navigation";
 import Image from "next/image";
+import { LayoutBg } from "@/components/layout-bg";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   const uuid = useAtomValue(UuidAtom);
@@ -18,11 +19,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
         dangerouslySetInnerHTML={{
           __html: `
           window.addEventListener("load", function() {
-            setTimeout(() => {
-              const gitCon = document.getElementById("gif-animation");
-              if (!gitCon) return;
-              gitCon.innerHTML = '<img src="https://juu17.com/sphere_25-fps_small.gif" loading="lazy" alt="" />';
-            }, 1000);
+            
           });
         `,
         }}
@@ -59,7 +56,8 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
             )}
           </div>
         </div>
-        <div id="gif-animation" className="gif-animation"></div>
+        <LayoutBg />
+        {/* <div id="gif-animation" className="gif-animation"></div> */}
         <div className="mob-div">
           <div className="text-block-4 mobile">© JUU17 Brands.</div>
         </div>
