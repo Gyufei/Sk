@@ -28,7 +28,7 @@ export default function Page() {
 
   return (
     <div className="no-scroll-bar relative content-w-600 md:-ml-[250px] m-t-20  md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] overflow-y-auto">
-      <div className="relative flex items-end justify-between">
+      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
         <BreadCrumbs />
         <GoBackTo />
       </div>

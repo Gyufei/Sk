@@ -18,10 +18,10 @@ export function BreadCrumbs() {
           const isLast = (index + 1) === pathnameArr.length
           return (
             <>
-              <span className={`opacity-80 ${isLast&&'opacity-100'}`} key={item}>{item}</span>
+              <span className={`${isLast ? ('opacity-100 inline') : 'hidden opacity-80'} sm:inline`} key={item}>{item}</span>
               {
                 !isLast && (
-                <span className="opacity-80 mx-2" key={item}>/</span>
+                <span className="opacity-80 mx-2 hidden sm:inline" key={item}>/</span>
                 )
               }
             </>

@@ -57,7 +57,7 @@ export function Twitter() {
 
   return (
     <div className="mt-4 flex flex-col">
-      <div className="flex flex-col items-start md:flex-row md:items-center">
+      <div className="relative flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/x.svg" width={30} height={30} alt="" />
           <div className="text-base leading-6 text-[#fff]">X (Twitter)</div>

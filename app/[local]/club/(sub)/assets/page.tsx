@@ -7,7 +7,7 @@ export default function Page() {
   console.log(mockList)
   return (
     <div className="relative w-full m-t-20 ">
-      <div className="relative flex items-end justify-between">
+      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
         <BreadCrumbs />
         <GoBackTo />
       </div>
