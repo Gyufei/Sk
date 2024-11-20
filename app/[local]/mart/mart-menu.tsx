@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Link, usePathname } from "@/app/navigation";
+import { usePathname, useRouter } from "@/app/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/utils";
 
@@ -12,30 +12,32 @@ export default function MartMenu() {
   // 获取当前路由
   const T = useTranslations("Common");
   const pathname = usePathname();
+  const router = useRouter();
 
   const linkText = "text-base font-semibold leading-6 text-white opacity-60 data-[active=true]:opacity-100";
 
   return (
     <>
-      <div className="flex flex-col gap-5 right-120">
+      <div className="flex flex-row w-full sm:flex-col sm:w-[120px] sm:gap-5 right-120">
         {
-          menuItems.map((item) => {
+          menuItems.map((item, index) => {
             const isAcitive = pathname === item.href
             return (
-              <Link 
-                href={item.href} 
+              <MenuItem 
+                active={isAcitive} 
                 key={item.href} 
+                isfirst={index==0} 
+                onClick={() => router.push(item.href)}
               >
-                <MenuItem active={isAcitive}>
-                  <Image
-                    src={item.iconSrc}
-                    width={40}
-                    height={40}
-                    alt={T(item.name)}
-                  />
-                  <div data-active={isAcitive} className={`${cn(linkText)}`}>{T(item.name)}</div>
-                </MenuItem>
-              </Link>
+                <Image
+                  className="w-6 h-6 sm:w-[40px] sm:h-[40px]"
+                  src={item.iconSrc}
+                  width={40}
+                  height={40}
+                  alt={T(item.name)}
+                />
+                <div data-active={isAcitive} className={`${cn(linkText)}`}>{T(item.name)}</div>
+              </MenuItem>
             )
           })
         }
@@ -45,14 +47,15 @@ export default function MartMenu() {
 }
 
 
-function MenuItem({ active, children }: { active: boolean; children: React.ReactNode }) {
+function MenuItem({ active, isfirst, onClick, children }: { active: boolean; isfirst:boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <div
       data-active={active}
-      className="flex h-[105px] w-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] md:h-[120px] md:w-[120px]  data-[active=true]:border border-[rgba(255,255,255,0.6)]`"
+      className={`flex h-20 w-[50%] sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${isfirst ? 'rounded-l-[16px]' : 'rounded-r-[16px]'} cursor-pointer flex-col items-center justify-center gap-y-2 sm:rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
       style={{
         backdropFilter: "blur(12px)",
       }}
+      onClick={onClick}
     >
       {children}
     </div>

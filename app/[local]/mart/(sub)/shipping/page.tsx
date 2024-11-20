@@ -135,8 +135,8 @@ export default function ShippingAddressPage() {
 
   return (
     <div className="relative h-full">
-      <div className="absolute right-[-140px] top-[5px] mt-6"><MartMenu /></div>
-      <div className="no-scroll-bar content-w-800 md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] relative overflow-y-auto lg:-ml-[200px]">
+      <div className="z-50 fixed inset-x-4 bottom-8 sm:absolute sm:left-[auto] sm:right-[-140px] sm:top-[5px] mt-6"><MartMenu /></div>
+      <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] relative overflow-y-auto lg:-ml-[200px]">
         <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
           <div className="mb-7 text-xl leading-[30px] text-white">
             {T("ShippingAddress")}
