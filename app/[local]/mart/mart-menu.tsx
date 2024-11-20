@@ -14,11 +14,11 @@ export default function MartMenu() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const linkText = "text-base font-semibold leading-6 text-white opacity-60 data-[active=true]:opacity-100";
+  const linkText = "text-[12px] md:text-base font-semibold md:leading-6 text-white opacity-60 data-[active=true]:opacity-100";
 
   return (
     <>
-      <div className="flex flex-row w-full sm:flex-col sm:w-[120px] sm:gap-5 right-120">
+      <div className="flex flex-row w-full md:flex-col md:w-[120px] md:gap-5 right-120">
         {
           menuItems.map((item, index) => {
             const isAcitive = pathname === item.href
@@ -51,7 +51,7 @@ function MenuItem({ active, isfirst, onClick, children }: { active: boolean; isf
   return (
     <div
       data-active={active}
-      className={`flex h-20 w-[50%] sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${isfirst ? 'rounded-l-[16px]' : 'rounded-r-[16px]'} cursor-pointer flex-col items-center justify-center gap-y-2 sm:rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
+      className={`flex  w-[50%] py-2 sm:pd-0 sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${isfirst ? 'rounded-l-[24px]' : 'rounded-r-[24px]'} cursor-pointer flex-col items-center justify-center gap-y-2 md:rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
       style={{
         backdropFilter: "blur(12px)",
       }}

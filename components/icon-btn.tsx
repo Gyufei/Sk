@@ -6,13 +6,15 @@ export function IconBtn({
   handleClick,
   className = "",
   defaulImage = "/icons/save.svg",
-  hoverImage = "/icons/save-black.svg"
+  hoverImage = "/icons/save-black.svg",
+  btnText = undefined
 }: {
   disabled?: boolean;
   handleClick: () => void;
   className?: string;
   defaulImage?: string;
   hoverImage?: string;
+  btnText?: string;
 }) {
   const [isHover, setIsHover] = useState(false);
 
@@ -30,6 +32,7 @@ export function IconBtn({
         height={24}
         alt="save"
       />
+      {btnText && (<div className="ml-1 text-base leading-6 md:hidden">{btnText}</div>)}
     </div>
   );
 }

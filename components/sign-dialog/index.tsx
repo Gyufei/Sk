@@ -111,9 +111,9 @@ export default function SignDialog() {
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-3xl font-normal text-center">Build cypto new orders</div>
-             <div className="text-6xl mt-8 text-center">Juu17 Brands</div>
-             <div className="text-lg mt-16">A cryptopia for <CircleText words={words}/></div> 
+            <div className="text-2xl md:text-3xl font-normal text-center">Build cypto new orders</div>
+             <div className="text-4xl md:text-6xl mt-8 text-center">Juu17 Brands</div>
+             <div className="text-lg mt-10 md:mt-16">A cryptopia for <CircleText words={words}/></div> 
             {
               (signing ? (
                 <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">

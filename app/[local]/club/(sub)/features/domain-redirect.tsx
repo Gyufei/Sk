@@ -24,8 +24,8 @@ export default function DomainRedirect() {
 
   return (
     <FeatureItem title={T("DomainRedirect")}>
-      <div className="md:mt-[10px] flex flex-1 items-center justify-between self-stretch">
-        <div className="relative flex-1">
+      <div className="flex-col md:flex-row md:mt-[10px] flex flex-1 items-center justify-between self-stretch">
+        <div className="relative w-full md:flex-1">
           <Input
             onKeyDown={handleKeyDown}
             value={yourId || ""}
@@ -33,31 +33,43 @@ export default function DomainRedirect() {
             className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 md:text-base text-sm text-white"
             placeholder="yourid"
           />
-          <div className="absolute md:right-2 left-11 top-[10px] flex items-center md:gap-3">
+          <div className="absolute  right-0 md:right-2 md:left-11 top-[10px] flex items-center md:gap-3">
             <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
             <span className="md:text-base text-sm leading-6 text-[#d6d6d6]">
               .juu17.com
             </span>
           </div>
         </div>
-        <Image
-          src="/icons/arrow-right.svg"
-          width={24}
-          height={24}
-          alt="right"
-          className="mx-3"
-        />
-        <div className="flex-1">
-          <Input
-            onKeyDown={handleKeyDown}
-            value={redirectHost || ""}
-            onChange={(e: any) => setRedirectHost(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-            placeholder="https://"
+        <div className="w-full flex flex-1 flex-row-reverse md:flex-row">
+          <Image
+            src="/icons/arrow-right.svg"
+            width={24}
+            height={24}
+            alt="right"
+            className="hidden md:block mx-3"
           />
+          <Image
+            src="/icons/redirect-left.svg"
+            width={24}
+            height={24}
+            alt="right"
+            className="md:hidden mx-3"
+          />
+          <div className="flex-1">
+            <Input
+              onKeyDown={handleKeyDown}
+              value={redirectHost || ""}
+              onChange={(e: any) => setRedirectHost(e.target.value)}
+              className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+              placeholder="https://"
+            />
+          </div>
         </div>
+      
         <IconBtn
+          className={'w-full'}
           disabled={!yourId || !redirectHost}
+          btnText={'Save'}
           handleClick={handleSave}
         />
       </div>

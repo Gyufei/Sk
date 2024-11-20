@@ -49,12 +49,12 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="mt-10 px-6">
+        <div className="mt-10 px-6 bg-[rgba(255,255,255,0.1)] py-4 rounded-[20px] md:bg-transparent md:py-0">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("Activity")}
           </div>
-          <div className="mt-5">
-            
+          {/* !H5 Show*/}
+          <div className="mt-5 hidden md:block ">
            <Table className="text-[#D6D6D6]">
             <TableHeader>
               <TableRow className="border-none">
@@ -91,6 +91,36 @@ export default function Page() {
               ))}
             </TableBody>
           </Table>
+          </div>
+           {/* H5 Show */}
+          <div className="md:hidden">
+            {(activityList || [])?.map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="mt-5 flex flex-row flex-wrap"
+                  style={{
+                    boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+                  }}
+                >
+                  <div className="w-[50%] mb-5">
+                    <div className="opacity-60 text-lg">{T("Action")}</div>
+                    <div className="text-base">Lick</div>
+                  </div>
+                  <div className="w-[50%] mb-5">
+                    <div className="opacity-60 text-lg">{T("ArticleMultipler")}</div>
+                    <div className="text-base">4x</div>
+                  </div>
+                  <div className="w-[50%] mb-5">
+                    <div className="opacity-60 text-lg">{T("Point")}</div>
+                    <div className="text-base">40</div>
+                  </div>
+                  <div className="w-[50%] mb-5">
+                    <div className="opacity-60 text-lg">{T("Time")}</div>
+                    <div className="text-base">{formatDate(item.create_at)}</div>
+                  </div>
+                  
+                </div>
+              ))}
           </div>
       </div>
 

@@ -34,14 +34,14 @@ export default function Page() {
       </div>
       <div className="mb-[20px] mt-6 content-w-600">
         <DomainRedirect />
-        <FeatureItem title={T("Notification")}>
+        <FeatureItem title={T("Notification")} className={'justify-between !flex-row sm:!flex-col sm:items-start sm:justify-start'}>
           <div className="md:mt-[10px] flex items-center justify-between self-stretch">
               <Switch 
                 checked={notificationChecked}
                 disabled={Notification.permission ==='denied'}
                 onCheckedChange={onNotificationChecked}
               />
-              <div className="ml-4 text-[#D6D6D6] data-[checked=true]:text-white" data-checked={notificationChecked}>{T(notificationChecked ? "ON" : "OFF")}</div>
+              <div className="hidden sm:block ml-4 text-[#D6D6D6] data-[checked=true]:text-white" data-checked={notificationChecked}>{T(notificationChecked ? "ON" : "OFF")}</div>
           </div>
         </FeatureItem>
         <SearchHistoricalTweets />
