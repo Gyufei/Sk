@@ -1,1 +1,1 @@
-export const ciclewords = ["Hello", "World"];
+export const ciclewords = ["Juu17", "Brands"];
