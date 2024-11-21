@@ -15,7 +15,7 @@ export default function Page() {
       <div className="mb-[20px] mt-6 content-w-700 md:-ml-[250px]">
         <div className="flex flex-row items-start justify-start md:p-6 p-3 backdrop-blur-md">
           <div className="flex-1">
-            <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl font-haasDisp md:text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
               J {T("Points")}
             </div>
             <div className="mt-2 text-[40px] leading-[60px] text-white">
@@ -23,23 +23,23 @@ export default function Page() {
             </div>
           </div>
           <div className="flex-1">
-            <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl font-haasDisp md:text-2xl font-semibold text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
             <div className="mt-[10px] flex items-center justify-start self-stretch">
               <div className="md:mr-[85px] mr-[10px] flex flex-col">
-                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base md:text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
-                <span className="text-[32px] leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.cup || 0)}×
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base md:text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
                   {T("XAccount")}
                 </span>
-                <span className="text-[32px] leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.x_account || 0)}×
                 </span>
               </div>
