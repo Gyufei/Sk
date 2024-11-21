@@ -9,8 +9,6 @@ import { formatDate } from "@/lib/utils/utils";
 
 export default function SearchHistoricalTweets() {
   const tweetList: any[] = [
-    { content: 'Li Bai, also known as Taibai and Qinglian Jushi, was a romantic poet of the Tang Dynasty', create_at: '2024-4-1 23:11:11' },
-    
   ];
   const T = useTranslations("Common");
   const [searchKey, setSearchKey] = useState<string | null>(null);

@@ -8,10 +8,7 @@ import { useTranslations } from "next-intl";
 export default function Page() {
   const T = useTranslations("Common");
   const { data: userInfo } = useFetchUserInfo();
-  const activityList: any[] = [
-    { content: 'A', create_at: '2024-4-1 23:11:11' },
-    { content: 'B', create_at: '2024-4-1 23:11:11' },
-  ];
+  const activityList: any[] = [];
 
   return (
     <div className="relative w-full m-t-20">
@@ -121,6 +118,11 @@ export default function Page() {
                   
                 </div>
               ))}
+              {!activityList?.length && (
+              <div className="flex h-[50px] items-center justify-start text-xl">
+                {T("NoData")}
+              </div>
+            )}
           </div>
       </div>
 
