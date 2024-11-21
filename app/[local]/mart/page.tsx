@@ -45,11 +45,11 @@ export default function MartPage() {
         {(products || []).map((item, index) => (
           <div
             key={item.product_id}
-            className="content-w-165 sm:content-w-250 box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]"
+            className="content-w-160 sm:content-w-250 box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]"
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
           >
-            <div className="content-w-165 content-h-265 sm:content-w-240 flex sm:h-[350px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+            <div className="content-w-160 content-h-265 sm:content-w-240 flex sm:h-[350px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
               <Image
                 src={item.product_display_picture || "/images/590.png"}
                 width={240}
