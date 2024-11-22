@@ -50,7 +50,7 @@ export function EthWalletItem({
       return;
     }
 
-    await disconnect();
+    // await disconnect();
     setIsWaitingForNewConnect(true);
     await wcModalOpen();
     setIsOperating(false);
