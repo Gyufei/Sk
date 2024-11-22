@@ -9,7 +9,7 @@ import GlobalActionTip from "@/components/global-action-tip";
 import { GlobalMsgProvider } from "@/components/global-msg-context";
 import { SolWalletProviders } from "@/components/sol-wallet-providers";
 import "@solana/wallet-adapter-react-ui/styles.css";
-import { WalletDiscontected } from "@/components/wallet-discontected";
+import WalletDisconnected from "@/components/wallet-disconnected";
 
 export const metadata: Metadata = {
   title: {
@@ -106,7 +106,7 @@ export default async function RootLayout({
                 <HomeLayout>
                   {children}
                   <GlobalActionTip />
-                  <WalletDiscontected />
+                  <WalletDisconnected />
                 </HomeLayout>
               </SolWalletProviders>
             </Web3Modal>

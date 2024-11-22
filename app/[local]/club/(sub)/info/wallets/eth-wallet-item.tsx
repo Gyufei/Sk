@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useAccount, useDisconnect } from "wagmi";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { ConnectBtn } from "./connect-btn";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export function EthWalletItem({
   address,
@@ -22,12 +23,13 @@ export function EthWalletItem({
   handleRemove: () => void;
   handleAdd: () => void;
 }) {
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { address: connectAddress } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
   const { disconnectAsync: disconnect, isLoading: isDisconnecting } =
     useDisconnect();
 
-  const { getUserInfo } = useFetchUserInfo();
+  const { data: userInfo, getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
   const { trigger: removeWalletAction } = useRemoveWallet();
 
@@ -58,6 +60,17 @@ export function EthWalletItem({
 
   async function handleDisconnect() {
     if (isOperating || isDisconnecting) return;
+
+    console.log("address", address, userInfo?.login_data);
+    return;
+    if (address === userInfo?.login_data?.wallet_address) {
+      setGlobalMessage({
+        type: "error",
+        message: "You cannot disconnect the wallet that you are login.",
+      });
+      return;
+    }
+
     setIsOperating(true);
     await disconnect();
     setIsOperating(false);
