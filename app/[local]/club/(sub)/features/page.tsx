@@ -34,7 +34,7 @@ export default function Page() {
       </div>
       <div className="mb-[20px] mt-6 content-w-600">
         <DomainRedirect />
-        <FeatureItem title={T("Notification")} className={'justify-between !flex-row sm:!flex-col sm:items-start sm:justify-start'}>
+        <FeatureItem title={T("Notification")} className={'justify-between !flex-row sm:!flex-col sm:items-start sm:justify-start items-center'}>
           <div className="md:mt-[10px] flex items-center justify-between self-stretch">
               <Switch 
                 checked={notificationChecked}

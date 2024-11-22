@@ -67,9 +67,9 @@ export default function DomainRedirect() {
         </div>
       
         <IconBtn
-          className={'w-full'}
+          className={'w-full mt-[10px]'}
           disabled={!yourId || !redirectHost}
-          btnText={'Save'}
+          btnText={T('Save')}
           handleClick={handleSave}
         />
       </div>

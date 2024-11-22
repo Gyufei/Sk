@@ -37,6 +37,7 @@ export default function SearchHistoricalTweets() {
             />
           </div>
           <IconBtn
+            className="mt-0"
             defaulImage = {"/icons/search.svg"}
             hoverImage = {"/icons/search-black.svg"}
             handleClick={handleSave}
