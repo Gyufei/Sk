@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useAccount, useDisconnect } from "wagmi";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { ConnectBtn } from "./connect-btn";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export function EthWalletItem({
   address,
@@ -22,12 +23,13 @@ export function EthWalletItem({
   handleRemove: () => void;
   handleAdd: () => void;
 }) {
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { address: connectAddress } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
   const { disconnectAsync: disconnect, isLoading: isDisconnecting } =
     useDisconnect();
 
-  const { getUserInfo } = useFetchUserInfo();
+  const { data: userInfo, getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
   const { trigger: removeWalletAction } = useRemoveWallet();
 
@@ -50,7 +52,7 @@ export function EthWalletItem({
       return;
     }
 
-    // await disconnect();
+    await disconnect();
     setIsWaitingForNewConnect(true);
     await wcModalOpen();
     setIsOperating(false);
@@ -58,9 +60,9 @@ export function EthWalletItem({
 
   async function handleDisconnect() {
     if (isOperating || isDisconnecting) return;
-    setIsOperating(true);
-    await disconnect();
-    setIsOperating(false);
+
+    console.log("address", address, userInfo?.login_data);
+    return;
   }
 
   async function verifyWalletAction() {
@@ -97,8 +99,8 @@ export function EthWalletItem({
 
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
-      <div className="w-full md:w-auto relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
-        <div className="mr-0 w-full max-w-full flex-1 text-xs truncate leading-6 text-[#d6d6d6] md:mr-0 md:text-base">
+       <div className="w-full md:w-auto relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
+       <div className="mr-0 w-full max-w-full flex-1 text-xs truncate leading-6 text-[#d6d6d6] md:mr-0 md:text-base">
           {address}
         </div>
         {isVerify && (
