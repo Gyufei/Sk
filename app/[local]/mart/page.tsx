@@ -38,18 +38,20 @@ export default function MartPage() {
     }
   }, [isMutating, T, setGlobalMessage]);
 
+  const productClass = 'flex-1 sm:flex-auto sm:w-[240px] md:w-[250px]'
+
   return (
     <div className="relative h-full">
-      <div className="z-50 fixed inset-x-4 bottom-8 sm:absolute sm:left-[auto] sm:right-[-140px] sm:top-[5px] mt-6"><MartMenu /></div>
-      <div className="pd-[100px] gap-x-[10px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 md:-ml-[250px] flex h-fit sm:max-h-[calc(100%-70px)] flex-wrap sm:gap-x-[10px] gap-y-5 overflow-y-auto align-top md:pr-3">
+      <div className="z-50 fixed inset-x-4 bottom-8 sm:absolute sm:left-[auto] sm:right-[-120px] sm:top-[5px] mt-6"><MartMenu /></div>
+      <div className="pd-[100px] gap-x-[10px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 md:-ml-[250px] flex h-fit md:max-h-[calc(100%-70px)] flex-wrap sm:gap-x-[10px] gap-y-5 md:overflow-y-auto align-top md:pr-3">
         {(products || []).map((item, index) => (
           <div
             key={item.product_id}
-            className="w-[165px] sm:w-[240px] md:w-[250px] box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]"
+            className={`${productClass} box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]`}
             onMouseEnter={() => setHoverIndex(index)}
             onMouseLeave={() => setHoverIndex(-1)}
           >
-            <div className="w-[165px] h-[265px] sm:w-[240px] flex sm:h-[350px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+            <div className="h-[265px] sm:w-[240px] flex sm:h-[350px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
               <Image
                 src={item.product_display_picture || "/images/590.png"}
                 width={240}
@@ -100,6 +102,11 @@ export default function MartPage() {
             </div>
           </div>
         ))}
+        {
+          (products || []).length % 2 === 1 && (
+            <div className={`${productClass}`}/>
+          )
+        }
       </div>
     </div>
   );

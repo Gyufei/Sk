@@ -5,6 +5,7 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { SignInMethod } from "../sign-dialog/type";
 import { LevelTpl } from "./level-tpl";
 
+const titleClass = "mb-1 text-sm font-semibold md:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
 export default function UserInfoBanner() {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");
@@ -24,7 +25,7 @@ export default function UserInfoBanner() {
   const uidInfoTpl = useMemo(() => {
     return (
       <div className="flex flex-col md:mr-10">
-        <div className="mb-1 text-sm md:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
+        <div className={`${titleClass}`}>
           UID
         </div>
         <div className="h-[24px] text-base leading-6 opacity-60">
@@ -37,7 +38,7 @@ export default function UserInfoBanner() {
   const memberInfoTpl = useMemo(() => {
     return (
       <div className="flex flex-col md:mr-7">
-        <div className="mb-1 text-sm md:text-base text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
+        <div className={`${titleClass}`}>
           {T("MembershipNo")}
         </div>
         <div className="h-[24px] text-base leading-6 opacity-60">
@@ -50,7 +51,7 @@ export default function UserInfoBanner() {
   const nickNameTpl = useMemo(() => {
     return (
       <div className="flex flex-1 flex-col">
-        <div className="mb-1 text-sm md:text-base text-base leading-6 text-[rgba(255,255,255,0.6)] text-white">
+        <div className={`${titleClass}`}>
           {T("NickName")}
         </div>
         <NickName nickName={userInfo?.nick_name || ""} />

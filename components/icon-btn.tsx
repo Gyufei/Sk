@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useState } from "react";
 
 export function IconBtn({
   disabled = false,
+  mobileHoverColorChanged = true,
   handleClick,
   className = "",
   defaulImage = "/icons/save.svg",
@@ -10,24 +10,29 @@ export function IconBtn({
   btnText = undefined
 }: {
   disabled?: boolean;
+  mobileHoverColorChanged?: boolean;
   handleClick: () => void;
   className?: string;
   defaulImage?: string;
   hoverImage?: string;
   btnText?: string;
 }) {
-  const [isHover, setIsHover] = useState(false);
-
   return (
     <div
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
       data-disabled={disabled}
       onClick={handleClick}
-      className={`w-12 ml-0 mt-[10px] flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:bg-[#fff] md:ml-4  md:mt-0 md:w-12 ${className}`}
+      className={`group ${disabled ? 'is-disabled' : 'isnot-disabled'} w-12 ml-0 mt-[10px] flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 ${mobileHoverColorChanged ? 'data-[disabled=false]:hover:bg-[#fff]' : 'md:data-[disabled=false]:hover:bg-[#fff]'} md:ml-4  md:mt-0 md:w-12 ${className}`}
     >
       <Image
-        src={isHover && !disabled ? hoverImage : defaulImage}
+        className={`${mobileHoverColorChanged ? 'group-[.isnot-disabled]:group-hover:hidden' : 'inline-block md:group-[.isnot-disabled]:group-hover:hidden'}`}
+        src={defaulImage}
+        width={24}
+        height={24}
+        alt="save"
+      />
+      <Image
+        className={`${mobileHoverColorChanged ? 'hidden group-[.isnot-disabled]:group-hover:inline-block' : 'hidden md:group-[.isnot-disabled]:group-hover:inline-block'}`}
+        src={hoverImage}
         width={24}
         height={24}
         alt="save"

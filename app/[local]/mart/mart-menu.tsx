@@ -30,7 +30,7 @@ export default function MartMenu() {
                 onClick={() => router.push(item.href)}
               >
                 <Image
-                  className="w-6 h-6 sm:w-[40px] sm:h-[40px]"
+                  className="w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]"
                   src={item.iconSrc}
                   width={40}
                   height={40}
@@ -51,7 +51,7 @@ function MenuItem({ active, isfirst, onClick, children }: { active: boolean; isf
   return (
     <div
       data-active={active}
-      className={`flex  w-[50%] py-2 sm:pd-0 sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${isfirst ? 'rounded-l-[24px]' : 'rounded-r-[24px]'} cursor-pointer flex-col items-center justify-center gap-y-2 md:rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
+      className={`flex w-[50%] h-[48px] sm:pd-0 sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${isfirst ? 'rounded-l-[24px]' : 'rounded-r-[24px]'} cursor-pointer flex-col items-center justify-center md:gap-y-2 md:rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
       style={{
         backdropFilter: "blur(12px)",
       }}
