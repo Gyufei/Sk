@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/utils";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export function SaveBtn({
   disabled,
@@ -10,6 +11,7 @@ export function SaveBtn({
   onClick: () => void;
   className?: string;
 }) {
+  const T = useTranslations("Common");
   return (
     <div
       data-disabled={disabled}
@@ -20,7 +22,7 @@ export function SaveBtn({
       )}
     >
       <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-      <div className="ml-1 text-base leading-6 md:hidden">Save</div>
+      <div className="ml-1 text-base leading-6 md:hidden">{T("Save")}</div>
     </div>
   );
 }

@@ -8,48 +8,45 @@ import { useTranslations } from "next-intl";
 export default function Page() {
   const T = useTranslations("Common");
   const { data: userInfo } = useFetchUserInfo();
-  const activityList: any[] = [
-    { content: 'A', create_at: '2024-4-1 23:11:11' },
-    { content: 'B', create_at: '2024-4-1 23:11:11' },
-  ];
+  const activityList: any[] = [];
 
   return (
-    <div className="relative w-full m-t-20">
-      <div className="mb-[20px] mt-6 content-w-700 md:-ml-[250px]">
-        <div className="flex flex-row items-start justify-start md:p-6 p-3 backdrop-blur-md">
+    <div className="relative m-t-20 w-full md:w-auto">
+      <div className="content-bg-blur mb-[20px] md:mt-6 md:w-[608px] md:min-h-[500px] md:-ml-[250px]">
+        <div className="flex flex-row items-start justify-start md:p-6 p-3 backdrop-blur-md ">
           <div className="flex-1">
-            <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
               J {T("Points")}
             </div>
-            <div className="mt-2 text-[40px] leading-[60px] text-white">
+            <div className="mt-[10px] text-[40px] leading-[40px] md:leading-[60px] text-white">
               {formatNum(userInfo?.j_points || 0)}
             </div>
           </div>
           <div className="flex-1">
-            <div className="font-haasDisp md:text-2xl text-base font-semibold text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
-            <div className="mt-[10px] flex items-center justify-start self-stretch">
+            <div className="mt-[10px] flex items-center justify-between md:justify-start self-stretch">
               <div className="md:mr-[85px] mr-[10px] flex flex-col">
-                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
-                <span className="text-[32px] leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] font-normal leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.cup || 0)}×
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
                   {T("XAccount")}
                 </span>
-                <span className="text-[32px] leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] font-normal leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.x_account || 0)}×
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div className="mt-10 px-6 bg-[rgba(255,255,255,0.1)] py-4 rounded-[20px] md:bg-transparent md:py-0">
+        <div className="mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] md:bg-transparent md:py-0">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("Activity")}
           </div>
@@ -121,6 +118,11 @@ export default function Page() {
                   
                 </div>
               ))}
+              {!activityList?.length && (
+              <div className="flex h-[50px] items-center justify-start text-xl">
+                {T("NoData")}
+              </div>
+            )}
           </div>
       </div>
 

@@ -1,14 +1,34 @@
 import { useTranslations } from "next-intl";
 import { useSetAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
+import Image from "next/image";
 
-function SignOut() {
+function SignOut({
+  isIcon = false
+}: {
+  isIcon?: boolean
+}) {
   const T = useTranslations("Common");
   const setUuid = useSetAtom(UuidAtom);
 
   function handleSignOut() {
     setUuid("");
     location.reload();
+  }
+
+  if (isIcon) {
+    return (
+      <div className="flex h-[50px] w-[50px] mb-[15px] items-center justify-center rounded-2xl bg-[rgba(255,255,255,0.1)] backdrop-blur-md">
+      <Image
+        onClick={handleSignOut}
+        className="cursor-pointer"
+        src="/icons/sign-out.svg"
+        width={30}
+        height={30}
+        alt={T("SignOut")}
+      />
+    </div>
+    )
   }
 
   return (

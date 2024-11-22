@@ -38,7 +38,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
                 width={80}
                 height={80}
                 alt=""
-                className="point-1"
+                className="md:absolute md:left-[1.3em] md:top-[1.3em]"
               />
             </Link>
             <HomeLinks />

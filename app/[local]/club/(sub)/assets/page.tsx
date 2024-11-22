@@ -17,8 +17,7 @@ export default function Page() {
             {
               mockList.map((item, index) => {
                 return (
-                  <div className="flex md:h-[240px] md:w-[240px] w-[165px] h-[165px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md" key={index}></div>
-                 
+                  <div className="flex md:h-[240px] md:w-[240px] w-[160px] h-[160px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md" key={index}></div>
                 )
               })
             }

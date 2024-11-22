@@ -38,14 +38,15 @@ export function EyetoggleBtn({
       <Tooltip>
         <TooltipTrigger asChild>
           <IconBtn
-            className={'border-0 md:border absolute mt-0 right-[-5px] top-[-10px] md:static md:mt-[10px]'}
+            mobileHoverColorChanged={false}
+            className={'border-0 md:border absolute mt-0 right-[-5px] top-[-10px] md:static md:mt-[0px]'}
             defaulImage = {eyeState === true ? "/icons/eye-open.svg" : "/icons/eye-close.svg"}
             hoverImage = {eyeState === true ? "/icons/eye-open-black.svg" : "/icons/eye-close-black.svg"}
-            handleClick={ () => handleToggle(!eyeState)}
+            handleClick={() => handleToggle(!eyeState)}
           />
         </TooltipTrigger>
         <TooltipContent>
-          <p>{eyeState === true ? 'Display account' : 'Hide account'}</p>
+          <div>{eyeState === true ? 'Display account' : 'Hide account'}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

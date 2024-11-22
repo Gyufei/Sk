@@ -33,7 +33,7 @@ export default function DomainRedirect() {
             className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 md:text-base text-sm text-white"
             placeholder="yourid"
           />
-          <div className="absolute  right-0 md:right-2 md:left-11 top-[10px] flex items-center md:gap-3">
+          <div className="absolute right-0 md:right-2 top-[10px] flex items-center md:gap-3">
             <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
             <span className="md:text-base text-sm leading-6 text-[#d6d6d6]">
               .juu17.com
@@ -67,9 +67,9 @@ export default function DomainRedirect() {
         </div>
       
         <IconBtn
-          className={'w-full'}
+          className={'w-full mt-[10px]'}
           disabled={!yourId || !redirectHost}
-          btnText={'Save'}
+          btnText={T('Save')}
           handleClick={handleSave}
         />
       </div>
