@@ -12,19 +12,19 @@ export function BreadCrumbs() {
 
   
   return (
-    <div className="text-lg text-white">
+    <div className="text-lg text-white flex flex-row">
       {
         pathnameArr.map((item, index) => {
           const isLast = (index + 1) === pathnameArr.length
           return (
-            <>
-              <span className={`${isLast ? ('opacity-100 inline') : 'hidden opacity-80'} sm:inline`} key={index}>{item}</span>
+            <div key={item + '_' + index}>
+              <div className={`${isLast ? ('opacity-100 inline') : 'hidden opacity-80'} sm:inline`}>{item}</div>
               {
                 !isLast && (
-                <span className="opacity-80 mx-2 hidden sm:inline" key={index}>/</span>
+                <div className="opacity-80 mx-2 hidden sm:inline">/</div>
                 )
               }
-            </>
+            </div>
           )
         })
       }

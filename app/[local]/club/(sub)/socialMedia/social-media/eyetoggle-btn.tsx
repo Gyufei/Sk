@@ -46,7 +46,7 @@ export function EyetoggleBtn({
           />
         </TooltipTrigger>
         <TooltipContent>
-          <p>{eyeState === true ? 'Display account' : 'Hide account'}</p>
+          <div>{eyeState === true ? 'Display account' : 'Hide account'}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
