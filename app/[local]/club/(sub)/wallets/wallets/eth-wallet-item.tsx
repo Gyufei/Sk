@@ -52,7 +52,7 @@ export function EthWalletItem({
       return;
     }
 
-    await disconnect();
+    // await disconnect();
     setIsWaitingForNewConnect(true);
     await wcModalOpen();
     setIsOperating(false);
@@ -61,8 +61,13 @@ export function EthWalletItem({
   async function handleDisconnect() {
     if (isOperating || isDisconnecting) return;
 
-    console.log("address", address, userInfo?.login_data);
-    return;
+    if (address === userInfo?.login_data?.wallet_address) {
+      setGlobalMessage({
+        type: "error",
+        message: "You cannot connect to the wallet that is being logged in.",
+      });
+      return;
+    }
   }
 
   async function verifyWalletAction() {
