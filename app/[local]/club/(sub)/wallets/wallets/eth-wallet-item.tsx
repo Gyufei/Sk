@@ -97,8 +97,8 @@ export function EthWalletItem({
 
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center">
-      <div className="relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
-        <div className="mr-0 w-full max-w-full flex-1 text-xs leading-6 text-[#d6d6d6] md:mr-0 md:text-base">
+      <div className="w-full md:w-auto relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
+        <div className="mr-0 w-full max-w-full flex-1 text-xs truncate leading-6 text-[#d6d6d6] md:mr-0 md:text-base">
           {address}
         </div>
         {isVerify && (
