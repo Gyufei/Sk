@@ -4,11 +4,11 @@ import { useSaveSocial } from "@/lib/api/use-save-social";
 import { checkEmailRegex } from "@/lib/utils/utils";
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
-import { PcInvalidTpl, MobileInValidTpl } from "../invalid-tpl";
+import { MobileInValidTpl, PcInvalidTpl } from "@/components/invalid-tpl";
 import { LinkBtn } from "../link-btn";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
-import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
+import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 
 export function Email() {
   const currentPageUrl =
@@ -118,7 +118,7 @@ export function Email() {
           disabled={disabled || hasSend}
           isConnected={isLink}
         />
-        <EyetoggleBtn
+        <EyeToggleBtn
           eyeState={eyeState}
           handleToggle={handleToggle}
         />

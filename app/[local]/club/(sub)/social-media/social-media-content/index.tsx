@@ -5,7 +5,7 @@ import { Discord } from "./discord";
 import { Tg } from "./tg";
 import { Github } from "./github";
 
-export function SocialMedia() {
+export function SocialMediaContent() {
   const T = useTranslations("Common");
   return (
     <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">

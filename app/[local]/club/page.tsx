@@ -17,10 +17,14 @@ export default function Club() {
     <>
       {uuid ? (
         <div className="content-w-400 md:-ml-[250px]">
-          <div className="sm:hidden"><SignOut isIcon /></div>
+          <div className="sm:hidden">
+            <SignOut isIcon />
+          </div>
           <UserInfoBanner />
           <RouterMenu />
-          <div className="hidden sm:flex justify-center"><SignOut /></div>
+          <div className="hidden justify-center sm:flex">
+            <SignOut />
+          </div>
         </div>
       ) : (
         <SignDialog />

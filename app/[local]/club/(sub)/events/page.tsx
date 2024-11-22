@@ -289,12 +289,12 @@ export default function EventsPage() {
   }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
-    <div className="relative m-t-20 lg:-ml-[200px]">
+    <div className="m-t-20 relative lg:-ml-[200px]">
       <div className="relative flex items-center justify-end">
         {windFallTpl}
         <GoBackTo />
       </div>
-      <div className="relative mb-[100px] ml-0 mt-6 content-w-560 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
+      <div className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
         <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
           <div
             ref={scrollRef}
