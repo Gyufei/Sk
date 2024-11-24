@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useAccount } from "wagmi";
-import { useSetAtom } from "jotai/react";
+import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
 import { usePrevious } from "@/lib/use-pervious";
 
@@ -12,16 +12,16 @@ export default function WalletDisconnected() {
   const previousAddress = usePrevious(connectAddress);
   const previousIsDisconnected = usePrevious(isDisconnected);
 
-  const setUuid = useSetAtom(UuidAtom);
-
-  function handleSignOut() {
-    setUuid("");
-
-    // 刷新当前页面
-    location.reload();
-  }
+  const [uuid, setUuid] = useAtom(UuidAtom);
 
   useEffect(() => {
+    if (
+      !uuid ||
+      !userInfo ||
+      !userInfo?.login_data ||
+      !userInfo?.login_data?.wallet_address
+    )
+      return;
     if (isConnected) return;
     if (previousIsDisconnected === isDisconnected) return;
 
@@ -29,14 +29,17 @@ export default function WalletDisconnected() {
       isDisconnected &&
       previousAddress === userInfo?.login_data?.wallet_address
     ) {
-      handleSignOut();
+      setUuid("");
+      location.reload();
     }
   }, [
+    uuid,
+    userInfo,
     isConnected,
     isDisconnected,
     previousIsDisconnected,
     previousAddress,
-    userInfo,
+    setUuid,
   ]);
 
   return null;
