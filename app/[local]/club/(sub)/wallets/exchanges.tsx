@@ -53,7 +53,7 @@ export function Exchanges() {
       return;
     }
 
-    const isNumRegex = checkUIdRegex(okxUID);
+    const isNumRegex = checkOkxUIdRegex(okxUID);
     const isEmailRegex = checkEmailRegex(okxUID);
 
     const isValid = isNumRegex || isEmailRegex;
@@ -83,6 +83,11 @@ export function Exchanges() {
 
   function checkUIdRegex(v: string) {
     const number = /^\d{6,15}$/;
+    return number.test(v);
+  }
+
+  function checkOkxUIdRegex(v: string) {
+    const number = /^\d{6,20}$/;
     return number.test(v);
   }
 
