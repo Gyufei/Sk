@@ -15,7 +15,7 @@ export function useFetchUserInfo() {
     const fetchRes: any = await fetcher(`${ApiHost}/user/info?user_id=${uuid}`);
 
     if (uuid && fetchRes && fetchRes.data === false) {
-      setUuid("");
+      // setUuid("");
       router.push("/club");
       return {};
     }
