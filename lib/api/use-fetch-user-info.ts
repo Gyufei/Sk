@@ -6,7 +6,7 @@ import fetcher from "./fetcher";
 import { useRouter } from "@/app/navigation";
 
 export function useFetchUserInfo() {
-  const [uuid, setUuid] = useAtom(UuidAtom);
+  const [uuid] = useAtom(UuidAtom);
   const router = useRouter();
 
   async function getUserInfo() {
