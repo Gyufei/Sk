@@ -1,1 +1,9 @@
-export const cycleWords = ["Juu17", "Brands"];
+export const cycleWords = [
+  "Project",
+  "Developer",
+  "Exchange",
+  "Miner",
+  "Community",
+  "VC",
+  "KOL",
+];
