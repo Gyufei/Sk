@@ -6,7 +6,8 @@ export function BreadCrumbs() {
   const pathname = usePathname() || '';
   const pathnameArr = useMemo(() => {
     return pathname.split('/').filter(item => item != '').map((string) => {
-      return string.charAt(0).toUpperCase() + string.slice(1)
+      const newStr = string.replace(/-/g, ' ');
+      return newStr.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
     }) as string[]
   }, [pathname])
 
