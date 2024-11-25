@@ -77,12 +77,9 @@ function MenuItem({
   return (
     <div
       data-active={active}
-      className={`sm:pd-0 group flex h-[48px] w-[50%] sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${
+      className={`bg-blur12 sm:pd-0 group flex h-[48px] w-[50%] sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${
         isFirst ? "rounded-l-[24px]" : "rounded-r-[24px]"
       } cursor-pointer flex-col items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]  md:gap-y-2 md:rounded-[20px]`}
-      style={{
-        backdropFilter: "blur(12px)",
-      }}
       onClick={onClick}
     >
       {children}

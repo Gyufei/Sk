@@ -51,7 +51,7 @@ export default function MartPage() {
               width={240}
               height={240}
               alt="mart"
-              className="w-full rounded-[20px] "
+              className="w-full rounded-[20px] bg-[#d6d6d6]"
             ></Image>
             <div className="#d6d6d6 p-[15px] group-hover:text-white">
               <div className="break-words text-base font-medium leading-6">

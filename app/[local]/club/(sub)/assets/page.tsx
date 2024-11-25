@@ -14,11 +14,11 @@ export default function Page() {
       </div>
       <div className="content-w-700 mb-[20px] mt-6 ">
         <div className="flex flex-wrap justify-between gap-5 md:flex-nowrap">
-          <div className="flex w-full flex-wrap items-center justify-between gap-5 md:w-[520px]">
+          <div className="flex w-full flex-wrap items-center justify-between gap-[15px] md:gap-[20px] md:w-[520px]">
             {mockList.map((item, index) => {
               return (
                 <div
-                  className="flex h-[160px] w-[160px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md md:h-[240px] md:w-[240px]"
+                  className="flex w-[44vw] h-[44vw] md:h-[240px] md:w-[240px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md "
                   key={index}
                 ></div>
               );

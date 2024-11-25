@@ -1131,6 +1131,12 @@ html.w-mod-touch * {
  }
  .content-bg-blur {
   backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.bg-blur12 {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @media screen and (max-height: 600px) {
