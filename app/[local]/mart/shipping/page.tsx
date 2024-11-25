@@ -13,7 +13,6 @@ import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 import { formatDate } from "@/lib/utils/utils";
-import MartMenu from "../../mart-menu";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -134,70 +133,67 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="relative h-full">
-      <div className="z-50 fixed inset-x-4 bottom-8 sm:absolute sm:left-[auto] sm:right-[-140px] sm:top-[5px] mt-6"><MartMenu /></div>
-      <div className="content-bg-blur no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar md:h-fit md:max-h-[calc(100%-70px)] relative overflow-y-auto lg:-ml-[200px]">
-        <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
-          <div className="mb-7 text-xl leading-[30px] text-white">
-            {T("ShippingAddress")}
-          </div>
-          <NameAndPhone
-            {...{
-              recipientName,
-              setRecipientName,
-              countryCode,
-              setCountryCode,
-              phoneNumber,
-              setPhoneNumber,
-              rcNameValid,
-              setRcNameValid,
-              phoneValid,
-              setPhoneValid,
-            }}
-          />
-          <AddressInput
-            {...{ country, setCountry, state, setState, city, setCity }}
-          />
-          <StreetAndCode
-            {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
-          >
-            <SaveBtn
-              className="hidden w-12 md:flex"
-              disabled={disabled}
-              onClick={handleSave}
-            />
-          </StreetAndCode>
+    <div className="content-bg-blur no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar relative overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)] lg:-ml-[200px]">
+      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
+        <div className="mb-7 text-xl leading-[30px] text-white">
+          {T("ShippingAddress")}
         </div>
-        <SaveBtn
-          className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
-          disabled={disabled}
-          onClick={handleSave}
+        <NameAndPhone
+          {...{
+            recipientName,
+            setRecipientName,
+            countryCode,
+            setCountryCode,
+            phoneNumber,
+            setPhoneNumber,
+            rcNameValid,
+            setRcNameValid,
+            phoneValid,
+            setPhoneValid,
+          }}
         />
+        <AddressInput
+          {...{ country, setCountry, state, setState, city, setCity }}
+        />
+        <StreetAndCode
+          {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
+        >
+          <SaveBtn
+            className="hidden w-12 md:flex"
+            disabled={disabled}
+            onClick={handleSave}
+          />
+        </StreetAndCode>
+      </div>
+      <SaveBtn
+        className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
+        disabled={disabled}
+        onClick={handleSave}
+      />
 
-        <div className="mt-10 px-6">
-          <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
-            {T("RecentLogisticsOrder")}
-          </div>
-          <div className="mt-5">
-            {!logisticsOrders?.length && (
-              <div className="flex h-[50px] items-center justify-start text-xl">
-                {T("NoData")}
-              </div>
-            )}
-            {(logisticsOrders || [])?.map((item: any, index: number) => (
-              <div
-                key={index}
-                className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
-                style={{
-                  boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
-                }}
-              >
-                <div>{item.order_id}</div>
-                <div>{item.delivery}</div>
-                <div>{formatDate(item.create_at)}</div>
-              </div>
-            ))}
-          </div>
+      <div className="mt-10 px-6">
+        <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
+          {T("RecentLogisticsOrder")}
+        </div>
+        <div className="mt-5">
+          {!logisticsOrders?.length && (
+            <div className="flex h-[50px] items-center justify-start text-xl">
+              {T("NoData")}
+            </div>
+          )}
+          {(logisticsOrders || [])?.map((item: any, index: number) => (
+            <div
+              key={index}
+              className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
+              style={{
+                boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+              }}
+            >
+              <div>{item.order_id}</div>
+              <div>{item.delivery}</div>
+              <div>{formatDate(item.create_at)}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

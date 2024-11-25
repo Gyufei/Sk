@@ -71,11 +71,11 @@
     "Connected": "已连接",
     "Disconnect": "断开连接",
     "NoData": "无数据",
-    "MembershipRequired": "俱乐部功能只对俱乐部会员开放",
+    "LevelRequired": "俱乐部功能只对二级及以上俱乐部会员开放",
     "PageNotFound": "找不到该页面。",
     "RedirectingToHome": "2秒后重定向到首页...",
-    "EventsMembershipRequired": "参与活动功能只对俱乐部会员开放",
-    "TicketMembershipRequired": "提交工单功能只对俱乐部会员开放",
+    "EventsLevelRequired": "参与活动功能只对二级及以上俱乐部会员开放",
+    "TicketLevelRequired": "提交工单功能只对二级及以上俱乐部会员开放",
     "PayingIsBeingInitiated": "调起支付中"
   }
 }

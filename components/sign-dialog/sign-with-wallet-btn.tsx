@@ -8,7 +8,6 @@ import { ApiHost } from "@/lib/api/path";
 import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
-import { useSignWithWalletExpire } from "@/lib/use-sign-with-wallet-expire";
 import { useTranslations } from "next-intl";
 
 export function SignWithWalletBtn({
@@ -31,8 +30,6 @@ export function SignWithWalletBtn({
   const { address, isConnected } = useAccount();
   const { open: wcModalOpen } = useWeb3Modal();
   const { disconnect } = useDisconnect();
-
-  const { setSignWithWalletTime } = useSignWithWalletExpire();
 
   const { disconnect: solanaDisconnect } = useWallet();
   const [isModalOpenForSign, setIsModalOpenForSign] = useState(false);
@@ -102,7 +99,6 @@ export function SignWithWalletBtn({
 
       setUuid(res.uuid);
       setSigning(false);
-      setSignWithWalletTime();
     } catch (e) {
       setSigning(false);
       console.log(e);

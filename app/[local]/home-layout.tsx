@@ -12,6 +12,7 @@ import { LayoutBg } from "@/components/layout-bg";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   const uuid = useAtomValue(UuidAtom);
+
   return (
     <div className="section !pointer-events-auto" id="__next">
       <Script
@@ -42,18 +43,13 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
               />
             </Link>
             <HomeLinks />
-            <div className="text-block-4 w-full whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="text-block-4 w-full overflow-hidden text-ellipsis whitespace-nowrap">
               © JUU17 Brands.
             </div>
           </div>
 
-          <div
-            data-id=""
-            className="right-block  content-container md:min-h-unset relative min-h-[200.0025px]"
-          >
-            {uuid ? children : (
-              <SignDialog />
-            )}
+          <div className="right-block content-container md:min-h-unset relative min-h-[200.0025px]">
+            {uuid ? children : <SignDialog />}
           </div>
         </div>
         <LayoutBg />

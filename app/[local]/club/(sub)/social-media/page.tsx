@@ -2,17 +2,17 @@
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { GoBackTo } from "@/components/go-back-to";
-import { SocialMedia } from "./social-media";
+import { SocialMediaContent } from "./social-media-content";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function MemberInfo() {
   return (
-    <div className="no-scroll-bar relative content-w-800 lg:-ml-[200px] md:-ml-[250px] overflow-y-auto">
-      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
+    <div className="no-scroll-bar content-w-800 relative overflow-y-auto md:-ml-[250px] lg:-ml-[200px]">
+      <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <SocialMedia />
+      <SocialMediaContent />
     </div>
   );
 }

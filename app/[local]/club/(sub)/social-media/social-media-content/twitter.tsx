@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { LinkBtn } from "../link-btn";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import useSWR from "swr";
-import { EyetoggleBtn, useEyeToggle } from "./eyetoggle-btn";
+import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 
 export function Twitter() {
   const currentPageUrl =
@@ -77,7 +77,7 @@ export function Twitter() {
           disabled={isTwitterLogin}
           isConnected={isLink}
         />
-        <EyetoggleBtn
+        <EyeToggleBtn
           eyeState={eyeState}
           handleToggle={handleToggle}
         />

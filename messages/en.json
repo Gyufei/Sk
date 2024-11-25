@@ -46,7 +46,7 @@
     "Features": "Features",
     "DomainRedirect": "Domain Redirect",
     "Notification": "Notification",
-    "Save":  "Save",
+    "Save": "Save",
     "ON": "ON",
     "OFF": "OFF",
     "SearchHistoricalTweets": "Search Historical Tweets",
@@ -71,11 +71,11 @@
     "Connected": "Connected",
     "Disconnect": "Disconnect",
     "NoData": "No data yet",
-    "MembershipRequired": "Club features are only available to club members.",
     "PageNotFound": "This page could not be found.",
     "RedirectingToHome": "Redirecting to home page in 2 seconds...",
-    "EventsMembershipRequired": "Participating in events is only available to club members",
-    "TicketMembershipRequired": "Submitting tickets is only available to club members",
-    "PayingIsBeingInitiated": "Paying is being initiated"
+    "PayingIsBeingInitiated": "Paying is being initiated",
+    "LevelRequired": "Club features are only available to club members of level 2 and above",
+    "EventsLevelRequired": "Participating in events is only available to club members of level 2 and above",
+    "TicketLevelRequired": "Submitting tickets is only available to club members of level 2 and above"
   }
 }

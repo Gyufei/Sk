@@ -20,7 +20,7 @@ export default function GlobalActionTip() {
   return (
     <>
       {message && type ? (
-        <div className="opacity-1 fixed bottom-10 left-1/2 z-50 flex h-[56px] w-[calc(100%-30px)] -translate-x-1/2 items-center gap-x-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] px-4 backdrop-blur-[12px] md:w-fit md:max-w-[500px]">
+        <div className="opacity-1 fixed bottom-10 left-1/2 z-50 flex h-[56px] w-fit -translate-x-1/2 items-center gap-x-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] px-4 backdrop-blur-[12px] md:w-fit md:max-w-[500px]">
           {((type) => {
             switch (type) {
               case "success":

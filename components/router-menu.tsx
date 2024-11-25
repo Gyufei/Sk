@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Link } from "@/app/navigation";
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
@@ -8,23 +7,47 @@ import { GlobalMsgContext } from "./global-msg-context";
 import { cn } from "@/lib/utils/utils";
 
 const clubList = [
-  { name: "Events", href: "/club/events", iconSrc: "/icons/events.svg", msg: "EventsMembershipRequired"},
-  { name: "Wallets", href: "/club/wallets", iconSrc: "/icons/wallets.svg"},
-  { name: "Features", href: "/club/features", iconSrc: "/icons/features.svg", msg: "MembershipRequired"},
-  { name: "Assets", href: "/club/assets", iconSrc: "/icons/assets.svg" , msg: "MembershipRequired"},
-  { name: "SocialMedia", href: "/club/socialMedia", iconSrc: "/icons/socialMedia.svg"},
-  { name: "Ticket", href: "/club/ticket", iconSrc: "/icons/ticket.svg",  msg: "TicketMembershipRequired"},
-]
+  {
+    name: "Events",
+    href: "/club/events",
+    iconSrc: "/icons/events.svg",
+    msg: "EventsLevelRequired",
+  },
+  { name: "Wallets", href: "/club/wallets", iconSrc: "/icons/wallets.svg" },
+  {
+    name: "Features",
+    href: "/club/features",
+    iconSrc: "/icons/features.svg",
+    msg: "LevelRequired",
+  },
+  {
+    name: "Assets",
+    href: "/club/assets",
+    iconSrc: "/icons/assets.svg",
+    msg: "LevelRequired",
+  },
+  {
+    name: "SocialMedia",
+    href: "/club/social-media",
+    iconSrc: "/icons/social-media.svg",
+  },
+  {
+    name: "Ticket",
+    href: "/club/ticket",
+    iconSrc: "/icons/ticket.svg",
+    msg: "TicketLevelRequired",
+  },
+];
 export default function RouterMenu() {
   const T = useTranslations("Common");
   const router = useRouter();
   const { setGlobalMessage } = useContext(GlobalMsgContext);
 
   const { data: userInfo } = useFetchUserInfo();
-  const hasMembership = userInfo?.membership_no;
+  const levelGt2 = userInfo?.level >= 2;
 
   function handleGoWithMembership(href: string, msg: string) {
-    if (!hasMembership) {
+    if (!levelGt2) {
       setGlobalMessage({
         type: "warning",
         message: msg,
@@ -39,32 +62,30 @@ export default function RouterMenu() {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-y-5 md:gap-5">
-        {
-          clubList.map((item) => {
-            return (
-              <div
-                key={item.href}
-                onClick={() => {
-                  if (item.msg) {
-                    handleGoWithMembership(item.href, T(item.msg))
-                    return
-                  }
-                  router.push(item.href);
-                }}
-              >
-                <MenuItem>
-                  <Image
-                    src={item.iconSrc}
-                    width={40}
-                    height={40}
-                    alt={T(item.name)}
-                  />
-                  <div className={cn(linkText)}>{T(item.name)}</div>
-                </MenuItem>
-              </div>
-            )
-          })
-        }
+        {clubList.map((item) => {
+          return (
+            <div
+              key={item.href}
+              onClick={() => {
+                if (item.msg) {
+                  handleGoWithMembership(item.href, T(item.msg));
+                  return;
+                }
+                router.push(item.href);
+              }}
+            >
+              <MenuItem>
+                <Image
+                  src={item.iconSrc}
+                  width={40}
+                  height={40}
+                  alt={T(item.name)}
+                />
+                <div className={cn(linkText)}>{T(item.name)}</div>
+              </MenuItem>
+            </div>
+          );
+        })}
       </div>
     </>
   );
@@ -73,7 +94,7 @@ export default function RouterMenu() {
 function MenuItem({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="flex h-[105px] w-[105px] md:h-[120px] md:w-[120px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)]"
+      className="flex h-[105px] w-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] md:h-[120px] md:w-[120px]"
       style={{
         backdropFilter: "blur(12px)",
       }}

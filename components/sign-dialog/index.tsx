@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
-import { ciclewords } from "./constant";
+import { cycleWords } from "./constant";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -29,9 +29,7 @@ export default function SignDialog() {
   const [walletAttempts, setWalletAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
-  const words = ciclewords;
-  
-
+  const words = cycleWords;
 
   useEffect(() => {
     setIsInit(true);
@@ -41,7 +39,6 @@ export default function SignDialog() {
     if (!isInit || uuid) return;
 
     if (!uuid) {
-      setUuid("");
       setSignDialogOpen(true);
     }
   }, [isInit, uuid, setUuid, setSignDialogOpen]);
@@ -108,31 +105,39 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className={(`flex md:w-[400px] w-[345px] ${noMethodShow ? ' mt-[100px] md:mt-0 md:w-[500px] md:h-[500px] justify-center bg-transparent md:bg-transparent' : 'bg-[rgba(255,255,255,0.1)]'} flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `)}
+        className={`flex w-[345px] md:w-[400px] ${
+          noMethodShow
+            ? " mt-[100px] justify-center bg-transparent md:mt-0 md:h-[500px] md:w-[500px] md:bg-transparent"
+            : "bg-[rgba(255,255,255,0.1)]"
+        } flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `}
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-normal text-center">Build cypto new orders</div>
-             <div className="text-4xl md:text-6xl mt-8 text-center">Juu17 Brands</div>
-             <div className="text-lg mt-10 md:mt-16">A cryptopia for <CircleText words={words}/></div> 
-            {
-              (signing ? (
-                <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
-                  {T("Signing")}
-                </div>
-              ) : (
-                <div
-                  onClick={handleSign}
-                  className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
-                >
-                  {T("SignIn")}
-                </div>
-              ))
-            }
+            <div className="text-center text-2xl font-normal md:text-3xl">
+              Build cypto new orders
+            </div>
+            <div className="mt-8 text-center text-4xl md:text-6xl">
+              Juu17 Brands
+            </div>
+            <div className="mt-10 text-lg md:mt-16">
+              A cryptopia for <CircleText words={words} />
+            </div>
+            {signing ? (
+              <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
+                {T("Signing")}
+              </div>
+            ) : (
+              <div
+                onClick={handleSign}
+                className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
+              >
+                {T("SignIn")}
+              </div>
+            )}
           </div>
         )}
         {!noMethodShow && (
-           <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
+          <div className="text-xl leading-[30px]">{T("WelcomeTo")}</div>
         )}
         <SignWithXBtn
           show={showTwitter}

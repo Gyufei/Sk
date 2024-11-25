@@ -1,4 +1,3 @@
-import { InvalidTpl } from "./invalid-tpl";
 import { useEffect, useState } from "react";
 import { InputWithClear } from "@/components/input-with-clear";
 import { checkEmailRegex } from "@/lib/utils/utils";
@@ -8,6 +7,7 @@ import { useAtomValue } from "jotai";
 import { UuidAtom } from "@/lib/api/state";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useTranslations } from "next-intl";
+import { InvalidTpl } from "@/components/invalid-tpl";
 
 export function Exchanges() {
   const T = useTranslations("Common");
@@ -53,7 +53,7 @@ export function Exchanges() {
       return;
     }
 
-    const isNumRegex = checkUIdRegex(okxUID);
+    const isNumRegex = checkOkxUIdRegex(okxUID);
     const isEmailRegex = checkEmailRegex(okxUID);
 
     const isValid = isNumRegex || isEmailRegex;
@@ -83,6 +83,11 @@ export function Exchanges() {
 
   function checkUIdRegex(v: string) {
     const number = /^\d{6,15}$/;
+    return number.test(v);
+  }
+
+  function checkOkxUIdRegex(v: string) {
+    const number = /^\d{6,20}$/;
     return number.test(v);
   }
 
@@ -144,7 +149,7 @@ export function Exchanges() {
           <InvalidTpl isValid={okxUIDValid} />
         </div>
         <div className="flex flex-col items-start">
-          <div className="flex md:w-[140px] items-center space-x-2">
+          <div className="flex items-center space-x-2 md:w-[140px]">
             <div className="text-base leading-6 text-[#D6D6D6]">Bybit</div>
           </div>
           <InputWithClear
