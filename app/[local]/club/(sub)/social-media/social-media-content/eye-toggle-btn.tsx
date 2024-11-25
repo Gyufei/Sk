@@ -1,5 +1,6 @@
 import { IconBtn } from "@/components/icon-btn";
 import { WithTip } from "@/components/with-tip";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 export function useEyeToggle({
@@ -32,11 +33,10 @@ export function EyeToggleBtn({
   eyeState: boolean;
   handleToggle: (newEyeState: boolean) => void;
 }) {
-  
+  const T = useTranslations("Common");
   return (
-    <WithTip 
-      className={'min-w-[154px]'} 
-      tipContent={<p>{eyeState === true ? 'Display account' : 'Hide account'}</p>}>
+    <WithTip
+      tipContent={<p>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</p>}>
        <IconBtn
           mobileHoverColorChanged={false}
           className={'border-0 md:border absolute mt-0 right-[-5px] top-[-10px] md:static md:mt-[0px]'}

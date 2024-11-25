@@ -35,6 +35,8 @@
     "AddressLine": "Address line / Street",
     "ZipCode": "Zip Code",
     "RecentLogisticsOrder": "Recent logistics orders",
+    "DisplayAccount": "Display account",
+    "HideAccount": "Hide account",
     "Info": "Info",
     "Exchanges": "Exchanges",
     "Wallets": "Wallets",

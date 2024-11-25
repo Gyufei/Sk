@@ -27,11 +27,11 @@ export function WithTip({
         </TooltipTrigger>
         <TooltipContent
           align={align}
-          className={cn("z-[300] TooltipContent w-auto", className)}
+          sideOffset={5}
+          className={cn("z-[300]", className)}
         >
           {tipContent}
-          <TooltipArrow asChild className="fill-[rgba(255, 255, 255, 0.1)]">
-            {/* <CTooltipArrow /> */}
+          <TooltipArrow className="TooltipArrow">
           </TooltipArrow>
         </TooltipContent>
       </Tooltip>

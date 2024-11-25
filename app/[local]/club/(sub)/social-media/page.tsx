@@ -7,7 +7,7 @@ import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function MemberInfo() {
   return (
-    <div className="no-scroll-bar content-w-800 relative overflow-y-auto md:-ml-[250px] lg:-ml-[200px]">
+    <div className="content-w-800 relative md:-ml-[250px] lg:-ml-[200px]">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />

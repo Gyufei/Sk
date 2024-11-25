@@ -34,6 +34,8 @@
     "AddressLine": "详细地址 / 街道",
     "ZipCode": "邮编",
     "RecentLogisticsOrder": "物流单号",
+    "DisplayAccount": "显示",
+    "HideAccount": "隐藏",
     "Info": "信息",
     "Wallets": "钱包",
     "Exchanges": "交易所",
