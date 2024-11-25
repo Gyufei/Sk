@@ -8,10 +8,16 @@ import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 
+const isSupported = () =>
+  'Notification' in window &&
+  'serviceWorker' in navigator &&
+  'PushManager' in window
+
 export default function Page() {
   const T = useTranslations("Common");
+  const isNotificationSupport = isSupported();
   const [notificationChecked, setNotificationChecked] = useState<boolean>(
-    Notification.permission === "granted",
+    isNotificationSupport && Notification.permission === "granted",
   );
 
   function onNotificationChecked(value: boolean) {
@@ -34,28 +40,33 @@ export default function Page() {
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="content-w-600 mb-[20px] mt-6">
+      <div className="content-w-600 mb-[20px] mt-6 content-bg-blur">
         <DomainRedirect />
-        <FeatureItem
-          title={T("Notification")}
-          className={
-            "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
-          }
-        >
-          <div className="flex items-center justify-between self-stretch md:mt-[10px]">
-            <Switch
-              checked={notificationChecked}
-              disabled={Notification.permission === "denied"}
-              onCheckedChange={onNotificationChecked}
-            />
-            <div
-              className="ml-4 hidden text-[#D6D6D6] data-[checked=true]:text-white sm:block"
-              data-checked={notificationChecked}
+        {
+          isNotificationSupport && (
+            <FeatureItem
+              title={T("Notification")}
+              className={
+                "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
+              }
             >
-              {T(notificationChecked ? "ON" : "OFF")}
-            </div>
-          </div>
-        </FeatureItem>
+              <div className="flex items-center justify-between self-stretch md:mt-[10px]">
+                <Switch
+                  checked={notificationChecked}
+                  disabled={Notification.permission === "denied"}
+                  onCheckedChange={onNotificationChecked}
+                />
+                <div
+                  className="ml-4 hidden text-[#D6D6D6] data-[checked=true]:text-white sm:block"
+                  data-checked={notificationChecked}
+                >
+                  {T(notificationChecked ? "ON" : "OFF")}
+                </div>
+              </div>
+            </FeatureItem>
+          )
+        }
+       
         <SearchHistoricalTweets />
       </div>
     </div>

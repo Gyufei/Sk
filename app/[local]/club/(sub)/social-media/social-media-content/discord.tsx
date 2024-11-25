@@ -8,6 +8,7 @@ import { SaveBtn } from "./save-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 import { MobileInValidTpl, PcInvalidTpl } from "@/components/invalid-tpl";
+import { IconBtn } from "@/components/icon-btn";
 
 export function Discord() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -86,7 +87,6 @@ export function Discord() {
         <SaveBtn
           disabled={disabled}
           handleSave={handleSave}
-          className="w-full"
         />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>

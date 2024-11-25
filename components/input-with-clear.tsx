@@ -101,7 +101,7 @@ export function InputWithClear({
           height={20}
           alt="sign"
           className={cn(
-            "absolute right-2 top-[14px] cursor-pointer",
+            "absolute right-[32px] top-[14px] cursor-pointer",
             iconClass,
           )}
         />

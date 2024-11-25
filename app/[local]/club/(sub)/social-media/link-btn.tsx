@@ -17,7 +17,7 @@ export function LinkBtn({
   };
 
   const connectedClassHover = "data-[connected=true]:data-[disabled=false]:hover:border-[#FF5A5A] data-[connected=true]:data-[disabled=false]:hover:bg-[#FF5A5A]";
-  const notConnectedClassHover = "data-[notconnected=true]:data-[disabled=false]:hover:border-[#FFF] data-[notconnected=true]:data-[disabled=false]:hover:bg-[#FFF]";
+  const notConnectedClassHover = "data-[notconnected=true]:data-[disabled=false]:hover:border-[#FFF] data-[notconnected=true]:data-[disabled=false]:hover:bg-[#FFF] data-[notconnected=true]:data-[disabled=false]:hover:text-[#000]";
   return (
     <div
       onClick={handleClick}
@@ -27,14 +27,14 @@ export function LinkBtn({
       className={`group ${disabled ? 'is-disabled' : 'isnot-disabled'} ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 ${connectedClassHover} ${notConnectedClassHover} md:ml-4 md:mt-0 md:w-12`}
     >
       <Image
-        className={'inline-block md:group-[.isnot-disabled]:group-hover:hidden'}
+        className={'inline-block group-[.isnot-disabled]:group-hover:hidden'}
         src={isConnected ? "/icons/linked.svg" : "/icons/link.svg"}
         width={24}
         height={24}
         alt="save"
       />
       <Image
-        className={'hidden md:group-[.isnot-disabled]:group-hover:inline-block'}
+        className={'hidden group-[.isnot-disabled]:group-hover:inline-block'}
         src={isConnected ? "/icons/unlink-white.svg" : "/icons/link-black.svg"}
         width={24}
         height={24}
