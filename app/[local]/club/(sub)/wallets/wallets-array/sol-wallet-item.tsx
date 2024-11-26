@@ -95,7 +95,7 @@ export function SolWalletItem({
 
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center md:justify-between">
-       <div className="w-full md:w-auto relative mr-4 flex h-12 flex-1 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
+       <div className="w-full md:w-[456px] relative mr-4 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
         <div className="mr-0 w-full max-w-full flex-1 text-base truncate leading-6 text-[#d6d6d6] md:mr-0">
           {address}
         </div>
