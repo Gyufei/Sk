@@ -45,8 +45,8 @@ export function StreetAndCode({
   }
 
   return (
-    <div className="relative mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col pb-6">
+    <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
+      <div className="flex flex-1 flex-col mt-[30px] md:mt-0">
         <label
           htmlFor="street"
           className="text-lg font-normal leading-7 text-white opacity-60"
@@ -64,7 +64,7 @@ export function StreetAndCode({
         <InvalidTpl isValid={streetValid} />
       </div>
 
-      <div className="flex flex-1 flex-col pb-6">
+      <div className="flex flex-1 flex-col">
         <label
           htmlFor="code"
           className="text-lg font-normal leading-7 text-white opacity-60"

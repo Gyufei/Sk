@@ -164,14 +164,14 @@ export default function ShippingAddressPage() {
             onClick={handleSave}
           />
         </StreetAndCode>
+        <SaveBtn
+          className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
+          disabled={disabled}
+          onClick={handleSave}
+        />
       </div>
-      <SaveBtn
-        className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
-        disabled={disabled}
-        onClick={handleSave}
-      />
-
-      <div className="mt-10 px-6">
+      
+      <div className="mt-10 md:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentLogisticsOrder")}
         </div>

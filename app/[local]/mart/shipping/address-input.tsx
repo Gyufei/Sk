@@ -42,8 +42,8 @@ export function AddressInput({
   }
 
   return (
-    <div className="mt-4 flex flex-col items-stretch space-x-0 space-y-5 md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col">
+    <div className="mt-4 flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
+      <div className="flex flex-1 flex-col mt-[30px] md:mt-0">
         <div className="text-lg font-normal leading-7 text-white opacity-60">
           {T("Country")}
         </div>
@@ -69,7 +69,7 @@ export function AddressInput({
             onClick={() => setCountryPopOpen(!countryPopOpen)}
             className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
           >
-            <div className="flex items-center text-sm">
+            <div className="flex items-center text-base">
               <div className="leading-6 text-[#d6d6d6]">{country}</div>
             </div>
             <Image
@@ -84,7 +84,7 @@ export function AddressInput({
         </PopDrawer>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-sm font-normal leading-7 text-white opacity-60">
+        <div className="text-lg font-normal leading-7 text-white opacity-60">
           {T("State")}
         </div>
         <PopDrawer
@@ -110,7 +110,7 @@ export function AddressInput({
             className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
           >
             <div className="flex items-center">
-              <div className="text-sm leading-6 text-[#d6d6d6]">{state}</div>
+              <div className="text-base leading-6 text-[#d6d6d6]">{state}</div>
             </div>
             <Image
               data-open={stateOpen}
@@ -124,7 +124,7 @@ export function AddressInput({
         </PopDrawer>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-sm font-normal leading-7 text-white opacity-60">
+        <div className="text-lg font-normal leading-7 text-white opacity-60">
           {T("City")}
         </div>
         <PopDrawer
@@ -150,7 +150,7 @@ export function AddressInput({
             className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151] md:w-[200px]"
           >
             <div className="flex items-center">
-              <div className="text-sm leading-6 text-[#d6d6d6]">{city}</div>
+              <div className="text-base leading-6 text-[#d6d6d6]">{city}</div>
             </div>
             <Image
               data-open={cityOpen}

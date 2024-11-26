@@ -23,8 +23,8 @@ function SignOut({
         onClick={handleSignOut}
         className="cursor-pointer"
         src="/icons/sign-out.svg"
-        width={30}
-        height={30}
+        width={24}
+        height={24}
         alt={T("SignOut")}
       />
     </div>
