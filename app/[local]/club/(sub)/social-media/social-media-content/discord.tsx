@@ -8,7 +8,6 @@ import { SaveBtn } from "./save-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 import { MobileInValidTpl, PcInvalidTpl } from "@/components/invalid-tpl";
-import { IconBtn } from "@/components/icon-btn";
 
 export function Discord() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
