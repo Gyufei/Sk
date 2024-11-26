@@ -19,6 +19,7 @@ import { formatDate } from "@/lib/utils/utils";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 import { BreadCrumbs } from "@/components/bread-crumbs";
+import { PopDrawer } from "@/components/pop-drawer";
 
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
@@ -133,12 +134,34 @@ export default function Page() {
           {T("SubmitTicket")}
         </div>
         <div className="mt-5 text-xl ">{T("Topic")}</div>
-        <Popover
+        <PopDrawer
+          title={T("Topic")}
           open={topicOpen}
           onOpenChange={(isOpen) => setTopicOpen(isOpen)}
-        >
-          <PopoverTrigger asChild>
+          popContentClass={'h-fit w-[552px]'}
+          popContent={topicArr.map((c) => (
             <div
+              key={c}
+              className="flex h-12 cursor-pointer items-center rounded-xl py-[5px] hover:bg-[rgba(255,255,255,0.05)]"
+              onClick={() => {
+                handleTopicSelected(c);
+              }}
+            >
+              <div
+                className="ml-3 text-sm leading-6 text-[]"
+                style={{
+                  color:
+                    topic === c
+                      ? "rgba(255,255,255)"
+                      : "rgba(255,255,255,0.6)",
+                }}
+              >
+                {T(c)}
+              </div>
+            </div>
+          ))}
+        >
+          <div
               onClick={() => setTopicOpen(!topicOpen)}
               className="flex h-12 w-full items-center justify-between border-b border-solid"
               style={{
@@ -157,31 +180,7 @@ export default function Page() {
                 className="data-[open=true]:rotate-180"
               />
             </div>
-          </PopoverTrigger>
-          <PopoverContent className="no-scroll-bar mt-1 flex h-fit w-[552px] flex-col items-stretch space-y-2 overflow-y-auto rounded-2xl border-none bg-[#262626] p-4 outline-none">
-            {topicArr.map((c) => (
-              <div
-                key={c}
-                className="flex h-12 cursor-pointer items-center rounded-xl py-[5px] hover:bg-[rgba(255,255,255,0.05)]"
-                onClick={() => {
-                  handleTopicSelected(c);
-                }}
-              >
-                <div
-                  className="ml-3 text-sm leading-6 text-[]"
-                  style={{
-                    color:
-                      topic === c
-                        ? "rgba(255,255,255)"
-                        : "rgba(255,255,255,0.6)",
-                  }}
-                >
-                  {T(c)}
-                </div>
-              </div>
-            ))}
-          </PopoverContent>
-        </Popover>
+        </PopDrawer>
         <div className="mt-10 text-xl">{T("Content")}</div>
         <div>
           <textarea

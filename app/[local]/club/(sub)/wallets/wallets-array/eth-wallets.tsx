@@ -1,14 +1,11 @@
 import Image from "next/image";
 import { EthChainInfos } from "@/lib/const";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { useEffect, useMemo, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { EthWalletItem } from "./eth-wallet-item";
 import { useChainId, useSwitchNetwork } from "wagmi";
+import { PopDrawer } from "@/components/pop-drawer";
 
 export function EthWallets() {
   const chainId = useChainId();
@@ -92,11 +89,30 @@ export function EthWallets() {
 
   return (
     <>
-      <Popover open={popOpen} onOpenChange={(isOpen) => setPopOpen(isOpen)}>
-        <PopoverTrigger
-          asChild
-          data-disabled={false}
-          className="data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
+      <PopDrawer
+          title= {"Wallets"}
+          open={popOpen} 
+          onOpenChange={(isOpen) => setPopOpen(isOpen)}
+          popContentClass={'h-[300px] w-[200px]'}
+          triggerProps={{
+            'data-disabled': false,
+            'className': "data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
+          }}
+          popContent={walletOptions.map((c) => (
+            <div
+              key={c}
+              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
+              onClick={() => handleChangeChain(c)}
+            >
+              <Image
+                src={EthChainInfos[c].logo}
+                width={30}
+                height={30}
+                alt="wallet"
+              />
+              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">{c}</div>
+            </div>
+          ))}
         >
           <div
             onClick={() => setPopOpen(!popOpen)}
@@ -126,25 +142,7 @@ export function EthWallets() {
               className="data-[open=true]:rotate-180"
             />
           </div>
-        </PopoverTrigger>
-        <PopoverContent className="no-scroll-bar flex h-[300px] w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
-          {walletOptions.map((c) => (
-            <div
-              key={c}
-              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
-              onClick={() => handleChangeChain(c)}
-            >
-              <Image
-                src={EthChainInfos[c].logo}
-                width={30}
-                height={30}
-                alt="wallet"
-              />
-              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">{c}</div>
-            </div>
-          ))}
-        </PopoverContent>
-      </Popover>
+      </PopDrawer>
       <div className="mt-2">
         {wArr.map((item, index) => (
           <EthWalletItem

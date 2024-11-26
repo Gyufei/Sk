@@ -1,13 +1,9 @@
 import Image from "next/image";
 import { InputWithClear } from "@/components/input-with-clear";
 import { useTranslations } from "next-intl";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@radix-ui/react-popover";
 import { useState } from "react";
 import { InvalidTpl } from "@/components/invalid-tpl";
+import { PopDrawer } from "@/components/pop-drawer";
 
 export const countryCodeList = ["86"];
 
@@ -110,46 +106,44 @@ export function NameAndPhone({
           {T("Phone")}
         </label>
         <div className="flex items-end">
-          <Popover
+          <PopDrawer
+            title={T("Phone")}
             open={countryCodeOpen}
             onOpenChange={(isOpen) => setCountryCodeOpen(isOpen)}
-          >
-            <PopoverTrigger asChild>
+            popContentClass={'w-[80px]'}
+            popContent={countryCodeList.map((s) => (
               <div
-                onClick={() => setCountryCodeOpen(!countryCodeOpen)}
-                className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
+                key={s}
+                className="flex h-8 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
+                onClick={() => {
+                  handleCountryCodeChange(s);
+                  setCountryCodeOpen(false);
+                }}
               >
-                <div className="flex items-center">
-                  <div className="text-sm leading-6 text-[#d6d6d6]">
-                    {countryCode && "+"}
-                    {countryCode}
-                  </div>
-                </div>
-                <Image
-                  data-open={countryCodeOpen}
-                  src="/icons/arrow-down.svg"
-                  width={24}
-                  height={24}
-                  alt="down"
-                  className="mr-2 data-[open=true]:rotate-180"
-                />
+                <div className="ml-3 leading-6 text-[#d6d6d6]">+{s}</div>
               </div>
-            </PopoverTrigger>
-            <PopoverContent className="no-scroll-bar flex w-[80px]  flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4">
-              {countryCodeList.map((s) => (
-                <div
-                  key={s}
-                  className="flex h-8 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
-                  onClick={() => {
-                    handleCountryCodeChange(s);
-                    setCountryCodeOpen(false);
-                  }}
-                >
-                  <div className="ml-3 leading-6 text-[#d6d6d6]">+{s}</div>
+            ))}
+          >
+            <div
+              onClick={() => setCountryCodeOpen(!countryCodeOpen)}
+              className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
+            >
+              <div className="flex items-center">
+                <div className="text-sm leading-6 text-[#d6d6d6]">
+                  {countryCode && "+"}
+                  {countryCode}
                 </div>
-              ))}
-            </PopoverContent>
-          </Popover>
+              </div>
+              <Image
+                data-open={countryCodeOpen}
+                src="/icons/arrow-down.svg"
+                width={24}
+                height={24}
+                alt="down"
+                className="mr-2 data-[open=true]:rotate-180"
+              />
+            </div>
+          </PopDrawer>
           <InputWithClear
             isError={!phoneValid}
             value={phoneNumber}
