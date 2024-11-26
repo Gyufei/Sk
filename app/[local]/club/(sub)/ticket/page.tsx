@@ -139,6 +139,7 @@ export default function Page() {
           open={topicOpen}
           onOpenChange={(isOpen) => setTopicOpen(isOpen)}
           popContentClass={'h-fit w-[552px]'}
+          className={"h-[400px]"}
           popContent={topicArr.map((c) => (
             <div
               key={c}

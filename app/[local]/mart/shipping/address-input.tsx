@@ -49,6 +49,7 @@ export function AddressInput({
         </div>
         <PopDrawer
           title={T("Country")}
+          className={"h-[400px]"}
           open={countryPopOpen}
           onOpenChange={(isOpen) => setCountryPopOpen(isOpen)}
           popContent={countryArr.map((c) => (

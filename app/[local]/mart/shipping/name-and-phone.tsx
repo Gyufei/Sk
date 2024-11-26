@@ -108,6 +108,7 @@ export function NameAndPhone({
         <div className="flex items-end">
           <PopDrawer
             title={T("Phone")}
+            className={"h-[400px]"}
             open={countryCodeOpen}
             onOpenChange={(isOpen) => setCountryCodeOpen(isOpen)}
             popContentClass={'w-[80px]'}

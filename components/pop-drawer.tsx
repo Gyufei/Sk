@@ -23,6 +23,7 @@ export function PopDrawer({
   children,
   popContent,
   popContentClass,
+  className,
   triggerProps = {}
 }: {
   title: string;
@@ -31,7 +32,8 @@ export function PopDrawer({
   children?: React.ReactNode;
   popContent?: React.ReactNode;
   popContentClass?: string;
-  triggerProps?: any
+  triggerProps?: any;
+  className?: string;
 }) {
   
   const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -60,7 +62,7 @@ export function PopDrawer({
       <DrawerTrigger asChild>
         {children}
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className={className}>
         <DrawerHeader className="text-center py-0">
           <DrawerTitle className="text-lg font-medium">{title}</DrawerTitle>
         </DrawerHeader>
