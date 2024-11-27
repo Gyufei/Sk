@@ -149,7 +149,7 @@ export default function Page() {
               }}
             >
               <div
-                className="ml-3 text-sm leading-6 text-[]"
+                className="ml-3 text-base leading-6"
                 style={{
                   color:
                     topic === c
@@ -170,7 +170,7 @@ export default function Page() {
               }}
             >
               <div className="flex items-center">
-                <div className="text-sm leading-6 text-white">{topic}</div>
+                <div className="text-base leading-6 text-white">{topic && T(topic) || ''}</div>
               </div>
               <Image
                 data-open={topicOpen}
@@ -238,7 +238,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="mt-10 px-6">
+      <div className="mt-10 md:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentTickets")}
         </div>

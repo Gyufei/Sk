@@ -19,7 +19,7 @@ export function ConnectBtn({
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       onClick={handleDisconnect}
-      className="ml-0 mt-4 flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:border-[#ff5a5a] hover:bg-[#FF5A5A] jm:ml-4 jm:mt-0 jm:w-[200px]"
+      className="ml-0 mt-4 flex h-12 flex-1 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:border-[#ff5a5a] hover:bg-[#FF5A5A] jm:ml-4 jm:mt-0 jm:w-[200px]"
     >
       {isHover ? (
         <>

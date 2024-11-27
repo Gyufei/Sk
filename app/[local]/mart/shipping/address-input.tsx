@@ -55,13 +55,13 @@ export function AddressInput({
           popContent={countryArr.map((c) => (
             <div
               key={c}
-              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] text-sm hover:brightness-75"
+              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
               onClick={() => {
                 setCountry(c);
                 setCountryPopOpen(false);
               }}
             >
-              <div className="ml-3 leading-6 text-[#d6d6d6]">{c}</div>
+              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{c}</div>
             </div>
           ))}
         >
@@ -101,7 +101,7 @@ export function AddressInput({
                 setStateOpen(false);
               }}
             >
-              <div className="ml-3 text-sm leading-6 text-[#d6d6d6]">{s}</div>
+              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{s}</div>
             </div>
           ))}
         >
@@ -141,7 +141,7 @@ export function AddressInput({
                 setCityOpen(false);
               }}
             >
-              <div className="ml-3 text-sm leading-6 text-[#d6d6d6]">{c}</div>
+              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{c}</div>
             </div>
           ))}
         >

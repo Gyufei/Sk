@@ -18,6 +18,8 @@ export function NameAndPhone({
   setRcNameValid,
   phoneValid,
   setPhoneValid,
+  code,
+  setCode,
 }: {
   recipientName: string;
   setRecipientName: (v: string) => void;
@@ -29,6 +31,8 @@ export function NameAndPhone({
   phoneValid: boolean;
   setRcNameValid: (v: boolean) => void;
   setPhoneValid: (v: boolean) => void;
+  code: string;
+  setCode: (v: string) => void;
 }) {
   const T = useTranslations("Common");
 
@@ -93,6 +97,7 @@ export function NameAndPhone({
           onValueChange={(v) => handleNameChange(v)}
           isSign={false}
           inputId="recipientName"
+          inputClass="text-base"
           onBlur={handleNameBlur}
         />
         <InvalidTpl isValid={rcNameValid} />
@@ -152,10 +157,28 @@ export function NameAndPhone({
             isSign={false}
             inputId="phone"
             conClass="w-full md:w-auto"
+            inputClass="text-base"
             onBlur={handlePhoneBlur}
           />
         </div>
         <InvalidTpl isValid={phoneValid} />
+      </div>
+
+      <div className="flex flex-1 flex-col md:hidden">
+        <label
+          htmlFor="code"
+          className="text-lg font-normal leading-7 text-white opacity-60"
+        >
+          {T("ZipCode")}
+        </label>
+        <InputWithClear
+          isError={false}
+          value={code}
+          onValueChange={(v) => setCode(v)}
+          isSign={false}
+          inputId="code"
+          inputClass="text-base"
+        />
       </div>
     </div>
   );

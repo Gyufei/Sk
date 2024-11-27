@@ -60,11 +60,12 @@ export function StreetAndCode({
           isSign={false}
           inputId="street"
           onBlur={handleStreetBlur}
+          inputClass="text-base"
         />
         <InvalidTpl isValid={streetValid} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="hidden md:flex flex-1 flex-col">
         <label
           htmlFor="code"
           className="text-lg font-normal leading-7 text-white opacity-60"
@@ -77,6 +78,7 @@ export function StreetAndCode({
           onValueChange={(v) => setCode(v)}
           isSign={false}
           inputId="code"
+          inputClass="text-base"
         />
       </div>
 

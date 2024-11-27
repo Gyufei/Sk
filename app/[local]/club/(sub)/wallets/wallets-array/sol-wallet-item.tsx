@@ -105,12 +105,12 @@ export function SolWalletItem({
             width={20}
             height={20}
             alt="sign"
-            className="absolute right-0 top-0 cursor-pointer jm:top-[14px]"
+            className="absolute right-0 top-[10px] cursor-pointer jm:top-[14px]"
           />
         )}
       </div>
-      <div className="w-full md:w-[270px] md:min-w-[270px] flex flex-row-reverse md:flex-row">
-        <div className="mt-4  ml-[20px] md:ml-0 flex h-12 w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] md:mt-0">
+      <div className="w-full md:w-[270px] md:min-w-[270px] flex flex-row-reverse md:flex-row justify-between md:justify-start">
+        <div className="mt-4  ml-[20px] md:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] md:mt-0">
           <Image
             onClick={handleAdd}
             className="cursor-pointer"

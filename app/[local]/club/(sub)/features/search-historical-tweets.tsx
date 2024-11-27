@@ -43,7 +43,7 @@ export default function SearchHistoricalTweets() {
           />
         </div>
       </FeatureItem>
-      <div className="mt-10 px-6">
+      <div className="mt-10 md:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("SearchResults")} ({(tweetList || []).length})
         </div>

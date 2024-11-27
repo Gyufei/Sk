@@ -13,6 +13,7 @@ import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 import { formatDate } from "@/lib/utils/utils";
+import { IconBtn } from "@/components/icon-btn";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -165,7 +166,7 @@ export default function ShippingAddressPage() {
           />
         </StreetAndCode>
         <SaveBtn
-          className="my-4 flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
+          className="mt-[20px] flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
           disabled={disabled}
           onClick={handleSave}
         />
