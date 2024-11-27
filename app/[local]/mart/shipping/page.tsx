@@ -151,6 +151,8 @@ export default function ShippingAddressPage() {
             setRcNameValid,
             phoneValid,
             setPhoneValid,
+            code, 
+            setCode,
           }}
         />
         <AddressInput
