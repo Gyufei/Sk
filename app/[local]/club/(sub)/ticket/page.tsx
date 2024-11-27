@@ -129,11 +129,11 @@ export default function Page() {
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="content-w-600 mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-6 backdrop-blur-md">
+      <div className="content-w-600 mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] md:p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
-        <div className="mt-5 text-xl ">{T("Topic")}</div>
+        <div className="mt-5 text-[20px] md:text-xl ">{T("Topic")}</div>
         <PopDrawer
           title={T("Topic")}
           open={topicOpen}
@@ -182,7 +182,7 @@ export default function Page() {
               />
             </div>
         </PopDrawer>
-        <div className="mt-10 text-xl">{T("Content")}</div>
+        <div className="mt-10 text-[20px] md:text-xl">{T("Content")}</div>
         <div>
           <textarea
             value={content}
@@ -198,7 +198,7 @@ export default function Page() {
             </div>
           )}
         </div>
-        <div className="mt-10 text-xl">{T("Contact")}</div>
+        <div className="mt-10 text-[20px] md:text-xl">{T("Contact")}</div>
 
         <div>
           <Input
@@ -238,7 +238,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="mt-10 md:px-6">
+      <div className="md:mt-10 md:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentTickets")}
         </div>

@@ -23,23 +23,23 @@ export default function Page() {
             </div>
           </div>
           <div className="flex-1">
-            <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl leading-[30px] font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
             <div className="mt-[10px] flex items-center justify-between md:justify-start self-stretch">
               <div className="md:mr-[85px] mr-[10px] flex flex-col">
-                <span className="text-base font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
-                <span className="text-xl md:text-[32px] font-normal leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] font-normal leading-[30px] md:leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.cup || 0)}×
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-base font-medium leading-[30px] text-[rgba(255,255,255,0.6)]">
+                <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("XAccount")}
                 </span>
-                <span className="text-xl md:text-[32px] font-normal leading-[40px] text-white">
+                <span className="text-xl md:text-[32px] font-normal leading-[30px] md:leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.x_account || 0)}×
                 </span>
               </div>
