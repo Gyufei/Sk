@@ -5,35 +5,19 @@ import DomainRedirect from "./domain-redirect";
 import SearchHistoricalTweets from "./search-historical-tweets";
 import FeatureItem from "./feature-item";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
 import { BreadCrumbs } from "@/components/bread-crumbs";
+import { useNotificationListen } from "@/lib/use-notification-listen";
 
-const isSupported = () =>
-  'Notification' in window &&
-  'serviceWorker' in navigator &&
-  'PushManager' in window
 
 export default function Page() {
   const T = useTranslations("Common");
-  const isNotificationSupport = isSupported();
-  const [notificationChecked, setNotificationChecked] = useState<boolean>(
-    isNotificationSupport && Notification.permission === "granted",
-  );
-
-  function onNotificationChecked(value: boolean) {
-    if (value === true) {
-      Notification.requestPermission().then((result) => {
-        if (result === "granted") {
-          setNotificationChecked(true);
-        }
-      });
-      return;
-    }
-    const notification = new Notification("close notification");
-    notification.close();
-    setNotificationChecked(false);
-  }
-
+  const {
+    isNotificationSupport,
+    notificationChecked,
+    onNotificationChecked,
+    notificationDisabled
+  } = useNotificationListen()
+  
   return (
     <div className="no-scroll-bar content-w-600 m-t-20 md:trans-scroll-bar relative  overflow-y-auto md:-ml-[250px] md:h-fit md:max-h-[calc(100%-70px)]">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
@@ -53,7 +37,7 @@ export default function Page() {
               <div className="flex items-center justify-between self-stretch md:mt-[10px]">
                 <Switch
                   checked={notificationChecked}
-                  disabled={Notification.permission === "denied"}
+                  disabled={notificationDisabled}
                   onCheckedChange={onNotificationChecked}
                 />
                 <div
