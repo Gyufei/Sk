@@ -30,12 +30,12 @@ export default function DomainRedirect() {
             onKeyDown={handleKeyDown}
             value={yourId || ""}
             onChange={(e: any) => setYourId(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 md:text-base text-sm text-white"
+            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
             placeholder="yourid"
           />
           <div className="absolute right-0 md:right-2 top-[10px] flex items-center md:gap-3">
             <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
-            <span className="md:text-base text-sm leading-6 text-[#d6d6d6]">
+            <span className="text-base leading-6 text-[#d6d6d6]">
               .juu17.com
             </span>
           </div>
@@ -67,7 +67,7 @@ export default function DomainRedirect() {
         </div>
       
         <IconBtn
-          className={'w-full mt-[10px]'}
+          className={'w-full mt-[20px]'}
           disabled={!yourId || !redirectHost}
           btnText={T('Save')}
           handleClick={handleSave}

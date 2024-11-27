@@ -25,18 +25,18 @@ export default function SearchHistoricalTweets() {
   return (
     <>
       <FeatureItem title={T("SearchHistoricalTweets")}>
-        <div className="flex flex-1 items-center justify-between self-stretch md:mt-[10px]">
+        <div className="flex flex-1 items-center justify-between self-stretch md:mt-[10px] border-b border-[rgba(255,255,255,0.2)] md:border-none">
           <div className="relative flex-1">
             <Input
               onKeyDown={handleKeyDown}
               value={searchKey || ""}
               onChange={(e: any) => setSearchKey(e.target.value)}
-              className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-sm text-white md:text-base"
+              className="h-12 w-full rounded-none border-0 md:border-b-[1px] md:border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-white text-base"
               placeholder={T("SearchKeyword")}
             />
           </div>
           <IconBtn
-            className="mt-0"
+            className="mt-0 border-0 md:border"
             defaulImage={"/icons/search.svg"}
             hoverImage={"/icons/search-black.svg"}
             handleClick={handleSave}
