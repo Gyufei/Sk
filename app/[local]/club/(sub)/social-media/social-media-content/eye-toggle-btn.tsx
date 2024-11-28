@@ -36,7 +36,7 @@ export function EyeToggleBtn({
   const T = useTranslations("Common");
   return (
     <WithTip
-      tipContent={<p>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</p>}>
+      tipContent={<div>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</div>}>
        <IconBtn
           mobileHoverColorChanged={false}
           className={'border-0 md:border absolute mt-0 right-[-5px] top-[-10px] md:static md:mt-[0px]'}
