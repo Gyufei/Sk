@@ -115,7 +115,7 @@ export function Exchanges() {
       <div className="mb-5 text-xl leading-[30px] text-white">
         {T("Exchanges")}
       </div>
-      <div className="flex justify-between">
+      <div className="flex flex-col space-y-[30px] md:flex-row md:justify-between md:space-y-0">
         <div className="flex flex-col items-start">
           <div className="flex w-[140px] items-center space-x-2">
             <div className="text-base leading-6 text-[#D6D6D6]">Binance</div>
