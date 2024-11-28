@@ -76,36 +76,35 @@ export function InputWithClear({
         onBlur={handleBlur}
         readOnly={readOnly}
       />
-      {!readOnly && value && (
-        <button
-          onClick={($event) => {
-            $event.preventDefault();
-            $event.stopPropagation();
-            onValueChange("");
-          }}
-          className="absolute right-2 top-1/2 -translate-y-1/2 transform"
-        >
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 transform flex gap-2">
+        {!readOnly && value && (
+          <button
+            onClick={($event) => {
+              $event.preventDefault();
+              $event.stopPropagation();
+              onValueChange("");
+            }}
+          >
+            <Image
+              src="/icons/close.svg"
+              width={20}
+              height={20}
+              alt="sign"
+              className={cn(iconClass)}
+            />
+          </button>
+        )}
+        {isSign && !isFocus && (
           <Image
-            src="/icons/close.svg"
+            src="/icons/sign.svg"
             width={20}
             height={20}
             alt="sign"
             className={cn(iconClass)}
           />
-        </button>
-      )}
-      {isSign && !isFocus && (
-        <Image
-          src="/icons/sign.svg"
-          width={20}
-          height={20}
-          alt="sign"
-          className={cn(
-            "absolute right-[32px] top-[14px] cursor-pointer",
-            iconClass,
-          )}
-        />
-      )}
+        )}
+      </div>
+      
     </div>
   );
 }
