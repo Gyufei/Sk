@@ -51,7 +51,7 @@ export function NotificationListen() {
     });
     if (res.length > 0) {
 
-      res.map((item) => {
+      res.map((item: any) => {
         const { title, content } = item;
         notifyMe(title, content)
       })
