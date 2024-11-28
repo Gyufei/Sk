@@ -164,7 +164,7 @@ export function NameAndPhone({
         <InvalidTpl isValid={phoneValid} />
       </div>
 
-      <div className="flex flex-1 flex-col md:hidden">
+      <div className="flex flex-1 flex-col">
         <label
           htmlFor="code"
           className="text-lg font-normal leading-7 text-white opacity-60"

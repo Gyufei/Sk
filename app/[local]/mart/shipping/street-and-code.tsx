@@ -64,24 +64,6 @@ export function StreetAndCode({
         />
         <InvalidTpl isValid={streetValid} />
       </div>
-
-      <div className="hidden md:flex flex-1 flex-col">
-        <label
-          htmlFor="code"
-          className="text-lg font-normal leading-7 text-white opacity-60"
-        >
-          {T("ZipCode")}
-        </label>
-        <InputWithClear
-          isError={false}
-          value={code}
-          onValueChange={(v) => setCode(v)}
-          isSign={false}
-          inputId="code"
-          inputClass="text-base"
-        />
-      </div>
-
       {children}
     </div>
   );

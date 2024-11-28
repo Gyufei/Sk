@@ -162,7 +162,7 @@ export default function ShippingAddressPage() {
           {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
         >
           <SaveBtn
-            className="hidden w-12 md:flex"
+            className="hidden w-12 md:flex md:!mt-[20px]"
             disabled={disabled}
             onClick={handleSave}
           />
