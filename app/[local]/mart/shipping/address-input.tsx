@@ -42,8 +42,8 @@ export function AddressInput({
   }
 
   return (
-    <div className="mt-4 flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col mt-[30px] md:mt-0">
+    <div className="mt-[30px] flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
+      <div className="flex flex-1 flex-col md:mt-0">
         <div className="text-lg font-normal leading-7 text-white opacity-60">
           {T("Country")}
         </div>

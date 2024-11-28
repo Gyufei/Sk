@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="relative m-t-20 w-full md:w-auto">
       <div className="content-bg-blur mb-[20px] md:mt-6 md:w-[608px] md:min-h-[500px] md:-ml-[250px]">
-        <div className="flex flex-row items-start justify-start md:p-6 p-3 backdrop-blur-md ">
+        <div className="flex flex-row items-start justify-start md:p-6 p-3">
           <div className="flex-1">
             <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
               J {T("Points")}
@@ -26,7 +26,7 @@ export default function Page() {
             <div className="text-xl leading-[30px] font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
-            <div className="mt-[10px] flex items-center justify-between md:justify-start self-stretch">
+            <div className="md:mt-[10px] flex items-center justify-between md:justify-start self-stretch">
               <div className="md:mr-[85px] mr-[10px] flex flex-col">
                 <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
@@ -46,7 +46,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] md:bg-transparent md:py-0">
+        <div className="mt-[14px] md:mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] md:bg-transparent md:py-0">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("Activity")}
           </div>
