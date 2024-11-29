@@ -36,16 +36,16 @@ export default function MartPage() {
     }
   }, [isMutating, T, setGlobalMessage]);
 
-  const productClass = "flex-1 sm:flex-auto sm:w-[240px] md:w-[250px]";
+  const productClass = "flex-1 jm:flex-auto jm:w-[240px] md:w-[250px]";
 
   return (
-    <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-5 align-top sm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
+    <div className="pd-[100px] jm:pd-0 jm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-5 align-top jm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
       {(products || []).map((item) => (
         <div
           key={item.product_id}
           className={`${productClass} group box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white md:p-[5px]`}
         >
-          <div className="flex w-full min-w-[165px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md sm:h-[350px] sm:w-[240px]">
+          <div className="flex w-full min-w-[165px] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md jm:h-[350px] jm:w-[240px]">
             <Image
               src={item.product_display_picture || "/images/590.png"}
               width={240}
