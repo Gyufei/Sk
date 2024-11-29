@@ -893,6 +893,7 @@ textarea.w-select {
   .navbar li {
     padding: 0.5em 0;
     font-size: 2em;
+    font-weight: 500;
   }
 
   /* .text-block-4 {
@@ -1023,6 +1024,7 @@ html.w-mod-touch * {
   font-size: 2.5em;
   cursor: pointer;
   opacity: 0.5;
+  font-weight: 500;
 }
 
 .navbar li.active,
@@ -1038,7 +1040,9 @@ html.w-mod-touch * {
 
 @media screen and (max-width: 479px) {
   .navbar li {
-    font-size: 8em;
+    font-size: 30px;
+    line-height: 44px;
+    padding: 6px 0;
   }
 
   .update-form {
@@ -1106,6 +1110,14 @@ html.w-mod-touch * {
   width: 800px;
 }
 
+.content-w-608 {
+  width: 608px;
+}
+
+.content-w-760 {
+  width: 760px;
+}
+
 .content-w-400 {
   width: 400px;
 }
@@ -1168,6 +1180,16 @@ html.w-mod-touch * {
     margin-top: auto;
     margin-bottom: auto;
   }
+
+  .content-w-608 {
+    width: calc(100vw - 30px);
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .content-w-760 {
+    width: calc(100vw - 30px);
+  }
   
   .content-w-600 {
     width: calc(100vw - 30px);
@@ -1194,6 +1216,14 @@ html.w-mod-touch * {
     height: 165px;
   }
 }
+
+@media screen and (min-width: 900px) {
+  .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540{
+    margin-left: -250px;
+  }
+}
+
+
 
 
 .TooltipContent {

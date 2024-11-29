@@ -6,7 +6,7 @@ import SignOut from "@/components/sign-out";
 
 export default function Club() {
   return (
-    <div className="content-w-400 md:-ml-[250px]">
+    <div className="content-w-400">
       <div className="sm:hidden">
         <SignOut isIcon />
       </div>

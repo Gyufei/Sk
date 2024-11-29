@@ -7,25 +7,25 @@ const mockList = ["A", "B", "C", "D"];
 
 export default function Page() {
   return (
-    <div className="m-t-20 relative w-full ">
-      <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
+    <div className="m-t-20 relative content-w-760 lg:-ml-[200px]">
+      <div className="relative flex flex-row-reverse items-end justify-between jm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="content-w-700 mb-[20px] mt-6 ">
-        <div className="flex flex-wrap justify-between gap-5 md:flex-nowrap">
-          <div className="flex w-full flex-wrap items-center justify-between gap-[15px] md:gap-[20px] md:w-[520px]">
+      <div className="mb-[20px] mt-6">
+        <div className="flex flex-wrap justify-between gap-5 jm:flex-nowrap">
+          <div className="flex w-full flex-wrap items-center justify-between gap-[15px] jm:gap-[20px] jm:w-[520px]">
             {mockList.map((item, index) => {
               return (
                 <div
-                  className="flex w-[44vw] h-[44vw] md:h-[240px] md:w-[240px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md "
+                  className="flex w-[44vw] h-[44vw] jm:h-[240px] jm:w-[240px] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md "
                   key={index}
                 ></div>
               );
             })}
           </div>
 
-          <div className="flex w-full  flex-row items-center  justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] px-8 py-6 backdrop-blur-md md:h-[250px] md:w-[240px] md:flex-col md:justify-center md:bg-transparent">
+          <div className="flex w-full flex-row items-center  justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] px-8 py-6 backdrop-blur-md jm:h-[250px] jm:w-[240px] md:flex-col md:justify-center md:bg-transparent">
             <div className="flex h-20 w-20 items-center justify-center">
               <Image
                 src="/icons/mint-wallet.svg"

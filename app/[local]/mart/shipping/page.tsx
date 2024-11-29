@@ -13,7 +13,6 @@ import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 import { formatDate } from "@/lib/utils/utils";
-import { IconBtn } from "@/components/icon-btn";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
@@ -134,7 +133,7 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="content-bg-blur no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar relative overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)] lg:-ml-[200px]">
+    <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar relative overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)] lg:-ml-[200px]">
       <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
         <div className="mb-7 text-xl leading-[30px] text-white">
           {T("ShippingAddress")}

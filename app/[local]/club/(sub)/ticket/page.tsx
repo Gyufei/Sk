@@ -3,11 +3,6 @@
 import { useContext, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
@@ -124,12 +119,12 @@ export default function Page() {
   }
 
   return (
-    <div className="relative h-full w-full">
-      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between content-w-600">
+    <div className="relative h-full content-w-600">
+      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="content-w-600 mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] md:p-6 backdrop-blur-md">
+      <div className="mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] md:p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>

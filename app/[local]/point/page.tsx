@@ -11,8 +11,8 @@ export default function Page() {
   const activityList: any[] = [];
 
   return (
-    <div className="relative m-t-20 w-full md:w-auto">
-      <div className="content-bg-blur mb-[20px] md:mt-6 md:w-[608px] md:min-h-[500px] md:-ml-[250px]">
+    <div className="relative m-t-20 content-w-608">
+      <div className="mb-[20px] md:mt-6 md:min-h-[500px]">
         <div className="flex flex-row items-start justify-start md:p-6 p-3">
           <div className="flex-1">
             <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">

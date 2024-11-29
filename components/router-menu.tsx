@@ -94,7 +94,7 @@ export default function RouterMenu() {
 function MenuItem({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="bg-blur12 flex h-[28vw] w-[28vw]  min-w-[105px] min-h-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] md:h-[120px] md:w-[120px]"
+      className="bg-blur12 flex h-[28vw] w-[28vw]  min-w-[105px] min-h-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] jm:h-[120px] jm:w-[120px]"
     >
       {children}
     </div>

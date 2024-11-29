@@ -39,7 +39,7 @@ export default function MartPage() {
   const productClass = "flex-1 sm:flex-auto sm:w-[240px] md:w-[250px]";
 
   return (
-    <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-5 align-top sm:gap-x-[10px] md:-ml-[250px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
+    <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-5 align-top sm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
       {(products || []).map((item) => (
         <div
           key={item.product_id}

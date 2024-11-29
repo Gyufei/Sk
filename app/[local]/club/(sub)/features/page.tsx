@@ -19,12 +19,12 @@ export default function Page() {
   } = useNotificationListen()
   
   return (
-    <div className="no-scroll-bar content-w-600 m-t-20 md:trans-scroll-bar relative  overflow-y-auto md:-ml-[250px] md:h-fit md:max-h-[calc(100%-70px)]">
+    <div className="no-scroll-bar content-w-600 m-t-20 md:trans-scroll-bar relative  overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)]">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="content-w-600 mb-[20px] mt-6 content-bg-blur">
+      <div className="w-full mb-[20px] mt-6 content-bg-blur">
         <DomainRedirect />
         {
           isNotificationSupport && (
@@ -34,7 +34,7 @@ export default function Page() {
                 "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
               }
             >
-              <div className="flex items-center justify-between self-stretch md:mt-[10px]">
+              <div className="flex items-center justify-between self-stretch sm:mt-[10px]">
                 <Switch
                   checked={notificationChecked}
                   disabled={notificationDisabled}
