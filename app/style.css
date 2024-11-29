@@ -753,6 +753,7 @@ textarea.w-select {
   .left-block {
     height: 85em;
     padding-left: 0;
+    min-height: 300px;
   }
 
   .m-t-20 {
