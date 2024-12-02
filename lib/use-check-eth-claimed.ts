@@ -1,4 +1,4 @@
-import { useAccount, useContractRead } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
@@ -27,7 +27,7 @@ export function useCheckEthClaimed(
         )
       : "";
 
-  const res = useContractRead({
+  const res = useReadContract({
     address: ContractAddress as `0x${string}`,
     abi: ChainWorkBenchABI.abi,
     functionName: "claimed",

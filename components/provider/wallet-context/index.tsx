@@ -29,7 +29,7 @@ const chains = [
  const config = getDefaultConfig({
   appName: "Web3Modal",
   projectId: "554bbd76b2e66a095d2d38490bb42983",
-  chains: chains,
+  chains: chains as any,
   transports: {
     [mainnet.id]: http(),
   },

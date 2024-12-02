@@ -9,7 +9,6 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 import {
   useConnectModal,
-  useChainModal,
 } from '@rainbow-me/rainbowkit';
 
 import { GoBackTo } from "@/components/go-back-to";
@@ -27,7 +26,7 @@ export default function EventsPage() {
   const T = useTranslations("Common");
   const { data: claimTokens } = useClaimTokens();
   const { data: userInfo } = useFetchUserInfo();
-  const { openConnectModal } = useConnectModal();
+  const { openConnectModal = () => {}} = useConnectModal();
   const { switchChain } = useSwitchChain()
 
   // eth

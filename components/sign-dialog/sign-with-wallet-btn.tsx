@@ -30,7 +30,7 @@ export function SignWithWalletBtn({
   const setUuid = useSetAtom(UuidAtom);
 
   const { address, isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
+  const { openConnectModal = () => {} } = useConnectModal();
   const { disconnect } = useDisconnect();
 
   const { disconnect: solanaDisconnect } = useWallet();

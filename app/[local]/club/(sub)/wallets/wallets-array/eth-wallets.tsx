@@ -62,11 +62,11 @@ export function EthWallets() {
     }
   }, [chainId]);
 
-  const handleChangeChain = (cName: string, cChainId: number) => {
+  const handleChangeChain = (cName: string, cChainId: number | undefined) => {
     setSelectedChainName(cName);
     setPopOpen(false);
     switchChain({
-      chainId: cChainId
+      chainId: cChainId as number
     });
   };
 

@@ -30,8 +30,8 @@ export function EthWalletItem({
 }) {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { address: connectAddress } = useAccount();
-  const { openConnectModal } = useConnectModal();
-  const { openChainModal } = useChainModal();
+  const { openConnectModal = () => {}} = useConnectModal();
+  const { openChainModal = () => {} } = useChainModal();
 
   const { disconnectAsync: disconnect, isPending: isDisconnecting } =
     useDisconnect();

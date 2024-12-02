@@ -13,8 +13,7 @@ export function LevelTpl() {
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
 
   const { address } = useAccount();
-  const { openConnectModal } = useConnectModal();
-  // const { open: wcModalOpen } = useWeb3Modal();
+  const { openConnectModal = () => {} } = useConnectModal();
 
   const { write: levelUpAction, isPending, isSuccess } = useLevelUp();
   levelUpAction;

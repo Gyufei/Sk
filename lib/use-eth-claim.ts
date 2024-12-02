@@ -1,19 +1,18 @@
-import { useContractWrite } from "wagmi";
+import { useWriteContract } from "wagmi";
 import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
 
 export function useEthClaim(chainName: "linea" | "ethereum" | "op") {
   const { address: ContractAddress } = useContractAddress(chainName);
 
-  const { write, data, isLoading, isError, isSuccess, error } =
-    useContractWrite({
+  const { writeContract, data, isPending: isLoading, isError, isSuccess, error } =
+  useWriteContract();
+
+  function claimAction(amount: number, proofs: string[]) {
+    writeContract({
       address: ContractAddress as `0x${string}`,
       abi: ChainWorkBenchABI.abi,
       functionName: "claim",
-    });
-
-  function claimAction(amount: number, proofs: string[]) {
-    write({
       args: [amount, proofs],
     });
   }
