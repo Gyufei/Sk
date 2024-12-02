@@ -4,17 +4,17 @@ import { EthChainInfos } from "@/lib/const";
 import { useEffect, useMemo, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { EthWalletItem } from "./eth-wallet-item";
-import { useChainId, useSwitchNetwork } from "wagmi";
+import { useChainId, useSwitchChain } from "wagmi";
 import { PopDrawer } from "@/components/pop-drawer";
 
 export function EthWallets() {
   const chainId = useChainId();
-  const { switchNetwork } = useSwitchNetwork();
 
   const { data: userInfo } = useFetchUserInfo();
 
   const [popOpen, setPopOpen] = useState(false);
   const [selectedChainName, setSelectedChainName] = useState("");
+  const { switchChain } = useSwitchChain()
 
   const currChainInfo = useMemo(() => {
     const currChain = Object.values(EthChainInfos).find(
@@ -62,9 +62,12 @@ export function EthWallets() {
     }
   }, [chainId]);
 
-  const handleChangeChain = (cName: string) => {
+  const handleChangeChain = (cName: string, cChainId: number) => {
     setSelectedChainName(cName);
     setPopOpen(false);
+    switchChain({
+      chainId: cChainId
+    });
   };
 
   const handleAddrChange = (index: number, value: string) => {
@@ -102,7 +105,7 @@ export function EthWallets() {
             <div
               key={c}
               className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
-              onClick={() => handleChangeChain(c)}
+              onClick={() => handleChangeChain(c, EthChainInfos[c].chainId)}
             >
               <Image
                 src={EthChainInfos[c].logo}

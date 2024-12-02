@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useAccount, useChainId, useDisconnect } from "wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useSetAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
 import fetcher from "@/lib/api/fetcher";
@@ -9,6 +8,9 @@ import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import {
+  useConnectModal,
+} from '@rainbow-me/rainbowkit';
 
 export function SignWithWalletBtn({
   signing,
@@ -28,7 +30,7 @@ export function SignWithWalletBtn({
   const setUuid = useSetAtom(UuidAtom);
 
   const { address, isConnected } = useAccount();
-  const { open: wcModalOpen } = useWeb3Modal();
+  const { openConnectModal } = useConnectModal();
   const { disconnect } = useDisconnect();
 
   const { disconnect: solanaDisconnect } = useWallet();
@@ -109,7 +111,7 @@ export function SignWithWalletBtn({
     if (signing) return;
 
     if (!address) {
-      wcModalOpen();
+      openConnectModal();
       setIsModalOpenForSign(true);
     } else {
       signForAddress();

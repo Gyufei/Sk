@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { HaasGrotDisp, HaasGrotText } from "@/app/font";
 import Script from "next/script";
 import { HomeLayout } from "./home-layout";
-import { Web3Modal } from "@/components/web3-modal";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import GlobalActionTip from "@/components/global-action-tip";
 import { GlobalMsgProvider } from "@/components/global-msg-context";
 import { SolWalletProviders } from "@/components/sol-wallet-providers";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { Web3Provider } from "@/components/provider/wallet-context";
 import WalletDisconnected from "@/components/wallet-disconnected";
 
 export const metadata: Metadata = {
@@ -101,7 +101,7 @@ export default async function RootLayout({
       >
         <GlobalMsgProvider>
           <NextIntlClientProvider messages={messages}>
-            <Web3Modal>
+            <Web3Provider>
               <SolWalletProviders>
                 <HomeLayout>
                   {children}
@@ -109,7 +109,7 @@ export default async function RootLayout({
                   <WalletDisconnected />
                 </HomeLayout>
               </SolWalletProviders>
-            </Web3Modal>
+            </Web3Provider>
           </NextIntlClientProvider>
         </GlobalMsgProvider>
       </body>

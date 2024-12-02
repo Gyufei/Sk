@@ -1,23 +1,27 @@
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useLevelUp } from "@/lib/use-level-up";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useAccount } from "wagmi";
+
+import {
+  useConnectModal,
+} from '@rainbow-me/rainbowkit';
 
 export function LevelTpl() {
   const T = useTranslations("Common");
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
 
   const { address } = useAccount();
-  const { open: wcModalOpen } = useWeb3Modal();
+  const { openConnectModal } = useConnectModal();
+  // const { open: wcModalOpen } = useWeb3Modal();
 
   const { write: levelUpAction, isPending, isSuccess } = useLevelUp();
   levelUpAction;
 
   function handleClick() {
     if (!address || isPending) {
-      wcModalOpen();
+      openConnectModal()
     } else {
       levelUpAction();
     }

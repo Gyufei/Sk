@@ -3,11 +3,14 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAccount, useChainId, useSwitchNetwork } from "wagmi";
-
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+
+import {
+  useConnectModal,
+  useChainModal,
+} from '@rainbow-me/rainbowkit';
 
 import { GoBackTo } from "@/components/go-back-to";
 import { IClaimToken, useClaimTokens } from "@/lib/api/use-claim-tokens";
@@ -24,12 +27,12 @@ export default function EventsPage() {
   const T = useTranslations("Common");
   const { data: claimTokens } = useClaimTokens();
   const { data: userInfo } = useFetchUserInfo();
+  const { openConnectModal } = useConnectModal();
+  const { switchChain } = useSwitchChain()
 
   // eth
   const chainId = useChainId();
   const { address: ethAddress } = useAccount();
-  const { switchNetworkAsync: switchChain } = useSwitchNetwork();
-  const { open: wcModalOpen } = useWeb3Modal();
 
   // sol
   const { publicKey } = useWallet();
@@ -197,13 +200,15 @@ export default function EventsPage() {
 
   async function claimEvm() {
     if (!ethAddress) {
-      wcModalOpen();
+      openConnectModal()
     } else {
       const claimChainId = currentToken.chainInfo.chainId;
 
       if (String(chainId) !== String(claimChainId)) {
         try {
-          await switchChain!(claimChainId!);
+          await switchChain({
+            chainId: claimChainId!
+          });
           claimEthAction(claimAmount!, claimData.proofs);
         } catch (e) {
           console.error("switch chain error", e);
@@ -265,7 +270,7 @@ export default function EventsPage() {
 
   function handleConnect() {
     if (isEVM || isOffChain) {
-      wcModalOpen();
+      openConnectModal();
     } else {
       setSolanaModalVisible(true);
     }

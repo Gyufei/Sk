@@ -1,12 +1,17 @@
+"use client";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useAccount, useDisconnect } from "wagmi";
 import { useWalletVerify } from "@/lib/api/use-wallet-verify";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { ConnectBtn } from "./connect-btn";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+
+import {
+  useConnectModal,
+  useChainModal,
+} from '@rainbow-me/rainbowkit';
 
 export function EthWalletItem({
   address,
@@ -25,8 +30,10 @@ export function EthWalletItem({
 }) {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { address: connectAddress } = useAccount();
-  const { open: wcModalOpen } = useWeb3Modal();
-  const { disconnectAsync: disconnect, isLoading: isDisconnecting } =
+  const { openConnectModal } = useConnectModal();
+  const { openChainModal } = useChainModal();
+
+  const { disconnectAsync: disconnect, isPending: isDisconnecting } =
     useDisconnect();
 
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
@@ -46,18 +53,26 @@ export function EthWalletItem({
   }, [isWaitingForNewConnect, connectAddress, address]);
 
   async function handleConnect() {
-    if (isOperating) return;
-    setIsOperating(true);
+    if (isOperating || isDisconnecting) return;
     if (address && connectAddress === address) {
       return;
     }
+    // if login with wallet
+    const userWalletAddress = userInfo?.login_data?.wallet_address;
+    if (userWalletAddress && connectAddress === userWalletAddress) {
+      openChainModal()
+      return;
+    }
 
-    // await disconnect();
-    setIsWaitingForNewConnect(true);
-    await wcModalOpen();
+    setIsOperating(true);
+    await disconnect();
     setIsOperating(false);
+    openConnectModal();
+    setIsWaitingForNewConnect(true);
+    
   }
 
+  
   async function handleDisconnect() {
     if (isOperating || isDisconnecting) return;
 
@@ -68,8 +83,11 @@ export function EthWalletItem({
       });
       return;
     }
+    setIsOperating(true)
+    await disconnect();
+    setIsOperating(false)
   }
-
+  
   async function verifyWalletAction() {
     try {
       const res = await walletVerify({
@@ -101,6 +119,7 @@ export function EthWalletItem({
       handleRemove();
     }
   }
+  
 
   return (
     <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center md:justify-between">
@@ -135,7 +154,6 @@ export function EthWalletItem({
           isConnect={!!connectAddress && connectAddress === address}
         />
       </div>
-      
     </div>
   );
 }
