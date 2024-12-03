@@ -5,6 +5,8 @@ import { WagmiProvider } from 'wagmi'
 import { arbitrum, base, bsc, linea, mainnet, optimism, polygon, ronin, sepolia, zkSync } from 'wagmi/chains'
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { useLocale } from "next-intl";
+import { useMemo } from 'react';
 
 const chains = [
   mainnet,
@@ -37,18 +39,16 @@ const chains = [
 
 const queryClient = new QueryClient()
 
-function localeCheck() {
-  const url = window.location.href;
-  if (url.includes('/en')) return "en";
-  return "zh-CN"
-}
-
 export function Web3Provider({ children }: { children: React.ReactNode }) {
+  const local = useLocale();
+  const rainbowLocal = useMemo(() => {
+    return local === 'zh' ? 'zh-CN' : 'en'
+  }, [local])
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
-          locale={localeCheck()}
+          locale={rainbowLocal}
           theme={darkTheme({
             accentColor: '#7b3fe4',
             accentColorForeground: 'white',
