@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
@@ -21,6 +20,8 @@ import { useClaimData } from "@/lib/use-claim-data";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
+import { CoinItem } from "./coin-item";
+import { EventContent } from "./event-content";
 
 export default function EventsPage() {
   const T = useTranslations("Common");
@@ -315,151 +316,20 @@ export default function EventsPage() {
               />
             ))}
           </div>
-          {!currentToken ? (
-            <div className="h-[208px]"></div>
-          ) : !currentAddress ? (
-            <div className="flex h-[208px] flex-col items-center justify-center">
-              <div
-                data-disabled={false}
-                onClick={handleConnect}
-                className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50"
-              >
-                <div className="flex justify-between text-base leading-6 text-white">
-                  <span>Connect</span>
-                  {currentToken && (
-                    <ChainLogoText
-                      logo={
-                        isOffChain
-                          ? "/icons/network/ethereum.svg"
-                          : currentToken.chainInfo.logo
-                      }
-                      name={isOffChain ? "EVM" : currentToken.chainInfo.name}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : !claimData ? (
-            <div className="flex h-[208px] flex-col items-center justify-center"></div>
-          ) : claimAmount !== 0 ? (
-            <>
-              <div className="text-[28px] font-medium leading-9 text-white">
-                <span className="opacity-60">{T("YouAre")}</span>
-                <span className="opacity-80">{T("Eligible")}</span>
-              </div>
-              <div className="mt-4 flex items-center gap-x-[10px]">
-                <div className="text-[36px] font-semibold leading-[54px] text-white">
-                  {showClaimAmount}
-                </div>
-                <div className="flex h-10 items-center rounded-lg bg-[rgba(255,255,255,0.5)] px-3 py-[2px] text-[20px] font-semibold leading-[30px] text-[#262626] outline-none">
-                  {!isOffChain ? "$" : ""}
-                  {currentToken.symbol}
-                </div>
-              </div>
-              <div
-                style={{ visibility: isOffChain ? "hidden" : "visible" }}
-                className="mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
-              >
-                <div>{T("On")}</div>
-                <ChainLogoText
-                  logo={currentToken.chainInfo.logo}
-                  name={currentToken.chainInfo.name}
-                />
-              </div>
-              {
-                <div
-                  data-not={isClaimed || isPending || currentToken.isCutOff}
-                  onClick={handleClaim}
-                  className="mb-[6px] mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50"
-                >
-                  <div className="flex justify-between text-base leading-6 text-white">
-                    {isClaimed ? (
-                      T("Claimed")
-                    ) : currentToken.isCutOff ? (
-                      T("Unavailable")
-                    ) : isPending ? (
-                      T("Claiming")
-                    ) : (
-                      <>
-                        <span className="font-bold">{T("Claim")}</span>
-                        {!currentToken.chainInfo.isOffChain && (
-                          <div
-                            style={{
-                              visibility: isOffChain ? "hidden" : "visible",
-                            }}
-                            className="ml-1 flex justify-start"
-                          >
-                            <span>{T("On")}</span>
-                            <ChainLogoText
-                              logo={currentToken.chainInfo.logo}
-                              name={currentToken.chainInfo.name}
-                            />
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-              }
-            </>
-          ) : (
-            <div className="flex h-[208px] flex-col items-center justify-center">
-              <div className="text-[40px] leading-9 text-white opacity-80">
-                {T("Sorry")}
-              </div>
-              <div className="mt-[10px] text-center text-[28px] font-medium leading-9 text-white">
-                <span className="opacity-60">{T("YouAre")}</span>
-                <span className="opacity-80">{T("NotEligible")}</span>
-              </div>
-            </div>
-          )}
+          <EventContent 
+            currentToken={currentToken}
+            currentAddress={currentAddress}
+            claimData={claimData}
+            claimAmount={claimAmount}
+            showClaimAmount={showClaimAmount}
+            isClaimed={isClaimed}
+            isPending={isPending}
+            handleConnect={handleConnect}
+            handleClaim={handleClaim}
+          />
         </div>
       </div>
     </div>
   );
 }
 
-function CoinItem({
-  disabled,
-  src,
-  onClick,
-  isActive,
-  name,
-}: {
-  disabled: boolean;
-  src: string;
-  onClick: () => void;
-  isActive: boolean;
-  name: string;
-}) {
-  function handleClick() {
-    if (disabled) return;
-    if (src) onClick();
-  }
-
-  return (
-    <div
-      onClick={handleClick}
-      data-disabled={disabled}
-      data-active={isActive}
-      className="flex h-[60px] w-[60px] flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[disabled=true]:cursor-not-allowed data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl data-[disabled=true]:opacity-50 md:data-[active=true]:h-[60px] md:data-[active=true]:w-[80px] data-[active=true]:md:rounded-l-xl data-[active=true]:md:rounded-br-none"
-    >
-      {src && <Image src={src} width={40} height={40} alt={name} />}
-    </div>
-  );
-}
-
-function ChainLogoText({ logo, name }: { logo: string; name: string }) {
-  return (
-    <>
-      <Image
-        src={logo}
-        width={16}
-        height={16}
-        alt="sol net"
-        className="ml-2 mr-1"
-      />
-      <div className="text-base leading-6">{name}</div>
-    </>
-  );
-}
