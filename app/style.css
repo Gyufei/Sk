@@ -1224,7 +1224,7 @@ html.w-mod-touch * {
   }
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 960px) {
   .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540{
     margin-left: -250px;
   }

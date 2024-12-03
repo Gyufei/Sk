@@ -60,7 +60,7 @@ export function Twitter() {
       <div className="relative flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
           <Image src="/icons/x.svg" width={30} height={30} alt="" className={"w-[24px] h-[24px] md:w-[30px] md:h-[30px]"}/>
-          <div className="text-base leading-[24px] font-medium text-[#fff]">X (Twitter)</div>
+          <div className="text-base leading-[24px] font-medium text-[#d6d6d6]">X (Twitter)</div>
         </div>
         <InputWithClear
           value={x}
