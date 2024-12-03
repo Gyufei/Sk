@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <>
-      <div className="top-content shift-animation lg:-ml-[200px] relative content-w-800">
+      <div className="top-content shift-animation relative content-w-800">
         <div className="content-inner-box">
           <div className="div-block-7">
             <p className="paragraph-009">About Juu17 (🔫 , 1️⃣7️⃣)</p>

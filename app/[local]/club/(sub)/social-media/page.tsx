@@ -7,7 +7,7 @@ import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function MemberInfo() {
   return (
-    <div className="content-w-800 relative lg:-ml-[200px]">
+    <div className="content-w-800 relative">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />

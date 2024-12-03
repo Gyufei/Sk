@@ -1218,6 +1218,12 @@ html.w-mod-touch * {
   }
 }
 
+@media screen and (min-width: 1200px) {
+  .content-w-800, .content-w-760 {
+    margin-left: -200px;
+  }
+}
+
 @media screen and (min-width: 900px) {
   .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540{
     margin-left: -250px;

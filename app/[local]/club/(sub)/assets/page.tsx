@@ -7,7 +7,7 @@ const mockList = ["A", "B", "C", "D"];
 
 export default function Page() {
   return (
-    <div className="m-t-20 relative content-w-760 lg:-ml-[200px]">
+    <div className="m-t-20 relative content-w-760">
       <div className="relative flex flex-row-reverse items-end justify-between jm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
