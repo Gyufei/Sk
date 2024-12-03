@@ -23,7 +23,7 @@ function CircleText({
   return (
     <div
       data-active=""
-      className="inline-flex items-center justify-center ml-1 px-1 h-8 text-center border border-white/60 rounded-lg text-base">
+      className="inline-flex items-center justify-center ml-1 px-1 h-[28px] text-[14px] md:h-[32px] text-center border border-white/60 rounded-lg md:text-base">
         <span className={`animate-[textCircle_2s_ease-in_infinite]`}>{words[wordIndex]}</span>
     </div>
   )

@@ -107,29 +107,29 @@ export default function SignDialog() {
         showClose={false}
         className={`flex w-[345px] md:w-[400px] ${
           noMethodShow
-            ? " mt-[100px] justify-center bg-transparent md:mt-0 md:h-[500px] md:w-[500px] md:bg-transparent"
-            : "bg-[rgba(255,255,255,0.1)]"
-        } flex-col items-center gap-0 rounded-3xl border-none  p-[35px] backdrop-blur-[7px] `}
+            ? " mt-[100px] justify-center bg-transparent py-[40px] px-0 jm:mt-0 md:h-[500px] md:w-[500px] md:bg-transparent"
+            : "bg-[rgba(255,255,255,0.1)] p-[35px]"
+        } flex-col items-center gap-0 rounded-3xl border-none backdrop-blur-[7px] `}
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-center text-2xl font-normal md:text-3xl">
+            <div className="text-center text-2xl leading-[36px] font-medium md:text-3xl md:leading-[60px]">
               Build cypto new orders
             </div>
-            <div className="mt-8 text-center text-4xl md:text-6xl">
+            <div className="text-center font-medium text-[48px] leading-[72px] md:text-[66px] md:leading-[66px]">
               Juu17 Brands
             </div>
-            <div className="mt-10 text-lg md:mt-16">
+            <div className="font-medium mt-[40px] leading-[30px] text-[20px] md:text-lg md:leading-[36px] md:mt-[100px]">
               A cryptopia for <CircleText words={words} />
             </div>
             {signing ? (
-              <div className="mt-[50px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
+              <div className="mt-[24px] md:mt-[47px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
                 {T("Signing")}
               </div>
             ) : (
               <div
                 onClick={handleSign}
-                className="normal-line-button mt-[50px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
+                className="normal-line-button mt-[24px] md:mt-[47px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
               >
                 {T("SignIn")}
               </div>
