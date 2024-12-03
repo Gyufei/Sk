@@ -122,9 +122,9 @@ export function EthWalletItem({
   
 
   return (
-    <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center md:justify-between">
-       <div className="w-full md:w-[456px] relative mr-4 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
-       <div className="mr-0 w-full max-w-full flex-1 text-base truncate leading-6 text-[#d6d6d6] md:mr-0">
+    <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center jm:justify-between">
+       <div className="w-full jm:w-[456px] relative mr-4 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
+       <div className="mr-0 w-full max-w-full flex-1 text-base truncate leading-6 text-[#d6d6d6] jm:mr-0">
           {address}
         </div>
         {isVerify && (
@@ -137,8 +137,8 @@ export function EthWalletItem({
           />
         )}
       </div>
-      <div className="w-full md:w-[270px] md:min-w-[270px] flex flex-row-reverse md:flex-row justify-between md:justify-start">
-      <div className="mt-4  ml-[20px] md:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] md:mt-0">
+      <div className="w-full jm:w-[270px] jm:min-w-[270px] flex flex-row-reverse jm:flex-row justify-between jm:justify-start">
+      <div className="mt-4  ml-[20px] jm:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] jm:mt-0">
           <Image
             onClick={handleAdd}
             className="cursor-pointer"

@@ -9,7 +9,7 @@ export function SocialMediaContent() {
   const T = useTranslations("Common");
   return (
     <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
-      <div className="mb-7 text-xl leading-[30px] text-white">
+      <div className="mb-7 text-xl leading-[30px] text-white font-semibold">
         {T("SocialMedia")}
       </div>
       <Twitter />
