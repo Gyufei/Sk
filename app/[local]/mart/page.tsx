@@ -39,7 +39,7 @@ export default function MartPage() {
   const productClass = "flex-1 jm:flex-auto jm:w-[240px] jm:w-[250px]";
 
   return (
-    <div className="pd-[100px] jm:pd-0 jm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-5 align-top jm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
+    <div className="pd-[100px] jm:pd-0 jm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] jm:gap-y-5 align-top jm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
       {(products || []).map((item) => (
         <div
           key={item.product_id}
@@ -53,33 +53,33 @@ export default function MartPage() {
               alt="mart"
               className="w-full rounded-[20px] bg-[#d6d6d6]"
             ></Image>
-            <div className="#d6d6d6 p-[15px] group-hover:text-white">
+            <div className="#d6d6d6 p-[10px] jm:p-[15px] group-hover:text-white">
               <div className="break-words text-base font-medium leading-6">
                 {item.product_name}
               </div>
-              <div className="mt-5 flex justify-between">
-                <div>
-                  <span className="text-base leading-6">$</span>
-                  <span className="text-2xl leading-9">
+              <div className="mt-5 flex justify-between items-center">
+                <div className="flex items-center">
+                  <span className="text-[14px] leading-[30px] jm:text-base jm:leading-6  mr-[4px]">$</span>
+                  <span className="text-[20px] leading-[30px] jm:text-2xl jm:leading-9 font-medium">
                     {formatNum(String(item.product_price).replace("$", ""))}
                   </span>
                 </div>
                 <div
                   onClick={() => handleBuy(item)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(214,214,214,0.1)] group-hover:bg-[rgba(255,255,255,0.1)]"
+                  className="flex w-[24px] h-[24px] jm:h-8 jm:w-8 items-center justify-center rounded-full bg-[rgba(214,214,214,0.1)] group-hover:bg-[rgba(255,255,255,0.1)]"
                 >
                   <Image
                     width={18}
                     height={18}
                     alt={"buy-car"}
-                    className={"group-hover:hidden"}
+                    className={"w-[14px] h-[14px] jm:w-[18px] jm:h-[18px] group-hover:hidden"}
                     src={"/icons/buy-car-gray.svg"}
                   />
                   <Image
                     width={18}
                     height={18}
                     alt={"buy-car"}
-                    className={"hidden group-hover:inline-block"}
+                    className={"w-[14px] h-[14px] jm:w-[18px] jm:h-[18px] hidden group-hover:inline-block"}
                     src={"/icons/buy-car.svg"}
                   />
                 </div>

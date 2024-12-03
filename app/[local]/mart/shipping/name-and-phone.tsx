@@ -82,12 +82,14 @@ export function NameAndPhone({
     return phoneRegex.test(v);
   }
 
+  const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
+
   return (
     <div className="flex flex-col items-stretch space-x-0 space-y-[30px] md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
-          className="text-lg font-normal leading-7 text-white opacity-60"
+          className={titleClass}
         >
           {T("RecipientName")}
         </label>
@@ -106,7 +108,7 @@ export function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="phone"
-          className="text-lg font-normal leading-7 text-white opacity-60"
+          className={titleClass}
         >
           {T("Phone")}
         </label>
@@ -135,7 +137,7 @@ export function NameAndPhone({
               className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
             >
               <div className="flex items-center">
-                <div className="text-sm leading-6 text-[#d6d6d6]">
+                <div className="text-base font-medium leading-6 text-[#d6d6d6]">
                   {countryCode && "+"}
                   {countryCode}
                 </div>
@@ -167,7 +169,7 @@ export function NameAndPhone({
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="code"
-          className="text-lg font-normal leading-7 text-white opacity-60"
+          className={titleClass}
         >
           {T("ZipCode")}
         </label>

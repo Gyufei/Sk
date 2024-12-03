@@ -66,11 +66,11 @@ export function Discord() {
   }
 
   return (
-    <div className="mt-4 flex flex-col">
+    <div className="mt-[30px] md:mt-4 flex flex-col">
       <div className="relative flex flex-col items-start md:flex-row md:items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="/icons/discord.svg" width={30} height={30} alt="" />
-          <div className="text-base leading-6 text-[#d6d6d6]">Discord</div>
+          <Image src="/icons/discord.svg" width={30} height={30} alt=""  className={"w-[24px] h-[24px] md:w-[30px] md:h-[30px]"}/>
+          <div className="text-base leading-[24px] text-[#d6d6d6]">Discord</div>
         </div>
         <InputWithClear
           isError={!isValid}
@@ -80,6 +80,7 @@ export function Discord() {
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
+          inputClass="text-base"
           onBlur={handleBlur}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Discord." />

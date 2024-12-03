@@ -41,10 +41,11 @@ export function AddressInput({
     setCity("");
   }
 
+  const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
   return (
     <div className="mt-[30px] flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col md:mt-0">
-        <div className="text-lg font-normal leading-7 text-white opacity-60">
+        <div className={titleClass}>
           {T("Country")}
         </div>
         <PopDrawer
@@ -84,7 +85,7 @@ export function AddressInput({
         </PopDrawer>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg font-normal leading-7 text-white opacity-60">
+        <div className={titleClass}>
           {T("State")}
         </div>
         <PopDrawer
@@ -124,7 +125,7 @@ export function AddressInput({
         </PopDrawer>
       </div>
       <div className="flex flex-1 flex-col">
-        <div className="text-lg font-normal leading-7 text-white opacity-60">
+        <div className={titleClass}>
           {T("City")}
         </div>
         <PopDrawer

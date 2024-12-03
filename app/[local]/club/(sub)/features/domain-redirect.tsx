@@ -24,7 +24,7 @@ export default function DomainRedirect() {
 
   return (
     <FeatureItem title={T("DomainRedirect")}>
-      <div className="flex-col md:flex-row md:mt-[10px] flex flex-1 items-center justify-between self-stretch">
+      <div className="flex-col md:flex-row mt-[10px] flex flex-1 items-center justify-between self-stretch">
         <div className="relative w-full md:flex-1">
           <Input
             onKeyDown={handleKeyDown}
@@ -40,7 +40,7 @@ export default function DomainRedirect() {
             </span>
           </div>
         </div>
-        <div className="w-full flex flex-1 flex-row-reverse md:flex-row">
+        <div className="w-full flex flex-1 flex-row-reverse md:flex-row mt-[20px] md:mt-0">
           <Image
             src="/icons/arrow-right.svg"
             width={24}

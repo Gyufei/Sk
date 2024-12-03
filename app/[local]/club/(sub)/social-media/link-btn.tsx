@@ -17,7 +17,7 @@ export function LinkBtn({
       disabled={disabled}
       isConnected={isConnected}
       handleClick={onClick}
-      className={`w-full mt-[10px] ${connectedClassHover} ${notConnectedClassHover}`}
+      className={`w-full mt-[20px] ${connectedClassHover} ${notConnectedClassHover}`}
       defaulImage={isConnected ? "/icons/linked.svg" : "/icons/link.svg"}
       hoverImage={isConnected ? "/icons/unlink-white.svg" : "/icons/link-black.svg"}
       btnText={isConnected ? "Disconnect" : "Connect"}

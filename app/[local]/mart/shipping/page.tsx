@@ -186,14 +186,16 @@ export default function ShippingAddressPage() {
           {(logisticsOrders || [])?.map((item: any, index: number) => (
             <div
               key={index}
-              className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
+              className="flex py-[12px] flex-col jm:flex-row jm:py-0 jm:h-12 jm:items-center jm:justify-between text-[#d6d6d6]"
               style={{
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
-              <div>{item.order_id}</div>
-              <div>{item.delivery}</div>
-              <div>{formatDate(item.create_at)}</div>
+              <div className="text-base flex items-center justify-between w-full leading-6 jm:w-[40%]">
+                <div>{item.order_id}</div>
+                <div>{item.delivery}</div>
+              </div>
+              <div className="text-[12px] leading-[18px] mt-[5px] opacity-60 jm:leading-6 jm:mt-0 jm:opacity-100 jm:text-base">{formatDate(item.create_at)}</div>
             </div>
           ))}
         </div>

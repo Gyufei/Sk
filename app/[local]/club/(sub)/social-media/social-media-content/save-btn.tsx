@@ -14,7 +14,7 @@ export function SaveBtn({
     <IconBtn 
       disabled={disabled}
       handleClick={handleSave}
-      className="w-full mt-[10px]"
+      className="w-full mt-[20px]"
       btnText={T("Save")}
     />
   );

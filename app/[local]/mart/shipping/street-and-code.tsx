@@ -44,12 +44,14 @@ export function StreetAndCode({
     return streetRegex.test(v);
   }
 
+  const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
+
   return (
     <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
       <div className="flex flex-1 flex-col mt-[30px] md:mt-0">
         <label
           htmlFor="street"
-          className="text-lg font-normal leading-7 text-white opacity-60"
+          className={titleClass}
         >
           {T("AddressLine")}
         </label>

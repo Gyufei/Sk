@@ -25,7 +25,7 @@ export default function SearchHistoricalTweets() {
   return (
     <>
       <FeatureItem title={T("SearchHistoricalTweets")}>
-        <div className="flex flex-1 items-center justify-between self-stretch md:mt-[10px] border-b border-[rgba(255,255,255,0.2)] md:border-none">
+        <div className="flex flex-1 items-center justify-between self-stretch mt-[10px] border-b border-[rgba(255,255,255,0.2)] md:border-none">
           <div className="relative flex-1">
             <Input
               onKeyDown={handleKeyDown}
@@ -43,11 +43,11 @@ export default function SearchHistoricalTweets() {
           />
         </div>
       </FeatureItem>
-      <div className="mt-10 md:px-6">
-        <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
+      <div className="mt-[40px]">
+        <div className="font-haasDisp text-[20px] md:text-xl font-semibold leading-[30px] text-white">
           {T("SearchResults")} ({(tweetList || []).length})
         </div>
-        <div className="mt-5">
+        <div className="mt-[10px] md:mt-[20px]">
           {!tweetList?.length && (
             <div className="flex h-[50px] items-center justify-start text-xl">
               {T("NoData")}
@@ -56,13 +56,13 @@ export default function SearchHistoricalTweets() {
           {(tweetList || [])?.map((item: any, index: number) => (
             <div
               key={index}
-              className="py-4 text-base leading-6 text-[#d6d6d6]"
+              className="py-[12px] md:py-4 text-base leading-6 text-[#d6d6d6]"
               style={{
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
               <div>{item.content}</div>
-              <div className="mt-3 flex justify-between text-sm">
+              <div className="flex justify-between text-[12px] opacity-60 mt-[5px] md:mt-3  md:text-sm">
                 <div>Main Tweet</div>
                 <div>{formatDate(item.create_at)}</div>
               </div>
