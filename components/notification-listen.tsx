@@ -1,11 +1,18 @@
 "use client";
-import { useAtom, useAtomValue } from "jotai/react";
-import { NotificationAtom, UuidAtom } from "@/lib/api/state";
+import { useAtom } from "jotai/react";
+import { NotificationAtom, NotificationIdAtom } from "@/lib/api/state";
 import useSWR from "swr";
-import { isNotificationSupported, useNotificationListen } from "@/lib/use-notification-listen";
+import { isNotificationSupported, } from "@/lib/use-notification-listen";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { useEffect } from "react";
+
+type NotionResItem = {
+  id: string;
+  content: string;
+  title: string;
+  create_at: string;
+};
 
 function notifyMe(title: string, content: string) {
   if (!isNotificationSupported()) return false;
@@ -13,7 +20,7 @@ function notifyMe(title: string, content: string) {
     new Notification(title, {
       body: content,
       requireInteraction: true,
-      icon: ''
+      icon: '/images/logo-black.png'
     })
     return true
   }
@@ -22,11 +29,13 @@ function notifyMe(title: string, content: string) {
 
 export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
-  const uuid = useAtomValue(UuidAtom);
-  const { notificationChecked }= useNotificationListen()
+  const [notionId, setNotionId] = useAtom(NotificationIdAtom);
 
   useEffect(() => {
-    setNotification(notificationChecked ? "true" : "")
+    if (!isNotificationSupported()) return;
+    if (Notification.permission === "default" && notification === "ON") {
+      setNotification("OFF")
+    }
   }, [])
 
 
@@ -37,21 +46,29 @@ export function NotificationListen() {
       refreshInterval: 10000
     }
   );
-  
+   
   async function handleGetNotification() {
-    if (!notification) return;
-    const res: any = await fetcher(`${ApiHost}/user/claim_markle_proof`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: uuid,
-      }),
+    if (!isNotificationSupported()) return false;
+    if (Notification.permission !== 'granted') return false;
+    if (notification!=="ON") return;
+    const res: NotionResItem[] = await fetcher(`${ApiHost}/notion`, {
+      method: "GET",
     });
-    if (res.length > 0) {
 
-      res.map((item: any) => {
+    if (res.length > 0) {
+      const readedIds = (notionId || "").split("_");
+      const newIds = (res || []).map((item) => item.id).join("_");
+      setNotionId(newIds)
+      const validRes = (res || []).filter((item: NotionResItem) => {
+        const { create_at, id } = item;
+        if (readedIds.includes(id + '')) return false
+        const nowTime = new Date().getTime();
+        const createTime = new Date(create_at).getTime();
+        if ((nowTime - createTime) > 86400000 * 7) return false
+        return true;
+      })
+    
+      validRes.map((item: NotionResItem) => {
         const { title, content } = item;
         notifyMe(title, content)
       })

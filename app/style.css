@@ -168,6 +168,36 @@ textarea.w-select {
   flex-direction: column;
 }
 
+.content-bg-blur::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: -1;
+}
+
+.bg-blur-12 {
+  position: relative;
+}
+
+.bg-blur-12::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+}
+
+
+
 @media screen and (max-height: 600px) {
   
   .main-container {
@@ -1142,10 +1172,6 @@ html.w-mod-touch * {
 .content-w-250 {
   width: 250px;
  }
- .content-bg-blur {
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
-}
 
 .bg-blur12 {
   backdrop-filter: blur(12px);

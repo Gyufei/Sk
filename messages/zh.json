@@ -49,6 +49,7 @@
     "Features": "特性",
     "DomainRedirect": "域名指向",
     "Notification": "通知",
+    "NotificationWarnning": "您的浏览器已禁用消息推送功能",
     "Save": "保存",
     "ON": "开",
     "OFF": "关",

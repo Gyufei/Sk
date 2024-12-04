@@ -11,6 +11,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
 import { cycleWords } from "./constant";
+const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -191,10 +192,12 @@ export default function SignDialog() {
           </div>
         )}
         {showReCaptcha && (
-          <ReCAPTCHA
-            sitekey="6LfjY2cqAAAAAOu-5K148mkeFQz42tmA_MlfloVp"
-            onChange={handleReCaptchaChange}
-          />
+          <div className="mt-[15px]">
+            <ReCAPTCHA
+              sitekey={ReCAPTCHAKey}
+              onChange={handleReCaptchaChange}
+            />
+          </div> 
         )}
       </DialogContent>
     </Dialog>

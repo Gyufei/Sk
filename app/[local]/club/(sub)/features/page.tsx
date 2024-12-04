@@ -7,6 +7,8 @@ import FeatureItem from "./feature-item";
 import { Switch } from "@/components/ui/switch";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { useNotificationListen } from "@/lib/use-notification-listen";
+import { WithTip } from "@/components/with-tip";
+import Image from "next/image";
 
 
 export default function Page() {
@@ -17,6 +19,27 @@ export default function Page() {
     onNotificationChecked,
     notificationDisabled
   } = useNotificationListen()
+
+  const notionTitle = (
+    <div className="flex align-middle">
+      {T("Notification")}
+      {
+        notificationDisabled && (
+          <WithTip
+            tipContent={<div>{T("NotificationWarnning")}</div>}
+          >
+            <Image
+              src="/icons/warning.svg"
+              width={24}
+              height={24}
+              className={"ml-[8px]"}
+              alt="warning"
+            />
+          </WithTip>
+        )
+      }
+    </div>
+  )
   
   return (
     <div className="no-scroll-bar content-w-600 m-t-20 md:trans-scroll-bar relative  overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)]">
@@ -24,12 +47,12 @@ export default function Page() {
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="w-full mb-[20px] mt-6 content-bg-blur">
+      <div className="w-full relative mb-[20px] mt-6 content-bg-blur">
         <DomainRedirect />
         {
           isNotificationSupport && (
             <FeatureItem
-              title={T("Notification")}
+              title={notionTitle}
               className={
                 "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
               }

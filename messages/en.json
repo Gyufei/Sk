@@ -48,6 +48,7 @@
     "Features": "Features",
     "DomainRedirect": "Domain Redirect",
     "Notification": "Notification",
+    "NotificationWarnning": "Your browser has disabled message push functionality",
     "Save": "Save",
     "ON": "ON",
     "OFF": "OFF",

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSetAtom } from "jotai/react";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai/react";
 import { NotificationAtom } from "@/lib/api/state";
 
 export const isNotificationSupported = () =>
@@ -13,29 +13,42 @@ export function useNotificationListen():{
   notificationDisabled: boolean;
   onNotificationChecked: (value: boolean) => void;
 } {
-  const setNotification = useSetAtom(NotificationAtom);
+  const [notification, setNotification]= useAtom(NotificationAtom);
   const isNotificationSupport = isNotificationSupported();
 
   const [notificationChecked, setNotificationChecked] = useState<boolean>(
-    isNotificationSupport && Notification.permission === "granted",
+    isNotificationSupport && notification === "ON",
   );
 
   const notificationDisabled = isNotificationSupport && Notification.permission === "denied";
 
+  useEffect(() => {
+    if (!isNotificationSupported()) return;
+    if (Notification.permission === "default" && notification === "ON") {
+      setNotification("OFF")
+    }
+  }, [])
+
   function onNotificationChecked(value: boolean) {
     if (value === true) {
+      if (Notification.permission === 'granted') {
+        setNotificationChecked(true);
+        setNotification("ON")
+        return;
+      }
+     
       Notification.requestPermission().then((result) => {
         if (result === "granted") {
           setNotificationChecked(true);
-          setNotification("true")
+          setNotification("ON")
         } else {
-          setNotification("")
+          setNotification("OFF")
         }
       });
       return;
     }
     
-    setNotification("")
+    setNotification("OFF")
     setNotificationChecked(false);
   }
 
