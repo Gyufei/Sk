@@ -12,26 +12,26 @@ export default function Page() {
 
   return (
     <div className="relative m-t-20 content-w-608">
-      <div className="mb-[20px] md:mt-6 md:min-h-[500px]">
-        <div className="flex flex-row items-start justify-start md:p-6 p-3">
+      <div className="mb-[20px] jm:mt-6 jm:min-h-[500px]">
+        <div className="flex flex-row items-start justify-start jm:p-6 p-3">
           <div className="flex-1">
-            <div className="text-xl font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl font-haasDisp font-semibold text-white jm:text-[rgba(255,255,255,0.6)]">
               J {T("Points")}
             </div>
-            <div className="mt-[10px] text-[40px] leading-[40px] md:leading-[60px] text-white">
+            <div className="mt-[10px] text-[40px] leading-[40px] jm:leading-[60px] text-white">
               {formatNum(userInfo?.j_points || 0)}
             </div>
           </div>
           <div className="flex-1">
-            <div className="text-xl leading-[30px] font-haasDisp font-semibold text-white md:text-[rgba(255,255,255,0.6)]">
+            <div className="text-xl leading-[30px] font-haasDisp font-semibold text-white jm:text-[rgba(255,255,255,0.6)]">
               {T("Multipliers")}
             </div>
-            <div className="md:mt-[10px] flex items-center justify-between md:justify-start self-stretch">
-              <div className="md:mr-[85px] mr-[10px] flex flex-col">
+            <div className="jm:mt-[10px] flex items-center justify-between jm:justify-start self-stretch">
+              <div className="jm:mr-[85px] mr-[10px] flex flex-col">
                 <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
-                <span className="text-xl md:text-[32px] font-normal leading-[30px] md:leading-[40px] text-white">
+                <span className="text-xl jm:text-[32px] font-normal leading-[30px] jm:leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.cup || 0)}×
                 </span>
               </div>
@@ -39,19 +39,19 @@ export default function Page() {
                 <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("XAccount")}
                 </span>
-                <span className="text-xl md:text-[32px] font-normal leading-[30px] md:leading-[40px] text-white">
+                <span className="text-xl jm:text-[32px] font-normal leading-[30px] jm:leading-[40px] text-white">
                   {formatNum(userInfo?.multipliers?.x_account || 0)}×
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <div className="mt-[14px] md:mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] md:bg-transparent md:py-0">
+        <div className="mt-[14px] jm:mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] jm:bg-transparent jm:py-0">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("Activity")}
           </div>
           {/* !H5 Show*/}
-          <div className="mt-5 hidden md:block ">
+          <div className="mt-5 hidden jm:block ">
            <Table className="text-[#D6D6D6]">
             <TableHeader>
               <TableRow className="border-none">
@@ -90,7 +90,7 @@ export default function Page() {
           </Table>
           </div>
            {/* H5 Show */}
-          <div className="md:hidden">
+          <div className="jm:hidden">
             {(activityList || [])?.map((item: any, index: number) => (
                 <div
                   key={index}
