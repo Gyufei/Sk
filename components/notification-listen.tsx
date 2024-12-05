@@ -6,6 +6,7 @@ import { isNotificationSupported, } from "@/lib/use-notification-listen";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { useEffect } from "react";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 
 type NotionResItem = {
   id: string;
@@ -30,6 +31,8 @@ function notifyMe(title: string, content: string) {
 export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
   const [notionId, setNotionId] = useAtom(NotificationIdAtom);
+  const { data: userInfo } = useFetchUserInfo();
+  const levelGt2 = userInfo?.level >= 2;
 
   useEffect(() => {
     if (!isNotificationSupported()) return;
@@ -48,6 +51,7 @@ export function NotificationListen() {
   );
    
   async function handleGetNotification() {
+    if (!levelGt2) return false;
     if (!isNotificationSupported()) return false;
     if (Notification.permission !== 'granted') return false;
     if (notification!=="ON") return;

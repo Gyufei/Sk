@@ -79,6 +79,7 @@
     "RedirectingToHome": "2秒后重定向到首页...",
     "EventsLevelRequired": "参与活动功能只对二级及以上俱乐部会员开放",
     "TicketLevelRequired": "提交工单功能只对二级及以上俱乐部会员开放",
-    "PayingIsBeingInitiated": "调起支付中"
+    "PayingIsBeingInitiated": "调起支付中",
+    "NotionLevelRequired": "通知只对二级及以上俱乐部会员开放"
   }
 }

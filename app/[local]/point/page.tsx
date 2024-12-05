@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="relative m-t-20 content-w-608">
       <div className="mb-[20px] sm:mt-6 sm:min-h-[500px]">
-        <div className="flex flex-row items-start justify-start sm:p-6 p-3">
+        <div className="flex flex-row items-start justify-start sm:p-0 p-3">
           <div className="flex-1">
             <div className="text-xl font-haasDisp font-semibold text-white sm:text-[rgba(255,255,255,0.6)]">
               J {T("Points")}
@@ -46,7 +46,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-        <div className="mt-[14px] sm:mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] sm:bg-transparent sm:py-0">
+        <div className="mt-[14px] sm:mt-10 px-[20px] py-[20px] bg-[rgba(255,255,255,0.1)] rounded-[20px] sm:bg-transparent sm:p-0">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("Activity")}
           </div>
@@ -54,8 +54,8 @@ export default function Page() {
           <div className="mt-5 hidden sm:block ">
            <Table className="text-[#D6D6D6]">
             <TableHeader>
-              <TableRow className="border-none">
-                <TableHead>{T("Action")}</TableHead>
+              <TableRow className="border-none text-base">
+                <TableHead className="text-left  pl-0">{T("Action")}</TableHead>
                 <TableHead>{T("ArticleMultipler")}</TableHead>
                 <TableHead>{T("Point")}</TableHead>
                 <TableHead className="text-right">{T("Time")}</TableHead>
@@ -66,7 +66,7 @@ export default function Page() {
               <TableRow 
                 className="border-none" 
               >
-                <TableCell className="font-medium">_</TableCell>
+                <TableCell className="text-left pl-0">_</TableCell>
                 <TableCell>_</TableCell>
                 <TableCell>_</TableCell>
                 <TableCell className="text-right">_</TableCell>
@@ -80,7 +80,7 @@ export default function Page() {
                     boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
                   }}
                 >
-                  <TableCell className="font-medium">Like</TableCell>
+                  <TableCell className="text-left  pl-0">Like</TableCell>
                   <TableCell>4x</TableCell>
                   <TableCell>40</TableCell>
                   <TableCell className="text-right">{formatDate(item.create_at)}</TableCell>

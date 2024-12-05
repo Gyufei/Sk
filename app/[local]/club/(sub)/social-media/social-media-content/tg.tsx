@@ -11,7 +11,7 @@ import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 
 export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const placeHolderText = "https://telegram.org/";
+  const placeHolderText = "https://t.me/";
   const { data: userInfo } = useFetchUserInfo();
   const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);

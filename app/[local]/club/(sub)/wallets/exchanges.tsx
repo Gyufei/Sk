@@ -33,6 +33,7 @@ export function Exchanges() {
   function handleBnBlur() {
     if (!bnUID) {
       saveExchange();
+      setBnUIDValid(true);
       return;
     }
 
@@ -50,6 +51,7 @@ export function Exchanges() {
   function handleOkxBlur() {
     if (!okxUID) {
       saveExchange();
+      setOKXUIDValid(true);
       return;
     }
 
@@ -67,6 +69,7 @@ export function Exchanges() {
   function handleByBitBlur() {
     if (!byBitUID) {
       saveExchange();
+      setByBitUIDValid(true);
       return;
     }
 

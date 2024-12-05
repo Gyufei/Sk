@@ -79,6 +79,7 @@
     "PayingIsBeingInitiated": "Paying is being initiated",
     "LevelRequired": "Club features are only available to club members of level 2 and above",
     "EventsLevelRequired": "Participating in events is only available to club members of level 2 and above",
-    "TicketLevelRequired": "Submitting tickets is only available to club members of level 2 and above"
+    "TicketLevelRequired": "Submitting tickets is only available to club members of level 2 and above",
+    "NotionLevelRequired": "Notification is only available to club members of level 2 and above"
   }
 }

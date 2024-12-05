@@ -140,6 +140,7 @@ export default function SignWithEmail({
           setIsValid(checkEmailRegex(e.target.value));
         }}
         data-error={!isValid}
+        placeholder="Email"
         className="h-12 w-full rounded-lg  border border-[rgba(255,255,255,0.6)] bg-transparent p-4 text-base data-[error=true]:border-[#FF5A5A]"
       />
       <button

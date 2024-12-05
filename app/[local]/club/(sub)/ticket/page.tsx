@@ -109,13 +109,15 @@ export default function Page() {
   }
 
   function handleContentInput(v: string) {
+    const validV = (v || '').trim()
     setContent(v);
-    setContentValid(v.length >= 20);
+    setContentValid(validV.length >= 20);
   }
 
   function handleContactInput(v: string) {
+    const validV = (v || '').trim()
     setContact(v);
-    setContactValid(v.length >= 8);
+    setContactValid(validV.length >= 8);
   }
 
   return (
@@ -182,7 +184,7 @@ export default function Page() {
           <textarea
             value={content}
             onChange={(e) => handleContentInput(e.target.value)}
-            className="h-24 w-full border-b border-solid bg-transparent text-base text-white outline-none"
+            className="py-2 h-12 w-full border-b border-solid bg-transparent text-base text-white outline-none min-h-[48px]"
             style={{
               borderBottomColor: contentValid ? "#464646" : "#ff5a5a",
             }}

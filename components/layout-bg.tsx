@@ -1,16 +1,18 @@
 "use client";
 import { usePathname } from "@/app/navigation";
-
+import { useAtomValue } from "jotai/react";
+import { UuidAtom } from "@/lib/api/state";
 import { useEffect, useMemo, useState } from "react";
 
 const blurPaths = ['/point', '/mart/shipping'];
 
 export function LayoutBg() {
   const [src, setSrc] = useState<string | null>(null);
+  const uuid = useAtomValue(UuidAtom);
   const pathname = usePathname();
 
   const isPathBlur = useMemo(() => {
-    return blurPaths.includes(pathname)
+    return blurPaths.includes(pathname) || !uuid 
   }, [pathname])
 
   useEffect(() => {

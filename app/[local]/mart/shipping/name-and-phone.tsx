@@ -86,7 +86,7 @@ export function NameAndPhone({
 
   return (
     <div className="flex flex-col items-stretch space-x-0 space-y-[30px] sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-      <div className="flex flex-1 flex-col">
+      <div className="flex w-full flex-col sm:w-[237px]">
         <label
           htmlFor="recipientName"
           className={titleClass}
@@ -105,7 +105,7 @@ export function NameAndPhone({
         <InvalidTpl isValid={rcNameValid} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex w-full flex-col sm:w-[349px]">
         <label
           htmlFor="phone"
           className={titleClass}
@@ -158,7 +158,7 @@ export function NameAndPhone({
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
             inputId="phone"
-            conClass="w-full sm:w-auto"
+            conClass="w-full"
             inputClass="text-base"
             onBlur={handlePhoneBlur}
           />
@@ -166,7 +166,7 @@ export function NameAndPhone({
         <InvalidTpl isValid={phoneValid} />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex w-full flex-col sm:w-[120px]">
         <label
           htmlFor="code"
           className={titleClass}

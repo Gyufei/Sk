@@ -30,11 +30,11 @@ export default function DomainRedirect() {
             onKeyDown={handleKeyDown}
             value={yourId || ""}
             onChange={(e: any) => setYourId(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-            placeholder="yourid"
+            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white pr-[120px]"
+            placeholder="subdomain"
           />
           <div className="absolute right-0 sm:right-2 top-[10px] flex items-center sm:gap-3">
-            <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
+            <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40 mr-[12px]"></div>
             <span className="text-base leading-6 text-[#d6d6d6]">
               .juu17.com
             </span>
@@ -55,13 +55,13 @@ export default function DomainRedirect() {
             alt="right"
             className="sm:hidden mx-3"
           />
-          <div className="flex-1">
+          <div className="flex-1 align-middle flex border-b border-[rgba(255,255,255,0.2)]">
+            <div className="text-base font-medium text-[#d6d6d6] w-[60px] mr-[8px] leading-[48px]">https://</div>
             <Input
               onKeyDown={handleKeyDown}
               value={redirectHost || ""}
               onChange={(e: any) => setRedirectHost(e.target.value)}
-              className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-              placeholder="https://"
+              className="h-12 w-full rounded-none border-none bg-transparent pl-0 text-base text-white"
             />
           </div>
         </div>
