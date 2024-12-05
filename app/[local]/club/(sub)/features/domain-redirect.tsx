@@ -24,8 +24,8 @@ export default function DomainRedirect() {
 
   return (
     <FeatureItem title={T("DomainRedirect")}>
-      <div className="flex-col md:flex-row mt-[10px] flex flex-1 items-center justify-between self-stretch">
-        <div className="relative w-full md:flex-1">
+      <div className="flex-col sm:flex-row mt-[10px] flex flex-1 items-center justify-between self-stretch">
+        <div className="relative w-full sm:flex-1">
           <Input
             onKeyDown={handleKeyDown}
             value={yourId || ""}
@@ -33,27 +33,27 @@ export default function DomainRedirect() {
             className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
             placeholder="yourid"
           />
-          <div className="absolute right-0 md:right-2 top-[10px] flex items-center md:gap-3">
+          <div className="absolute right-0 sm:right-2 top-[10px] flex items-center sm:gap-3">
             <div className="h-3 w-[1px] bg-[#d8d8d8] opacity-40"></div>
             <span className="text-base leading-6 text-[#d6d6d6]">
               .juu17.com
             </span>
           </div>
         </div>
-        <div className="w-full flex flex-1 flex-row-reverse md:flex-row mt-[20px] md:mt-0">
+        <div className="w-full flex flex-1 flex-row-reverse sm:flex-row mt-[20px] sm:mt-0">
           <Image
             src="/icons/arrow-right.svg"
             width={24}
             height={24}
             alt="right"
-            className="hidden md:block mx-3"
+            className="hidden sm:block mx-3"
           />
           <Image
             src="/icons/redirect-left.svg"
             width={24}
             height={24}
             alt="right"
-            className="md:hidden mx-3"
+            className="sm:hidden mx-3"
           />
           <div className="flex-1">
             <Input

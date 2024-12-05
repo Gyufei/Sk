@@ -47,8 +47,8 @@ export function StreetAndCode({
   const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
 
   return (
-    <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col mt-[30px] md:mt-0">
+    <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] sm:mt-10 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
+      <div className="flex flex-1 flex-col mt-[30px] sm:mt-0">
         <label
           htmlFor="street"
           className={titleClass}

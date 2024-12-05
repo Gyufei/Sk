@@ -5,7 +5,7 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { SignInMethod } from "../sign-dialog/type";
 import { LevelTpl } from "./level-tpl";
 
-const titleClass = "mb-1 text-sm font-semibold md:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
+const titleClass = "mb-1 text-sm font-semibold sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
 export default function UserInfoBanner() {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");
@@ -24,7 +24,7 @@ export default function UserInfoBanner() {
 
   const uidInfoTpl = useMemo(() => {
     return (
-      <div className="flex flex-col md:mr-10">
+      <div className="flex flex-col sm:mr-10">
         <div className={`${titleClass}`}>
           UID
         </div>
@@ -37,7 +37,7 @@ export default function UserInfoBanner() {
 
   const memberInfoTpl = useMemo(() => {
     return (
-      <div className="flex flex-col md:mr-7">
+      <div className="flex flex-col sm:mr-7">
         <div className={`${titleClass}`}>
           {T("MembershipNo")}
         </div>
@@ -60,25 +60,25 @@ export default function UserInfoBanner() {
   }, [userInfo?.nick_name]);
 
   return (
-    <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:flex-row md:rounded-[18px] md:p-[20px] h-auto md:h-auto">
-      <div className="hidden items-center md:flex">
+    <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:flex-row sm:rounded-[18px] sm:p-[20px] h-auto sm:h-auto">
+      <div className="hidden items-center sm:flex">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
       </div>
 
-      <div className="flex w-full items-center md:hidden h-[68px] space-x-3">
+      <div className="flex w-full items-center sm:hidden h-[68px] space-x-3">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
         <LevelTpl />
       </div>
 
-      <div className="hidden md:block">
+      <div className="hidden sm:block">
         <LevelTpl />
       </div>
 
-      {/* <div className="mt-5 flex items-center justify-between md:hidden">
+      {/* <div className="mt-5 flex items-center justify-between sm:hidden">
         {memberInfoTpl}
         <LevelTpl />
       </div> */}

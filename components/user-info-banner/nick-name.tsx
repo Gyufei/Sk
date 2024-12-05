@@ -80,10 +80,10 @@ export function NickName({ nickName }: { nickName: string }) {
           onChange={(e) => setName(e.target.value)}
           onBlur={handleBlur}
           data-error={!isValid}
-          className="h-[24px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base data-[error=true]:border-[#FF5A5A]  md:w-[80px]"
+          className="h-[24px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base data-[error=true]:border-[#FF5A5A]  sm:w-[80px]"
         />
       ) : (
-        <div className="flex items-center justify-start md:justify-start">
+        <div className="flex items-center justify-start sm:justify-start">
           <div className="h-[24px] text-base leading-6 opacity-60">{name}</div>
           <Image
             onClick={() => setIsEditName(true)}

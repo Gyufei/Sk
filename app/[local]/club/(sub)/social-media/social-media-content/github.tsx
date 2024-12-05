@@ -70,10 +70,10 @@ export function Github() {
   }
 
   return (
-    <div className="mt-[30px] md:mt-4 flex flex-col">
-      <div className="relative flex flex-col items-start md:flex-row md:items-center">
+    <div className="mt-[30px] sm:mt-4 flex flex-col">
+      <div className="relative flex flex-col items-start sm:flex-row sm:items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="/icons/github.svg" width={30} height={30} alt="" className={"w-[24px] h-[24px] md:w-[30px] md:h-[30px]"}/>
+          <Image src="/icons/github.svg" width={30} height={30} alt="" className={"w-[24px] h-[24px] sm:w-[30px] sm:h-[30px]"}/>
           <div className="text-base leading-[24px] text-[#d6d6d6]">Github</div>
         </div>
         <InputWithClear
@@ -84,7 +84,7 @@ export function Github() {
           placeHolder="|  your id"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
-          conClass="md:ml-4 ml-0 flex-1 w-full md:w-auto"
+          conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           onBlur={handleBlur}
         />

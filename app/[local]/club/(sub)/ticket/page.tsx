@@ -124,11 +124,11 @@ export default function Page() {
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] md:p-6 backdrop-blur-md">
+      <div className="mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] sm:p-6 backdrop-blur-md">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
-        <div className="mt-5 text-[20px] md:text-xl ">{T("Topic")}</div>
+        <div className="mt-5 text-[20px] sm:text-xl ">{T("Topic")}</div>
         <PopDrawer
           title={T("Topic")}
           open={topicOpen}
@@ -177,7 +177,7 @@ export default function Page() {
               />
             </div>
         </PopDrawer>
-        <div className="mt-10 text-[20px] md:text-xl">{T("Content")}</div>
+        <div className="mt-10 text-[20px] sm:text-xl">{T("Content")}</div>
         <div>
           <textarea
             value={content}
@@ -193,7 +193,7 @@ export default function Page() {
             </div>
           )}
         </div>
-        <div className="mt-10 text-[20px] md:text-xl">{T("Contact")}</div>
+        <div className="mt-10 text-[20px] sm:text-xl">{T("Contact")}</div>
 
         <div>
           <Input
@@ -212,8 +212,8 @@ export default function Page() {
           )}
         </div>
 
-        <div className="mt-10 flex flex-col items-center md:flex-row">
-          <div className="recaptcha-container mb-4 md:mb-0">
+        <div className="mt-10 flex flex-col items-center sm:flex-row">
+          <div className="recaptcha-container mb-4 sm:mb-0">
             <ReCAPTCHA
               ref={captchaInst}
               sitekey={ReCAPTCHAKey}
@@ -226,14 +226,14 @@ export default function Page() {
               !topicValid || !contentValid || !contactValid || !reCaptchaValue
             }
             onClick={() => saveTopic()}
-            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] md:ml-4"
+            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
           >
             Submit
           </button>
         </div>
       </div>
 
-      <div className="md:mt-10 md:px-6">
+      <div className="sm:mt-10 sm:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentTickets")}
         </div>

@@ -28,7 +28,7 @@ export function MobileInValidTpl({
   if (isValid) return null;
 
   return (
-    <div className="my-1 md:hidden">
+    <div className="my-1 sm:hidden">
       <InvalidTpl isValid={isValid} text={text} />
     </div>
   );
@@ -44,7 +44,7 @@ export function PcInvalidTpl({
   if (isValid) return null;
 
   return (
-    <div className="mt-3 hidden pl-[155px] md:block">
+    <div className="mt-3 hidden pl-[155px] sm:block">
       <InvalidTpl isValid={isValid} text={text} />
     </div>
   );

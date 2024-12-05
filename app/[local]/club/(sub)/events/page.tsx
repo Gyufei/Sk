@@ -299,11 +299,11 @@ export default function EventsPage() {
         {windFallTpl}
         <GoBackTo />
       </div>
-      <div className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:mb-0 md:rounded-[18px] md:p-[20px]">
-        <div className="relative flex w-full flex-col items-center p-[35px] md:p-[56px]">
+      <div className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:mb-0 sm:rounded-[18px] sm:p-[20px]">
+        <div className="relative flex w-full flex-col items-center p-[35px] sm:p-[56px]">
           <div
             ref={scrollRef}
-            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pt-0 md:-left-[100px] md:-top-[20px] md:h-[calc(100%+20px)] md:w-auto md:snap-y md:flex-col  md:items-center md:gap-y-[18px] md:overflow-y-auto md:py-2 md:pl-0 md:pt-4"
+            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pt-0 sm:-left-[100px] sm:-top-[20px] sm:h-[calc(100%+20px)] sm:w-auto sm:snap-y sm:flex-col  sm:items-center sm:gap-y-[18px] sm:overflow-y-auto sm:py-2 sm:pl-0 sm:pt-4"
           >
             {claimTokens.map((t, i) => (
               <CoinItem

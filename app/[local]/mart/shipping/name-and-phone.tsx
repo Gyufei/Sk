@@ -85,7 +85,7 @@ export function NameAndPhone({
   const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
 
   return (
-    <div className="flex flex-col items-stretch space-x-0 space-y-[30px] md:flex-row md:items-center md:space-x-6 md:space-y-0">
+    <div className="flex flex-col items-stretch space-x-0 space-y-[30px] sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
       <div className="flex flex-1 flex-col">
         <label
           htmlFor="recipientName"
@@ -158,7 +158,7 @@ export function NameAndPhone({
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
             inputId="phone"
-            conClass="w-full md:w-auto"
+            conClass="w-full sm:w-auto"
             inputClass="text-base"
             onBlur={handlePhoneBlur}
           />

@@ -36,7 +36,7 @@ export function PopDrawer({
   className?: string;
 }) {
   
-  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const isDesktop = useMediaQuery("(min-width: 640px)")
 
   if (isDesktop) {
     return (

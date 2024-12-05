@@ -39,7 +39,7 @@ export function EyeToggleBtn({
       tipContent={<div>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</div>}>
        <IconBtn
           mobileHoverColorChanged={false}
-          className={'border-0 md:border absolute mt-0 right-[-5px] top-[-10px] md:static md:mt-[0px]'}
+          className={'border-0 sm:border absolute mt-0 right-[-5px] top-[-10px] sm:static sm:mt-[0px]'}
           defaulImage = {eyeState === true ? "/icons/eye-open.svg" : "/icons/eye-close.svg"}
           hoverImage = {eyeState === true ? "/icons/eye-open-black.svg" : "/icons/eye-close-black.svg"}
           handleClick={() => handleToggle(!eyeState)}

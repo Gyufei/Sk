@@ -94,9 +94,9 @@ export function SolWalletItem({
   }
 
   return (
-    <div className="mb-6 flex flex-col items-start jm:flex-row jm:items-center jm:justify-between">
-       <div className="w-full jm:w-[456px] relative mr-4 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 jm:ml-0">
-        <div className="mr-0 w-full max-w-full flex-1 text-base truncate leading-6 text-[#d6d6d6] jm:mr-0">
+    <div className="mb-6 flex flex-col items-start sm:flex-row sm:items-center sm:justify-between">
+       <div className="w-full sm:w-[456px] relative mr-4 flex h-12 items-center justify-between border-b border-[rgba(255,255,255,0.2)] pr-8 sm:ml-0">
+        <div className="mr-0 w-full max-w-full flex-1 text-base truncate leading-6 text-[#d6d6d6] sm:mr-0">
           {address}
         </div>
         {isVerify && (
@@ -105,12 +105,12 @@ export function SolWalletItem({
             width={20}
             height={20}
             alt="sign"
-            className="absolute right-0 top-[10px] cursor-pointer jm:top-[14px]"
+            className="absolute right-0 top-[10px] cursor-pointer sm:top-[14px]"
           />
         )}
       </div>
-      <div className="w-full jm:w-[270px] jm:min-w-[270px] flex flex-row-reverse jm:flex-row justify-between jm:justify-start">
-        <div className="mt-4  ml-[20px] jm:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] jm:mt-0">
+      <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse sm:flex-row justify-between sm:justify-start">
+        <div className="mt-4  ml-[20px] sm:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
           <Image
             onClick={handleAdd}
             className="cursor-pointer"

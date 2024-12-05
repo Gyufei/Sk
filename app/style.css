@@ -625,7 +625,7 @@ textarea.w-select {
   user-select: none;
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 640px) {
 
   body {
     color: rgba(255, 255, 255, 0.8);
@@ -1069,7 +1069,7 @@ html.w-mod-touch * {
   -webkit-text-fill-color: transparent;
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 640px) {
   .navbar li {
     font-size: 30px;
     line-height: 44px;
@@ -1101,7 +1101,7 @@ html.w-mod-touch * {
   }
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 640px) {
   .main-container {
     min-width: 100%;
     flex-direction: column;
@@ -1196,7 +1196,7 @@ html.w-mod-touch * {
   }
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 640px) {
   .content-container {
     padding: 0;
     margin: 0;

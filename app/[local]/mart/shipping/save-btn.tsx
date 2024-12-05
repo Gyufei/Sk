@@ -17,12 +17,12 @@ export function SaveBtn({
       data-disabled={disabled}
       onClick={onClick}
       className={cn(
-        "ml-0 h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 md:ml-4",
+        "ml-0 h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 sm:ml-4",
         className,
       )}
     >
       <Image src="/icons/save.svg" width={24} height={24} alt="save" />
-      <div className="ml-1 text-base leading-6 md:hidden">{T("Save")}</div>
+      <div className="ml-1 text-base leading-6 sm:hidden">{T("Save")}</div>
     </div>
   );
 }

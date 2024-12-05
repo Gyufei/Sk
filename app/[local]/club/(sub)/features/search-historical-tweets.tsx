@@ -25,18 +25,18 @@ export default function SearchHistoricalTweets() {
   return (
     <>
       <FeatureItem title={T("SearchHistoricalTweets")}>
-        <div className="flex flex-1 items-center justify-between self-stretch mt-[10px] border-b border-[rgba(255,255,255,0.2)] md:border-none">
+        <div className="flex flex-1 items-center justify-between self-stretch mt-[10px] border-b border-[rgba(255,255,255,0.2)] sm:border-none">
           <div className="relative flex-1">
             <Input
               onKeyDown={handleKeyDown}
               value={searchKey || ""}
               onChange={(e: any) => setSearchKey(e.target.value)}
-              className="h-12 w-full rounded-none border-0 md:border-b-[1px] md:border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-white text-base"
+              className="h-12 w-full rounded-none border-0 sm:border-b-[1px] sm:border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-white text-base"
               placeholder={T("SearchKeyword")}
             />
           </div>
           <IconBtn
-            className="mt-0 border-0 md:border"
+            className="mt-0 border-0 sm:border"
             defaulImage={"/icons/search.svg"}
             hoverImage={"/icons/search-black.svg"}
             handleClick={handleSave}
@@ -44,10 +44,10 @@ export default function SearchHistoricalTweets() {
         </div>
       </FeatureItem>
       <div className="mt-[40px]">
-        <div className="font-haasDisp text-[20px] md:text-xl font-semibold leading-[30px] text-white">
+        <div className="font-haasDisp text-[20px] sm:text-xl font-semibold leading-[30px] text-white">
           {T("SearchResults")} ({(tweetList || []).length})
         </div>
-        <div className="mt-[10px] md:mt-[20px]">
+        <div className="mt-[10px] sm:mt-[20px]">
           {!tweetList?.length && (
             <div className="flex h-[50px] items-center justify-start text-xl">
               {T("NoData")}
@@ -56,13 +56,13 @@ export default function SearchHistoricalTweets() {
           {(tweetList || [])?.map((item: any, index: number) => (
             <div
               key={index}
-              className="py-[12px] md:py-4 text-base leading-6 text-[#d6d6d6]"
+              className="py-[12px] sm:py-4 text-base leading-6 text-[#d6d6d6]"
               style={{
                 boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
               }}
             >
               <div>{item.content}</div>
-              <div className="flex justify-between text-[12px] opacity-60 mt-[5px] md:mt-3  md:text-sm">
+              <div className="flex justify-between text-[12px] opacity-60 mt-[5px] sm:mt-3  sm:text-sm">
                 <div>Main Tweet</div>
                 <div>{formatDate(item.create_at)}</div>
               </div>

@@ -133,8 +133,8 @@ export default function ShippingAddressPage() {
   }
 
   return (
-    <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 md:trans-scroll-bar relative overflow-y-auto md:h-fit md:max-h-[calc(100%-70px)]">
-      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur md:rounded-[18px] md:p-[20px]">
+    <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 sm:trans-scroll-bar relative overflow-y-auto sm:h-fit sm:max-h-[calc(100%-70px)]">
+      <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[20px]">
         <div className="mb-7 text-xl font-semibold leading-[30px] text-white">
           {T("ShippingAddress")}
         </div>
@@ -161,19 +161,19 @@ export default function ShippingAddressPage() {
           {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
         >
           <SaveBtn
-            className="hidden w-12 md:flex md:!mt-[20px]"
+            className="hidden w-12 sm:flex sm:!mt-[20px]"
             disabled={disabled}
             onClick={handleSave}
           />
         </StreetAndCode>
         <SaveBtn
-          className="mt-[20px] flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur md:hidden"
+          className="mt-[20px] flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur sm:hidden"
           disabled={disabled}
           onClick={handleSave}
         />
       </div>
       
-      <div className="mt-10 md:px-6">
+      <div className="mt-10 sm:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentLogisticsOrder")}
         </div>

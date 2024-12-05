@@ -43,8 +43,8 @@ export function AddressInput({
 
   const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
   return (
-    <div className="mt-[30px] flex flex-col items-stretch space-x-0 space-y-[30px] md:mt-10 md:flex-row md:items-center md:space-x-6 md:space-y-0">
-      <div className="flex flex-1 flex-col md:mt-0">
+    <div className="mt-[30px] flex flex-col items-stretch space-x-0 space-y-[30px] sm:mt-10 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
+      <div className="flex flex-1 flex-col sm:mt-0">
         <div className={titleClass}>
           {T("Country")}
         </div>
@@ -62,7 +62,7 @@ export function AddressInput({
                 setCountryPopOpen(false);
               }}
             >
-              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{c}</div>
+              <div className="ml-3 text-base sm:text-sm leading-6 text-[#d6d6d6]">{c}</div>
             </div>
           ))}
         >
@@ -102,7 +102,7 @@ export function AddressInput({
                 setStateOpen(false);
               }}
             >
-              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{s}</div>
+              <div className="ml-3 text-base sm:text-sm leading-6 text-[#d6d6d6]">{s}</div>
             </div>
           ))}
         >
@@ -142,7 +142,7 @@ export function AddressInput({
                 setCityOpen(false);
               }}
             >
-              <div className="ml-3 text-base md:text-sm leading-6 text-[#d6d6d6]">{c}</div>
+              <div className="ml-3 text-base sm:text-sm leading-6 text-[#d6d6d6]">{c}</div>
             </div>
           ))}
         >
