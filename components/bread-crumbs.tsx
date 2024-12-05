@@ -13,7 +13,7 @@ export function BreadCrumbs() {
 
   
   return (
-    <div className="text-lg text-white flex flex-row font-semibold">
+    <div className="font-haasDisp text-lg text-white flex flex-row font-semibold">
       {
         pathnameArr.map((item, index) => {
           const isLast = (index + 1) === pathnameArr.length

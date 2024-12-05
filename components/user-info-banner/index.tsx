@@ -5,7 +5,7 @@ import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { SignInMethod } from "../sign-dialog/type";
 import { LevelTpl } from "./level-tpl";
 
-const titleClass = "mb-1 text-sm font-semibold sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
+const titleClass = "font-haasDisp font-light mb-1 text-sm sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
 export default function UserInfoBanner() {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");

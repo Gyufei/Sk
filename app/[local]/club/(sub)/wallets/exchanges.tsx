@@ -126,7 +126,10 @@ export function Exchanges() {
           <InputWithClear
             isError={!bnUIDValid}
             value={bnUID}
-            onValueChange={(v) => setBnUID(v)}
+            onValueChange={(v) => {
+              if (!v) setBnUIDValid(true)
+              setBnUID(v)
+            }}
             isSign={false}
             inputId="phone"
             conClass="w-full sm:w-auto"
@@ -142,7 +145,10 @@ export function Exchanges() {
           <InputWithClear
             isError={!okxUIDValid}
             value={okxUID}
-            onValueChange={(v) => setOKXUID(v)}
+            onValueChange={(v) => {
+              if (!v) setOKXUIDValid(true)
+              setOKXUID(v)
+            }}
             isSign={false}
             inputId="phone"
             conClass="w-full sm:w-auto"
@@ -158,7 +164,10 @@ export function Exchanges() {
           <InputWithClear
             isError={!byBitUIDValid}
             value={byBitUID}
-            onValueChange={(v) => setByBitUID(v)}
+            onValueChange={(v) => {
+              if (!v) setByBitUIDValid(true)
+              setByBitUID(v)
+            }}
             isSign={false}
             inputId="phone"
             conClass="w-full sm:w-auto"

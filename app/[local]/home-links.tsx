@@ -1,5 +1,5 @@
 "use client";
-import { Link, usePathname } from "@/app/navigation";
+import { usePathname, useRouter } from "@/app/navigation";
 
 const homeLinks = [
   { id: 'home', pathname: '/home', href: '/home', name: 'Home'},
@@ -10,6 +10,7 @@ const homeLinks = [
 
 export default function HomeLinks() {
   const pathname = usePathname();
+  const router = useRouter();
 
   function isPathActive(href: string): boolean {
     return pathname.startsWith(href)
@@ -19,8 +20,10 @@ export default function HomeLinks() {
     <ul className="navbar">
       {
         homeLinks.map((item) => (
-          <li key={item.name} className={isPathActive(item.href) ? "active" : ""} data-id={item.id}>
-            <Link href={item.href}>{item.name}</Link>
+          <li key={item.name} className={`${isPathActive(item.href) ?  "active" : ""} font-haasText`} data-id={item.id}
+            onClick={() => router.push(item.href)}
+          >
+            {item.name}
           </li>
         ))
       }

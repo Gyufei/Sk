@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import {
   useConnectModal,
 } from '@rainbow-me/rainbowkit';
+import { LastSignInWithKey, SignInMethod } from "./type";
 
 export function SignWithWalletBtn({
   signing,
@@ -100,6 +101,13 @@ export function SignWithWalletBtn({
       }
 
       setUuid(res.uuid);
+      localStorage.setItem(
+        LastSignInWithKey,
+        JSON.stringify({
+          method: SignInMethod.wallet,
+          account: "",
+        }),
+      );
       setSigning(false);
     } catch (e) {
       setSigning(false);

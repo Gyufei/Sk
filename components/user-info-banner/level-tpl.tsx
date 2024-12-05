@@ -34,7 +34,7 @@ export function LevelTpl() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-1 text-sm font-semibold sm:text-base text-white leading-6 text-[rgba(255,255,255,0.6)]">
+      <div className="mb-1 text-sm font-haasDisp font-light sm:text-base text-white leading-6 text-[rgba(255,255,255,0.6)]">
         {T("Level")}
       </div>
       <div

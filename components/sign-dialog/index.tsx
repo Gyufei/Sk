@@ -48,7 +48,7 @@ export default function SignDialog() {
     const lastWith = JSON.parse(
       localStorage.getItem(LastSignInWithKey) || "null",
     );
-
+  
     if (!lastWith) {
       setShowTwitter(true);
       setShowWallet(true);
