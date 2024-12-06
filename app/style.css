@@ -1227,7 +1227,7 @@ html.w-mod-touch * {
   }
 
   .content-w-560 {
-    width: 350px;
+    width: calc(100vw - 30px);
   }
 
   .content-w-540 {

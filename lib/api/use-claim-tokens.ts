@@ -16,6 +16,15 @@ export interface IClaimToken {
   timeline: number;
 }
 
+
+function chunkArray<T>(array: T[], size: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+  }
+  return result;
+}
+
 export function useClaimTokens() {
   async function fetchAllEventsData() {
     const res: Array<{
@@ -45,8 +54,11 @@ export function useClaimTokens() {
     return res.data;
   }, [res.data]);
 
-  const claimTokens = useMemo(() => {
-    if (!eventsData || !eventsData.length) return [];
+  const {
+    claimTokens,
+    claimChunkArray
+  } = useMemo(() => {
+    if (!eventsData || !eventsData.length) return { claimTokens: [], claimChunkArray: [] };
 
     const ts = eventsData.map((event: Record<string, any>) => {
       const chainInfo =
@@ -85,11 +97,16 @@ export function useClaimTokens() {
       } as IClaimToken;
     });
 
-    return ts;
+    return {
+      claimTokens: ts,
+      claimChunkArray: chunkArray(ts, 4)
+    }
+
   }, [eventsData]);
 
   return {
     ...res,
     data: claimTokens,
+    claimArray: claimChunkArray
   };
 }

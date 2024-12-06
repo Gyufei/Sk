@@ -22,10 +22,11 @@ import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { CoinItem } from "./coin-item";
 import { EventContent } from "./event-content";
+import { CoinList } from "./coin-list";
 
 export default function EventsPage() {
   const T = useTranslations("Common");
-  const { data: claimTokens } = useClaimTokens();
+  const { data: claimTokens, claimArray = [] } = useClaimTokens();
   const { data: userInfo } = useFetchUserInfo();
   const { openConnectModal = () => {}} = useConnectModal();
   const { switchChain } = useSwitchChain()
@@ -255,17 +256,17 @@ export default function EventsPage() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  function handleClickToken(t: IClaimToken, idx: number) {
+  function handleClickToken(t: IClaimToken) {
     if (!t) return;
     setCurrentToken(t);
 
     if (!scrollRef.current) return;
 
-    if (idx < 3) {
-      scrollRef.current.scrollTop = 0;
-    } else {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
+    // if (idx < 3) {
+    //   scrollRef.current.scrollTop = 0;
+    // } else {
+    //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    // }
   }
 
   function handleConnect() {
@@ -278,7 +279,7 @@ export default function EventsPage() {
 
   const windFallTpl = useMemo(() => {
     return (
-      <div className="absolute -left-[0px] flex flex-col">
+      <div className="flex flex-col">
         <div className="mb-1 text-xl leading-[30px] text-white">
           {T("Windfalls")}
         </div>
@@ -294,39 +295,32 @@ export default function EventsPage() {
   }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
 
   return (
-    <div className="m-t-20 relative lg:-ml-[200px]">
-      <div className="relative flex items-center justify-end">
+    <div className="content-w-560">
+      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between mb-[24px]">
         {windFallTpl}
         <GoBackTo />
       </div>
-      <div className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:mb-0 sm:rounded-[18px] sm:p-[20px]">
-        <div className="relative flex w-full flex-col items-center p-[35px] sm:p-[56px]">
-          <div
-            ref={scrollRef}
-            className="no-scroll-bar absolute -bottom-[100px] left-0 flex h-auto w-full snap-mandatory flex-row items-end justify-between pt-0 sm:-left-[100px] sm:-top-[20px] sm:h-[calc(100%+20px)] sm:w-auto sm:snap-y sm:flex-col  sm:items-center sm:gap-y-[18px] sm:overflow-y-auto sm:py-2 sm:pl-0 sm:pt-4"
-          >
-            {claimTokens.map((t, i) => (
-              <CoinItem
-                disabled={false}
-                key={i}
-                isActive={currentToken?.name === t.name}
-                onClick={() => handleClickToken(t, i)}
-                src={t.logo}
-                name={t.name}
-              />
-            ))}
-          </div>
-          <EventContent 
+      {/* className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:mb-0 sm:rounded-[18px] sm:p-[20px]" */}
+      <div>
+        <div className="relative flex w-full flex-col-reverse sm:flex-row sm:justify-between">
+          <CoinList 
+            claimArray={claimArray}
             currentToken={currentToken}
-            currentAddress={currentAddress}
-            claimData={claimData}
-            claimAmount={claimAmount}
-            showClaimAmount={showClaimAmount}
-            isClaimed={isClaimed}
-            isPending={isPending}
-            handleConnect={handleConnect}
-            handleClaim={handleClaim}
+            onClick={handleClickToken}
           />
+          <div className="w-full h-[256px] sm:w-[480px] sm:h-[320px] bg-blur12 rounded-[20px] bg-[rgba(255,255,255,0.1)] flex flex-col justify-center align-middle">
+            <EventContent 
+              currentToken={currentToken}
+              currentAddress={currentAddress}
+              claimData={claimData}
+              claimAmount={claimAmount}
+              showClaimAmount={showClaimAmount}
+              isClaimed={isClaimed}
+              isPending={isPending}
+              handleConnect={handleConnect}
+              handleClaim={handleClaim}
+            />
+          </div>
         </div>
       </div>
     </div>

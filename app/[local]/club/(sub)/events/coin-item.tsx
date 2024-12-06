@@ -24,7 +24,7 @@ export function CoinItem({
       onClick={handleClick}
       data-disabled={disabled}
       data-active={isActive}
-      className="flex h-[60px] w-[60px] flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:h-[80px] data-[disabled=true]:cursor-not-allowed data-[active=false]:rounded-xl data-[active=true]:rounded-b-xl data-[disabled=true]:opacity-50 sm:data-[active=true]:h-[60px] sm:data-[active=true]:w-[80px] data-[active=true]:sm:rounded-l-xl data-[active=true]:sm:rounded-br-none"
+      className="flex h-[72px] w-[72px] bg-blur12 rounded-[20px] sm:h-[60px] sm:w-[60px] sm:rounded-xl flex-shrink-0 flex-grow-0 cursor-pointer snap-end items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:bg-[rgba(255, 255, 255, 0.4)] data-[active=true]:border data-[active=true]:border-[rgba(255,255,255,0.2)]  data-[disabled=true]:cursor-not-allowed  data-[disabled=true]:opacity-50 "
     >
       {src && <Image src={src} width={40} height={40} alt={name} />}
     </div>
