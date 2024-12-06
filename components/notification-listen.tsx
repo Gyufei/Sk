@@ -5,36 +5,30 @@ import useSWR from "swr";
 import { isNotificationSupported, } from "@/lib/use-notification-listen";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { useToast } from "@/lib/use-toast";
 
 type NotionResItem = {
   id: string;
   content: string;
   title: string;
-  create_at: string;
+  create_at: number;
 };
 
-function notifyMe(title: string, content: string) {
-  if (!isNotificationSupported()) return false;
-  if (Notification.permission === 'granted') {
-    new Notification(title, {
-      body: content,
-      requireInteraction: true,
-      icon: '/images/logo-black.png'
-    })
-    return true
-  }
-  return false
-}
+
 
 export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
   const [notionId, setNotionId] = useAtom(NotificationIdAtom);
   const { data: userInfo } = useFetchUserInfo();
   const levelGt2 = userInfo?.level >= 2;
+  const { toast } = useToast()
+  const [open, setOpen] = useState<boolean>(false)
+  const [pageStartTime, setPageStartTime] = useState<number>(new Date().getTime())
 
   useEffect(() => {
+    setPageStartTime(new Date().getTime());
     if (!isNotificationSupported()) return;
     if (Notification.permission === "default" && notification === "ON") {
       setNotification("OFF")
@@ -49,6 +43,29 @@ export function NotificationListen() {
       refreshInterval: 10000
     }
   );
+
+  function notifyMe(title: string, content: string) {
+    if (!isNotificationSupported()) return false;
+    if (Notification.permission === 'granted') {
+      new Notification(title, {
+        body: content,
+        requireInteraction: true,
+        icon: '/images/logo-black.png'
+      })
+      toast({
+        title,
+        description: content,
+        open: open,
+        duration: 200000,
+        onOpenChange: (value: boolean) => {
+          console.log(value, "open")
+          setOpen(value)
+        }
+      })
+      return true
+    }
+    return false
+  }
    
   async function handleGetNotification() {
     if (!levelGt2) return false;
@@ -62,13 +79,13 @@ export function NotificationListen() {
     if (res.length > 0) {
       const readedIds = (notionId || "").split("_");
       const newIds = (res || []).map((item) => item.id).join("_");
-      setNotionId(newIds)
+      setNotionId(newIds);
+     
       const validRes = (res || []).filter((item: NotionResItem) => {
         const { create_at, id } = item;
-        if (readedIds.includes(id + '')) return false
-        const nowTime = new Date().getTime();
-        const createTime = new Date(create_at).getTime();
-        if ((nowTime - createTime) > 86400000 * 7) return false
+        const createdTime = new Date(create_at).getTime();
+        if (createdTime - pageStartTime  < 0) return false;
+        if (readedIds.includes(id + '')) return false;
         return true;
       })
     

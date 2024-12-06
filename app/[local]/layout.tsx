@@ -11,6 +11,8 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import { Web3Provider } from "@/components/provider/wallet-context";
 import WalletDisconnected from "@/components/wallet-disconnected";
 import { NotificationListen } from "@/components/notification-listen";
+import { Toaster } from "@/components/ui/toaster";
+
 
 export const metadata: Metadata = {
   title: {
@@ -107,6 +109,7 @@ export default async function RootLayout({
                 <HomeLayout>
                   {children}
                   <GlobalActionTip />
+                  <Toaster />
                   <WalletDisconnected />
                   <NotificationListen />
                 </HomeLayout>
