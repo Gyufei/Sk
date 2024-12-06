@@ -35,16 +35,27 @@ export function EyeToggleBtn({
 }) {
   const T = useTranslations("Common");
   return (
-    <WithTip
-      tipContent={<div>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</div>}>
-       <IconBtn
+    <>
+      <IconBtn
+        mobileHoverColorChanged={false}
+        className={'border-0  absolute mt-0 right-[-5px] top-[-10px] sm:hidden'}
+        defaulImage = {eyeState === true ? "/icons/eye-open.svg" : "/icons/eye-close.svg"}
+        hoverImage = {eyeState === true ? "/icons/eye-open-black.svg" : "/icons/eye-close-black.svg"}
+        handleClick={() => handleToggle(!eyeState)}
+      />
+      <WithTip
+        tipContent={<div>{ T(eyeState === true ? 'DisplayAccount' : 'HideAccount')}</div>}>
+        <IconBtn
           mobileHoverColorChanged={false}
-          className={'border-0 sm:border absolute mt-0 right-[-5px] top-[-10px] sm:static sm:mt-[0px]'}
-          defaulImage = {eyeState === true ? "/icons/eye-open.svg" : "/icons/eye-close.svg"}
+          className={'hidden  sm:flex  sm:mt-[0px]'}
+          defaulImage = {eyeState === true ? "/icons/eye-close.svg" : "/icons/eye-open.svg"}
           hoverImage = {eyeState === true ? "/icons/eye-open-black.svg" : "/icons/eye-close-black.svg"}
           handleClick={() => handleToggle(!eyeState)}
         />
-    </WithTip>
+      </WithTip>
+    </>
+    
+    
   )
 }
 
