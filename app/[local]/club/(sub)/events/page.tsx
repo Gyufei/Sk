@@ -20,7 +20,6 @@ import { useClaimData } from "@/lib/use-claim-data";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
-import { CoinItem } from "./coin-item";
 import { EventContent } from "./event-content";
 import { CoinList } from "./coin-list";
 
@@ -262,11 +261,6 @@ export default function EventsPage() {
 
     if (!scrollRef.current) return;
 
-    // if (idx < 3) {
-    //   scrollRef.current.scrollTop = 0;
-    // } else {
-    //   scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    // }
   }
 
   function handleConnect() {
@@ -300,7 +294,6 @@ export default function EventsPage() {
         {windFallTpl}
         <GoBackTo />
       </div>
-      {/* className="content-w-560 relative mb-[100px] ml-0 mt-6 min-w-[350px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:mb-0 sm:rounded-[18px] sm:p-[20px]" */}
       <div>
         <div className="relative flex w-full flex-col-reverse sm:flex-row sm:justify-between">
           <CoinList 

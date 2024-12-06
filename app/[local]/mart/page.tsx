@@ -39,11 +39,11 @@ export default function MartPage() {
   const productClass = "flex-1 sm:flex-auto sm:w-[240px] sm:w-[250px]";
 
   return (
-    <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] sm:gap-y-5 align-top sm:gap-x-[10px] md:max-h-[calc(100%-70px)] md:overflow-y-auto md:pr-2 md:mr-1">
+    <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] sm:gap-y-5 align-top sm:gap-x-[10px] md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2 md:mr-1">
       {(products || []).map((item) => (
         <div
           key={item.product_id}
-          className={`${productClass} group box-border flex h-fit cursor-pointer justify-center rounded-[20px] border border-transparent hover:border-white sm:p-[5px]`}
+          className={`${productClass} group box-border flex h-fit cursor-pointer justify-center rounded-[20px] sm:rounded-[24px] border border-transparent hover:border-white sm:p-[5px]`}
         >
           <div className="flex min-w-[165px] w-full jm:w-[45.2vw] flex-col rounded-[20px] bg-[rgba(255,255,255,0.1)] backdrop-blur-md sm:h-[350px] sm:w-[240px]">
             <Image
