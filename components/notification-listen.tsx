@@ -21,7 +21,7 @@ type NotionResItem = {
   image?: string;
 };
 
-type ToastContentType = NotionResItem & { description: string};
+type ToastContentType = NotionResItem;
 
 
 
@@ -87,13 +87,12 @@ export function NotificationListen() {
 
   function notifyMe(item: NotionResItem) {
     const { title, content, } = item;
-    const link =  document.querySelector("link[rel*='icon']");
+    const link =  document.querySelector("link[rel*='icon']") as HTMLAnchorElement;
     if (link) link.href = "/images/favicon-notion-32x32.png";
     cycleTitle()
     setToastContent({
       ...item,
       create_at: timestampToTime(item.create_at),
-      description: content
     })
     setOpen(true)
     setToastImage(item.image)
@@ -112,7 +111,7 @@ export function NotificationListen() {
   function handleClose() {
     setOpen(false)
     stopCycleTitle();
-    const link =  document.querySelector("link[rel*='icon']");
+    const link =  document.querySelector("link[rel*='icon']") as HTMLAnchorElement;
     if (link) link.href = "/images/favicon-32x32.png"
   }
    
