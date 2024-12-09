@@ -95,8 +95,19 @@ export function NotificationListen() {
       create_at: timestampToTime(item.create_at),
     })
     setOpen(true)
-    setToastImage(item.image)
-    
+   
+    if (item.image) {
+      const img = new Image();
+      img.src = item.image;
+      img.onload = () => {
+        setToastImage(item.image)
+      };
+      img.onerror = () => {
+        setToastImage("")
+      };
+    } else {
+      setToastImage("")
+    } 
     if (isNotificationSupported() && Notification.permission === 'granted') {
       new Notification(title, {
         body: content,
