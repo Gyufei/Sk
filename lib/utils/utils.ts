@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -62,4 +63,16 @@ export function formatDate(isoString: string) {
   const sec = second < 10 ? `0${second}` : second;
 
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+}
+
+
+export function timestampToTime(timestamp: string) {
+  const date = new Date(Number(timestamp)); // 转换为Date对象
+  const year = date.getFullYear(); // 获取年份
+  const month = ("0" + (date.getMonth() + 1)).slice(-2); // 获取月份，转为两位数
+  const day = ("0" + date.getDate()).slice(-2); // 获取日，转为两位数
+  const hours = ("0" + date.getHours()).slice(-2); // 获取小时，转为两位数
+  const minutes = ("0" + date.getMinutes()).slice(-2); // 获取分钟，转为两位数
+  const seconds = ("0" + date.getSeconds()).slice(-2); // 获取秒，转为两位数
+  return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds; // 拼接日期时间字符串
 }

@@ -16,7 +16,6 @@ export function useFetchUserInfo() {
       setUuid("");
       return {};
     }
-
     return fetchRes;
   }
 

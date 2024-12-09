@@ -15,6 +15,7 @@ export function useNotificationListen():{
   isNotificationSupport: boolean;
   notificationChecked: boolean;
   notificationDisabled: boolean;
+  levelGt2: boolean;
   onNotificationChecked: (value: boolean) => void;
 } {
   const [notification, setNotification]= useAtom(NotificationAtom);
@@ -24,20 +25,16 @@ export function useNotificationListen():{
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const T = useTranslations("Common");
 
-  const [notificationChecked, setNotificationChecked] = useState<boolean>(
-    isNotificationSupport && notification === "ON",
-  );
+  const [notificationChecked, setNotificationChecked] = useState<boolean>(notification === "ON");
 
   const notificationDisabled = isNotificationSupport && Notification.permission === "denied";
 
   useEffect(() => {
-    if (!isNotificationSupported()) return;
-    if (Notification.permission === "default" && notification === "ON") {
-      setNotification("OFF")
-    }
-  }, [])
+    setNotificationChecked(notification === 'ON')
+  }, [notification])
 
   function onNotificationChecked(value: boolean) {
+   
     if (value === true) {
       if (!levelGt2) {
         setGlobalMessage({
@@ -46,19 +43,21 @@ export function useNotificationListen():{
         });
         return
       }
+      if (!isNotificationSupport) {
+        setNotificationChecked(true);
+        setNotification("ON")
+        return
+      }
+
       if (Notification.permission === 'granted') {
         setNotificationChecked(true);
         setNotification("ON")
         return;
       }
      
-      Notification.requestPermission().then((result) => {
-        if (result === "granted") {
-          setNotificationChecked(true);
-          setNotification("ON")
-        } else {
-          setNotification("OFF")
-        }
+      Notification.requestPermission().then(() => {
+        setNotificationChecked(true);
+        setNotification("ON")
       });
       return;
     }
@@ -71,6 +70,7 @@ export function useNotificationListen():{
     isNotificationSupport,
     notificationChecked,
     onNotificationChecked,
-    notificationDisabled
+    notificationDisabled,
+    levelGt2
   }
 }

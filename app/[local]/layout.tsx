@@ -11,7 +11,7 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import { Web3Provider } from "@/components/provider/wallet-context";
 import WalletDisconnected from "@/components/wallet-disconnected";
 import { NotificationListen } from "@/components/notification-listen";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/toaster";
 
 
 export const metadata: Metadata = {

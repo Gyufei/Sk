@@ -14,10 +14,10 @@ import Image from "next/image";
 export default function Page() {
   const T = useTranslations("Common");
   const {
-    isNotificationSupport,
     notificationChecked,
+    notificationDisabled,
     onNotificationChecked,
-    notificationDisabled
+    levelGt2
   } = useNotificationListen()
 
   const notionTitle = (
@@ -49,31 +49,26 @@ export default function Page() {
       </div>
       <div className="w-full relative mb-[20px] mt-6 content-bg-blur">
         <DomainRedirect />
-        {
-          isNotificationSupport && (
-            <FeatureItem
-              title={notionTitle}
-              className={
-                "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
-              }
+        <FeatureItem
+          title={notionTitle}
+          className={
+            "!flex-row items-center justify-between sm:!flex-col sm:items-start sm:justify-start"
+          }
+        >
+          <div className="flex items-center justify-between self-stretch sm:mt-[10px]">
+            <Switch
+              checked={notificationChecked}
+              disabled={levelGt2}
+              onCheckedChange={onNotificationChecked}
+            />
+            <div
+              className="ml-4 hidden text-[#D6D6D6] data-[checked=true]:text-white sm:block"
+              data-checked={notificationChecked}
             >
-              <div className="flex items-center justify-between self-stretch sm:mt-[10px]">
-                <Switch
-                  checked={notificationChecked}
-                  disabled={notificationDisabled}
-                  onCheckedChange={onNotificationChecked}
-                />
-                <div
-                  className="ml-4 hidden text-[#D6D6D6] data-[checked=true]:text-white sm:block"
-                  data-checked={notificationChecked}
-                >
-                  {T(notificationChecked ? "ON" : "OFF")}
-                </div>
-              </div>
-            </FeatureItem>
-          )
-        }
-       
+              {T(notificationChecked ? "ON" : "OFF")}
+            </div>
+          </div>
+        </FeatureItem>
         <SearchHistoricalTweets />
       </div>
     </div>
