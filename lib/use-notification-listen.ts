@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useAtom } from "jotai/react";
 import { NotificationAtom } from "@/lib/api/state";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";

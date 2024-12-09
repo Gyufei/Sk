@@ -38,6 +38,7 @@ export function NickName({ nickName }: { nickName: string }) {
     setIsEditName(false);
     if (name) {
       saveName(name);
+      setIsValid(true);
     }
   }
 
@@ -74,6 +75,7 @@ export function NickName({ nickName }: { nickName: string }) {
   return (
     <>
       {isEditName ? (
+        <>
         <Input
           onKeyDown={handleKeyDown}
           value={name}
@@ -82,9 +84,11 @@ export function NickName({ nickName }: { nickName: string }) {
           data-error={!isValid}
           className="h-[24px] w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base data-[error=true]:border-[#FF5A5A]  sm:w-[80px]"
         />
+        {!isValid && (<div className="text-sm mt-[5px] text-[#FF5A5A]">Invalid Format</div>)}
+        </>
       ) : (
         <div className="flex items-center justify-start sm:justify-start">
-          <div className="h-[24px] text-base leading-6 opacity-60">{name}</div>
+          <div className="h-[24px] text-base leading-6 opacity-60 truncate">{name}</div>
           <Image
             onClick={() => setIsEditName(true)}
             className="ml-2 cursor-pointer opacity-60"

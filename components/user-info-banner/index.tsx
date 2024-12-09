@@ -61,7 +61,7 @@ export default function UserInfoBanner() {
 
   return (
     <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:flex-row sm:rounded-[18px] sm:p-[20px] h-auto sm:h-auto">
-      <div className="hidden items-center sm:flex">
+      <div className="hidden items-start sm:flex">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
