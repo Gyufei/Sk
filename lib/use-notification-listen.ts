@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAtom } from "jotai/react";
 import { NotificationAtom } from "@/lib/api/state";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
@@ -25,12 +25,11 @@ export function useNotificationListen():{
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const T = useTranslations("Common");
 
-  const [notificationChecked, setNotificationChecked] = useState<boolean>(notification === "ON");
 
   const notificationDisabled = isNotificationSupport && Notification.permission === "denied";
 
-  useEffect(() => {
-    setNotificationChecked(notification === 'ON')
+  const notificationChecked = useMemo(() => {
+    return notification === 'ON'
   }, [notification])
 
   function onNotificationChecked(value: boolean) {
@@ -44,26 +43,22 @@ export function useNotificationListen():{
         return
       }
       if (!isNotificationSupport) {
-        setNotificationChecked(true);
         setNotification("ON")
         return
       }
 
       if (Notification.permission === 'granted') {
-        setNotificationChecked(true);
         setNotification("ON")
         return;
       }
      
       Notification.requestPermission().then(() => {
-        setNotificationChecked(true);
         setNotification("ON")
       });
       return;
     }
     
     setNotification("OFF")
-    setNotificationChecked(false);
   }
 
   return {
