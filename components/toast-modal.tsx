@@ -11,10 +11,8 @@ import Image from "next/image";
 import React from "react";
 
 
-export function ToastModal(props: ToasterToast & {
-  children?: React.ReactNode;
-}): React.ReactNode {
-  const { id, title, open, description, action, children, iconImage, onCloseClick = () => {}, ...restProps } = props;
+export function ToastModal(props: ToasterToast): React.ReactNode {
+  const { id, title, open, description, action, iconImage, onCloseClick = () => {}, ...restProps } = props;
   return (
     <Toast 
       key={id} 
@@ -35,7 +33,7 @@ export function ToastModal(props: ToasterToast & {
                     width={24}
                     height={24}
                     alt="notion"
-                    className="mr-[10px]"
+                    className="mr-[10px] w-[24px] h-[24px]"
                   />
               )}
               {title}

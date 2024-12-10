@@ -156,6 +156,7 @@ export function NotificationListen() {
   return (
     <ToastProvider>
       <ToastModal
+        iconImage={'notion'}
         {...toastContent}
         description={(
           <div>
@@ -177,7 +178,7 @@ export function NotificationListen() {
                 )
               }
             </div>
-            <div className="text-sm mt-[10px] text-white opacity-80" >{T("PostedAt")}: {toastContent.create_at}</div>
+            <div className="text-sm mt-[10px] text-white opacity-40" >{T("PostedAt")}: {toastContent.create_at}</div>
             <div className="w-full normal-line-button  mt-[15px]  h-12 leading-[48px] rounded-[8px] text-center cursor-pointer justify-center font-semibold align-middle" onClick={handleClose}>{T("NotificationOK")}</div>
           </div> 
         )}
