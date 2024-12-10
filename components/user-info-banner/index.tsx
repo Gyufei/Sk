@@ -67,7 +67,7 @@ export default function UserInfoBanner() {
         {nickNameTpl}
       </div>
 
-      <div className="flex w-full items-center sm:hidden space-x-3">
+      <div className="flex w-full items-start sm:hidden space-x-3">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
