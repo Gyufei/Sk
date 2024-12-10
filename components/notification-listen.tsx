@@ -63,7 +63,8 @@ export function NotificationListen() {
     notification ? `url` : null,
     handleGetNotification,
     {
-      refreshInterval: 10000
+      refreshInterval: 10000,
+      refreshWhenHidden: true
     }
   );
 
