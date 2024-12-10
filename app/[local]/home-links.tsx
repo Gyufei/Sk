@@ -20,7 +20,7 @@ export default function HomeLinks() {
     <ul className="navbar">
       {
         homeLinks.map((item) => (
-          <li key={item.name} className={`${isPathActive(item.href) ?  "active" : ""} font-haasText`} data-id={item.id}
+          <li key={item.name} className={`${isPathActive(item.href) ?  "active" : ""} font-haasDisp`} data-id={item.id}
             onClick={() => router.push(item.href)}
           >
             {item.name}

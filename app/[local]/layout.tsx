@@ -98,9 +98,7 @@ export default async function RootLayout({
         }}
       ></Script>
       <body
-        className={`${
-          (HaasGrotDisp.variable, HaasGrotText.variable)
-        } !pointer-events-auto`}
+        className={`${HaasGrotDisp.variable} ${HaasGrotText.variable} !pointer-events-auto`}
       >
         <GlobalMsgProvider>
           <NextIntlClientProvider messages={messages}>
