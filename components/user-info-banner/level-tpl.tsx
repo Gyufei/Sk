@@ -8,6 +8,7 @@ import {
   useConnectModal,
 } from '@rainbow-me/rainbowkit';
 
+
 export function LevelTpl() {
   const T = useTranslations("Common");
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
@@ -34,7 +35,7 @@ export function LevelTpl() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-1 text-sm font-haasDisp font-light sm:text-base text-white leading-6 text-[rgba(255,255,255,0.6)]">
+      <div className="opacity-60 font-haasDisp font-medium mb-1 text-sm  sm:text-base text-white leading-6 text-[rgba(255,255,255,0.6)]">
         {T("Level")}
       </div>
       <div

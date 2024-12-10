@@ -88,10 +88,10 @@ export function NickName({ nickName }: { nickName: string }) {
         </>
       ) : (
         <div className="flex items-center justify-start sm:justify-start">
-          <div className="h-[24px] text-base leading-6 opacity-60 truncate">{name}</div>
+          <div className="h-[24px] text-base leading-6 truncate">{name}</div>
           <Image
             onClick={() => setIsEditName(true)}
-            className="ml-2 cursor-pointer opacity-60"
+            className="ml-2 cursor-pointer"
             src="/icons/edit.svg"
             width={12}
             height={12}
