@@ -57,7 +57,7 @@ export default function RouterMenu() {
     }
   }
 
-  const linkText = "text-base font-semibold leading-6 text-white opacity-60";
+  const linkText = "text-base font-semibold leading-6 text-white opacity-60 font-haasDisp";
 
   return (
     <>

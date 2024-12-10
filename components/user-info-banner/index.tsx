@@ -50,7 +50,7 @@ export default function UserInfoBanner() {
 
   const nickNameTpl = useMemo(() => {
     return (
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col min-w-[100px]">
         <div className={`${titleClass}`}>
           {T("NickName")}
         </div>
