@@ -106,7 +106,7 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className={`flex w-[345px] sm:w-[400px] ${
+        className={`flex w-[345px] sm:w-[400px] font-haasDisp ${
           noMethodShow
             ? " mt-[100px] justify-center bg-transparent py-[40px] px-0 sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
             : "bg-[rgba(255,255,255,0.1)] p-[35px]"
@@ -114,14 +114,14 @@ export default function SignDialog() {
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-center text-2xl leading-[36px] font-medium sm:text-3xl sm:leading-[60px]">
+            <div className="text-center text-[#D6D6D6] text-2xl leading-[36px] font-medium sm:text-3xl sm:leading-[60px]">
               Build cypto new orders
             </div>
             <div className="text-center font-medium text-[48px] leading-[72px] sm:text-[66px] sm:leading-[66px]">
               Juu17 Brands
             </div>
-            <div className="font-medium mt-[40px] leading-[30px] text-[20px] sm:text-lg sm:leading-[36px] sm:mt-[100px]">
-              A cryptopia for <CircleText words={words} />
+            <div className="font-medium mt-[40px] flex align-middle jutisfy-center leading-[30px] text-[20px] sm:text-[24px] sm:leading-[36px] sm:mt-[100px]">
+              <div className="opacity-60">A cryptopia for</div> <CircleText words={words} />
             </div>
             {signing ? (
               <div className="mt-[24px] sm:mt-[47px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">

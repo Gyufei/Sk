@@ -28,7 +28,7 @@ export default function Page() {
             </div>
             <div className="sm:mt-[10px] flex items-center justify-between sm:justify-start self-stretch">
               <div className="sm:mr-[85px] mr-[10px] flex flex-col">
-                <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
+                <span className="font-haasDisp text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("Cup")}
                 </span>
                 <span className="text-xl sm:text-[32px] font-normal leading-[30px] sm:leading-[40px] text-white">
@@ -36,7 +36,7 @@ export default function Page() {
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
+                <span className="font-haasDisp text-base font-medium leading-[24px] text-[rgba(255,255,255,0.6)]">
                   {T("XAccount")}
                 </span>
                 <span className="text-xl sm:text-[32px] font-normal leading-[30px] sm:leading-[40px] text-white">

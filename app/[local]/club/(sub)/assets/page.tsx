@@ -34,7 +34,7 @@ export default function Page() {
                 alt="mint wallet"
               />
             </div>
-            <div>
+            <div className="font-haasDisp">
               <div className="flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] bg-[rgba(255,255,255,0.01)] px-4 text-base leading-6 text-[rgba(255,255,255,0.6)] hover:text-white md:mt-5 md:w-[200px]">
                 <span className="inline-block font-semibold md:mr-6">Mint</span>
                 <span>on</span>

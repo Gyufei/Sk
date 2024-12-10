@@ -135,7 +135,7 @@ export default function ShippingAddressPage() {
   return (
     <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 sm:trans-scroll-bar relative overflow-y-auto sm:h-fit sm:max-h-[calc(100%-40px)]">
       <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[24px]">
-        <div className="mb-7 text-xl font-semibold leading-[30px] text-white">
+        <div className="font-haasDisp mb-7 text-xl font-semibold leading-[30px] text-white">
           {T("ShippingAddress")}
         </div>
         <NameAndPhone

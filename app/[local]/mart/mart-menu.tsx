@@ -16,7 +16,7 @@ export default function MartMenu() {
   const router = useRouter();
 
   const linkText =
-    "text-[12px] sm:text-base font-semibold sm:leading-6 text-white opacity-60 group-hover:opacity-100 data-[active=true]:opacity-100";
+    "font-haasDisp text-[12px] sm:text-base font-semibold sm:leading-6 text-white opacity-60 group-hover:opacity-100 data-[active=true]:opacity-100";
 
   const rightOffset =
     pathname === menuItems[0].href ? "sm:-right-[140px]" : "sm:-right-[120px]";

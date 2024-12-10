@@ -274,7 +274,7 @@ export default function EventsPage() {
   const windFallTpl = useMemo(() => {
     return (
       <div className="flex flex-col">
-        <div className="mb-1 text-xl leading-[30px] text-white">
+        <div className="mb-1 text-xl leading-[30px] text-white font-haasDisp font-semibold">
           {T("Windfalls")}
         </div>
         <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">

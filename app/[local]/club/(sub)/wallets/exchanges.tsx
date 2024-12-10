@@ -115,7 +115,7 @@ export function Exchanges() {
 
   return (
     <div className="mt-[15px] sm:mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[20px]">
-      <div className="font-semibold mb-5 text-xl leading-[30px] text-white">
+      <div className="font-haasDisp font-semibold mb-5 text-xl leading-[30px] text-white">
         {T("Exchanges")}
       </div>
       <div className="flex flex-col space-y-[30px] sm:flex-row sm:justify-between sm:space-y-0">

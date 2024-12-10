@@ -44,7 +44,7 @@ export function StreetAndCode({
     return streetRegex.test(v);
   }
 
-  const titleClass = "text-lg font-medium leading-7 text-white opacity-60";
+  const titleClass = "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
 
   return (
     <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] sm:mt-10 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
