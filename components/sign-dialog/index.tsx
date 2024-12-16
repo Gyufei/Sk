@@ -11,6 +11,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
 import { cycleWords } from "./constant";
+import fetcher from "@/lib/api/fetcher";
+import { ApiHost } from "@/lib/api/path";
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function SignDialog() {
@@ -28,6 +30,7 @@ export default function SignDialog() {
   const [lastSignInEmail, setLastSignInEmail] = useState("");
 
   const [walletAttempts, setWalletAttempts] = useState(0);
+  const [emailAttempts, setEmailAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
   const words = cycleWords;
@@ -89,17 +92,51 @@ export default function SignDialog() {
 
   const handleReCaptchaChange = useCallback((value: string | null) => {
     setReCaptchaValue(value);
+    setEmailAttempts(0);
+    setWalletAttempts(0);
   }, []);
 
-  const incrementWalletAttempts = useCallback(() => {
-    setWalletAttempts((prev) => {
-      const newValue = prev + 1;
-      if (newValue >= 6) {
-        setShowReCaptcha(true);
-      }
-      return newValue;
-    });
+  const incrementAttempts = useCallback((value: { account: string; signInMethod: number }) => {
+    if (value.signInMethod === SignInMethod.wallet) {
+      setWalletAttempts((prev) => {
+        const newValue = prev + 1;
+        if (newValue >= 6) {
+          setShowReCaptcha(true);
+          postSecureRecords(value)
+        }
+        return newValue;
+      });
+    }
+
+    if (value.signInMethod === SignInMethod.email) {
+      setEmailAttempts((prev) => {
+        const newValue = prev + 1;
+        if (newValue >= 3) {
+          setShowReCaptcha(true);
+          postSecureRecords(value)
+        }
+        return newValue;
+      });
+    }
+    
   }, []);
+  
+  async function postSecureRecords(value: { account: string; signInMethod: number}) {
+    try {
+      await fetcher(`${ApiHost}/secure/records`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          account: value.account,
+          reason: value.signInMethod + '',
+        }),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <Dialog open={signDialogOpen}>
@@ -151,7 +188,7 @@ export default function SignDialog() {
           <SignWithWalletBtn
             signing={signing}
             setSigning={setSigning}
-            incrementWalletAttempts={incrementWalletAttempts}
+            incrementAttempts={incrementAttempts}
             showReCaptcha={showReCaptcha}
             reCaptchaValue={reCaptchaValue}
           />
@@ -182,6 +219,8 @@ export default function SignDialog() {
           signing={signing}
           lastAccount={lastSignInEmail}
           onSuccess={handleSuccess}
+          showReCaptcha={showReCaptcha}
+          incrementAttempts={incrementAttempts}
         />
         {!(showEmail && showTwitter && showWallet) && !noMethodShow && (
           <div
@@ -197,7 +236,7 @@ export default function SignDialog() {
               sitekey={ReCAPTCHAKey}
               onChange={handleReCaptchaChange}
             />
-          </div> 
+          </div>
         )}
       </DialogContent>
     </Dialog>

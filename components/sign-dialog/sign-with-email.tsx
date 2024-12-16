@@ -15,11 +15,17 @@ export default function SignWithEmail({
   lastAccount,
   show,
   onSuccess,
+  incrementAttempts,
+  showReCaptcha,
+  reCaptchaValue
 }: {
   signing: boolean;
   lastAccount: string;
   show: boolean;
+  showReCaptcha: boolean;
+  reCaptchaValue: string | null;
   onSuccess: (_i: string) => void;
+  incrementAttempts: (value: { account: string; signInMethod: number }) => void;
 }) {
   const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -34,6 +40,7 @@ export default function SignWithEmail({
     sending,
     sendEmail,
     removeCode,
+    seconds
   } = useSendEmail();
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
@@ -65,6 +72,10 @@ export default function SignWithEmail({
   }
 
   function handleConfirm() {
+    if (showReCaptcha && !reCaptchaValue) {
+      // 显示错误消息或阻止登录
+      return;
+    }
     if (hasSend) {
       setGlobalMessage({
         type: "warning",
@@ -78,7 +89,10 @@ export default function SignWithEmail({
       setIsValid(false);
       return;
     }
-
+    incrementAttempts({
+      account: email,
+      signInMethod: SignInMethod.email
+    })
     sendEmail(email, currentPageUrl);
   }
 
@@ -144,11 +158,13 @@ export default function SignWithEmail({
         className="h-12 w-full rounded-lg  border border-[rgba(255,255,255,0.6)] bg-transparent p-4 text-base data-[error=true]:border-[#FF5A5A]"
       />
       <button
-        data-disabled={signing || sending}
+        data-disabled={signing || sending || hasSend}
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
       >
-        <div>{T("SignIn")}</div>
+        <div>
+          { hasSend && !sending? (<>{seconds}s</>) : T("SignIn")}
+        </div>
       </button>
     </div>
   );

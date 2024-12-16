@@ -16,13 +16,13 @@ import { LastSignInWithKey, SignInMethod } from "./type";
 export function SignWithWalletBtn({
   signing,
   setSigning,
-  incrementWalletAttempts,
+  incrementAttempts,
   showReCaptcha,
   reCaptchaValue,
 }: {
   signing: boolean;
   setSigning: (b: boolean) => void;
-  incrementWalletAttempts: () => void;
+  incrementAttempts: (value: { account: string; signInMethod: number }) => void;
   showReCaptcha: boolean;
   reCaptchaValue: string | null;
 }) {
@@ -51,7 +51,10 @@ export function SignWithWalletBtn({
   async function signForAddress() {
     if (address && isConnected) {
       solanaDisconnect();
-      incrementWalletAttempts();
+      incrementAttempts({
+        account: address,
+        signInMethod: SignInMethod.wallet
+      });
 
       if (showReCaptcha && !reCaptchaValue) {
         // 显示错误消息或阻止登录
