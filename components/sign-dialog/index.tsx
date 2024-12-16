@@ -220,6 +220,7 @@ export default function SignDialog() {
           lastAccount={lastSignInEmail}
           onSuccess={handleSuccess}
           showReCaptcha={showReCaptcha}
+          reCaptchaValue={reCaptchaValue}
           incrementAttempts={incrementAttempts}
         />
         {!(showEmail && showTwitter && showWallet) && !noMethodShow && (
