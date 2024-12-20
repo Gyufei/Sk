@@ -152,7 +152,7 @@ export default function SignDialog() {
         {noMethodShow && (
           <div className="flex flex-col items-center">
             <div className="text-center text-[#D6D6D6] text-2xl leading-[36px] font-medium sm:text-3xl sm:leading-[60px]">
-              Build cypto new orders
+            {T("SloganText")}
             </div>
             <div className="text-center font-medium text-[48px] leading-[72px] sm:text-[66px] sm:leading-[66px]">
               Juu17 Brands
