@@ -16,15 +16,15 @@ export default function Home() {
             >
               <Image 
                 src={item.icon_svg} 
-                width={30} 
-                height={30} 
+                width={40} 
+                height={40} 
                 alt="" 
-              />   
+              />
             </a>
           ))
         }
       </div>
-      <div className="flex-col mt-5">
+      <div className="flex-col mt-10">
         {
           linkPanels.map((item, index) => {
             return (

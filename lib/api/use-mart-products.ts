@@ -14,9 +14,11 @@ export interface IProduct {
   skuImage?: string;
 }
 
+const url = `${ApiHost}/static/products.json?t=${new Date().getTime()}`;
+
 export function useMartProducts() {
   const res = useSWR<Array<IProduct>>(
-    `${ApiHost}/static/products.json`,
+    url,
     fetcher,
   );
 

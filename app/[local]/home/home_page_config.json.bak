@@ -18,12 +18,25 @@
           "caption": "Import Links",
           "links": [
               {
-                  "text": "枪十七加密公学 - Twitter社区",
-                  "link_url": "https://x.com/i/communities/1669353132550414337"
+                  "text": "link1",
+                  "link_url": "https://xxxxx.com"
               },
               {
-                  "text": "提交对接信息",
-                  "link_url": "https://tally.so/r/mRo66p"
+                  "text": "link2",
+                  "link_url": "https://xxxxx.com"
+              }
+          ]
+      },
+      {
+          "caption": "Other Links",
+          "links": [
+              {
+                  "text": "link3",
+                  "link_url": "https://xxxxx.com"
+              },
+              {
+                  "text": "link4",
+                  "link_url": "https://xxxxx.com"
               }
           ]
       }
