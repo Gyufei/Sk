@@ -85,7 +85,7 @@ export function useClaimTokens() {
 
     return {
       claimTokens: ts,
-      claimChunkArray: chunkArray(ts, 4)
+      claimChunkArray: chunkArray<IClaimToken>(ts, 4)
     }
 
   }, [eventsData]);
