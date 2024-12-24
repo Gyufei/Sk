@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { UuidAtom } from "@/lib/api/state";
 import { useAtomValue } from "jotai/react";
 import fetcher from "@/lib/api/fetcher";
@@ -13,10 +13,12 @@ import { AddressInput } from "./address-input";
 import { StreetAndCode } from "./street-and-code";
 import { useRecentLogisticsOrder } from "@/lib/api/use-recent-logistics-order";
 import { formatDate } from "@/lib/utils/utils";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export default function ShippingAddressPage() {
   const uuid = useAtomValue(UuidAtom);
   const T = useTranslations("Common");
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
   const { data: logisticsOrders } = useRecentLogisticsOrder();
 
@@ -127,6 +129,12 @@ export default function ShippingAddressPage() {
       setTimeout(() => {
         setSaved(false);
       }, 3000);
+    }
+    if (res.status === false && res.msg) {
+      setGlobalMessage({
+        type: "warning",
+        message: res.msg,
+      });
     }
 
     return res;
