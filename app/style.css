@@ -1165,6 +1165,10 @@ html.w-mod-touch * {
   width: 600px;
 }
 
+.content-w-320 {
+  width: 320px;
+}
+
 .content-w-240 {
  width: 240px;
 }
@@ -1172,6 +1176,7 @@ html.w-mod-touch * {
 .content-w-250 {
   width: 250px;
  }
+
 
 .bg-blur12 {
   backdrop-filter: blur(12px);
@@ -1222,6 +1227,10 @@ html.w-mod-touch * {
     width: calc(100vw - 30px);
   }
 
+  .content-w-320 {
+    width: calc(100vw - 30px);
+  }
+
   .content-w-400 {
     width: calc(100vw - 30px);
   }
@@ -1251,7 +1260,7 @@ html.w-mod-touch * {
 }
 
 @media screen and (min-width: 960px) {
-  .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540{
+  .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540, .content-w-320 {
     margin-left: -250px;
   }
 }

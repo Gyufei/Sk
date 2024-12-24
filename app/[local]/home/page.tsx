@@ -1,89 +1,56 @@
+import homeJson from "./home_page_config.json";
+import Image from 'next/image';
+
 export default function Home() {
+  const topList = homeJson.top_icon_links;
+  const linkPanels = homeJson.link_panels;
   return (
-    <>
-      <div className="top-content shift-animation relative content-w-800 sm:max-h-[calc(100%-40px)]">
-        <div className="content-inner-box">
-          <div className="div-block-7">
-            <p className="paragraph-009">About Juu17 (🔫 , 1️⃣7️⃣)</p>
-          </div>
-          <div className="text-block-para">Briefing / TL;DR</div>
-          <div className="panel-para-text">
-            A senior market maker, providing market-making guidance for 50+
-            projects.
-            <br />
-            In-depth research on diverse blockchain products.
-            <br />
-            Ex VC post-investment management.
-            <br />
-            Computer / Finance / Mathematics triple degrees.
-            <br />
-            Strive to provide value to all readers.
-            <br />
-            Never offer buying and selling advice.
-            <br />
-            Committed to industry popularization and enthusiastic about helping
-            others.
-          </div>
-          <div className="social-item-wrapper panel-para-text">
+    <div className="content-w-320">
+      <div className="flex flex-row justify-center gap-x-5">
+        {
+          topList.map((item) => (
             <a
-              className="social-media-button"
-              href="https://x.com/Juu17__"
+              key={item.link_url}
+              href={item.link_url}
               target="_blank"
             >
-              <svg
-                className="image-2"
-                data-svg="twitter"
-                viewBox="0 0 22 23"
-                version="1.1"
-              >
-                <g stroke="none" strokeWidth="1" fill="none" fill-rule="evenodd">
-                  <g id="1" fill="#FFFFFF" fill-rule="nonzero">
-                    <polygon
-                      id="Path"
-                      points="11.153992 9.729553 7.088684 4.041199 4.92041 4.041199 9.956299 11.087097 10.59021 11.97345 14.900635 18.009583 17.068909 18.009583 11.785217 10.615906"
-                    ></polygon>
-                    <path
-                      d="M20.15979,0 L1.84021,0 C0.823853,0 0,0.823853 0,1.84021 L0,20.15979 C0,21.176147 0.823853,22 1.84021,22 L20.15979,22 C21.176147,22 22,21.176147 22,20.15979 L22,1.84021 C22,0.823853 21.176147,0 20.15979,0 Z M14.235352,19 L9.872803,12.786987 L4.411438,19 L3,19 L9.246887,11.895325 L3,3 L7.764648,3 L11.894775,8.881958 L17.06958,3 L18.480957,3 L12.523987,9.775635 L19,19 L14.235352,19 Z"
-                      id="Shape"
-                    ></path>
-                  </g>
-                </g>
-              </svg>
-              <div className="">Twitter</div>
+              <Image 
+                src={item.icon_svg} 
+                width={30} 
+                height={30} 
+                alt="" 
+              />   
             </a>
-            <a
-              className="social-media-button"
-              href="https://juu17.substack.com/subscribe"
-              target="_blank"
-            >
-              <svg
-                className="image-2"
-                data-svg="substack"
-                viewBox="0 0 22 25"
-                version="1.1"
-              >
-                <g stroke="none" strokeWidth="1" fill="none" fill-rule="evenodd">
-                  <g fill="#FFFFFF" fill-rule="nonzero">
-                    <polygon
-                      id="Path"
-                      points="21.9990571 5.66369048 0 5.66369048 0 8.6352619 21.9990571 8.6352619"
-                    ></polygon>
-                    <polygon
-                      id="Path"
-                      points="0 11.327381 0 25.1432762 10.9990571 18.9731143 22 25.1432762 22 11.327381"
-                    ></polygon>
-                    <polygon
-                      id="Path"
-                      points="21.9990571 0 0 0 0 2.97107905 21.9990571 2.97107905"
-                    ></polygon>
-                  </g>
-                </g>
-              </svg>
-              <div className="">Substack</div>
-            </a>
-          </div>
-        </div>
+          ))
+        }
       </div>
-    </>
-  );
+      <div className="flex-col mt-5">
+        {
+          linkPanels.map((item, index) => {
+            return (
+              <div className={`font-haasDisp ${index!==0 && 'mt-10'}`} key={item.caption}>
+                <div className="text-xl leading-[30px] font-semibold text-center text-[rgba(255, 255, 255, 0.8)] mb-[20px]">{item.caption}</div>
+                {
+                  item.links.map((linkItem) => (
+                    <a
+                      className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
+                      key={linkItem.link_url}
+                      href={linkItem.link_url}
+                      target="_blank"
+                    >
+                      {linkItem.text}
+                    </a>
+                  ))
+                }
+              </div>
+            )
+          })
+        }
+        <div>
+
+        </div>
+
+      </div>
+    </div>
+  )
 }
