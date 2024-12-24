@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import fetcher from "./fetcher";
 import { ApiHost } from "./path";
@@ -16,28 +16,12 @@ export function useSendEmail() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   
-  const emailMsg = searchParams.get("email_msg");
+  const code = searchParams.get("email_hash_code");
   const [hasSend, setHasSend] = useState(false);
   const [sending, setSending] = useState(false);
   const [lastSendTime, setLastSendTime] = useState("");
   const [seconds, setSeconds] = useState(60);
   const uuid = useAtomValue(UuidAtom);
-
-  const { code, email } = useMemo(() => {
-    if (!emailMsg) {
-      return { code: '', email: ''}
-    }
-    try {
-      const emailMsgObj = JSON.parse(window.atob(emailMsg || '') || "{}")
-      return {
-        code: emailMsgObj?.["verify_code"],
-        email: emailMsgObj?.["email"],
-      }
-    } catch {
-      console.error("error email msg");
-      return { code: '', email: ''}
-    }
-  }, [emailMsg])
 
   useEffect(() => {
     const lt = localStorage.getItem(SendEmailKey);
@@ -123,8 +107,8 @@ export function useSendEmail() {
   }
 
   return {
+    email: '',
     code,
-    email,
     sending,
     hasSend,
     sendEmail,
