@@ -1,16 +1,36 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import fetcher from "@/lib/api/fetcher";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import FeatureItem from "./feature-item";
 import { IconBtn } from "@/components/icon-btn";
+import { ApiHost } from "@/lib/api/path";
+import { GlobalMsgContext } from "@/components/global-msg-context";
+import { useAtomValue } from "jotai";
+import { UuidAtom } from "@/lib/api/state";
+import useSWR from "swr";
 
 export default function DomainRedirect() {
   const T = useTranslations("Common");
   const [yourId, setYourId] = useState<string | null>(null);
   const [redirectHost, setRedirectHost] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false)
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
+  const uuid = useAtomValue(UuidAtom);
+  const { data } = useSWR("getSubdomain", getSubdomain);
+
+  useEffect(() => {
+    if (!data) return;
+    if (data.redirect_uri) setRedirectHost(data.redirect_uri)
+    if (data.subdomain) setYourId(data.subdomain)
+  }, [data])
+  function getSubdomain() {
+    return  fetcher(`${ApiHost}/subdomain?user_id=${uuid}`, {
+      method: "GET",
+    });  
+  }
 
   function handleKeyDown(event: any) {
     if (event.keyCode === 13) {
@@ -18,8 +38,28 @@ export default function DomainRedirect() {
     }
   }
 
-  function handleSave() {
-    return;
+  async function handleSave() {
+    if (loading) return;
+    setLoading(true)
+    const res: any = await fetcher(`${ApiHost}/subdomain`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: uuid,
+        subdomain: yourId,
+        redirect_uri: redirectHost
+      }),
+    });
+    setLoading(false)
+    if (res.status === false) {
+      setGlobalMessage({
+        type: "error",
+        message: res.msg || "Submit failed, please try again",
+      });
+      return;
+    }
   }
 
   return (

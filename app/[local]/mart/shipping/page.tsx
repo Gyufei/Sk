@@ -132,7 +132,7 @@ export default function ShippingAddressPage() {
     }
     if (res.status === false && res.msg) {
       setGlobalMessage({
-        type: "warning",
+        type: "error",
         message: res.msg,
       });
     }
