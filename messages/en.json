@@ -1,11 +1,12 @@
 {
   "Common": {
     "WelcomeTo": "Welcome to Juu17 Brands",
+    "SloganText": "Build cypto new orders",
     "SignIn": "Sign in",
-    "SignOut": "Sign Out",
+    "SignOut": "Sign out",
     "Signing": "Signing...",
     "Or": "Or",
-    "ChangeAccount": "Change Account",
+    "ChangeAccount": "Change login methods",
     "SignInWithX": "Sign in with X",
     "SignInWithWallet": "Sign in with Wallet",
     "MembershipNo": "Membership",
@@ -38,7 +39,7 @@
     "ShippingAddress": "Address",
     "AddressLine": "Address line / Street",
     "ZipCode": "Zip Code",
-    "RecentLogisticsOrder": "Recent Logistics Orders",
+    "RecentLogisticsOrder": "Recent Orders",
     "DisplayAccount": "Display account",
     "HideAccount": "Hide account",
     "Info": "Info",
