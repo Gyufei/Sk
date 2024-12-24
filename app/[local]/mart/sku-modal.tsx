@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { IProduct } from "@/lib/api/use-mart-products";
@@ -36,12 +35,9 @@ export default function SkuModal(props: SkuModalProps) {
     <div className={`${!isDesktop && 'paddingBottomStyle-64'}`}>
         {
           skuImage && (
-            <Image 
+            <img
               src={skuImage}
               className="w-full rounded-[20px] mb-5 h-auto"
-              alt="size"
-              width={100}
-              height={100}
             />
           )
         }
