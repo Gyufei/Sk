@@ -14,10 +14,16 @@ export function useMartBuy() {
     }: {
       arg: {
         productId: string;
+        selectedSize?: string;
       };
     },
   ) {
-    const { productId } = arg;
+    const { productId, selectedSize } = arg;
+    const extraInfo = selectedSize ? {
+      order_notes: {
+        skuAttr: selectedSize
+      }
+    } : {};
     const result: any = await fetcher(`${ApiHost}/order/create`, {
       method: "POST",
       headers: {
@@ -26,6 +32,7 @@ export function useMartBuy() {
       body: JSON.stringify({
         product_id: productId,
         user_id: uuid,
+        ...extraInfo,
       }),
     });
 

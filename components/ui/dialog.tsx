@@ -56,9 +56,9 @@ const DialogContent = React.forwardRef<
       >
         {children}
         {showClose && (
-          <DialogPrimitive.Close className="shadow-1 hover:bg-yellow absolute right-6 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-black text-black outline-0 transition-opacity disabled:pointer-events-none">
+          <DialogPrimitive.Close className="shadow-1 hover:bg-yellow absolute right-4 top-[20px] flex h-8 w-8 items-center justify-center rounded-full border border-black text-black outline-0 transition-opacity disabled:pointer-events-none">
             <Image
-              src="./icons/close-x.svg"
+              src="/icons/close-x.svg"
               width={24}
               height={24}
               alt="close"
@@ -78,13 +78,12 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "c-font-title-65 text-xl leading-6 tracking-tight text-black",
+      "font-haasDisp text-xl leading-[30px] text-white",
       className,
     )}
     {...props}
   >
     <div className="flex items-center">
-      <div className="mr-3 h-2 w-2 rounded-full bg-black"></div>
       {props.children}
     </div>
   </DialogPrimitive.Title>

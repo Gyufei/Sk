@@ -64,7 +64,7 @@ export function PopDrawer({
       </DrawerTrigger>
       <DrawerContent className={className}>
         <DrawerHeader className="text-center py-0">
-          <DrawerTitle className="text-lg font-medium">{title}</DrawerTitle>
+          <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
         <div className="no-scroll-bar overflow-y-auto max-h-[calc(100vh-200)]">
           {popContent}
