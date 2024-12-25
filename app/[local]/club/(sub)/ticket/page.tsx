@@ -132,7 +132,7 @@ export default function Page() {
   }
 
   return (
-    <div className="relative h-full content-w-600">
+    <div className="no-scroll-bar relative h-full content-w-600 sm:trans-scroll-bar overflow-y-auto sm:max-h-[calc(100%-40px)]">
       <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
         <BreadCrumbs />
         <GoBackTo />
