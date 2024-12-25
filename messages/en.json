@@ -93,5 +93,19 @@
     "OrderId": "OrderId",
     "OrderTime": "OrderTime",
     "OrderPhone": "OrderPhone"
+  },
+  "Ticket": {
+    "Ticket": "Ticket",
+    "SubmitTicket": "Submit Ticket",
+    "Topic": "Topic",
+    "Content": "Content",
+    "Contact": "Contact",
+    "RecentTickets": "Recent tickets",
+    "General": "General",
+    "ClothSizes": "Clothing sizes",
+    "ScheduleTalk": "Schedule a talk with Juu17",
+    "OrderId": "OrderId",
+    "OrderTime": "OrderTime",
+    "OrderPhone": "OrderPhone"
   }
 }

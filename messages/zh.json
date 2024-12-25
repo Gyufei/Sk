@@ -93,5 +93,19 @@
     "OrderId": "订单Id",
     "OrderTime": "订单时间",
     "OrderPhone": "订单手机号"
+  },
+  "Ticket": {
+    "Ticket": "工单",
+    "SubmitTicket": "提交工单",
+    "Topic": "主题",
+    "Content": "内容",
+    "Contact": "联系方式",
+    "RecentTickets": "最近工单",
+    "General": "常规",
+    "ClothSizes": "衣物尺寸",
+    "ScheduleTalk": "和枪十七预约对话",
+    "OrderId": "订单Id",
+    "OrderTime": "订单时间",
+    "OrderPhone": "订单手机号"
   }
 }

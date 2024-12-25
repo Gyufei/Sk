@@ -3,7 +3,7 @@
     "General": {
       "preset_template": {
         "Content": {
-          "type": "textArea",
+          "type": "TextArea",
           "name": "Content",
           "errorMsg": "Content must be at least 20 characters long.",
           "regex": "^.{20,}$"
@@ -41,7 +41,7 @@
     "ScheduleTalk": {
       "preset_template": {
         "Content": {
-          "type": "textArea",
+          "type": "TextArea",
           "name": "Content",
           "errorMsg": "Content must be at least 20 characters long.",
           "regex": "^.{20,}$"
@@ -57,7 +57,7 @@
   },
   "defaultQuestion": {
     "Content": {
-      "type": "textArea",
+      "type": "TextArea",
       "name": "Content",
       "errorMsg": "Content must be at least 20 characters long.",
       "regex": "^.{20,}$"

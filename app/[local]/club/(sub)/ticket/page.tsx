@@ -22,7 +22,7 @@ const defaultQuestion = topicConfig.defaultQuestion;
 type TopicKey = keyof typeof topics;
 
 export default function Page() {
-  const T = useTranslations("Common");
+  const T = useTranslations("Ticket");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const uuid = useAtomValue(UuidAtom);
   const { data: recentTickets, mutate } = useRecentTickets();
