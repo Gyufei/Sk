@@ -1,5 +1,5 @@
+import SvgIcon from "@/components/svg-icon/index";
 import homeJson from "./home_page_config.json";
-import Image from 'next/image';
 
 export default function Home() {
   const topList = homeJson.top_icon_links;
@@ -14,12 +14,16 @@ export default function Home() {
               href={item.link_url}
               target="_blank"
             >
-              <Image 
+              <SvgIcon 
+                name={item.icon_svg}
+                size={40}
+              />
+              {/* <Image 
                 src={item.icon_svg} 
                 width={40} 
                 height={40} 
                 alt="" 
-              />
+              /> */}
             </a>
           ))
         }
