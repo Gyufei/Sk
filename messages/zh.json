@@ -89,6 +89,9 @@
     "Size": "尺寸",
     "ConfirmToPay": "确认支付",
     "SelectSize": "选择尺寸",
-    "SizeChart": "尺寸图表"
+    "SizeChart": "尺寸图表",
+    "OrderId": "订单Id",
+    "OrderTime": "订单时间",
+    "OrderPhone": "订单手机号"
   }
 }

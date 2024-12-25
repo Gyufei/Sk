@@ -89,6 +89,9 @@
     "Size": "Size",
     "ConfirmToPay": "Confirm to Pay",
     "SelectSize": "Select size",
-    "SizeChart": "Size Chart"
+    "SizeChart": "Size Chart",
+    "OrderId": "OrderId",
+    "OrderTime": "OrderTime",
+    "OrderPhone": "OrderPhone"
   }
 }

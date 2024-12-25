@@ -1,0 +1,72 @@
+{
+  "topics": {
+    "General": {
+      "preset_template": {
+        "Content": {
+          "type": "textArea",
+          "name": "Content",
+          "errorMsg": "Content must be at least 20 characters long.",
+          "regex": "^.{20,}$"
+        },
+        "Contact": {
+          "type": "Input",
+          "name": "Contact",
+          "errorMsg": "Contact must be at least 8 characters long.",
+          "regex": "^.{8,}$"
+        }
+      }
+    },
+    "ClothSizes": {
+      "preset_template": {
+        "OrderId": {
+          "type": "Input",
+          "name": "OrderId",
+          "errorMsg": "Content must be at least 20 characters long.",
+           "regex": "^.{20,}$"
+        },
+        "OrderTime": {
+          "type": "Input",
+          "name": "OrderTime",
+          "errorMsg": "Content must be at least 8 characters long.",
+          "regex": "^.{8,}$"
+        },
+        "OrderPhone": {
+          "type": "Input",
+          "name": "OrderPhone",
+          "errorMsg": "Contact must be at least 8 characters long.",
+           "regex": "^.{8,}$"
+        }
+      }
+    },
+    "ScheduleTalk": {
+      "preset_template": {
+        "Content": {
+          "type": "textArea",
+          "name": "Content",
+          "errorMsg": "Content must be at least 20 characters long.",
+          "regex": "^.{20,}$"
+        },
+        "Contact": {
+          "type": "Input",
+          "name": "Contact",
+          "errorMsg": "Contact must be at least 8 characters long.",
+          "regex": "^.{8,}$"
+        }
+      }
+    }
+  },
+  "defaultQuestion": {
+    "Content": {
+      "type": "textArea",
+      "name": "Content",
+      "errorMsg": "Content must be at least 20 characters long.",
+      "regex": "^.{20,}$"
+    },
+    "Contact": {
+      "type": "Input",
+      "name": "Contact",
+      "errorMsg": "Contact must be at least 8 characters long.",
+      "regex": "^.{8,}$"
+    }
+  }
+}

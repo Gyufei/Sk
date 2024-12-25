@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useCallback, useRef } from "react";
+import { useContext, useState, useCallback, useRef, useMemo } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import { Input } from "@/components/ui/input";
@@ -15,8 +15,11 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { PopDrawer } from "@/components/pop-drawer";
-
+import topicConfig from './topic_config.json';
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
+const topics = topicConfig.topics;
+const defaultQuestion = topicConfig.defaultQuestion;
+type TopicKey = keyof typeof topics;
 
 export default function Page() {
   const T = useTranslations("Common");
@@ -29,43 +32,46 @@ export default function Page() {
 
   const [topicOpen, setTopicOpen] = useState(false);
   const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
-  const [content, setContent] = useState("");
-  const [contact, setContact] = useState("");
-
+  const [question, setQuestion] = useState<Record<string, QuestionType>>(defaultQuestion);
+  const [qContent, setQContent] = useState<Record<string, string>>({});
+  const [qValid, setQValid] = useState<Record<string, boolean | undefined>>({});
   const [topicValid, setTopicValid] = useState(true);
-  const [contactValid, setContactValid] = useState(true);
-  const [contentValid, setContentValid] = useState(true);
 
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
+  
+  const isValid = useMemo(() => {
+    const qKeys = Object.keys(question);
+    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
+    if (errorIndex > -1 || !topic) {
+      return false
+    }
+    return true
+  }, [question, qValid, topicValid])
 
   const handleReCaptchaChange = useCallback((value: string | null) => {
     setReCaptchaValue(value);
   }, []);
 
   async function saveTopic() {
+    const qKeys = Object.keys(question);
+    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
+    if (errorIndex > -1) {
+      return 
+    }
+
+    if (!reCaptchaValue) {
+      return;
+    }
+    
     if (!topic) {
       setTopicValid(false);
-    }
-
-    if (!content || content.length < 20) {
-      setContentValid(false);
-    }
-
-    if (!contact || contact.length < 8) {
-      setContactValid(false);
-    }
-
-    if (
-      !topic ||
-      !content ||
-      content.length < 20 ||
-      !contact ||
-      contact.length < 8 ||
-      !reCaptchaValue
-    ) {
       return;
     }
 
+    const contentObj = {} as Record<string, string>;
+    qKeys.map((key) => {
+      contentObj[key] =  (qContent[key] || '').trim()
+    })
     const res: any = await fetcher(`${ApiHost}/ticket/submit`, {
       method: "POST",
       headers: {
@@ -74,8 +80,7 @@ export default function Page() {
       body: JSON.stringify({
         user_id: uuid,
         topic,
-        content,
-        contact,
+        content: contentObj,
         recaptcha: reCaptchaValue,
       }),
     });
@@ -95,8 +100,9 @@ export default function Page() {
     });
 
     setTopic("");
-    setContent("");
-    setContact("");
+    setQuestion(defaultQuestion)
+    setQContent({})
+    setQValid({})
 
     captchaInst.current?.reset();
     setReCaptchaValue(null);
@@ -105,19 +111,24 @@ export default function Page() {
   function handleTopicSelected(v: string) {
     setTopic(v);
     setTopicValid(true);
+    setQuestion(topics[v as TopicKey].preset_template);
     setTopicOpen(false);
   }
 
-  function handleContentInput(v: string) {
-    const validV = (v || '').trim()
-    setContent(v);
-    setContentValid(validV.length >= 20);
+  function handleQuestionValueChange(name: string, value: string) {
+    const values = {
+      ...qContent,
+      ...{ [name]: value  }
+    };
+    setQContent(values)
   }
 
-  function handleContactInput(v: string) {
-    const validV = (v || '').trim()
-    setContact(v);
-    setContactValid(validV.length >= 8);
+  function handleQuestionValidChange(name: string, value: boolean) {
+    const values = {
+      ...qValid,
+      ...{ [name]: value  }
+    };
+    setQValid(values)
   }
 
   return (
@@ -140,18 +151,18 @@ export default function Page() {
           popContent={topicArr.map((c) => (
             <div
               key={c}
-              className="flex h-12 cursor-pointer items-center rounded-xl py-[5px] hover:bg-[rgba(255,255,255,0.05)]"
+              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
               onClick={() => {
                 handleTopicSelected(c);
               }}
             >
               <div
-                className="ml-3 text-base leading-6"
+                className="ml-3 text-base sm:text-sm leading-6"
                 style={{
                   color:
                     topic === c
                       ? "rgba(255,255,255)"
-                      : "rgba(255,255,255,0.6)",
+                      : "#d6d6d6",
                 }}
               >
                 {T(c)}
@@ -179,41 +190,20 @@ export default function Page() {
               />
             </div>
         </PopDrawer>
-        <div className="mt-10 text-[20px] sm:text-xl">{T("Content")}</div>
-        <div>
-          <textarea
-            value={content}
-            onChange={(e) => handleContentInput(e.target.value)}
-            className="py-2 h-12 w-full border-b border-solid bg-transparent text-base text-white outline-none min-h-[48px]"
-            style={{
-              borderBottomColor: contentValid ? "#464646" : "#ff5a5a",
-            }}
-          />
-          {!contentValid && (
-            <div className="mt-1 text-sm text-red-500">
-              Content must be at least 20 characters long.
-            </div>
-          )}
-        </div>
-        <div className="mt-10 text-[20px] sm:text-xl">{T("Contact")}</div>
-
-        <div>
-          <Input
-            value={contact || ""}
-            onChange={(e: any) => handleContactInput(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-            placeholder=""
-            style={{
-              borderBottomColor: contactValid ? "#464646" : "#ff5a5a",
-            }}
-          />
-          {!contactValid && (
-            <div className="mt-1 text-sm text-red-500">
-              Contact must be at least 8 characters long.
-            </div>
-          )}
-        </div>
-
+        {
+          Object.keys(question).map((key) => {
+            return (
+              <QuestionItem
+                key={key}
+                question={question[key]}
+                value={qContent[key]}
+                valid={qValid[key]}
+                onValueChange={handleQuestionValueChange}
+                onValidChange={handleQuestionValidChange}
+              />
+            )
+          })
+        }
         <div className="mt-10 flex flex-col items-center sm:flex-row">
           <div className="recaptcha-container mb-4 sm:mb-0">
             <ReCAPTCHA
@@ -225,7 +215,7 @@ export default function Page() {
           </div>
           <button
             disabled={
-              !topicValid || !contentValid || !contactValid || !reCaptchaValue
+              !isValid || !reCaptchaValue
             }
             onClick={() => saveTopic()}
             className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
@@ -261,4 +251,76 @@ export default function Page() {
       </div>
     </div>
   );
+}
+
+
+type QuestionType = {
+  type: string,
+  name: string;
+  errorMsg: string;
+  regex: string;
+}
+
+type QuestionItemProps = {
+  question: QuestionType;
+  value?: string;
+  valid?: boolean;
+  onValueChange: (name: string, value: string) => void;
+  onValidChange: (name: string, value: boolean) => void;
+}
+function QuestionItem({
+  question,
+  value = '',
+  valid = true,
+  onValueChange,
+  onValidChange
+}: QuestionItemProps) {
+  const {
+    type,
+    name,
+    errorMsg,
+  } = question;
+  const T = useTranslations("Common");
+  function handleInputChange(v: string) {
+    const validV = (v || '').trim()
+    onValueChange(name, v);
+    const regex = new RegExp(question.regex);
+    onValidChange(name, regex.test(validV))
+  }
+
+  return (
+    <>
+      <div className="mt-10 text-[20px] sm:text-xl">{T(name)}</div>
+      <div>
+        {
+          type === "textArea" ? (
+            <textarea
+              value={value}
+              onChange={(e) => handleInputChange(e.target.value)}
+              className="py-2 h-12 w-full border-b border-solid bg-transparent text-base text-white outline-none min-h-[48px]"
+              style={{
+                borderBottomColor: valid ? "#464646" : "#ff5a5a",
+              }}
+            />
+          ) : (
+            <Input
+              value={value || ""}
+              onChange={(e) => handleInputChange(e.target.value)}
+              className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+              placeholder=""
+              style={{
+                borderBottomColor: valid ? "#464646" : "#ff5a5a",
+              }}
+            />
+          )
+        }
+       
+        {!valid && errorMsg && (
+          <div className="mt-1 text-sm text-red-500">
+            {errorMsg}
+          </div>
+        )}
+      </div>
+    </>
+  )
 }
