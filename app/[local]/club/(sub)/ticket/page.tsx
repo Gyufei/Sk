@@ -293,7 +293,7 @@ function QuestionItem({
       <div className="mt-10 text-[20px] sm:text-xl">{T(name)}</div>
       <div>
         {
-          type === "textArea" ? (
+          type === "TextArea" ? (
             <textarea
               value={value}
               onChange={(e) => handleInputChange(e.target.value)}
