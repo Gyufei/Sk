@@ -53,13 +53,15 @@ const DrawerContent = React.forwardRef<
       <div className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] rounded-full" />
       {children}
       {showClose && (
-        <DrawerPrimitive.Close className="shadow-1 absolute right-4 top-0 flex h-8 w-8 items-center justify-center rounded-full border-none text-black outline-0 transition-opacity hover:bg-yellow disabled:pointer-events-none">
+        <DrawerPrimitive.Close 
+          className="shadow-1 absolute z-10 right-4 top-0 flex h-8 w-8 items-center justify-center rounded-full border-none text-black outline-0 transition-opacity hover:bg-yellow disabled:pointer-events-none"
+        >
           <Image
             className="cursor-pointer"
             src="/icons/close-no-circle.svg"
             width={24}
             height={24}
-            alt="back"
+            alt="close"
           />
         </DrawerPrimitive.Close>
       )}

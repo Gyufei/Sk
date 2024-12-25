@@ -88,6 +88,7 @@
     "NotionLevelRequired": "通知只对等级2及以上会员开放",
     "Size": "尺寸",
     "ConfirmToPay": "确认支付",
-    "SelectSize": "选择尺寸"
+    "SelectSize": "选择尺寸",
+    "SizeChart": "尺寸图表"
   }
 }

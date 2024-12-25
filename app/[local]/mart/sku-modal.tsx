@@ -37,18 +37,18 @@ export default function SkuModal(props: SkuModalProps) {
           skuImage && (
             <img
               src={skuImage}
-              className="w-full rounded-[20px] mb-5 h-auto"
+              className="w-full mb-5 h-auto"
             />
           )
         }
         <div>
-          <div className="font-haasDisp text-lg text-[rgba(255, 255, 255, 0.6)] mb-2 font-medium ">{T("Size")}</div>
+          <div className="font-haasDisp text-xl text-white mb-2 font-medium ">{T("Size")}</div>
           <div className="flex flex-row gap-[13px] flex-wrap">
             {
               skuAttr.map((item) => (
                 <div 
                   key={item.value}
-                  className={`p-4 w-min-[76px] h-[48px]  flex items-center justify-center rounded-lg text-base font-medium cursor-pointer ${seletedSku !== item.value && 'bg-[rgba(255, 255, 255, 0.01)] text-[#D6D6D6] border border-[rgba(255, 255, 255, 0.6)] hover:brightness-75'} ${seletedSku === item.value && 'bg-[#fff] border  border-[#fff] text-[#0D0D0D] hover:brightness-100'}`}
+                  className={`p-4 min-w-[76px] h-[48px]  flex items-center justify-center rounded-lg text-base font-medium cursor-pointer ${seletedSku !== item.value && 'bg-[rgba(255, 255, 255, 0.01)] text-[#D6D6D6] border border-[rgba(255, 255, 255, 0.6)] hover:brightness-75'} ${seletedSku === item.value && 'bg-[#fff] border  border-[#fff] text-[#0D0D0D] hover:brightness-100'}`}
                   onClick={() => setSeletedSku(item.value)}
                 >
                   {item.name}
@@ -82,7 +82,7 @@ export default function SkuModal(props: SkuModalProps) {
           showClose={true}
           className={"w-[480px] bg-[#252525] p-6 rounded-5 border-none flex flex-col"}
         >
-          <DialogTitle className="font-haasDisp text-white">{T("SelectSize")}</DialogTitle>
+          <DialogTitle className="font-haasDisp text-white">{T("SizeChart")}</DialogTitle>
           <div>{skuContent}</div>
         </DialogContent>
       </Dialog>
@@ -96,7 +96,7 @@ export default function SkuModal(props: SkuModalProps) {
     >
       <DrawerContent>
         <DrawerHeader className="text-center py-0">
-          <DrawerTitle>{T("SelectSize")}</DrawerTitle>
+          <DrawerTitle>{T("SizeChart")}</DrawerTitle>
         </DrawerHeader>
         <div className="no-scroll-bar overflow-y-auto relative">
           {skuContent}
