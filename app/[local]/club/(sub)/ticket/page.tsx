@@ -25,7 +25,7 @@ export default function Page() {
   const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const uuid = useAtomValue(UuidAtom);
-  const { data: recentTickets } = useRecentTickets();
+  const { data: recentTickets, mutate } = useRecentTickets();
   const captchaInst = useRef<ReCAPTCHA>(null);
 
   const [topic, setTopic] = useState("");
@@ -80,7 +80,7 @@ export default function Page() {
       body: JSON.stringify({
         user_id: uuid,
         topic,
-        content: contentObj,
+        content: JSON.stringify(contentObj),
         recaptcha: reCaptchaValue,
       }),
     });
@@ -103,7 +103,7 @@ export default function Page() {
     setQuestion(defaultQuestion)
     setQContent({})
     setQValid({})
-
+    mutate()
     captchaInst.current?.reset();
     setReCaptchaValue(null);
   }
