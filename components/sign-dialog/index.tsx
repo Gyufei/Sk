@@ -157,7 +157,7 @@ export default function SignDialog() {
             <div className="text-center font-medium text-[48px] leading-[72px] sm:text-[66px] sm:leading-[66px]">
               Juu17 Brands
             </div>
-            <div className="font-medium mt-[40px] flex align-middle jutisfy-center leading-[30px] text-[20px] sm:text-[24px] sm:leading-[36px] sm:mt-[100px]">
+            <div className="font-medium mt-[40px] flex items-center jutisfy-center leading-[30px] text-[20px] sm:text-[24px] sm:leading-[36px] sm:mt-[100px]">
               <div className="opacity-60">A cryptopia for</div> <CircleText words={words} />
             </div>
             {signing ? (
