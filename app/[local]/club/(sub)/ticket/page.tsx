@@ -15,10 +15,9 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { PopDrawer } from "@/components/pop-drawer";
-import { topicConfig } from './topic_config';
+import { FieldType, topicConfig } from './topic_config';
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 const topics = topicConfig.topics;
-const defaultQuestion = topicConfig.defaultQuestion;
 type TopicKey = keyof typeof topics;
 
 export default function Page() {
@@ -32,7 +31,7 @@ export default function Page() {
 
   const [topicOpen, setTopicOpen] = useState(false);
   const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
-  const [question, setQuestion] = useState<Record<string, QuestionType>>({});
+  const [question, setQuestion] = useState<QuestionType[]>([]);
   const [qContent, setQContent] = useState<Record<string, string>>({});
   const [qValid, setQValid] = useState<Record<string, boolean | undefined>>({});
   const [topicValid, setTopicValid] = useState(true);
@@ -40,7 +39,7 @@ export default function Page() {
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
   
   const isValid = useMemo(() => {
-    const qKeys = Object.keys(question);
+    const qKeys = question.map((item) => item.name);
     const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
     if (errorIndex > -1 || !topic) {
       return false
@@ -53,7 +52,7 @@ export default function Page() {
   }, []);
 
   async function saveTopic() {
-    const qKeys = Object.keys(question);
+    const qKeys = question.map((item) => item.name);
     const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
     if (errorIndex > -1) {
       return 
@@ -101,7 +100,7 @@ export default function Page() {
     });
 
     setTopic("");
-    setQuestion(defaultQuestion)
+    setQuestion([])
     setQContent({})
     setQValid({})
     mutate()
@@ -192,13 +191,13 @@ export default function Page() {
             </div>
         </PopDrawer>
         {
-          Object.keys(question).map((key) => {
+          question.map((item) => {
             return (
               <QuestionItem
-                key={key}
-                question={question[key]}
-                value={qContent[key]}
-                valid={qValid[key]}
+                key={item.name}
+                question={item}
+                value={qContent[item.name]}
+                valid={qValid[item.name]}
                 onValueChange={handleQuestionValueChange}
                 onValidChange={handleQuestionValidChange}
               />
@@ -261,8 +260,9 @@ export default function Page() {
 
 
 type QuestionType = {
-  type: string,
   name: string;
+  label: string;
+  type: string,
   errorMsg: string;
   regex: RegExp;
 }
@@ -284,9 +284,10 @@ function QuestionItem({
   const {
     type,
     name,
+    label,
     errorMsg,
   } = question;
-  const T = useTranslations("Common");
+  const T = useTranslations("Ticket");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   function handleInputChange(v: string) {
     const validV = (v || '').trim()
@@ -307,9 +308,9 @@ function QuestionItem({
 
   return (
     <>
-      <div className="mt-10 text-[20px] sm:text-xl">{T(name)}</div>
+      <div className="mt-10 text-[20px] sm:text-xl">{T(label)}</div>
       {
-        type === "TextArea" ? (
+        type === FieldType.TEXTAREA ? (
           <textarea
             ref={textareaRef}
             wrap="soft"
