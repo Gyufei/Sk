@@ -97,7 +97,7 @@
   "Ticket": {
     "Ticket": "工单",
     "SubmitTicket": "提交工单",
-    "Topic": "主题",
+    "Topic": "选择你的工单问题",
     "Content": "内容",
     "Contact": "联系方式",
     "RecentTickets": "最近工单",
@@ -106,7 +106,7 @@
     "ScheduleTalk": "和枪十七预约对话",
     "OrderId": "订单Id",
     "OrderTime": "订单时间",
-    "OrderSize": "尺寸",
+    "OrderSize": "衣服尺寸",
     "TalkTopic": "想聊点什么"
   }
 }

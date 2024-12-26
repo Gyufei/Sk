@@ -96,17 +96,17 @@
   },
   "Ticket": {
     "Ticket": "Ticket",
-    "SubmitTicket": "Submit Ticket",
-    "Topic": "Topic",
+    "SubmitTicket": "Submit a ticket",
+    "Topic": "Select your ticket issue",
     "Content": "Content",
     "Contact": "Contact",
     "RecentTickets": "Recent tickets",
     "General": "General",
-    "ClothSizes": "Clothing sizes",
+    "ClothSizes": "Add the clothing size information",
     "ScheduleTalk": "Schedule a talk with Juu17",
     "OrderId": "OrderId",
     "OrderTime": "OrderTime",
-    "OrderSize": "OrderSize",
+    "OrderSize": "Clothing Size",
     "TalkTopic": "Talk Topic"
   }
 }
