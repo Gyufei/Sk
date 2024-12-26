@@ -30,7 +30,7 @@ export const topicConfig = {
           label: "OrderSize",
           type: FieldType.INPUT,
           errorMsg: "XXS/XS/S/M/L/XL/XXL",
-          regex: /^.{1,4}$/
+          regex: /(?:XXS|XS|S|M|L|XL|XXL)/i
         }
       ]
     },
