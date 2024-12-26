@@ -5,52 +5,40 @@ export const topicConfig = {
         "Content": {
           "type": "TextArea",
           "name": "Content",
-          "errorMsg": "Content must be at least 20 characters long.",
-          "regex": /^.([\s\S]{20,})$/
+          "errorMsg": "Content is too short.",
+          "regex": /^.([\s\S]{10,})$/
         },
         "Contact": {
           "type": "Input",
           "name": "Contact",
-          "errorMsg": "Contact must be at least 8 characters long.",
-          "regex": /^.{8,}$/
+          "errorMsg": "Contact is too short.",
+          "regex": /^.{5,}$/
         }
       }
     },
     "ClothSizes": {
       "preset_template": {
-        "OrderId": {
+        "OrderSize": {
           "type": "Input",
-          "name": "OrderId",
-          "errorMsg": "Content must be at least 20 characters long.",
-           "regex": /^.([\s\S]{20,})$/
-        },
-        "OrderTime": {
-          "type": "Input",
-          "name": "OrderTime",
-          "errorMsg": "Content must be at least 8 characters long.",
-          "regex": /^.{8,}$/
-        },
-        "OrderPhone": {
-          "type": "Input",
-          "name": "OrderPhone",
-          "errorMsg": "Contact must be at least 8 characters long.",
-           "regex": /^.{8,}$/
+          "name": "OrderSize",
+          "errorMsg": "XXS/XS/S/M/L/XL/XXL",
+          "regex": /^.{1,4}$/
         }
       }
     },
     "ScheduleTalk": {
       "preset_template": {
-        "Content": {
+        "TalkTopic": {
           "type": "TextArea",
-          "name": "Content",
-          "errorMsg": "Content must be at least 20 characters long.",
-          "regex": /^.([\s\S]{20,})$/
+          "name": "TalkTopic",
+          "errorMsg": "Content is too short.",
+          "regex": /^.([\s\S]{10,})$/
         },
         "Contact": {
           "type": "Input",
           "name": "Contact",
-          "errorMsg": "Contact must be at least 8 characters long.",
-          "regex": /^.{8,}$/
+          "errorMsg": "Contact is too short.",
+          "regex": /^.{5,}$/
         }
       }
     }
@@ -59,14 +47,14 @@ export const topicConfig = {
     "Content": {
       "type": "TextArea",
       "name": "Content",
-      "errorMsg": "Content must be at least 20 characters long.",
-      "regex": /^.([\s\S]{20,})$/
+      "errorMsg": "Content is too short.",
+      "regex": /^.([\s\S]{10,})$/
     },
     "Contact": {
       "type": "Input",
       "name": "Contact",
-      "errorMsg": "Contact must be at least 8 characters long.",
-      "regex": /^.{8,}$/
+      "errorMsg": "Contact is too short.",
+      "regex": /^.{5,}$/
     }
   }
 }

@@ -106,6 +106,7 @@
     "ScheduleTalk": "和枪十七预约对话",
     "OrderId": "订单Id",
     "OrderTime": "订单时间",
-    "OrderPhone": "订单手机号"
+    "OrderSize": "尺寸",
+    "TalkTopic": "想聊点什么"
   }
 }

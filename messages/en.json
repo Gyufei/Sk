@@ -106,6 +106,7 @@
     "ScheduleTalk": "Schedule a talk with Juu17",
     "OrderId": "OrderId",
     "OrderTime": "OrderTime",
-    "OrderPhone": "OrderPhone"
+    "OrderSize": "OrderSize",
+    "TalkTopic": "Talk Topic"
   }
 }
