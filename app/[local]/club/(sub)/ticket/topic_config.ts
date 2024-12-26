@@ -1,4 +1,4 @@
-{
+export const topicConfig = {
   "topics": {
     "General": {
       "preset_template": {
@@ -6,13 +6,13 @@
           "type": "TextArea",
           "name": "Content",
           "errorMsg": "Content must be at least 20 characters long.",
-          "regex": "^.{20,}$"
+          "regex": /^.([\s\S]{20,})$/
         },
         "Contact": {
           "type": "Input",
           "name": "Contact",
           "errorMsg": "Contact must be at least 8 characters long.",
-          "regex": "^.{8,}$"
+          "regex": /^.{8,}$/
         }
       }
     },
@@ -22,19 +22,19 @@
           "type": "Input",
           "name": "OrderId",
           "errorMsg": "Content must be at least 20 characters long.",
-           "regex": "^.{20,}$"
+           "regex": /^.([\s\S]{20,})$/
         },
         "OrderTime": {
           "type": "Input",
           "name": "OrderTime",
           "errorMsg": "Content must be at least 8 characters long.",
-          "regex": "^.{8,}$"
+          "regex": /^.{8,}$/
         },
         "OrderPhone": {
           "type": "Input",
           "name": "OrderPhone",
           "errorMsg": "Contact must be at least 8 characters long.",
-           "regex": "^.{8,}$"
+           "regex": /^.{8,}$/
         }
       }
     },
@@ -44,13 +44,13 @@
           "type": "TextArea",
           "name": "Content",
           "errorMsg": "Content must be at least 20 characters long.",
-          "regex": "^.{20,}$"
+          "regex": /^.([\s\S]{20,})$/
         },
         "Contact": {
           "type": "Input",
           "name": "Contact",
           "errorMsg": "Contact must be at least 8 characters long.",
-          "regex": "^.{8,}$"
+          "regex": /^.{8,}$/
         }
       }
     }
@@ -60,13 +60,13 @@
       "type": "TextArea",
       "name": "Content",
       "errorMsg": "Content must be at least 20 characters long.",
-      "regex": "^.{20,}$"
+      "regex": /^.([\s\S]{20,})$/
     },
     "Contact": {
       "type": "Input",
       "name": "Contact",
       "errorMsg": "Contact must be at least 8 characters long.",
-      "regex": "^.{8,}$"
+      "regex": /^.{8,}$/
     }
   }
 }

@@ -15,7 +15,7 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { PopDrawer } from "@/components/pop-drawer";
-import topicConfig from './topic_config.json';
+import { topicConfig } from './topic_config';
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 const topics = topicConfig.topics;
 const defaultQuestion = topicConfig.defaultQuestion;
@@ -258,7 +258,7 @@ type QuestionType = {
   type: string,
   name: string;
   errorMsg: string;
-  regex: string;
+  regex: RegExp;
 }
 
 type QuestionItemProps = {
@@ -285,8 +285,7 @@ function QuestionItem({
   function handleInputChange(v: string) {
     const validV = (v || '').trim()
     onValueChange(name, v);
-    const regex = new RegExp(question.regex);
-    onValidChange(name, regex.test(validV))
+    onValidChange(name, question.regex.test(validV))
   }
 
    useEffect(() => {
@@ -295,7 +294,7 @@ function QuestionItem({
   
   const adjustHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = '48px';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
@@ -303,39 +302,37 @@ function QuestionItem({
   return (
     <>
       <div className="mt-10 text-[20px] sm:text-xl">{T(name)}</div>
-      <div>
-        {
-          type === "TextArea" ? (
-            <textarea
-              ref={textareaRef}
-              wrap="soft"
-              value={value}
-              onChange={(e) => handleInputChange(e.target.value)}
-              className=" py-2 h-12 box-border w-full border-b border-solid bg-transparent text-base text-white outline-none"
-              style={{
-                resize: 'none',
-                borderBottomColor: valid ? "#464646" : "#ff5a5a",
-              }}
-            />
-          ) : (
-            <Input
-              value={value || ""}
-              onChange={(e) => handleInputChange(e.target.value)}
-              className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-              placeholder=""
-              style={{
-                borderBottomColor: valid ? "#464646" : "#ff5a5a",
-              }}
-            />
-          )
-        }
-       
-        {!valid && errorMsg && (
-          <div className="mt-1 text-sm text-red-500">
-            {errorMsg}
-          </div>
-        )}
-      </div>
+      {
+        type === "TextArea" ? (
+          <textarea
+            ref={textareaRef}
+            wrap="soft"
+            value={value}
+            onChange={(e) => handleInputChange(e.target.value)}
+            className="py-2 h-12 box-border w-full border-b border-solid bg-transparent text-base text-white outline-none"
+            style={{
+              resize: 'none',
+              borderBottomColor: valid ? "#464646" : "#ff5a5a",
+            }}
+          />
+        ) : (
+          <Input
+            value={value || ""}
+            onChange={(e) => handleInputChange(e.target.value)}
+            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+            placeholder=""
+            style={{
+              borderBottomColor: valid ? "#464646" : "#ff5a5a",
+            }}
+          />
+        )
+      }
+      
+      {!valid && errorMsg && (
+        <div className="mt-1 text-sm text-red-500">
+          {errorMsg}
+        </div>
+      )}
     </>
   )
 }
