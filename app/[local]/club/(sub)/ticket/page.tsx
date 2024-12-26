@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, useCallback, useRef, useMemo } from "react";
+import { useContext, useState, useCallback, useRef, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import { Input } from "@/components/ui/input";
@@ -281,12 +281,24 @@ function QuestionItem({
     errorMsg,
   } = question;
   const T = useTranslations("Common");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   function handleInputChange(v: string) {
     const validV = (v || '').trim()
     onValueChange(name, v);
     const regex = new RegExp(question.regex);
     onValidChange(name, regex.test(validV))
   }
+
+   useEffect(() => {
+    adjustHeight();
+  }, [value]);
+  
+  const adjustHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
 
   return (
     <>
@@ -295,10 +307,13 @@ function QuestionItem({
         {
           type === "TextArea" ? (
             <textarea
+              ref={textareaRef}
+              wrap="soft"
               value={value}
               onChange={(e) => handleInputChange(e.target.value)}
-              className="py-2 h-12 w-full border-b border-solid bg-transparent text-base text-white outline-none min-h-[48px]"
+              className=" py-2 h-12 box-border w-full border-b border-solid bg-transparent text-base text-white outline-none"
               style={{
+                resize: 'none',
                 borderBottomColor: valid ? "#464646" : "#ff5a5a",
               }}
             />
