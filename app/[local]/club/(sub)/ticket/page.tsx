@@ -32,7 +32,7 @@ export default function Page() {
 
   const [topicOpen, setTopicOpen] = useState(false);
   const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
-  const [question, setQuestion] = useState<Record<string, QuestionType>>(defaultQuestion);
+  const [question, setQuestion] = useState<Record<string, QuestionType>>({});
   const [qContent, setQContent] = useState<Record<string, string>>({});
   const [qValid, setQValid] = useState<Record<string, boolean | undefined>>({});
   const [topicValid, setTopicValid] = useState(true);
@@ -81,6 +81,7 @@ export default function Page() {
         user_id: uuid,
         topic,
         content: JSON.stringify(contentObj),
+        contact: contentObj.Contact || '',
         recaptcha: reCaptchaValue,
       }),
     });
@@ -178,7 +179,7 @@ export default function Page() {
               }}
             >
               <div className="flex items-center">
-                <div className="text-base leading-6 text-white">{topic && T(topic) || ''}</div>
+                <div className="text-base leading-6 text-white">{topic && T(topic) || '--'}</div>
               </div>
               <Image
                 data-open={topicOpen}
@@ -204,25 +205,30 @@ export default function Page() {
             )
           })
         }
-        <div className="mt-10 flex flex-col items-center sm:flex-row">
-          <div className="recaptcha-container mb-4 sm:mb-0">
-            <ReCAPTCHA
-              ref={captchaInst}
-              sitekey={ReCAPTCHAKey}
-              onChange={handleReCaptchaChange}
-              onErrored={console.log}
-            />
-          </div>
-          <button
-            disabled={
-              !isValid || !reCaptchaValue
-            }
-            onClick={() => saveTopic()}
-            className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
-          >
-            Submit
-          </button>
-        </div>
+        {
+          topic && (
+            <div className="mt-10 flex flex-col items-center sm:flex-row">
+              <div className="recaptcha-container mb-4 sm:mb-0">
+                <ReCAPTCHA
+                  ref={captchaInst}
+                  sitekey={ReCAPTCHAKey}
+                  onChange={handleReCaptchaChange}
+                  onErrored={console.log}
+                />
+              </div>
+              <button
+                disabled={
+                  !isValid || !reCaptchaValue
+                }
+                onClick={() => saveTopic()}
+                className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
+              >
+                Submit
+              </button>
+            </div>
+          )
+        }
+       
       </div>
 
       <div className="sm:mt-10 sm:px-6">
