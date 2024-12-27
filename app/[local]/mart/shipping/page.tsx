@@ -21,7 +21,6 @@ export default function ShippingAddressPage() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
   const { data: logisticsOrders } = useRecentLogisticsOrder();
-
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
   );
@@ -180,34 +179,38 @@ export default function ShippingAddressPage() {
           onClick={handleSave}
         />
       </div>
-      
-      <div className="mt-10 sm:px-6">
-        <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
-          {T("RecentLogisticsOrder")}
-        </div>
-        <div className="mt-5">
-          {!logisticsOrders?.length && (
-            <div className="flex h-[50px] items-center justify-start text-xl">
-              {T("NoData")}
+      {
+        (logisticsOrders || []).length > 0 && (
+          <div className="mt-10 sm:px-6">
+            <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
+              {T("RecentLogisticsOrder")}
             </div>
-          )}
-          {(logisticsOrders || [])?.map((item: any, index: number) => (
-            <div
-              key={index}
-              className="flex py-[12px] flex-col jm:flex-row jm:py-0 jm:h-12 jm:items-center jm:justify-between text-[#d6d6d6]"
-              style={{
-                boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
-              }}
-            >
-              <div className="text-base flex items-center justify-between w-full leading-6 jm:w-[40%]">
-                <div>{item.order_id}</div>
-                <div>{item.delivery}</div>
-              </div>
-              <div className="text-[12px] leading-[18px] mt-[5px] opacity-60 jm:leading-6 jm:mt-0 jm:opacity-100 jm:text-base">{formatDate(item.create_at)}</div>
+            <div className="mt-5">
+              {!logisticsOrders?.length && (
+                <div className="flex h-[50px] items-center justify-start text-xl">
+                  {T("NoData")}
+                </div>
+              )}
+              {(logisticsOrders || [])?.map((item: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex py-[12px] flex-col jm:flex-row jm:py-0 jm:h-12 jm:items-center jm:justify-between text-[#d6d6d6]"
+                  style={{
+                    boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+                  }}
+                >
+                  <div className="text-base flex items-center justify-between w-full leading-6 jm:w-[40%]">
+                    <div>{item.order_id}</div>
+                    <div>{item.delivery}</div>
+                  </div>
+                  <div className="text-[12px] leading-[18px] mt-[5px] opacity-60 jm:leading-6 jm:mt-0 jm:opacity-100 jm:text-base">{formatDate(item.create_at)}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        )
+      }
+     
     </div>
   );
 }

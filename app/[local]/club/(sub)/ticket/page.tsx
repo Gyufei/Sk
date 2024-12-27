@@ -227,29 +227,32 @@ export default function Page() {
           </div>
         )}
       </div>
-      
-      <div className="sm:mt-10 sm:px-6">
-        <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
-          {T("RecentTickets")}
+      {
+        (recentTickets || []).length > 0 && (
+          <div className="sm:mt-10 sm:px-6">
+          <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
+            {T("RecentTickets")}
+          </div>
+          <div className="mt-5 text-xl">
+            {!recentTickets?.length && (<div className="flex h-[50px] items-center justify-start">
+              {T("NoData")}
+            </div>)}
+            {(recentTickets || []).map((c: any) => (
+              <div
+                key={c.id}
+                className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
+                style={{
+                  boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <div>{c.id}</div>
+                <div>{formatDate(c.create_at)}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="mt-5 text-xl">
-          {!recentTickets?.length && (<div className="flex h-[50px] items-center justify-start">
-            {T("NoData")}
-          </div>)}
-          {(recentTickets || []).map((c: any) => (
-            <div
-              key={c.id}
-              className="flex h-12 items-center justify-between text-base leading-6 text-[#d6d6d6]"
-              style={{
-                boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
-              }}
-            >
-              <div>{c.id}</div>
-              <div>{formatDate(c.create_at)}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+        )
+      }
     </div>
   );
 }
