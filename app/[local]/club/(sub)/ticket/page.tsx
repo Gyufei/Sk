@@ -1,6 +1,13 @@
 "use client";
 
-import { useContext, useState, useCallback, useRef, useMemo, useEffect } from "react";
+import {
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+  useEffect,
+} from "react";
 import Image from "next/image";
 import { GoBackTo } from "@/components/go-back-to";
 import { Input } from "@/components/ui/input";
@@ -15,7 +22,7 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import ReCAPTCHA from "react-google-recaptcha";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { PopDrawer } from "@/components/pop-drawer";
-import { FieldType, topicConfig } from './topic_config';
+import { FieldType, topicConfig } from "./topic_config";
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 const topics = topicConfig.topics;
 type TopicKey = keyof typeof topics;
@@ -26,7 +33,6 @@ export default function Page() {
   const uuid = useAtomValue(UuidAtom);
   const { data: recentTickets, mutate } = useRecentTickets();
   const captchaInst = useRef<ReCAPTCHA>(null);
-
   const [topic, setTopic] = useState("");
 
   const [topicOpen, setTopicOpen] = useState(false);
@@ -37,15 +43,15 @@ export default function Page() {
   const [topicValid, setTopicValid] = useState(true);
 
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
-  
+
   const isValid = useMemo(() => {
     const qKeys = question.map((item) => item.name);
-    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
+    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true);
     if (errorIndex > -1 || !topic) {
-      return false
+      return false;
     }
-    return true
-  }, [question, qValid, topicValid])
+    return true;
+  }, [question, qValid, topicValid]);
 
   const handleReCaptchaChange = useCallback((value: string | null) => {
     setReCaptchaValue(value);
@@ -53,15 +59,15 @@ export default function Page() {
 
   async function saveTopic() {
     const qKeys = question.map((item) => item.name);
-    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true)
+    const errorIndex = qKeys.findIndex((key) => qValid[key] !== true);
     if (errorIndex > -1) {
-      return 
+      return;
     }
 
     if (!reCaptchaValue) {
       return;
     }
-    
+
     if (!topic) {
       setTopicValid(false);
       return;
@@ -69,8 +75,8 @@ export default function Page() {
 
     const contentObj = {} as Record<string, string>;
     qKeys.map((key) => {
-      contentObj[key] =  (qContent[key] || '').trim()
-    })
+      contentObj[key] = (qContent[key] || "").trim();
+    });
     const res: any = await fetcher(`${ApiHost}/ticket/submit`, {
       method: "POST",
       headers: {
@@ -80,7 +86,7 @@ export default function Page() {
         user_id: uuid,
         topic,
         content: JSON.stringify(contentObj),
-        contact: contentObj.Contact || '',
+        contact: contentObj.Contact || "",
         recaptcha: reCaptchaValue,
       }),
     });
@@ -100,10 +106,10 @@ export default function Page() {
     });
 
     setTopic("");
-    setQuestion([])
-    setQContent({})
-    setQValid({})
-    mutate()
+    setQuestion([]);
+    setQContent({});
+    setQValid({});
+    mutate();
     captchaInst.current?.reset();
     setReCaptchaValue(null);
   }
@@ -118,26 +124,26 @@ export default function Page() {
   function handleQuestionValueChange(name: string, value: string) {
     const values = {
       ...qContent,
-      ...{ [name]: value  }
+      ...{ [name]: value },
     };
-    setQContent(values)
+    setQContent(values);
   }
 
   function handleQuestionValidChange(name: string, value: boolean | undefined) {
     const values = {
       ...qValid,
-      ...{ [name]: value  }
+      ...{ [name]: value },
     };
-    setQValid(values)
+    setQValid(values);
   }
 
   return (
-    <div className="no-scroll-bar relative h-full content-w-600 sm:trans-scroll-bar overflow-y-auto sm:max-h-[calc(100%-40px)]">
-      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between">
+    <div className="no-scroll-bar content-w-600 sm:trans-scroll-bar relative h-full overflow-y-auto sm:max-h-[calc(100%-40px)]">
+      <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] sm:p-6 backdrop-blur-md">
+      <div className="mb-[20px] mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-[20px] backdrop-blur-md sm:p-6">
         <div className="text-xl font-semibold leading-[30px] text-white">
           {T("SubmitTicket")}
         </div>
@@ -146,7 +152,7 @@ export default function Page() {
           title={T("Topic")}
           open={topicOpen}
           onOpenChange={(isOpen) => setTopicOpen(isOpen)}
-          popContentClass={'h-fit w-[552px]'}
+          popContentClass={"h-fit w-[552px]"}
           className={"h-[400px]"}
           popContent={topicArr.map((c) => (
             <div
@@ -157,12 +163,9 @@ export default function Page() {
               }}
             >
               <div
-                className="ml-3 text-base sm:text-sm leading-6"
+                className="ml-3 text-base leading-6 sm:text-sm"
                 style={{
-                  color:
-                    topic === c
-                      ? "rgba(255,255,255)"
-                      : "#d6d6d6",
+                  color: topic === c ? "rgba(255,255,255)" : "#d6d6d6",
                 }}
               >
                 {T(c)}
@@ -171,75 +174,68 @@ export default function Page() {
           ))}
         >
           <div
-              onClick={() => setTopicOpen(!topicOpen)}
-              className="flex h-12 w-full items-center justify-between border-b border-solid"
-              style={{
-                borderBottomColor: topicValid ? "#464646" : "#ff5a5a",
-              }}
-            >
-              <div className="flex items-center">
-                <div className="text-base leading-6 text-white">{topic && T(topic) || '--'}</div>
+            onClick={() => setTopicOpen(!topicOpen)}
+            className="flex h-12 w-full items-center justify-between border-b border-solid"
+            style={{
+              borderBottomColor: topicValid ? "#464646" : "#ff5a5a",
+            }}
+          >
+            <div className="flex items-center">
+              <div className="text-base leading-6 text-white">
+                {(topic && T(topic)) || "--"}
               </div>
-              <Image
-                data-open={topicOpen}
-                src="/icons/arrow-down.svg"
-                width={24}
-                height={24}
-                alt="down"
-                className="data-[open=true]:rotate-180"
-              />
             </div>
+            <Image
+              data-open={topicOpen}
+              src="/icons/arrow-down.svg"
+              width={24}
+              height={24}
+              alt="down"
+              className="data-[open=true]:rotate-180"
+            />
+          </div>
         </PopDrawer>
-        {
-          question.map((item) => {
-            return (
-              <QuestionItem
-                key={item.name}
-                question={item}
-                value={qContent[item.name]}
-                valid={qValid[item.name]}
-                onValueChange={handleQuestionValueChange}
-                onValidChange={handleQuestionValidChange}
+        {question.map((item) => {
+          return (
+            <QuestionItem
+              key={item.name}
+              question={item}
+              value={qContent[item.name]}
+              valid={qValid[item.name]}
+              onValueChange={handleQuestionValueChange}
+              onValidChange={handleQuestionValidChange}
+            />
+          );
+        })}
+        {topic && (
+          <div className="mt-10 flex flex-col items-center sm:flex-row">
+            <div className="recaptcha-container mb-4 sm:mb-0">
+              <ReCAPTCHA
+                ref={captchaInst}
+                sitekey={ReCAPTCHAKey}
+                onChange={handleReCaptchaChange}
+                onErrored={console.log}
               />
-            )
-          })
-        }
-        {
-          topic && (
-            <div className="mt-10 flex flex-col items-center sm:flex-row">
-              <div className="recaptcha-container mb-4 sm:mb-0">
-                <ReCAPTCHA
-                  ref={captchaInst}
-                  sitekey={ReCAPTCHAKey}
-                  onChange={handleReCaptchaChange}
-                  onErrored={console.log}
-                />
-              </div>
-              <button
-                disabled={
-                  !isValid || !reCaptchaValue
-                }
-                onClick={() => saveTopic()}
-                className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
-              >
-                Submit
-              </button>
             </div>
-          )
-        }
-       
+            <button
+              disabled={!isValid || !reCaptchaValue}
+              onClick={() => saveTopic()}
+              className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
+            >
+              Submit
+            </button>
+          </div>
+        )}
       </div>
-
+      
       <div className="sm:mt-10 sm:px-6">
         <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("RecentTickets")}
         </div>
         <div className="mt-5 text-xl">
-          {!recentTickets?.length && (
-            <div className="flex h-[50px] items-center justify-start">
-              {T("NoData")}
-            </div>
-          )}
+          {!recentTickets?.length && (<div className="flex h-[50px] items-center justify-start">
+            {T("NoData")}
+          </div>)}
           {(recentTickets || []).map((c: any) => (
             <div
               key={c.id}
@@ -258,14 +254,13 @@ export default function Page() {
   );
 }
 
-
 type QuestionType = {
   name: string;
   label: string;
-  type: string,
+  type: string;
   errorMsg: string;
   regex: RegExp;
-}
+};
 
 type QuestionItemProps = {
   question: QuestionType;
@@ -273,40 +268,35 @@ type QuestionItemProps = {
   valid?: boolean | undefined;
   onValueChange: (name: string, value: string) => void;
   onValidChange: (name: string, value: boolean | undefined) => void;
-}
+};
 function QuestionItem({
   question,
-  value = '',
+  value = "",
   valid = true,
   onValueChange,
-  onValidChange
+  onValidChange,
 }: QuestionItemProps) {
-  const {
-    type,
-    name,
-    label,
-    errorMsg,
-  } = question;
+  const { type, name, label, errorMsg } = question;
   const T = useTranslations("Ticket");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   function handleInputChange(v: string) {
-    const validV = (v || '').trim()
+    const validV = (v || "").trim();
     onValueChange(name, v);
     if (!v) {
-      onValidChange(name, undefined)
+      onValidChange(name, undefined);
     } else {
-      onValidChange(name, question.regex.test(validV))
+      onValidChange(name, question.regex.test(validV));
     }
     
   }
 
-   useEffect(() => {
+  useEffect(() => {
     adjustHeight();
   }, [value]);
-  
+
   const adjustHeight = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = '48px';
+      textareaRef.current.style.height = "48px";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
@@ -314,37 +304,33 @@ function QuestionItem({
   return (
     <>
       <div className="mt-10 text-[20px] sm:text-xl">{T(label)}</div>
-      {
-        type === FieldType.TEXTAREA ? (
-          <textarea
-            ref={textareaRef}
-            wrap="soft"
-            value={value}
-            onChange={(e) => handleInputChange(e.target.value)}
-            className="py-2 h-12 box-border w-full border-b border-solid bg-transparent text-base text-white outline-none"
-            style={{
-              resize: 'none',
-              borderBottomColor: valid ? "#464646" : "#ff5a5a",
-            }}
-          />
-        ) : (
-          <Input
-            value={value || ""}
-            onChange={(e) => handleInputChange(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
-            placeholder=""
-            style={{
-              borderBottomColor: valid ? "#464646" : "#ff5a5a",
-            }}
-          />
-        )
-      }
-      
+      {type === FieldType.TEXTAREA ? (
+        <textarea
+          ref={textareaRef}
+          wrap="soft"
+          value={value}
+          onChange={(e) => handleInputChange(e.target.value)}
+          className="box-border h-12 w-full border-b border-solid bg-transparent py-2 text-base text-white outline-none"
+          style={{
+            resize: "none",
+            borderBottomColor: valid ? "#464646" : "#ff5a5a",
+          }}
+        />
+      ) : (
+        <Input
+          value={value || ""}
+          onChange={(e) => handleInputChange(e.target.value)}
+          className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
+          placeholder=""
+          style={{
+            borderBottomColor: valid ? "#464646" : "#ff5a5a",
+          }}
+        />
+      )}
+
       {!valid && errorMsg && (
-        <div className="mt-1 text-sm text-red-500">
-          {errorMsg}
-        </div>
+        <div className="mt-1 text-sm text-red-500">{errorMsg}</div>
       )}
     </>
-  )
+  );
 }
