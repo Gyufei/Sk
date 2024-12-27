@@ -123,7 +123,7 @@ export default function Page() {
     setQContent(values)
   }
 
-  function handleQuestionValidChange(name: string, value: boolean) {
+  function handleQuestionValidChange(name: string, value: boolean | undefined) {
     const values = {
       ...qValid,
       ...{ [name]: value  }
@@ -270,9 +270,9 @@ type QuestionType = {
 type QuestionItemProps = {
   question: QuestionType;
   value?: string;
-  valid?: boolean;
+  valid?: boolean | undefined;
   onValueChange: (name: string, value: string) => void;
-  onValidChange: (name: string, value: boolean) => void;
+  onValidChange: (name: string, value: boolean | undefined) => void;
 }
 function QuestionItem({
   question,
@@ -292,7 +292,12 @@ function QuestionItem({
   function handleInputChange(v: string) {
     const validV = (v || '').trim()
     onValueChange(name, v);
-    onValidChange(name, question.regex.test(validV))
+    if (!v) {
+      onValidChange(name, undefined)
+    } else {
+      onValidChange(name, question.regex.test(validV))
+    }
+    
   }
 
    useEffect(() => {
