@@ -107,6 +107,7 @@
     "OrderId": "OrderId",
     "OrderTime": "OrderTime",
     "OrderSize": "OrderSize",
-    "TalkTopic": "Talk Topic"
+    "TalkTopic": "Talk Topic",
+    "NoData": "No data yet"
   }
 }

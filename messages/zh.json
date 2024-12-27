@@ -107,6 +107,7 @@
     "OrderId": "订单Id",
     "OrderTime": "订单时间",
     "OrderSize": "尺寸",
-    "TalkTopic": "想聊点什么"
+    "TalkTopic": "想聊点什么",
+    "NoData": "无数据"
   }
 }

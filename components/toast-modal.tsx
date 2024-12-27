@@ -26,7 +26,7 @@ export function ToastModal(props: ToasterToast): React.ReactNode {
       <div className="flex flex-col text-white w-full">
         {title && (
           <ToastTitle className="text-[20px] font-medium leading-[30px]">
-            <div className="flex flex-row">
+            <div className="flex flex-row pr-[36px]">
               {iconImage === 'notion' && (
                 <Image
                     src="/icons/icon-notion-white.svg"
