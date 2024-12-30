@@ -8,19 +8,21 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
 export function SolWalletItem({
+  listLength,
   address,
   setAddress,
   isVerify,
+  isSign,
   handleRemove,
   serialNumber,
-  handleAdd,
 }: {
+  listLength: number;
   address: string;
   isVerify: boolean;
+  isSign: boolean;
   serialNumber: number;
   setAddress: (_a: string) => void;
   handleRemove: () => void;
-  handleAdd: () => void;
 }) {
   const { publicKey, disconnect } = useWallet();
   const connectAddress = useMemo(
@@ -31,7 +33,7 @@ export function SolWalletItem({
   const { setVisible: solanaModalOpen } = useWalletModal();
   const { getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
-  const { trigger: removeWalletAction } = useRemoveWallet();
+  const { trigger: removeWalletAction, isMutating } = useRemoveWallet();
 
   const [isWaitingForNewConnect, setIsWaitingForNewConnect] = useState(false);
   const [isOperating, setIsOperating] = useState(false);
@@ -80,9 +82,12 @@ export function SolWalletItem({
     }
   }
 
-  // TODO: remove
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function removeWallet() {
+    if (isMutating) return;
+    if (isSign === false) { // no sign Data 
+      handleRemove();
+      return
+    }
     const res: any = await removeWalletAction({
       chainName: "Solana",
       serialNumber,
@@ -109,17 +114,23 @@ export function SolWalletItem({
           />
         )}
       </div>
-      <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse sm:flex-row justify-between sm:justify-start">
-        <div className="mt-4  ml-[20px] sm:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
-          <Image
-            onClick={handleAdd}
-            className="cursor-pointer"
-            src="/icons/add-qua.svg"
-            width={48}
-            height={49}
-            alt="add"
-          />
-        </div>
+      <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse justify-between">
+       {
+          (listLength > 1 || isSign===false) ? (
+            <div className="mt-4  ml-[24px] flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
+              <Image
+                onClick={removeWallet}
+                className="cursor-pointer opacity-60"
+                src="/icons/close-2.svg"
+                width={48}
+                height={49}
+                alt="delete"
+              />
+            </div>
+          ) : (
+            <div className="sm:w-12 sm:ml-[24px]"></div>
+          )
+        }
         <ConnectBtn
           handleConnect={handleConnect}
           handleDisconnect={handleDisconnect}

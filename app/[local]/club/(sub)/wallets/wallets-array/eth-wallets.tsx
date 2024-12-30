@@ -1,21 +1,23 @@
 import Image from "next/image";
 import { EthChainInfos } from "@/lib/const";
 
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { EthWalletItem } from "./eth-wallet-item";
 import { useChainId, useSwitchChain } from "wagmi";
 import { PopDrawer } from "@/components/pop-drawer";
+import { GlobalMsgContext } from "@/components/global-msg-context";
+import { useTranslations } from "next-intl";
 
 export function EthWallets() {
   const chainId = useChainId();
-
+  const T = useTranslations("Common");
   const { data: userInfo } = useFetchUserInfo();
 
   const [popOpen, setPopOpen] = useState(false);
   const [selectedChainName, setSelectedChainName] = useState("");
   const { switchChain } = useSwitchChain()
-
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const currChainInfo = useMemo(() => {
     const currChain = Object.values(EthChainInfos).find(
       (c) => c.name === selectedChainName,
@@ -29,6 +31,10 @@ export function EthWallets() {
   }, []);
 
   const [wArr, setWArr] = useState<any[]>([]);
+
+  const listLength = useMemo(() => {
+    return wArr.filter((item) => item.isSign !== false).length
+  }, [wArr])
 
   useEffect(() => {
     if (!userInfo?.wallets?.EVM.length) {
@@ -47,7 +53,7 @@ export function EthWallets() {
       return {
         address: w,
         isVerify: true,
-        serial_number: index + 2,
+        serial_number: index,
       };
     });
     setWArr(wallets);
@@ -79,6 +85,13 @@ export function EthWallets() {
   };
 
   const handleAddWallet = () => {
+    if (wArr.length >=5) {
+      setGlobalMessage({
+        type: "error",
+        message: T("MaxWalletMsg"),
+      });
+      return;
+    }
     setWArr((prev) => [...prev, { name: "", address: "", isSign: false }]);
   };
 
@@ -92,72 +105,83 @@ export function EthWallets() {
 
   return (
     <>
-      <PopDrawer
-          title= {"Wallets"}
-          open={popOpen} 
-          onOpenChange={(isOpen) => setPopOpen(isOpen)}
-          popContentClass={'h-[300px] w-[200px]'}
-          triggerProps={{
-            'data-disabled': false,
-            'className': "data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
-          }}
-          popContent={walletOptions.map((c) => (
-            <div
-              key={c}
-              className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
-              onClick={() => handleChangeChain(c, EthChainInfos[c].chainId)}
-            >
-              <Image
-                src={EthChainInfos[c].logo}
-                width={30}
-                height={30}
-                alt="wallet"
-              />
-              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">{c}</div>
-            </div>
-          ))}
-        >
-          <div
-            onClick={() => setPopOpen(!popOpen)}
-            className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] cursor-pointer"
-          >
-            <div className="flex items-center">
-              {EthChainInfos[selectedChainName] ? (
+      <div className="flex align-items">
+        <PopDrawer
+            title= {"Wallets"}
+            open={popOpen} 
+            onOpenChange={(isOpen) => setPopOpen(isOpen)}
+            popContentClass={'h-[300px] w-[200px]'}
+            triggerProps={{
+              'data-disabled': false,
+              'className': "data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed"
+            }}
+            popContent={walletOptions.map((c) => (
+              <div
+                key={c}
+                className="flex h-12 cursor-pointer items-center border-b border-solid border-[#515151] py-[5px] hover:brightness-75"
+                onClick={() => handleChangeChain(c, EthChainInfos[c].chainId)}
+              >
                 <Image
-                  src={EthChainInfos[selectedChainName].logo}
+                  src={EthChainInfos[c].logo}
                   width={30}
                   height={30}
                   alt="wallet"
                 />
-              ) : (
-                <div className="h-[30px] w-[30px] rounded-full bg-slate-400"></div>
-              )}
-              <div className="ml-3 text-base leading-6 text-[#d6d6d6]">
-                EVM {selectedChainName ? `(${selectedChainName})` : ""}
+                <div className="ml-3 text-base leading-6 text-[#d6d6d6]">{c}</div>
               </div>
+            ))}
+          >
+            <div
+              onClick={() => setPopOpen(!popOpen)}
+              className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] cursor-pointer"
+            >
+              <div className="flex items-center">
+                {EthChainInfos[selectedChainName] ? (
+                  <Image
+                    src={EthChainInfos[selectedChainName].logo}
+                    width={30}
+                    height={30}
+                    alt="wallet"
+                  />
+                ) : (
+                  <div className="h-[30px] w-[30px] rounded-full bg-slate-400"></div>
+                )}
+                <div className="ml-3 text-base leading-6 text-[#d6d6d6]">
+                  EVM {selectedChainName ? `(${selectedChainName})` : ""}
+                </div>
+              </div>
+              <Image
+                data-open={popOpen}
+                src="/icons/arrow-down.svg"
+                width={24}
+                height={24}
+                alt="down"
+                className="data-[open=true]:rotate-180"
+              />
             </div>
-            <Image
-              data-open={popOpen}
-              src="/icons/arrow-down.svg"
-              width={24}
-              height={24}
-              alt="down"
-              className="data-[open=true]:rotate-180"
-            />
-          </div>
-      </PopDrawer>
+        </PopDrawer>
+        <Image
+          onClick={handleAddWallet}
+          className="cursor-pointer ml-[22px]"
+          src="/icons/add-circle.svg"
+          width={24}
+          height={24}
+          alt="add"
+        />
+      </div>
       <div className="mt-2">
         {wArr.map((item, index) => (
           <EthWalletItem
             key={index}
+            listLength={listLength}
             address={item.address}
             isVerify={item.isVerify}
+            isSign={item.isSign}
             serialNumber={item.serial_number}
             setAddress={(value) => handleAddrChange(index, value)}
             handleRemove={() => {
               handleRemove(index);
             }}
-            handleAdd={handleAddWallet}
           />
         ))}
       </div>

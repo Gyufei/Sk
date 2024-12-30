@@ -94,7 +94,8 @@
     "OrderTime": "OrderTime",
     "OrderPhone": "OrderPhone",
     "AddWallet": "Add Wallet",
-    "WalletNull": " wallet is empty"
+    "WalletNull": " wallet is empty",
+    "MaxWalletMsg": ""
   },
   "Ticket": {
     "Ticket": "Ticket",

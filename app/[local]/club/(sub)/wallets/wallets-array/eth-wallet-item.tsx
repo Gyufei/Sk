@@ -14,19 +14,21 @@ import {
 } from '@rainbow-me/rainbowkit';
 
 export function EthWalletItem({
+  listLength,
   address,
   isVerify,
+  isSign,
   setAddress,
   handleRemove,
   serialNumber,
-  handleAdd,
 }: {
+  listLength: number;
   address: string;
   isVerify: boolean;
+  isSign: boolean;
   serialNumber: number;
   setAddress: (_a: string) => void;
   handleRemove: () => void;
-  handleAdd: () => void;
 }) {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { address: connectAddress } = useAccount();
@@ -35,10 +37,9 @@ export function EthWalletItem({
 
   const { disconnectAsync: disconnect, isPending: isDisconnecting } =
     useDisconnect();
-
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
   const { walletVerify } = useWalletVerify();
-  const { trigger: removeWalletAction } = useRemoveWallet();
+  const { trigger: removeWalletAction, isMutating } = useRemoveWallet();
 
   const [isWaitingForNewConnect, setIsWaitingForNewConnect] = useState(false);
   const [isOperating, setIsOperating] = useState(false);
@@ -107,9 +108,19 @@ export function EthWalletItem({
     }
   }
 
-  // TODO: remove
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function removeWallet() {
+    if (address === userInfo?.login_data?.wallet_address) {
+      setGlobalMessage({
+        type: "error",
+        message: "You cannot delete the wallet that is being logged in.",
+      });
+      return;
+    }
+    if (isMutating) return;
+    if (isSign === false) { // no sign Data 
+      handleRemove();
+      return
+    }
     const res: any = await removeWalletAction({
       chainName: "EVM",
       serialNumber,
@@ -137,17 +148,24 @@ export function EthWalletItem({
           />
         )}
       </div>
-      <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse sm:flex-row justify-between sm:justify-start">
-      <div className="mt-4  ml-[20px] sm:ml-0 flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
-          <Image
-            onClick={handleAdd}
-            className="cursor-pointer"
-            src="/icons/add-qua.svg"
-            width={48}
-            height={49}
-            alt="add"
-          />
-        </div>
+      <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse justify-between">
+        {
+          (listLength > 1 || isSign===false) ? (
+            <div className="mt-4  ml-[24px] flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
+              <Image
+                onClick={removeWallet}
+                className="cursor-pointer opacity-60"
+                src="/icons/close-2.svg"
+                width={48}
+                height={49}
+                alt="delete"
+              />
+            </div>
+          ) : (
+            <div className="sm:w-12 sm:ml-[24px]"></div>
+          )
+        }
+        
         <ConnectBtn
           handleConnect={handleConnect}
           handleDisconnect={handleDisconnect}

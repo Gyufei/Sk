@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { SolanaChainInfos } from "@/lib/const";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { SolWalletItem } from "./sol-wallet-item";
+import { GlobalMsgContext } from "@/components/global-msg-context";
+import { useTranslations } from "next-intl";
 
 export function SolWallets() {
   const { data: userInfo } = useFetchUserInfo();
@@ -10,6 +12,12 @@ export function SolWallets() {
   const [currentChainName] = useState("Solana");
 
   const [wArr, setWArr] = useState<any[]>([]);
+  const T = useTranslations("Common");
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
+
+  const listLength = useMemo(() => {
+    return wArr.filter((item) => item.isSign !== false).length
+  }, [wArr])
 
   useEffect(() => {
     if (!userInfo?.wallets?.Solana?.length) {
@@ -28,7 +36,7 @@ export function SolWallets() {
       return {
         address: w,
         isVerify: true,
-        serial_number: index + 2,
+        serial_number: index,
       };
     });
     setWArr(wallets);
@@ -43,6 +51,13 @@ export function SolWallets() {
   };
 
   const handleAddWallet = () => {
+    if (wArr.length >=5) {
+      setGlobalMessage({
+        type: "error",
+        message: T("MaxWalletMsg"),
+      });
+      return;
+    }
     setWArr((prev) => [...prev, { name: "", address: "", isSign: false }]);
   };
 
@@ -56,8 +71,8 @@ export function SolWallets() {
 
   return (
     <>
-      <div className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151]">
-        <div className="flex items-center">
+      <div className="flex h-12 items-center border-0 border-solid border-[#515151]">
+        <div className="w-[200px] flex items-center">
           {SolanaChainInfos[currentChainName] ? (
             <Image
               src={SolanaChainInfos[currentChainName].logo}
@@ -72,19 +87,28 @@ export function SolWallets() {
             {currentChainName}
           </div>
         </div>
+         <Image
+          onClick={handleAddWallet}
+          className="cursor-pointer ml-[22px]"
+          src="/icons/add-circle.svg"
+          width={24}
+          height={24}
+          alt="add"
+        />
       </div>
       <div className="mt-2">
         {wArr.map((item, index) => (
           <SolWalletItem
+            listLength={listLength}
             key={index}
             address={item.address}
             isVerify={item.isVerify}
+            isSign={item.isSign}
             serialNumber={item.serial_number}
             setAddress={(value) => handleAddrChange(index, value)}
             handleRemove={() => {
               handleRemove(index);
             }}
-            handleAdd={handleAddWallet}
           />
         ))}
       </div>
