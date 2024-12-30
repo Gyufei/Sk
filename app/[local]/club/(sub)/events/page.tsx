@@ -100,28 +100,26 @@ export default function EventsPage() {
 
   const canClaim = useMemo(() => {
     if (!currentAddress) return false;
-
     if (isOffChain) {
       return (
-        userInfo?.membership_no &&
         userInfo?.wallets?.EVM?.length &&
-        userInfo?.wallets?.EVM[0] === currentAddress
+        (userInfo?.wallets?.EVM || []).includes(currentAddress)
       );
     } else if (isEVM) {
       return (
         userInfo?.wallets?.EVM?.length &&
-        userInfo?.wallets?.EVM[0] === currentAddress
+        (userInfo?.wallets?.EVM || []).includes(currentAddress)
       );
     } else if (isSolana) {
       return (
         userInfo?.wallets?.Solana?.length &&
-        userInfo?.wallets?.Solana[0] === currentAddress
+        (userInfo?.wallets?.Solana || []).includes(currentAddress)
       );
     }
 
     return false;
   }, [isEVM, isOffChain, isSolana, userInfo, currentAddress]);
-
+  
   const claimAmount = useMemo(() => {
     if (!claimData || !canClaim) return 0;
     if (claimData?.status === true && claimData.data === null) return 0;
@@ -183,13 +181,13 @@ export default function EventsPage() {
     if (!currentToken || !currentToken.chainInfo || currentToken.isCutOff)
       return;
 
-    if (isEVM) {
-      claimEvm();
+    if (isOffChain) {
+      claimOffChain();
       return;
     }
 
-    if (isOffChain) {
-      claimOffChain();
+    if (isEVM) {
+      claimEvm();
       return;
     }
 
@@ -301,7 +299,7 @@ export default function EventsPage() {
             currentToken={currentToken}
             onClick={handleClickToken}
           />
-          <div className="w-full h-[256px] sm:w-[480px] sm:h-[320px] bg-blur12 rounded-[20px] bg-[rgba(255,255,255,0.1)] flex flex-col justify-center align-middle">
+          <div className="w-full h-[256px] sm:w-[480px] sm:h-[320px] bg-blur12 rounded-[20px] bg-[rgba(255,255,255,0.1)] flex flex-col justify-center items-center">
             <EventContent 
               currentToken={currentToken}
               currentAddress={currentAddress}

@@ -92,7 +92,9 @@
     "SizeChart": "Size Chart",
     "OrderId": "OrderId",
     "OrderTime": "OrderTime",
-    "OrderPhone": "OrderPhone"
+    "OrderPhone": "OrderPhone",
+    "AddWallet": "Add Wallet",
+    "WalletNull": " wallet is empty"
   },
   "Ticket": {
     "Ticket": "Ticket",
