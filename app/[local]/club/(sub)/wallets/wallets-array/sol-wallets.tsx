@@ -71,7 +71,7 @@ export function SolWallets() {
 
   return (
     <>
-      <div className="flex h-12 items-center border-0 border-solid border-[#515151]">
+      <div className="flex h-12 justify-between sm:justify-start items-center border-0 border-solid border-[#515151]">
         <div className="w-[200px] flex items-center">
           {SolanaChainInfos[currentChainName] ? (
             <Image

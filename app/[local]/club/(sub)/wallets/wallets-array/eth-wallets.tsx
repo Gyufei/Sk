@@ -105,7 +105,7 @@ export function EthWallets() {
 
   return (
     <>
-      <div className="flex align-items">
+      <div className="flex align-items justify-between sm:justify-start">
         <PopDrawer
             title= {"Wallets"}
             open={popOpen} 
