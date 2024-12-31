@@ -57,7 +57,7 @@ export function useClaimTokens() {
           : Object.values(ChainInfos).find((info) => {
               if (
                 (String(event.chain_id) === "901" ||
-                  String(event.chain_id) === "902") &&
+                  String(event.chain_id) === "902" || String(event.chain_id) === "903") &&
                 info.name === "Solana"
               ) {
                 return info;
