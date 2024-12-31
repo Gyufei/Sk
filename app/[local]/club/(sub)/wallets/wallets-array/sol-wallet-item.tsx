@@ -116,7 +116,7 @@ export function SolWalletItem({
       </div>
       <div className="w-full sm:w-[270px] sm:min-w-[270px] flex flex-row-reverse justify-between">
        {
-          (listLength > 1 || isSign===false) ? (
+          (listLength > 1 && serialNumber > 0 || isSign===false) ? (
             <div className="mt-4  ml-[24px] flex h-12 w-12 min-w-12 items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] sm:mt-0">
               <Image
                 onClick={removeWallet}

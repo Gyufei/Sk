@@ -103,17 +103,20 @@ export default function EventsPage() {
     if (isOffChain) {
       return (
         userInfo?.wallets?.EVM?.length &&
-        (userInfo?.wallets?.EVM || []).includes(currentAddress)
+        (userInfo?.wallets?.EVM?.[0]) === currentAddress
+        // (userInfo?.wallets?.EVM || []).includes(currentAddress)
       );
     } else if (isEVM) {
       return (
         userInfo?.wallets?.EVM?.length &&
-        (userInfo?.wallets?.EVM || []).includes(currentAddress)
+        (userInfo?.wallets?.EVM?.[0]) === currentAddress
+        // (userInfo?.wallets?.EVM || []).includes(currentAddress)
       );
     } else if (isSolana) {
       return (
         userInfo?.wallets?.Solana?.length &&
-        (userInfo?.wallets?.Solana || []).includes(currentAddress)
+        (userInfo?.wallets?.Solana?.[0]) === currentAddress
+        // (userInfo?.wallets?.Solana || []).includes(currentAddress)
       );
     }
 
