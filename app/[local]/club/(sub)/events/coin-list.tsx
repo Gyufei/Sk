@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CoinItem } from "./coin-item";
 import { IClaimToken } from "@/lib/api/use-claim-tokens";
 
@@ -22,6 +22,12 @@ export function CoinList({
     setRowIndex(newIndex)
   }
 
+  const nullArray = useMemo(() => {
+    const last = (claimArray[rowIndex] || []).length % 4;
+    if (last <= 0) return [];
+    return new Array(4 - last).fill(null)
+  }, [claimArray, rowIndex])
+
   return (
     
     <div className="mt-[10px] w-full justify-between sm:mt-0  relative flex flex-row sm:gap-[20px] sm:w-[60px] sm:h-[320px] sm:py-[10px] sm:flex-col">
@@ -36,6 +42,9 @@ export function CoinList({
             name={t.name}
           />
         ))
+      }
+      {
+        nullArray.map((item, index) => (<div key={index} className="h-[72px] w-[72px] sm:h-[60px] sm:w-[60px]"></div>))
       }
       {
         rowIndex > 0 && (

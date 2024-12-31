@@ -79,7 +79,16 @@ export function EthWallets() {
   const handleAddrChange = (index: number, value: string) => {
     setWArr((prev) => {
       const updatedPeople = [...prev];
-      updatedPeople[index].address = value;
+      if (updatedPeople[index].isSign === false) {
+        updatedPeople[index].address = value;
+        updatedPeople[index].isSign = undefined;
+      } else {
+        const _index = updatedPeople.findIndex((item) => item.isSign === false)
+        if (_index > -1) {
+          updatedPeople[_index].address = value;
+          updatedPeople[_index].isSign = undefined;
+        }
+      }
       return updatedPeople;
     });
   };

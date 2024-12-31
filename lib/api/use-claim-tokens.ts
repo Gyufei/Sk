@@ -3,6 +3,7 @@ import useSWR from "swr";
 import fetcher from "./fetcher";
 import { useMemo } from "react";
 import { ChainInfos } from "../const";
+import { useFetchUserInfo } from "./use-fetch-user-info";
 
 export interface IClaimToken {
   name: string;
@@ -26,9 +27,10 @@ function chunkArray<T>(array: T[], size: number): T[][] {
 }
 
 export function useClaimTokens() {
+  const { data: userInfo } = useFetchUserInfo();
   async function fetchAllEventsData() {
     const eventData = await fetcher(
-      `${ApiHost}/events`,
+      `${ApiHost}/events?user_id=${userInfo.user_id}`,
     );
     return eventData;
   }
