@@ -22,6 +22,7 @@ import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { EventContent } from "./event-content";
 import { CoinList } from "./coin-list";
+import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function EventsPage() {
   const T = useTranslations("Common");
@@ -272,31 +273,14 @@ export default function EventsPage() {
     }
   }
 
-  const windFallTpl = useMemo(() => {
-    return (
-      <div className="flex flex-col">
-        <div className="mb-1 text-xl leading-[30px] text-white font-haasDisp font-semibold">
-          {T("Windfalls")}
-        </div>
-        <div className="flex items-center text-[40px] leading-[60px] text-[#d6d6d6]">
-          <div className="text-[#1FEFA3]">
-            {userInfo?.passed_windfalls || 0}
-          </div>
-          <div>/</div>
-          <div>{userInfo?.total_windfalls || 0}</div>
-        </div>
-      </div>
-    );
-  }, [userInfo?.passed_windfalls, userInfo?.total_windfalls]);
-
   return (
     <div className="content-w-560">
-      <div className="relative flex flex-row-reverse sm:flex-row items-end justify-between mb-[24px]">
-        {windFallTpl}
+      <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
+        <BreadCrumbs />
         <GoBackTo />
       </div>
       <div>
-        <div className="relative flex w-full flex-col-reverse sm:flex-row sm:justify-between">
+        <div className="relative flex w-full flex-col-reverse sm:flex-row sm:justify-between mt-6">
           <CoinList 
             claimArray={claimArray}
             currentToken={currentToken}
