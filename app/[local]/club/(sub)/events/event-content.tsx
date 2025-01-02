@@ -20,6 +20,7 @@ export function EventContent({
   currentToken,
   currentAddress,
   claimData,
+  claimLoading,
   claimAmount,
   showClaimAmount,
   isClaimed,
@@ -30,6 +31,7 @@ export function EventContent({
   currentToken: IClaimToken | undefined;
   currentAddress: string | undefined;
   claimData: any;
+  claimLoading: boolean;
   claimAmount: number | undefined;
   showClaimAmount: number;
   isClaimed: boolean;
@@ -96,6 +98,13 @@ export function EventContent({
     )
   }
 
+  if (claimLoading) {
+    return (
+      <div className="flex h-[208px] flex-col items-center justify-center">
+        <div className="text-base">{T("Loading")}</div>
+      </div>
+    )
+  }
   if (!claimAmount || claimAmount === 0) {
     return (
       <div className="flex h-[208px] flex-col items-center justify-center">
@@ -171,7 +180,7 @@ export function EventContent({
         </div>
       }
       {
-        (!isClaimed && !currentToken.isCutOff) && <div className="font-haasDisp font-medium text-base text-[rgba(255, 255, 255, 0.6)] mt-[10px]">Connected: {abbreviateAddress(currentAddress)}</div> 
+        (!isClaimed && !currentToken.isCutOff) && <div className="font-haasDisp font-medium text-base text-[rgba(255, 255, 255, 0.6)] mt-[10px]">{T("ConnectedTo")} {abbreviateAddress(currentAddress)}</div> 
       }
     </div>
   )

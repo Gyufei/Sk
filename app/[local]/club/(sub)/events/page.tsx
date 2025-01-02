@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
@@ -25,7 +24,6 @@ import { CoinList } from "./coin-list";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function EventsPage() {
-  const T = useTranslations("Common");
   const { data: claimTokens, claimArray = [] } = useClaimTokens();
   const { data: userInfo } = useFetchUserInfo();
   const { openConnectModal = () => {}} = useConnectModal();
@@ -97,7 +95,7 @@ export default function EventsPage() {
     isSolPending,
   ]);
 
-  const { data: claimData } = useClaimData(currentToken, currentAddress);
+  const { data: claimData, isLoading: claimLoading } = useClaimData(currentToken, currentAddress);
 
   const canClaim = useMemo(() => {
     if (!currentAddress) return false;
@@ -291,6 +289,7 @@ export default function EventsPage() {
               currentToken={currentToken}
               currentAddress={currentAddress}
               claimData={claimData}
+              claimLoading={claimLoading}
               claimAmount={claimAmount}
               showClaimAmount={showClaimAmount}
               isClaimed={isClaimed}

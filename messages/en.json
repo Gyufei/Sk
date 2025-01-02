@@ -95,7 +95,9 @@
     "OrderPhone": "OrderPhone",
     "AddWallet": "Add Wallet",
     "WalletNull": " wallet is empty",
-    "MaxWalletMsg": ""
+    "MaxWalletMsg": "Max add five",
+    "ConnectedTo": "Connected:",
+    "Loading": "loading..."
   },
   "Ticket": {
     "Ticket": "Ticket",

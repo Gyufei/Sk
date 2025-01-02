@@ -95,7 +95,9 @@
     "OrderPhone": "订单手机号",
     "AddWallet": "添加钱包",
     "WalletNull": "钱包为空，请先添加钱包",
-     "MaxWalletMsg": "最多添加五个"
+    "MaxWalletMsg": "最多添加五个",
+    "ConnectedTo": "已连接:",
+     "Loading": "加载中..."
   },
   "Ticket": {
     "Ticket": "工单",
