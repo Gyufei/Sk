@@ -133,19 +133,19 @@ export default function EventsPage() {
     return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
   }, [claimAmount, currentToken]);
 
-  const { data: ethState, refetch: refreshEthClaim } = useCheckEthClaimed(
+  const { data: ethState, isLoading: ethReadLoading, refetch: refreshEthClaim } = useCheckEthClaimed(
     isEVM,
     (currentToken?.chainInfo?.name?.toLowerCase() as any) || "ethereum",
     currentToken?.eventData,
     claimAmount,
   );
 
-  const { data: solState, mutate: refreshSolClaim } = useCheckSolClaimed(
+  const { data: solState, isLoading: solReadLoading, mutate: refreshSolClaim } = useCheckSolClaimed(
     isSolana,
     currentToken?.eventData,
   );
 
-  const { data: offChainState, mutate: refreshOffChainClaim } =
+  const { data: offChainState, isLoading: offChainLoading, mutate: refreshOffChainClaim } =
     useCheckOffChainClaimed(
       isOffChain,
       currentToken?.eventData?.project_name,
@@ -165,6 +165,20 @@ export default function EventsPage() {
       return solState?.claimed;
     }
   }, [isEVM, isOffChain, isSolana, ethState, solState, offChainState]);
+
+  const readingLoading = useMemo(() => {
+    if (isOffChain) {
+      return offChainLoading;
+    }
+
+    if (isEVM) {
+      return ethReadLoading;
+    }
+
+    if (isSolana) {
+      return solReadLoading;
+    } 
+  }, [isEVM, isOffChain, isSolana, ethReadLoading, solReadLoading, offChainLoading])
 
   useEffect(() => {
     if (isOffChainSuccess) {
@@ -294,6 +308,7 @@ export default function EventsPage() {
               showClaimAmount={showClaimAmount}
               isClaimed={isClaimed}
               isPending={isPending}
+              readingLoading={readingLoading}
               handleConnect={handleConnect}
               handleClaim={handleClaim}
             />

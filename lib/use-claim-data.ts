@@ -60,6 +60,7 @@ export function useClaimData(
       JSON.stringify({
         currentToken: currentToken || "",
         uuid,
+        address: address || ''
       }),
     fetchClaimData,
   );

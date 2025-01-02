@@ -25,6 +25,7 @@ export function EventContent({
   showClaimAmount,
   isClaimed,
   isPending,
+  readingLoading,
   handleConnect,
   handleClaim
 }: {
@@ -35,6 +36,7 @@ export function EventContent({
   claimAmount: number | undefined;
   showClaimAmount: number;
   isClaimed: boolean;
+  readingLoading: boolean | undefined;
   isPending: boolean | undefined;
   handleConnect: () => void;
   handleClaim: () => void;
@@ -45,6 +47,44 @@ export function EventContent({
   const isSolana = currentToken?.chainInfo?.name === "Solana";
   const { data: userInfo } = useFetchUserInfo();
   const router = useRouter();
+
+  const claimContent = () => {
+    if (!currentToken) return null
+    if (readingLoading) {
+      return T("Loading")
+    }
+    if (isClaimed) {
+      return T("Claimed")
+    }
+    if (currentToken.isCutOff) {
+      return T("Unavailable")
+    }
+    if (isPending) {
+      T("Claiming")
+    }
+
+    return (
+      (
+        <>
+          <span className="font-bold">{T("Claim")}</span>
+          {!currentToken.chainInfo.isOffChain && (
+            <div
+              style={{
+                visibility: isOffChain ? "hidden" : "visible",
+              }}
+              className="ml-1 flex justify-start"
+            >
+              <span>{T("On")}</span>
+              <ChainLogoText
+                logo={currentToken.chainInfo.logo}
+                name={currentToken.chainInfo.name}
+              />
+            </div>
+          )}
+        </>
+      )
+    )
+  }
 
   if (!currentToken) {
     return (
@@ -151,36 +191,12 @@ export function EventContent({
           className="mt-5 box-border flex h-12 w-[240px] cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50"
         >
           <div className="flex justify-between text-base leading-6 text-white">
-            {isClaimed ? (
-              T("Claimed")
-            ) : currentToken.isCutOff ? (
-              T("Unavailable")
-            ) : isPending ? (
-              T("Claiming")
-            ) : (
-              <>
-                <span className="font-bold">{T("Claim")}</span>
-                {!currentToken.chainInfo.isOffChain && (
-                  <div
-                    style={{
-                      visibility: isOffChain ? "hidden" : "visible",
-                    }}
-                    className="ml-1 flex justify-start"
-                  >
-                    <span>{T("On")}</span>
-                    <ChainLogoText
-                      logo={currentToken.chainInfo.logo}
-                      name={currentToken.chainInfo.name}
-                    />
-                  </div>
-                )}
-              </>
-            )}
+            {claimContent()}
           </div>
         </div>
       }
       {
-        (!isClaimed && !currentToken.isCutOff) && <div className="font-haasDisp font-medium text-base text-[rgba(255, 255, 255, 0.6)] mt-[10px]">{T("ConnectedTo")} {abbreviateAddress(currentAddress)}</div> 
+        (!isClaimed && !currentToken.isCutOff && !readingLoading) && <div className="font-haasDisp font-medium text-base text-[rgba(255, 255, 255, 0.6)] mt-[10px]">{T("ConnectedTo")} {abbreviateAddress(currentAddress)}</div> 
       }
     </div>
   )
