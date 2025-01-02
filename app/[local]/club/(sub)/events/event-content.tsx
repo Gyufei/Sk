@@ -50,6 +50,9 @@ export function EventContent({
 
   const claimContent = () => {
     if (!currentToken) return null
+    if (isPending) {
+      return T("Claiming")
+    }
     if (readingLoading) {
       return T("Loading")
     }
@@ -59,9 +62,7 @@ export function EventContent({
     if (currentToken.isCutOff) {
       return T("Unavailable")
     }
-    if (isPending) {
-      T("Claiming")
-    }
+    
 
     return (
       (
