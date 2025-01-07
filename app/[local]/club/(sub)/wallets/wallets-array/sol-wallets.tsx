@@ -1,82 +1,21 @@
 import Image from "next/image";
 import { SolanaChainInfos } from "@/lib/const";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { SolWalletItem } from "./sol-wallet-item";
-import { GlobalMsgContext } from "@/components/global-msg-context";
-import { useTranslations } from "next-intl";
+import { useState } from "react";
+import useSolWallet from "./use-sol-wallet";
+import { WalletItem } from "./wallet-item";
 
 export function SolWallets() {
-  const { data: userInfo } = useFetchUserInfo();
-
   const [currentChainName] = useState("Solana");
 
-  const [wArr, setWArr] = useState<any[]>([]);
-  const T = useTranslations("Common");
-  const { setGlobalMessage } = useContext(GlobalMsgContext);
-
-  const listLength = useMemo(() => {
-    return wArr.filter((item) => item.isSign !== false).length
-  }, [wArr])
-
-  useEffect(() => {
-    if (!userInfo?.wallets?.Solana?.length) {
-      setWArr([
-        {
-          address: "",
-          isSign: false,
-          serial_number: 1,
-        },
-      ]);
-      return;
-    }
-
-    const solWallets = userInfo.wallets.Solana;
-    const wallets = solWallets.map((w: any, index: number) => {
-      return {
-        address: w,
-        isVerify: true,
-        serial_number: index,
-      };
-    });
-    setWArr(wallets);
-  }, [userInfo]);
-
-  const handleAddrChange = (index: number, value: string) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      if (updatedPeople[index].isSign === false) {
-        updatedPeople[index].address = value;
-        updatedPeople[index].isSign = undefined;
-      } else {
-        const _index = updatedPeople.findIndex((item) => item.isSign === false)
-        if (_index > -1) {
-          updatedPeople[_index].address = value;
-          updatedPeople[_index].isSign = undefined;
-        }
-      }
-      return updatedPeople;
-    });
-  };
-
-  const handleAddWallet = () => {
-    if (wArr.length >=5) {
-      setGlobalMessage({
-        type: "error",
-        message: T("MaxWalletMsg"),
-      });
-      return;
-    }
-    setWArr((prev) => [...prev, { name: "", address: "", isSign: false }]);
-  };
-
-  const handleRemove = (index: number) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      updatedPeople.splice(index, 1);
-      return updatedPeople;
-    });
-  };
+  const {
+    isLoginAddress,
+    walletList,
+    connectAddress,
+    handleAddWallet,
+    handleRemoveWallet,
+    handleDisconnect,
+    handleConnect,
+  } = useSolWallet();
 
   return (
     <>
@@ -96,30 +35,41 @@ export function SolWallets() {
             {currentChainName}
           </div>
         </div>
-         <Image
-          onClick={handleAddWallet}
-          className="cursor-pointer ml-[22px]"
-          src="/icons/add-circle.svg"
-          width={24}
-          height={24}
-          alt="add"
-        />
+        {
+          (walletList.length > 0 && !isLoginAddress) && (
+            <Image
+              onClick={handleAddWallet}
+              className="cursor-pointer ml-[22px]"
+              src="/icons/add-circle.svg"
+              width={24}
+              height={24}
+              alt="add"
+            />
+          )
+        }
       </div>
       <div className="mt-2">
-        {wArr.map((item, index) => (
-          <SolWalletItem
-            listLength={listLength}
+        {walletList.map((address: string, index: number) => (
+          <WalletItem
             key={index}
-            address={item.address}
-            isVerify={item.isVerify}
-            isSign={item.isSign}
-            serialNumber={item.serial_number}
-            setAddress={(value) => handleAddrChange(index, value)}
-            handleRemove={() => {
-              handleRemove(index);
-            }}
+            addressIndex={index}
+            address={address}
+            connectAddress={connectAddress}
+            handleRemove={handleRemoveWallet}
+            handleDisconnect={handleDisconnect}
+            handleConnect={handleConnect}
           />
         ))}
+        {
+          walletList.length === 0 && (
+            <WalletItem
+              addressIndex={-1}
+              address={''}
+              connectAddress={connectAddress}
+              handleAdd={handleAddWallet}
+            />
+          )
+        }
       </div>
     </>
   );

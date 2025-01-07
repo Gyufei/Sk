@@ -1,63 +1,35 @@
 import Image from "next/image";
 import { EthChainInfos } from "@/lib/const";
 
-import { useContext, useEffect, useMemo, useState } from "react";
-import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { EthWalletItem } from "./eth-wallet-item";
+import { useEffect, useMemo, useState } from "react";
+import { WalletItem } from "./wallet-item";
 import { useChainId, useSwitchChain } from "wagmi";
 import { PopDrawer } from "@/components/pop-drawer";
-import { GlobalMsgContext } from "@/components/global-msg-context";
-import { useTranslations } from "next-intl";
+import useEthWallet from "./use-eth-wallet";
+
 
 export function EthWallets() {
   const chainId = useChainId();
-  const T = useTranslations("Common");
-  const { data: userInfo } = useFetchUserInfo();
 
   const [popOpen, setPopOpen] = useState(false);
   const [selectedChainName, setSelectedChainName] = useState("");
   const { switchChain } = useSwitchChain()
-  const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const currChainInfo = useMemo(() => {
-    const currChain = Object.values(EthChainInfos).find(
-      (c) => c.name === selectedChainName,
-    );
-    return currChain;
-  }, [selectedChainName]);
+  const {
+    isLoginAddress,
+    walletList,
+    connectAddress,
+    handleAddWallet,
+    handleRemoveWallet,
+    handleDisconnect,
+    handleConnect,
+  } = useEthWallet();
+
 
   const walletOptions = useMemo(() => {
     const allWalletsInfo = Object.keys(EthChainInfos);
     return allWalletsInfo;
   }, []);
 
-  const [wArr, setWArr] = useState<any[]>([]);
-
-  const listLength = useMemo(() => {
-    return wArr.filter((item) => item.isSign !== false).length
-  }, [wArr])
-
-  useEffect(() => {
-    if (!userInfo?.wallets?.EVM.length) {
-      setWArr([
-        {
-          address: "",
-          isSign: false,
-          serial_number: 1,
-        },
-      ]);
-      return;
-    }
-
-    const evmWallets = userInfo.wallets.EVM;
-    const wallets = evmWallets.map((w: any, index: number) => {
-      return {
-        address: w,
-        isVerify: true,
-        serial_number: index,
-      };
-    });
-    setWArr(wallets);
-  }, [userInfo]);
 
   useEffect(() => {
     if (chainId) {
@@ -76,41 +48,6 @@ export function EthWallets() {
     });
   };
 
-  const handleAddrChange = (index: number, value: string) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      if (updatedPeople[index].isSign === false) {
-        updatedPeople[index].address = value;
-        updatedPeople[index].isSign = undefined;
-      } else {
-        const _index = updatedPeople.findIndex((item) => item.isSign === false)
-        if (_index > -1) {
-          updatedPeople[_index].address = value;
-          updatedPeople[_index].isSign = undefined;
-        }
-      }
-      return updatedPeople;
-    });
-  };
-
-  const handleAddWallet = () => {
-    if (wArr.length >=5) {
-      setGlobalMessage({
-        type: "error",
-        message: T("MaxWalletMsg"),
-      });
-      return;
-    }
-    setWArr((prev) => [...prev, { name: "", address: "", isSign: false }]);
-  };
-
-  const handleRemove = (index: number) => {
-    setWArr((prev) => {
-      const updatedPeople = [...prev];
-      updatedPeople.splice(index, 1);
-      return updatedPeople;
-    });
-  };
 
   return (
     <>
@@ -169,30 +106,41 @@ export function EthWallets() {
               />
             </div>
         </PopDrawer>
-        <Image
-          onClick={handleAddWallet}
-          className="cursor-pointer ml-[22px]"
-          src="/icons/add-circle.svg"
-          width={24}
-          height={24}
-          alt="add"
-        />
+        {
+          (walletList.length > 0 && !isLoginAddress) && (
+            <Image
+              onClick={handleAddWallet}
+              className="cursor-pointer ml-[22px]"
+              src="/icons/add-circle.svg"
+              width={24}
+              height={24}
+              alt="add"
+            />
+          )
+        }
       </div>
       <div className="mt-2">
-        {wArr.map((item, index) => (
-          <EthWalletItem
+        {walletList.map((address: string, index: number) => (
+          <WalletItem
             key={index}
-            listLength={listLength}
-            address={item.address}
-            isVerify={item.isVerify}
-            isSign={item.isSign}
-            serialNumber={item.serial_number}
-            setAddress={(value) => handleAddrChange(index, value)}
-            handleRemove={() => {
-              handleRemove(index);
-            }}
+            addressIndex={index}
+            address={address}
+            connectAddress={connectAddress}
+            handleRemove={handleRemoveWallet}
+            handleDisconnect={handleDisconnect}
+            handleConnect={handleConnect}
           />
         ))}
+        {
+          walletList.length === 0 && (
+            <WalletItem
+              addressIndex={-1}
+              address={''}
+              connectAddress={connectAddress}
+              handleAdd={handleAddWallet}
+            />
+          )
+        }
       </div>
     </>
   );

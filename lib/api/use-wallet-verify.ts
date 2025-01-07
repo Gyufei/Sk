@@ -17,6 +17,7 @@ export function useWalletVerify() {
     signature: string;
     salt: string;
   }) {
+    console.log(addr)
     if (!addr) return;
     const res: any = await fetcher(`${ApiHost}/wallet/verify`, {
       method: "POST",
@@ -32,7 +33,8 @@ export function useWalletVerify() {
         salt: salt,
       }),
     });
-
+    
+    console.log(res, "res23344")
     if (!res.status) {
       throw new Error(
         "sign in error:" +

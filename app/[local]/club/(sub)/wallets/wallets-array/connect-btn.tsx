@@ -3,10 +3,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 export function ConnectBtn({
+  isAdd,
   isConnect,
   handleConnect,
   handleDisconnect,
 }: {
+  isAdd: boolean;
   isConnect: boolean;
   handleConnect: () => void;
   handleDisconnect: () => void;
@@ -42,9 +44,9 @@ export function ConnectBtn({
     <div
       onClick={handleConnect}
       className="ml-0 mt-4 flex h-12 flex-1 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] hover:brightness-75 sm:mt-0 sm:w-[200px]"
-    >
-      <Image src="/icons/link.svg" width={24} height={24} alt="save" />
-      <div className="ml-1 text-base leading-6">{T("Connect")}</div>
+    > 
+      <Image src={`/icons/${isAdd ? 'add-nocircle.svg' : 'link.svg'}`} width={24} height={24} alt="save" />
+      <div className="ml-1 text-base leading-6">{isAdd ? T("ConnectAdd") : T("Connect")}</div>
     </div>
   );
 }
