@@ -132,7 +132,6 @@ export function NotificationListen() {
     if (link) link.href = "/images/favicon-32x32.png"
   }
   async function handleGetNotification(res: NotionResItem[]) {
-    console.log(levelGt2Ref.current, notification)
     if (!levelGt2Ref.current) return false;
     if (notification!=="ON") return;
     if (res.length > 0) {
