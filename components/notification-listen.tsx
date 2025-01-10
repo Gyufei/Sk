@@ -29,7 +29,8 @@ export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
   const [notionId, setNotionId] = useAtom(NotificationIdAtom);
   const { data: userInfo } = useFetchUserInfo();
-  const levelGt2 = userInfo?.level >= 2;
+  const levelGt2Ref = useRef(userInfo?.level >= 2);
+  levelGt2Ref.current = userInfo?.level >= 2;
   const [open, setOpen] = useState<boolean>(false)
   const [pageStartTime, setPageStartTime] = useState<number>(new Date().getTime())
   const [toastContent, setToastContent] = useState<ToastContentType | undefined>(undefined);
@@ -50,13 +51,13 @@ export function NotificationListen() {
 
   useEffect(() => {
     // init notifition state force to ON 
-    if (levelGt2  && notification !="ON") {
+    if (levelGt2Ref.current && notification !="ON") {
       onNotificationChecked(true)
     }
-    if (!levelGt2) {
+    if (!levelGt2Ref.current) {
       onNotificationChecked(false)
     }
-  }, [levelGt2])
+  }, [levelGt2Ref.current])
 
   useEffect(() => {
     const socket = new WebSocket("wss://notion.juu17.com");
@@ -69,7 +70,7 @@ export function NotificationListen() {
     return () => {
       socket.close();
     };
-  }, [levelGt2, notification]);
+  }, []);
 
 
   function cycleTitle() {
@@ -131,7 +132,8 @@ export function NotificationListen() {
     if (link) link.href = "/images/favicon-32x32.png"
   }
   async function handleGetNotification(res: NotionResItem[]) {
-    if (!levelGt2) return false;
+    console.log(levelGt2Ref.current, notification)
+    if (!levelGt2Ref.current) return false;
     if (notification!=="ON") return;
     if (res.length > 0) {
       const readedIds = (notionId || "").split("_");
