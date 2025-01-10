@@ -4,7 +4,7 @@ import { NotificationAtom, NotificationIdAtom } from "@/lib/api/state";
 import useSWR from "swr";
 import { isNotificationSupported, } from "@/lib/use-notification-listen";
 import fetcher from "@/lib/api/fetcher";
-import { ApiHost } from "@/lib/api/path";
+import { ApiHost, ApiSocket } from "@/lib/api/path";
 import { useEffect, useRef, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { ToastModal } from "./toast-modal";
@@ -37,6 +37,10 @@ export function NotificationListen() {
   const [toastImage, setToastImage] = useState<string>();
   const cycleTitleT = useRef(0);
   const T = useTranslations("Common");
+  const [isConnected, setIsConnected] = useState(false);
+  const webSocketRef = useRef<WebSocket | null>(null);
+  const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const {
     onNotificationChecked
   } = useNotificationListen()
@@ -59,19 +63,60 @@ export function NotificationListen() {
     }
   }, [levelGt2Ref.current])
 
-  useEffect(() => {
-    const socket = new WebSocket("wss://notion.juu17.com");
 
-    socket.onmessage = (event) => {
+  function connectWebSocket() {
+    const webSocket = new WebSocket(ApiSocket);
+
+    webSocket.onopen = () => {
+      setIsConnected(true);
+      console.log('WebSocket connection established');
+      startHeartbeat();
+    };
+
+    webSocket.onmessage = (event) => {
       const data = JSON.parse(event.data || "[]");
       handleGetNotification(data as NotionResItem[])
     };
 
+    webSocket.onclose = () => {
+      setIsConnected(false);
+      stopHeartbeat();
+    };
+
+    webSocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+    webSocketRef.current = webSocket;
+  };
+
+  const disconnectWebSocket = () => {
+    if (webSocketRef.current) {
+      webSocketRef.current.close();
+    }
+  };
+
+  const startHeartbeat = () => {
+    heartbeatIntervalRef.current = setInterval(() => {
+      if (webSocketRef.current && webSocketRef.current.readyState === WebSocket.OPEN) {
+        webSocketRef.current.send(JSON.stringify({ type: 'HEARTBEAT' }));
+      }
+    }, 30000); // Send heartbeat every 30 seconds
+  };
+
+  const stopHeartbeat = () => {
+    if (heartbeatIntervalRef.current) {
+      clearInterval(heartbeatIntervalRef.current);
+    }
+  };
+
+  useEffect(() => {
+    connectWebSocket();
+
     return () => {
-      socket.close();
+      disconnectWebSocket();
+      stopHeartbeat();
     };
   }, []);
-
 
   function cycleTitle() {
     if (cycleTitleT.current > 0) return;
