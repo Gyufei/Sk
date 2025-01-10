@@ -58,15 +58,19 @@ export function NotificationListen() {
     }
   }, [levelGt2])
 
+  useEffect(() => {
+    const socket = new WebSocket("wss://notion.juu17.com");
 
-  useSWR(
-    notification ? `url` : null,
-    handleGetNotification,
-    {
-      refreshInterval: 10000,
-      refreshWhenHidden: true
-    }
-  );
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data || "[]");
+      handleGetNotification(data as NotionResItem[])
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, [levelGt2, notification]);
+
 
   function cycleTitle() {
     if (cycleTitleT.current > 0) return;
@@ -126,14 +130,9 @@ export function NotificationListen() {
     const link =  document.querySelector("link[rel*='icon']") as HTMLAnchorElement;
     if (link) link.href = "/images/favicon-32x32.png"
   }
-   
-  async function handleGetNotification() {
+  async function handleGetNotification(res: NotionResItem[]) {
     if (!levelGt2) return false;
     if (notification!=="ON") return;
-    const res: NotionResItem[] = await fetcher(`${ApiHost}/notion`, {
-      method: "GET",
-    });
-
     if (res.length > 0) {
       const readedIds = (notionId || "").split("_");
       const newIds = (res || []).map((item) => item.id).join("_");
@@ -161,7 +160,7 @@ export function NotificationListen() {
         {...toastContent}
         description={(
           <div>
-            <div className="text-[#d6d6d6]">
+            <div className="text-[#d6d6d6] whitespace-pre-wrap">
               {toastContent.content}
               {
                 toastImage && (

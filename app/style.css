@@ -1361,3 +1361,7 @@ html.w-mod-touch * {
   width: 40px;
   height: 40px;
 }
+
+.widthClamp450 {
+  width: clamp(290px, min(100%, 450px), 450px);
+}

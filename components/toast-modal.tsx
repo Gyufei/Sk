@@ -18,7 +18,7 @@ export function ToastModal(props: ToasterToast): React.ReactNode {
       key={id} 
       {...restProps}
       open={open}
-      className="border-none bg-blur12" 
+      className="border-none bg-blur12 sm:widthClamp450 sm:max-w-[450px] sm:min-w-[290px]" 
       style={{
         background: 'rgba(255,255,255,0.1)'
       }}
@@ -26,7 +26,7 @@ export function ToastModal(props: ToasterToast): React.ReactNode {
       <div className="flex flex-col text-white w-full">
         {title && (
           <ToastTitle className="text-[20px] font-medium leading-[30px]">
-            <div className="flex flex-row pr-[36px]">
+            <div className="flex flex-row pr-[16px]">
               {iconImage === 'notion' && (
                 <Image
                     src="/icons/icon-notion-white.svg"
@@ -42,7 +42,9 @@ export function ToastModal(props: ToasterToast): React.ReactNode {
           </ToastTitle>
         )}
         {description && (
-          <ToastDescription className={`break-all text-base leading-[24px] ${title && "pt-[12px]"}`}>{description}</ToastDescription>
+          <ToastDescription className={`break-all text-base leading-[24px] ${title && "pt-[12px]"}`}>
+            {description}
+          </ToastDescription>
         )}
       </div>
       {action}
