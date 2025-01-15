@@ -3,7 +3,7 @@ export const isProduction = process.env.NODE_ENV === "production" && !isPreview;
 
 const ProdHost = "https://api.juu17.com";
 const DevHost = "https://juu17-api-dev.vercel.app";
-const ProdSocket = "wss://notion.juu17.comm";
+const ProdSocket = "wss://notion.juu17.com";
 const DevSocket = "wss://preview-notion.juu17.com";
 
 export const ApiHost = isProduction ? ProdHost : DevHost;
