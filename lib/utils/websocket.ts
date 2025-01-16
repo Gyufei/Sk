@@ -2,7 +2,10 @@ export class WebsocketController {
   private url: string;
   private websocket: WebSocket | null = null;
   private heartBeatInterval: number | null = null;
-  private messageHandlers: Array<(event: MessageEvent) => void> = [];
+  private messageHandlers: Array<{
+    key: string;
+    handler: (event: MessageEvent) => void
+  }> = [];
 
   constructor(url: string) {
       this.url = url;
@@ -20,7 +23,8 @@ export class WebsocketController {
 
           this.websocket.onmessage = (event: MessageEvent) => {
               console.log('Message received:', event.data);
-              this.messageHandlers.forEach(handler => handler(event));
+              console.log(this.messageHandlers, "this.messageHandlers")
+              this.messageHandlers.forEach(({ handler }) => handler(event));
           };
 
           this.websocket.onclose = (event: CloseEvent) => {
@@ -64,8 +68,19 @@ export class WebsocketController {
       }
   }
 
-  public addEvent(handler: (event: MessageEvent) => void): void {
-      this.messageHandlers.push(handler);
+  public addEvent(key: string, handler: (event: MessageEvent) => void): void {
+    const _index = this.messageHandlers.findIndex((item) => {
+      return item.key === key
+    })
+    if (_index === -1) {
+      this.messageHandlers.push({
+        key,
+        handler
+      });
+    } else {
+      this.messageHandlers[_index].handler = handler;
+    }
+      
   }
 
 

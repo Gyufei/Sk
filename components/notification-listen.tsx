@@ -41,14 +41,25 @@ export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
   const [notionId, setNotionId] = useAtom(NotificationIdAtom);
   const { data: userInfo } = useFetchUserInfo();
-  const levelGt2Ref = useRef(userInfo?.level >= 2);
-  levelGt2Ref.current = userInfo?.level >= 2;
+
   const [open, setOpen] = useState<boolean>(false)
   const [pageStartTime, setPageStartTime] = useState<number>(new Date().getTime())
   const [toastContent, setToastContent] = useState<ToastContentType | undefined>(undefined);
   const [toastImage, setToastImage] = useState<string>();
   const cycleTitleT = useRef(0);
   const T = useTranslations("Common");
+
+  const noteInfo =  useRef({
+    levelGt2: userInfo?.level >= 2,
+    notification: notification,
+    notionId
+  });
+
+  noteInfo.current = {
+    levelGt2: userInfo?.level >= 2,
+    notification: notification,
+    notionId
+  }
   
   const {
     onNotificationChecked
@@ -64,17 +75,17 @@ export function NotificationListen() {
 
   useEffect(() => {
     // init notifition state force to ON 
-    if (levelGt2Ref.current && notification !="ON") {
+    if (noteInfo.current?.levelGt2 && notification !="ON") {
       onNotificationChecked(true)
     }
-    if (!levelGt2Ref.current) {
+    if (noteInfo.current.levelGt2 === false) {
       onNotificationChecked(false)
     }
-  }, [levelGt2Ref.current])
+  }, [noteInfo.current?.levelGt2])
 
 
   useEffect(() => {
-    notionWebsocket.addEvent((event: MessageEvent) => {
+    notionWebsocket.addEvent("notionListen", (event: MessageEvent) => {
       const data = JSON.parse(event.data || "[]");
       handleGetNotification(data as NotionResItem[])
     });
@@ -139,10 +150,10 @@ export function NotificationListen() {
     if (link) link.href = "/images/favicon-32x32.png"
   }
   async function handleGetNotification(res: NotionResItem[]) {
-    if (!levelGt2Ref.current) return false;
-    if (notification!=="ON") return;
+    if (!noteInfo.current.levelGt2) return false;
+    if (noteInfo.current.notification!=="ON") return;
     if (res.length > 0) {
-      const readedIds = (notionId || "").split("_");
+      const readedIds = (noteInfo.current.notionId || "").split("_");
       const newIds = (res || []).map((item) => item.id).join("_");
       setNotionId(newIds);
       const newRes = ([...res]).reverse()
