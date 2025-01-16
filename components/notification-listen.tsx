@@ -2,7 +2,7 @@
 import { useAtom } from "jotai/react";
 import { NotificationAtom, NotificationIdAtom } from "@/lib/api/state";
 import { isNotificationSupported, } from "@/lib/use-notification-listen";
-import { ApiHost, ApiSocket } from "@/lib/api/path";
+import { ApiSocket } from "@/lib/api/path";
 import { useEffect, useRef, useState } from "react";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { ToastModal } from "./toast-modal";
