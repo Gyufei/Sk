@@ -22,8 +22,6 @@ export class WebsocketController {
           };
 
           this.websocket.onmessage = (event: MessageEvent) => {
-              console.log('Message received:', event.data);
-              console.log(this.messageHandlers, "this.messageHandlers")
               this.messageHandlers.forEach(({ handler }) => handler(event));
           };
 
