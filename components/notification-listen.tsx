@@ -89,6 +89,10 @@ export function NotificationListen() {
       const data = JSON.parse(event.data || "[]");
       handleGetNotification(data as NotionResItem[])
     });
+
+    return () => {
+      notionWebsocket.removeEvent("notionListen");
+    }
   }, []);
 
   function cycleTitle() {

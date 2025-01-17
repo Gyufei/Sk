@@ -81,6 +81,12 @@ export class WebsocketController {
       
   }
 
+  public removeEvent(key: string) {
+    this.messageHandlers = this.messageHandlers.filter((item) => {
+      return item.key !== key
+    })
+  }
+
 
   public disconnectWebSocket(): void {
       if (this.websocket) {
