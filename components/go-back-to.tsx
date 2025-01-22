@@ -1,7 +1,15 @@
 import Image from "next/image";
+import { usePathname, useRouter } from "@/app/navigation";
 
 export function GoBackTo() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   function handleBack() {
+    if (pathname.includes("/club")) {
+      router.push("/club");
+      return
+    }
     window.history.back();
   }
 
