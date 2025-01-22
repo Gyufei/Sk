@@ -6,10 +6,13 @@ import { useContext } from "react";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { useTranslations } from "next-intl";
 
-export const isNotificationSupported = () =>
-  'Notification' in window &&
+export const isNotificationSupported = () => {
+  if (!window) return false;
+  return 'Notification' in window &&
   'serviceWorker' in navigator &&
   'PushManager' in window
+}
+  
   
 export function useNotificationListen():{
   isNotificationSupport: boolean;

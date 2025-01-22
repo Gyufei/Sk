@@ -23,19 +23,6 @@ type NotionResItem = {
 type ToastContentType = NotionResItem;
 
 
-const notionWebsocket = new WebsocketController(ApiSocket);
-
-// Add a custom event handler
-notionWebsocket.execute({ type: 'data', content: 'Hello, WebSocket!' });
-
-// Later, you can stop the heartbeat and disconnect the WebSocket
-window.addEventListener('beforeunload', () => {
-  if (notionWebsocket) {
-    notionWebsocket.stopHeartbeat();
-    notionWebsocket.disconnectWebSocket();
-  }
-});
-
 
 export function NotificationListen() {
   const [notification, setNotification]= useAtom(NotificationAtom);
@@ -85,13 +72,21 @@ export function NotificationListen() {
 
 
   useEffect(() => {
+    const notionWebsocket = new WebsocketController(ApiSocket);
+    // Add a custom event handler
+    notionWebsocket.execute({ type: 'data', content: 'Hello, WebSocket!' });
     notionWebsocket.addEvent("notionListen", (event: MessageEvent) => {
       const data = JSON.parse(event.data || "[]");
       handleGetNotification(data as NotionResItem[])
     });
 
     return () => {
-      notionWebsocket.removeEvent("notionListen");
+      // Later, you can stop the heartbeat and disconnect the WebSocket
+      if (notionWebsocket) {
+        notionWebsocket.stopHeartbeat();
+        notionWebsocket.disconnectWebSocket();
+        notionWebsocket.removeEvent("notionListen");
+      }
     }
   }, []);
 
