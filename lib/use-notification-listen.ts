@@ -7,21 +7,21 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import { useTranslations } from "next-intl";
 
 export const isNotificationSupported = () => {
-  if (!window) return false;
+  if (typeof window === 'undefined') return false;
   return 'Notification' in window &&
-  'serviceWorker' in navigator &&
-  'PushManager' in window
+    'serviceWorker' in navigator &&
+    'PushManager' in window
 }
-  
-  
-export function useNotificationListen():{
+
+
+export function useNotificationListen(): {
   isNotificationSupport: boolean;
   notificationChecked: boolean;
   notificationDisabled: boolean;
   levelGt2: boolean;
   onNotificationChecked: (value: boolean) => void;
 } {
-  const [notification, setNotification]= useAtom(NotificationAtom);
+  const [notification, setNotification] = useAtom(NotificationAtom);
   const isNotificationSupport = isNotificationSupported();
   const { data: userInfo } = useFetchUserInfo();
   const levelGt2 = userInfo?.level >= 2;
@@ -36,7 +36,7 @@ export function useNotificationListen():{
   }, [notification])
 
   function onNotificationChecked(value: boolean) {
-   
+
     if (value === true) {
       if (!levelGt2) {
         setGlobalMessage({
@@ -54,13 +54,13 @@ export function useNotificationListen():{
         setNotification("ON")
         return;
       }
-     
+
       Notification.requestPermission().then(() => {
         setNotification("ON")
       });
       return;
     }
-    
+
     setNotification("OFF")
   }
 
