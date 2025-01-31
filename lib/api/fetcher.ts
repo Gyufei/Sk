@@ -22,7 +22,7 @@
 // }
 
 // Cache the fingerprint to avoid recalculating on every request
-let cachedFingerprint: string | null = null;
+const cachedFingerprint: string | null = null;
 
 export default async function fetcher(
   input: URL | RequestInfo,

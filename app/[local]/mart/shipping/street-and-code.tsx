@@ -5,16 +5,12 @@ import { useTranslations } from "next-intl";
 export function StreetAndCode({
   street,
   setStreet,
-  code,
-  setCode,
   streetValid,
   setStreetValid,
   children,
 }: {
   street: string;
   setStreet: (v: string) => void;
-  code: string;
-  setCode: (v: string) => void;
   streetValid: boolean;
   setStreetValid: (v: boolean) => void;
   children: React.ReactNode;
@@ -44,15 +40,13 @@ export function StreetAndCode({
     return streetRegex.test(v);
   }
 
-  const titleClass = "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
+  const titleClass =
+    "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
 
   return (
     <div className="relative flex flex-col items-stretch space-x-0 space-y-[30px] sm:mt-10 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-      <div className="flex flex-1 flex-col mt-[30px] sm:mt-0">
-        <label
-          htmlFor="street"
-          className={titleClass}
-        >
+      <div className="mt-[30px] flex flex-1 flex-col sm:mt-0">
+        <label htmlFor="street" className={titleClass}>
           {T("AddressLine")}
         </label>
         <InputWithClear

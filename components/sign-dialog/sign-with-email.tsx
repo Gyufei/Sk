@@ -34,7 +34,7 @@ export default function SignWithEmail({
   const [email, setEmail] = useState("");
 
   const {
-    email: cbEmail,
+    cbEmail,
     code,
     hasSend,
     sending,
@@ -42,6 +42,7 @@ export default function SignWithEmail({
     removeCode,
     seconds
   } = useSendEmail();
+
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
   useEffect(() => {

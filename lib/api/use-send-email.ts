@@ -8,6 +8,7 @@ import { UuidAtom } from "./state";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 
 const SendEmailKey = "sendEmail";
+const SendEmailCbKey = "sendEmailCb";
 
 export function useSendEmail() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -15,8 +16,10 @@ export function useSendEmail() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const code = searchParams.get("email_hash_code");
+  const [cbEmail, setCbEmail] = useState("");
+
   const [hasSend, setHasSend] = useState(false);
   const [sending, setSending] = useState(false);
   const [lastSendTime, setLastSendTime] = useState("");
@@ -25,8 +28,14 @@ export function useSendEmail() {
 
   useEffect(() => {
     const lt = localStorage.getItem(SendEmailKey);
-    if (!lt) return;
-    setLastSendTime(lt);
+    const cb = localStorage.getItem(SendEmailCbKey);
+    if (cb) {
+      setCbEmail(cb);
+      // localStorage.removeItem(SendEmailCbKey);
+    }
+    if (lt) {
+      setLastSendTime(lt);
+    }
   }, []);
 
   useEffect(() => {
@@ -39,30 +48,29 @@ export function useSendEmail() {
     const duration = 60 * 1000;
 
     const time = Number(lastSendTime);
-     if (time > now - duration) {
-        let startTime = Math.ceil((time - (now - duration)) / 1000);
-        setSeconds(startTime)
-        setHasSend(true);
-        const timer = setInterval(() => {
-          if (startTime === 0) {
-            clearInterval(timer); 
-            setHasSend(false);
-          }
-          setSeconds(startTime--);
+    if (time > now - duration) {
+      let startTime = Math.ceil((time - (now - duration)) / 1000);
+      setSeconds(startTime);
+      setHasSend(true);
+      const timer = setInterval(() => {
+        if (startTime === 0) {
+          clearInterval(timer);
+          setHasSend(false);
+        }
+        setSeconds(startTime--);
       }, 1000);
       return () => clearInterval(timer);
-     }
-    
+    }
   }, [lastSendTime]);
- 
 
   async function sendEmail(email: string, cb: string) {
     if (hasSend) return;
+    localStorage.setItem(SendEmailCbKey, email);
 
     setSending(true);
 
     setHasSend(true);
-    setSeconds(60)
+    setSeconds(60);
     try {
       const res: any = await fetcher(`${ApiHost}/user/send_email`, {
         method: "POST",
@@ -99,20 +107,23 @@ export function useSendEmail() {
     searchParams.delete("verify_code");
     searchParams.delete("email");
     searchParams.delete("user_id");
+    searchParams.delete("email_hash_code");
 
     router.replace({
       pathname,
       query: Object.fromEntries(searchParams.entries()),
     });
+
+    localStorage.removeItem(SendEmailCbKey);
   }
 
   return {
-    email: '',
+    cbEmail,
     code,
     sending,
     hasSend,
     sendEmail,
     removeCode,
-    seconds
+    seconds,
   };
 }

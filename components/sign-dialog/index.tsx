@@ -48,10 +48,12 @@ export default function SignDialog() {
   }, [isInit, uuid, setUuid, setSignDialogOpen]);
 
   function checkWithStorage() {
+    console.log(walletAttempts, emailAttempts);
+
     const lastWith = JSON.parse(
       localStorage.getItem(LastSignInWithKey) || "null",
     );
-  
+
     if (!lastWith) {
       setShowTwitter(true);
       setShowWallet(true);
@@ -96,32 +98,37 @@ export default function SignDialog() {
     setWalletAttempts(0);
   }, []);
 
-  const incrementAttempts = useCallback((value: { account: string; signInMethod: number }) => {
-    if (value.signInMethod === SignInMethod.wallet) {
-      setWalletAttempts((prev) => {
-        const newValue = prev + 1;
-        if (newValue >= 6) {
-          setShowReCaptcha(true);
-          postSecureRecords(value)
-        }
-        return newValue;
-      });
-    }
+  const incrementAttempts = useCallback(
+    (value: { account: string; signInMethod: number }) => {
+      if (value.signInMethod === SignInMethod.wallet) {
+        setWalletAttempts((prev) => {
+          const newValue = prev + 1;
+          if (newValue >= 6) {
+            setShowReCaptcha(true);
+            postSecureRecords(value);
+          }
+          return newValue;
+        });
+      }
 
-    if (value.signInMethod === SignInMethod.email) {
-      setEmailAttempts((prev) => {
-        const newValue = prev + 1;
-        if (newValue >= 3) {
-          setShowReCaptcha(true);
-          postSecureRecords(value)
-        }
-        return newValue;
-      });
-    }
-    
-  }, []);
-  
-  async function postSecureRecords(value: { account: string; signInMethod: number}) {
+      if (value.signInMethod === SignInMethod.email) {
+        setEmailAttempts((prev) => {
+          const newValue = prev + 1;
+          if (newValue >= 3) {
+            setShowReCaptcha(true);
+            postSecureRecords(value);
+          }
+          return newValue;
+        });
+      }
+    },
+    [],
+  );
+
+  async function postSecureRecords(value: {
+    account: string;
+    signInMethod: number;
+  }) {
     try {
       await fetcher(`${ApiHost}/secure/records`, {
         method: "POST",
@@ -130,7 +137,7 @@ export default function SignDialog() {
         },
         body: JSON.stringify({
           account: value.account,
-          reason: value.signInMethod + '',
+          reason: value.signInMethod + "",
         }),
       });
     } catch (e) {
@@ -143,31 +150,32 @@ export default function SignDialog() {
       <DialogContent
         showOverlay={false}
         showClose={false}
-        className={`flex w-[345px] sm:w-[400px] font-haasDisp ${
+        className={`flex w-[345px] font-haasDisp sm:w-[400px] ${
           noMethodShow
-            ? " mt-[100px] justify-center bg-transparent py-[40px] px-0 sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
+            ? " mt-[100px] justify-center bg-transparent px-0 py-[40px] sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
             : "bg-[rgba(255,255,255,0.1)] p-[35px]"
         } flex-col items-center gap-0 rounded-3xl border-none backdrop-blur-[7px] `}
       >
         {noMethodShow && (
           <div className="flex flex-col items-center">
-            <div className="text-center text-[#D6D6D6] text-2xl leading-[36px] font-medium sm:text-3xl sm:leading-[60px]">
-            {T("SloganText")}
+            <div className="text-center text-2xl font-medium leading-[36px] text-[#D6D6D6] sm:text-3xl sm:leading-[60px]">
+              {T("SloganText")}
             </div>
-            <div className="text-center font-medium text-[48px] leading-[72px] sm:text-[66px] sm:leading-[66px]">
+            <div className="text-center text-[48px] font-medium leading-[72px] sm:text-[66px] sm:leading-[66px]">
               Juu17 Brands
             </div>
-            <div className="font-medium mt-[40px] flex items-center jutisfy-center leading-[30px] text-[20px] sm:text-[24px] sm:leading-[36px] sm:mt-[100px]">
-              <div className="opacity-60">A cryptopia for</div> <CircleText words={words} />
+            <div className="jutisfy-center mt-[40px] flex items-center text-[20px] font-medium leading-[30px] sm:mt-[100px] sm:text-[24px] sm:leading-[36px]">
+              <div className="opacity-60">A cryptopia for</div>{" "}
+              <CircleText words={words} />
             </div>
             {signing ? (
-              <div className="mt-[24px] sm:mt-[47px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6">
+              <div className="mt-[24px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6 sm:mt-[47px]">
                 {T("Signing")}
               </div>
             ) : (
               <div
                 onClick={handleSign}
-                className="normal-line-button mt-[24px] sm:mt-[47px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6"
+                className="normal-line-button mt-[24px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6 sm:mt-[47px]"
               >
                 {T("SignIn")}
               </div>

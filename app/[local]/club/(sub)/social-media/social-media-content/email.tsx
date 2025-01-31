@@ -25,18 +25,9 @@ export function Email() {
   const isLink =
     userInfo?.social_media?.Email && email === userInfo?.social_media?.Email;
 
-  const {
-    email: cbEmail,
-    code,
-    hasSend,
-    sendEmail,
-    removeCode,
-  } = useSendEmail();
+  const { cbEmail, code, hasSend, sendEmail, removeCode } = useSendEmail();
 
-  const {
-    eyeState,
-    handleToggle
-  } = useEyeToggle({ keyword: 'emailEyeShow'})
+  const { eyeState, handleToggle } = useEyeToggle({ keyword: "emailEyeShow" });
 
   const disabled = useMemo(
     () => !isValid || !email || (email && !checkEmailRegex(email)),
@@ -44,7 +35,7 @@ export function Email() {
   );
 
   useSWR(
-    code && cbEmail ? `save-twitter:${code}-${cbEmail}` : null,
+    code && cbEmail ? `save-email:${code}-${cbEmail}` : null,
     handleSaveEmail,
   );
 
@@ -77,9 +68,11 @@ export function Email() {
     setIsValid(checkEmailRegex(email));
   }
 
-  function handleSaveEmail() {
+  async function handleSaveEmail() {
     if (!cbEmail || !code) return;
-    saveSocial({
+
+    console.log("saveEmail", cbEmail, code, currentPageUrl);
+    const res = await saveSocial({
       name: "Email",
       data: {
         email: cbEmail,
@@ -87,6 +80,8 @@ export function Email() {
         redirect_uri: currentPageUrl,
       },
     } as any);
+
+    console.log("saveEmail res", res);
     removeCode();
   }
 
@@ -96,16 +91,24 @@ export function Email() {
   }
 
   return (
-    <div className="mt-[30px] sm:mt-4 flex flex-col">
+    <div className="mt-[30px] flex flex-col sm:mt-4">
       <div className="relative flex flex-col items-start sm:flex-row sm:items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="/icons/email.svg" width={30} height={30} alt="" className={"w-[24px] h-[24px] sm:w-[30px] sm:h-[30px]"}/>
-          <div className="text-base leading-[24px] font-medium text-[#d6d6d6]">Email</div>
+          <Image
+            src="/icons/email.svg"
+            width={30}
+            height={30}
+            alt=""
+            className={"h-[24px] w-[24px] sm:h-[30px] sm:w-[30px]"}
+          />
+          <div className="text-base font-medium leading-[24px] text-[#d6d6d6]">
+            Email
+          </div>
         </div>
         <InputWithClear
           isError={!isValid}
           value={email}
-          type={eyeState ? 'password' : 'text'}
+          type={eyeState ? "password" : "text"}
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleEmailInput(v)}
           isSign={isLink}
@@ -119,10 +122,7 @@ export function Email() {
           disabled={disabled || hasSend}
           isConnected={isLink}
         />
-        <EyeToggleBtn
-          eyeState={eyeState}
-          handleToggle={handleToggle}
-        />
+        <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />
     </div>
