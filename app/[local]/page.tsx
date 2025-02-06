@@ -11,5 +11,6 @@ export default function LocalePage() {
       router.push(`${pathname === "/" ? "/en" : pathname}/home`);
     }
   }, [pathname, router]);
+
   return null;
 }

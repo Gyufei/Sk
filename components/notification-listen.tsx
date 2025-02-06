@@ -150,6 +150,7 @@ export function NotificationListen() {
     ) as HTMLAnchorElement;
     if (link) link.href = "/images/favicon-32x32.png";
   }
+
   async function handleGetNotification(res: NotionResItem[]) {
     if (!noteInfo.current.levelGt2) return false;
     if (noteInfo.current.notification !== "ON") return;

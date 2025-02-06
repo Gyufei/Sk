@@ -13,6 +13,7 @@ import CircleText from "./circle-text";
 import { cycleWords } from "./constant";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
+
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function SignDialog() {
@@ -24,16 +25,19 @@ export default function SignDialog() {
 
   const [signing, setSigning] = useState(false);
   const [showTwitter, setShowTwitter] = useState(false);
-  const [lastSignInTwitter, setLastSignInTwitter] = useState("");
   const [showWallet, setShowWallet] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
+
+  const [lastSignInTwitter, setLastSignInTwitter] = useState("");
   const [lastSignInEmail, setLastSignInEmail] = useState("");
 
-  const [walletAttempts, setWalletAttempts] = useState(0);
-  const [emailAttempts, setEmailAttempts] = useState(0);
+  const [, setWalletAttempts] = useState(0);
+  const [, setEmailAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
   const words = cycleWords;
+
+  const noMethodShow = !showEmail && !showTwitter && !showWallet;
 
   useEffect(() => {
     setIsInit(true);
@@ -47,9 +51,14 @@ export default function SignDialog() {
     }
   }, [isInit, uuid, setUuid, setSignDialogOpen]);
 
-  function checkWithStorage() {
-    console.log(walletAttempts, emailAttempts);
+  function handleUseOtherAccount() {
+    setLastSignInEmail("");
+    setShowTwitter(true);
+    setShowWallet(true);
+    setShowEmail(true);
+  }
 
+  function handleShowSignInMethod() {
     const lastWith = JSON.parse(
       localStorage.getItem(LastSignInWithKey) || "null",
     );
@@ -73,19 +82,6 @@ export default function SignDialog() {
       }
     }
   }
-
-  function handleUseOtherAccount() {
-    setLastSignInEmail("");
-    setShowTwitter(true);
-    setShowWallet(true);
-    setShowEmail(true);
-  }
-
-  function handleSign() {
-    checkWithStorage();
-  }
-
-  const noMethodShow = !showEmail && !showTwitter && !showWallet;
 
   function handleSuccess(uId: string) {
     setUuid(uId);
@@ -164,7 +160,7 @@ export default function SignDialog() {
             <div className="text-center text-[48px] font-medium leading-[72px] sm:text-[66px] sm:leading-[66px]">
               Juu17 Brands
             </div>
-            <div className="jutisfy-center mt-[40px] flex items-center text-[20px] font-medium leading-[30px] sm:mt-[100px] sm:text-[24px] sm:leading-[36px]">
+            <div className="mt-[40px] flex items-center justify-center text-[20px] font-medium leading-[30px] sm:mt-[100px] sm:text-[24px] sm:leading-[36px]">
               <div className="opacity-60">A cryptopia for</div>{" "}
               <CircleText words={words} />
             </div>
@@ -174,7 +170,7 @@ export default function SignDialog() {
               </div>
             ) : (
               <div
-                onClick={handleSign}
+                onClick={handleShowSignInMethod}
                 className="normal-line-button mt-[24px] flex h-12 cursor-pointer items-center justify-center rounded-lg border px-[100px] text-base leading-6 sm:mt-[47px]"
               >
                 {T("SignIn")}

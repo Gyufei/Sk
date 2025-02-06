@@ -5,10 +5,16 @@
   "ethereum": {
     "work-bench": "0x206E0F0EB8Cdec3442e7AF833DA6112f8707E5E0"
   },
+  "ethereum-v2": {
+    "work-bench": "0x206E0F0EB8Cdec3442e7AF833DA6112f8707E5E0"
+  },
   "op": {
     "work-bench": "0x3A3dd3b87EC17475762Ba8c23ff93a2F53B37b6e"
   },
   "solana": {
+    "work-bench": "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6"
+  },
+  "solana-v2": {
     "work-bench": "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6"
   }
 }

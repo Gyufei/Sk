@@ -5,9 +5,7 @@ import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-import {
-  useConnectModal,
-} from '@rainbow-me/rainbowkit';
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 import { GoBackTo } from "@/components/go-back-to";
 import { IClaimToken, useClaimTokens } from "@/lib/api/use-claim-tokens";
@@ -24,10 +22,15 @@ import { CoinList } from "./coin-list";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 
 export default function EventsPage() {
-  const { data: claimTokens, claimArray = [] } = useClaimTokens();
+  const { data: claimTokensData } = useClaimTokens();
+  const { claimTokens, claimChunkArray: claimArray } = claimTokensData || {
+    claimTokens: [],
+    claimChunkArray: [],
+  };
+
   const { data: userInfo } = useFetchUserInfo();
-  const { openConnectModal = () => {}} = useConnectModal();
-  const { switchChain } = useSwitchChain()
+  const { openConnectModal = () => {} } = useConnectModal();
+  const { switchChain } = useSwitchChain();
 
   // eth
   const chainId = useChainId();
@@ -95,33 +98,28 @@ export default function EventsPage() {
     isSolPending,
   ]);
 
-  const { data: claimData, isLoading: claimLoading } = useClaimData(currentToken, currentAddress);
+  const { data: claimData, isLoading: claimLoading } = useClaimData(
+    currentToken,
+    currentAddress,
+  );
 
   const canClaim = useMemo(() => {
     if (!currentAddress) return false;
-    if (isOffChain) {
+    if (isEVM || isOffChain) {
       return (
         userInfo?.wallets?.EVM?.length &&
-        (userInfo?.wallets?.EVM?.[0]) === currentAddress
-        // (userInfo?.wallets?.EVM || []).includes(currentAddress)
-      );
-    } else if (isEVM) {
-      return (
-        userInfo?.wallets?.EVM?.length &&
-        (userInfo?.wallets?.EVM?.[0]) === currentAddress
-        // (userInfo?.wallets?.EVM || []).includes(currentAddress)
+        (userInfo?.wallets?.EVM || []).includes(currentAddress)
       );
     } else if (isSolana) {
       return (
         userInfo?.wallets?.Solana?.length &&
-        (userInfo?.wallets?.Solana?.[0]) === currentAddress
-        // (userInfo?.wallets?.Solana || []).includes(currentAddress)
+        (userInfo?.wallets?.Solana || []).includes(currentAddress)
       );
     }
 
     return false;
   }, [isEVM, isOffChain, isSolana, userInfo, currentAddress]);
-  
+
   const claimAmount = useMemo(() => {
     if (!claimData || !canClaim) return 0;
     if (claimData?.status === true && claimData.data === null) return 0;
@@ -133,24 +131,32 @@ export default function EventsPage() {
     return Math.floor(claimAmount / 10 ** currentToken?.tokenDecimal || 0);
   }, [claimAmount, currentToken]);
 
-  const { data: ethState, isLoading: ethReadLoading, refetch: refreshEthClaim } = useCheckEthClaimed(
+  const {
+    data: ethState,
+    isLoading: ethReadLoading,
+    refetch: refreshEthClaim,
+  } = useCheckEthClaimed(
     isEVM,
     (currentToken?.chainInfo?.name?.toLowerCase() as any) || "ethereum",
     currentToken?.eventData,
     claimAmount,
   );
 
-  const { data: solState, isLoading: solReadLoading, mutate: refreshSolClaim } = useCheckSolClaimed(
-    isSolana,
-    currentToken?.eventData,
-  );
+  const {
+    data: solState,
+    isLoading: solReadLoading,
+    mutate: refreshSolClaim,
+  } = useCheckSolClaimed(isSolana, currentToken?.eventData);
 
-  const { data: offChainState, isLoading: offChainLoading, mutate: refreshOffChainClaim } =
-    useCheckOffChainClaimed(
-      isOffChain,
-      currentToken?.eventData?.project_name,
-      currentToken?.eventData?.claim_version,
-    );
+  const {
+    data: offChainState,
+    isLoading: offChainLoading,
+    mutate: refreshOffChainClaim,
+  } = useCheckOffChainClaimed(
+    isOffChain,
+    currentToken?.eventData?.project_name,
+    currentToken?.eventData?.claim_version,
+  );
 
   const isClaimed = useMemo(() => {
     if (isOffChain) {
@@ -177,8 +183,21 @@ export default function EventsPage() {
 
     if (isSolana) {
       return solReadLoading;
-    } 
-  }, [isEVM, isOffChain, isSolana, ethReadLoading, solReadLoading, offChainLoading])
+    }
+  }, [
+    isEVM,
+    isOffChain,
+    isSolana,
+    ethReadLoading,
+    solReadLoading,
+    offChainLoading,
+  ]);
+
+  useEffect(() => {
+    if (isEthSuccess) {
+      refreshEthClaim();
+    }
+  }, [isEthSuccess, refreshEthClaim]);
 
   useEffect(() => {
     if (isOffChainSuccess) {
@@ -214,14 +233,14 @@ export default function EventsPage() {
 
   async function claimEvm() {
     if (!ethAddress) {
-      openConnectModal()
+      openConnectModal();
     } else {
       const claimChainId = currentToken.chainInfo.chainId;
 
       if (String(chainId) !== String(claimChainId)) {
         try {
           await switchChain({
-            chainId: claimChainId!
+            chainId: claimChainId!,
           });
           claimEthAction(claimAmount!, claimData.proofs);
         } catch (e) {
@@ -232,12 +251,6 @@ export default function EventsPage() {
       }
     }
   }
-
-  useEffect(() => {
-    if (isEthSuccess) {
-      refreshEthClaim();
-    }
-  }, [isEthSuccess, refreshEthClaim]);
 
   async function claimSolana() {
     if (!solanaAddress) {
@@ -274,7 +287,6 @@ export default function EventsPage() {
     setCurrentToken(t);
 
     if (!scrollRef.current) return;
-
   }
 
   function handleConnect() {
@@ -292,14 +304,14 @@ export default function EventsPage() {
         <GoBackTo />
       </div>
       <div>
-        <div className="relative flex w-full flex-col-reverse sm:flex-row sm:justify-between mt-6">
-          <CoinList 
+        <div className="relative mt-6 flex w-full flex-col-reverse sm:flex-row sm:justify-between">
+          <CoinList
             claimArray={claimArray}
             currentToken={currentToken}
             onClick={handleClickToken}
           />
-          <div className="w-full h-[256px] sm:w-[480px] sm:h-[320px] bg-blur12 rounded-[20px] bg-[rgba(255,255,255,0.1)] flex flex-col justify-center items-center">
-            <EventContent 
+          <div className="bg-blur12 flex h-[256px] w-full flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] sm:h-[320px] sm:w-[480px]">
+            <EventContent
               currentToken={currentToken}
               currentAddress={currentAddress}
               claimData={claimData}
@@ -318,4 +330,3 @@ export default function EventsPage() {
     </div>
   );
 }
-

@@ -3,7 +3,13 @@ import Mainnet from "./mainnet.json";
 import Testnet from "./testnet.json";
 
 export function useContractAddress(
-  chainName: "linea" | "ethereum" | "solana" | "op",
+  chainName:
+    | "linea"
+    | "ethereum"
+    | "ethereum-v2"
+    | "solana"
+    | "solana-v2"
+    | "op",
 ) {
   const [address, setAddress] = useState("");
 

@@ -17,7 +17,7 @@ export default function SignWithEmail({
   onSuccess,
   incrementAttempts,
   showReCaptcha,
-  reCaptchaValue
+  reCaptchaValue,
 }: {
   signing: boolean;
   lastAccount: string;
@@ -29,19 +29,11 @@ export default function SignWithEmail({
 }) {
   const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const currentPageUrl = window.location.origin + window.location.pathname;
 
   const [email, setEmail] = useState("");
 
-  const {
-    cbEmail,
-    code,
-    hasSend,
-    sending,
-    sendEmail,
-    removeCode,
-    seconds
-  } = useSendEmail();
+  const { cbEmail, code, hasSend, sending, sendEmail, removeCode, seconds } =
+    useSendEmail();
 
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
@@ -58,6 +50,11 @@ export default function SignWithEmail({
       setEmail(lastAccount);
     }
   }, [lastAccount]);
+
+  function getCurrentPageUrl() {
+    const url = new URL(window.location.href);
+    return url.origin + url.pathname;
+  }
 
   function checkRegex(x: string) {
     const regex =
@@ -92,9 +89,9 @@ export default function SignWithEmail({
     }
     incrementAttempts({
       account: email,
-      signInMethod: SignInMethod.email
-    })
-    sendEmail(email, currentPageUrl);
+      signInMethod: SignInMethod.email,
+    });
+    sendEmail(email, getCurrentPageUrl());
   }
 
   async function postSignData() {
@@ -113,7 +110,7 @@ export default function SignWithEmail({
           login_data: {
             email: cbEmail,
             code,
-            redirect_uri: currentPageUrl,
+            redirect_uri: getCurrentPageUrl(),
           },
         }),
       });
@@ -163,9 +160,7 @@ export default function SignWithEmail({
         onClick={handleConfirm}
         className="mt-[15px] flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100"
       >
-        <div>
-          { hasSend && !sending? (<>{seconds}s</>) : T("SignIn")}
-        </div>
+        <div>{hasSend && !sending ? <>{seconds}s</> : T("SignIn")}</div>
       </button>
     </div>
   );
