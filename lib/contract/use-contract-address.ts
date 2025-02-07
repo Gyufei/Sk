@@ -2,25 +2,23 @@ import { useEffect, useState } from "react";
 import Mainnet from "./mainnet.json";
 import Testnet from "./testnet.json";
 
+export type ChainName = "linea" | "ethereum" | "solana" | "op";
+
 export function useContractAddress(
-  chainName:
-    | "linea"
-    | "ethereum"
-    | "ethereum-v2"
-    | "solana"
-    | "solana-v2"
-    | "op",
+  chainName: "linea" | "ethereum" | "solana" | "op",
+  isV2: boolean = false,
 ) {
   const [address, setAddress] = useState("");
+  const contractName = isV2 ? `work-bench-v2` : `work-bench`;
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "production") {
-      setAddress(Mainnet[chainName]["work-bench"]);
-    } else {
-      // setAddress((Mainnet)[chainName]["work-bench"])
-      setAddress(Testnet[chainName]["work-bench"]);
-    }
-  }, [chainName]);
+    const contracts =
+      process.env.NODE_ENV === "production"
+        ? Mainnet[chainName]
+        : Testnet[chainName];
+
+    setAddress((contracts as any)[contractName]);
+  }, [chainName, contractName]);
 
   return {
     address,

@@ -6,80 +6,78 @@ import {
   TOKEN_PROGRAM_ID,
   getAssociatedTokenAddress,
 } from "@solana/spl-token";
-import BN from 'bn.js';
+import BN from "bn.js";
 import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
+import { IClaimToken } from "./api/use-claim-tokens";
+import { IClaimData } from "./use-claim-data";
 
-export function useSolClaim() {
+export function useSolClaim(currentToken: IClaimToken | undefined) {
+  const isV2 = currentToken?.eventData?.version === "v2";
+
   const [isPending, setIsPending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [data, setData] = useState<any>();
   const [isError, setIsError] = useState(false);
-  const [error, setError] = useState<any>()
+  const [error, setError] = useState<any>();
 
   const { publicKey: authority } = useWallet();
 
-  const chain_work_bench_program = useSolProgram();
+  const chain_work_bench_program = useSolProgram(isV2);
 
   const systemProgram = anchor.web3.SystemProgram.programId;
   const tokenProgram = TOKEN_PROGRAM_ID;
   const associatedTokenProgram = ASSOCIATED_TOKEN_PROGRAM_ID;
 
   const systemConfig = PublicKey.findProgramAddressSync(
-      [
-          Buffer.from("system_config")
-      ],
-      chain_work_bench_program.programId
+    [Buffer.from("system_config")],
+    chain_work_bench_program.programId,
   )[0];
 
-  const claimAction = async (amount: number, proofs: string[], eventsData: Record<'claim_version' | 'token_address', any>) => {
+  const claimAction = async (claimData: IClaimData) => {
+    const amount = claimData.claim_amount;
+    const proofs = claimData.proofs;
+
     setIsPending(true);
     try {
+      const eventsData = currentToken?.eventData;
+      if (!eventsData) return;
+
       const claim_version_buf = Buffer.alloc(8);
       claim_version_buf.writeUint32LE(eventsData.claim_version);
 
       const claimConfig = PublicKey.findProgramAddressSync(
-          [
-              Buffer.from("claim_config"),
-              claim_version_buf,
-              authority!.toBuffer()
-          ],
-          chain_work_bench_program.programId
+        [Buffer.from("claim_config"), claim_version_buf, authority!.toBuffer()],
+        chain_work_bench_program.programId,
       )[0];
 
       const tokenMint = new PublicKey(eventsData.token_address);
 
       const poolTokenAuthority = PublicKey.findProgramAddressSync(
-          [
-              systemConfig.toBuffer()
-          ],
-          chain_work_bench_program.programId
+        [systemConfig.toBuffer()],
+        chain_work_bench_program.programId,
       )[0];
 
       const poolTokenAccount = await getAssociatedTokenAddress(
-          tokenMint,
-          poolTokenAuthority,
-          true
+        tokenMint,
+        poolTokenAuthority,
+        true,
       );
 
       const userTokenAccount = await getAssociatedTokenAddress(
-          tokenMint,
-          authority!,
-          true
+        tokenMint,
+        authority!,
+        true,
       );
 
-      const proofArg = proofs.map(
-        (p) => {
-          const bu = Buffer.from(p.slice(2), 'hex')
-          return Array.from(bu);
-        }
-      );
+      const proofArg = proofs.map((p) => {
+        const bu = Buffer.from(p.slice(2), "hex");
+        return Array.from(bu);
+      });
 
-      const txHash = await chain_work_bench_program.methods.claim(
-          new BN(eventsData.claim_version),
-          new BN(amount),
-          proofArg
-      ).accounts({
+      const txHash = await chain_work_bench_program.methods
+        .claim(new BN(eventsData.claim_version), new BN(amount), proofArg)
+        .accounts({
           authority,
           recipient: authority,
           claimConfig,
@@ -90,24 +88,25 @@ export function useSolClaim() {
           tokenMint,
           tokenProgram,
           associatedTokenProgram,
-          systemProgram
-      }).signers([]).rpc();
+          systemProgram,
+        })
+        .signers([])
+        .rpc();
 
       setIsPending(false);
       setIsSuccess(true);
       setData(txHash);
 
       return txHash;
-    } catch(e) {
-      setIsError(true)
-      setIsPending(false)
-      setError(e)
+    } catch (e) {
+      setIsError(true);
+      setIsPending(false);
+      setError(e);
       console.log(e);
-      console.error('solana claim, error', e)
-      return error
+      console.error("solana claim, error", e);
+      return error;
     }
   };
-
 
   return {
     isPending,
@@ -115,6 +114,6 @@ export function useSolClaim() {
     isError,
     error,
     data,
-    claimAction
+    claimAction,
   };
 }

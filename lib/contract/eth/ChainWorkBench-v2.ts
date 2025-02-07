@@ -1,4 +1,4 @@
-export const ChainWorkBenchABI = [
+export const ChainWorkBenchABIV2 = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -87,8 +87,18 @@ export const ChainWorkBenchABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "amount",
+        name: "_uid",
         type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address[]",
+        name: "_recipients",
+        type: "address[]",
       },
       {
         internalType: "bytes32[]",
@@ -117,9 +127,14 @@ export const ChainWorkBenchABI = [
   {
     inputs: [
       {
-        internalType: "bytes32",
+        internalType: "uint256",
         name: "",
-        type: "bytes32",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     name: "claimed",

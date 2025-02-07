@@ -1,26 +1,32 @@
 import { useAccount, useReadContract } from "wagmi";
 import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
+import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { useContractAddress } from "./contract/use-contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "./api/state";
+import { IClaimToken } from "./api/use-claim-tokens";
 
 export function useCheckEthClaimed(
-  isEthereum: boolean,
-  chainName: "linea" | "ethereum" | "op",
-  eventsData: Record<"claim_version" | "token_address" | "version", any>,
+  currentToken: IClaimToken | undefined,
   amount: number | null,
 ) {
   const Uuid = useAtomValue(UuidAtom);
   const { address } = useAccount();
+
+  const isEvm = currentToken?.chainInfo.isEVM;
+  const eventsData = currentToken?.eventData;
   const isV2 = eventsData?.version === "v2";
 
-  const chainNameVersion =
-    isV2 && chainName === "ethereum" ? "ethereum-v2" : chainName;
-  const { address: ContractAddress } = useContractAddress(chainNameVersion);
+  const chainName = currentToken?.chainInfo?.name?.toLowerCase() as any;
+
+  const { address: ContractAddress } = useContractAddress(
+    chainName || "ethereum",
+    isV2,
+  );
 
   const leaf =
-    eventsData && amount && isEthereum
+    eventsData && amount && isEvm
       ? keccak256(
           encodeAbiParameters(
             isV2
@@ -40,10 +46,15 @@ export function useCheckEthClaimed(
 
   const res = useReadContract({
     address: ContractAddress as `0x${string}`,
-    abi: ChainWorkBenchABI.abi,
+    abi: isV2 ? ChainWorkBenchABIV2 : ChainWorkBenchABI,
     functionName: "claimed",
     args: [leaf],
+    query: {
+      enabled: !!leaf,
+    },
   });
+
+  console.log("123", res?.data);
 
   const isClaimed = res?.data as any;
 

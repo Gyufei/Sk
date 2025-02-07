@@ -5,13 +5,19 @@ import { useContractAddress } from "./contract/use-contract-address";
 export function useLevelUp() {
   const { address: ContractAddress } = useContractAddress("ethereum");
 
-  const { writeContract, data, isPending: isLoading, isError, isSuccess, error } =
-    useWriteContract();
+  const {
+    writeContract,
+    data,
+    isPending: isLoading,
+    isError,
+    isSuccess,
+    error,
+  } = useWriteContract();
 
   function levelUpAction() {
     writeContract({
       address: ContractAddress as `0x${string}`,
-      abi: ChainWorkBenchABI.abi,
+      abi: ChainWorkBenchABI,
       functionName: "claim",
     });
   }

@@ -5,18 +5,20 @@ import { useSolProgram } from "./use-sol-program";
 import { useMemo } from "react";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "./api/state";
+import { IClaimToken } from "./api/use-claim-tokens";
 
-export function useCheckSolClaimed(
-  isSolanaFlag: boolean,
-  eventsData: Record<"claim_version" | "token_address" | "version", any> | null,
-) {
+export function useCheckSolClaimed(currentToken: IClaimToken | undefined) {
   const { publicKey: authority } = useWallet();
   const Uuid = useAtomValue(UuidAtom);
 
+  const isSolana = currentToken?.chainInfo?.name.toLowerCase() === "solana";
+  const eventsData = currentToken?.eventData;
   const chain_work_bench_program = useSolProgram(eventsData?.version);
-  const isV2 = eventsData?.version === "v2";
+  const isV2 = currentToken?.eventData?.version === "v2";
 
   async function GetState() {
+    if (!eventsData || !isSolana) return null;
+
     if (isV2) {
       return GetStateV2();
     } else {
@@ -25,7 +27,7 @@ export function useCheckSolClaimed(
   }
 
   async function GetStateV1() {
-    if (!eventsData || !authority || !isSolanaFlag) return null;
+    if (!eventsData || !authority || !isSolana) return null;
 
     const claim_version_buf = Buffer.alloc(8);
     claim_version_buf.writeUint32LE(eventsData.claim_version);
@@ -43,7 +45,7 @@ export function useCheckSolClaimed(
   }
 
   async function GetStateV2() {
-    if (!eventsData || !Uuid || !isSolanaFlag) return null;
+    if (!eventsData || !Uuid || !isSolana) return null;
 
     const claim_version_buf = Buffer.alloc(8);
     claim_version_buf.writeUint32LE(eventsData.claim_version);
@@ -63,14 +65,14 @@ export function useCheckSolClaimed(
   }
 
   const apiPoint = useMemo(() => {
-    if (!eventsData || !(isV2 ? Uuid : authority) || !isSolanaFlag) return null;
+    if (!eventsData || !(isV2 ? Uuid : authority) || !isSolana) return null;
 
     return JSON.stringify({
       eventsData,
-      isSolanaFlag,
+      isSolanaFlag: isSolana,
       reqFlag: isV2 ? Uuid : authority?.toBase58(),
     });
-  }, [eventsData, authority, isSolanaFlag, Uuid, isV2]);
+  }, [eventsData, authority, isSolana, Uuid, isV2]);
 
   const res = useSWR(apiPoint, GetState);
 

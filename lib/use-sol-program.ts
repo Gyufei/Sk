@@ -4,7 +4,7 @@ import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
 import { ChainWorkBenchABI } from "@/lib/contract/sol/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
 
-export function useSolProgram(version: "v1" | "v2") {
+export function useSolProgram(isV2: boolean) {
   const wallet = useAnchorWallet();
 
   const { connection } = useConnection();
@@ -15,9 +15,7 @@ export function useSolProgram(version: "v1" | "v2") {
   );
   anchor.setProvider(provider);
 
-  const { address: ProgramAddress } = useContractAddress(
-    version === "v2" ? `solana-${version}` : "solana",
-  );
+  const { address: ProgramAddress } = useContractAddress("solana", isV2);
 
   const programId = new PublicKey(
     ProgramAddress || "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6",
