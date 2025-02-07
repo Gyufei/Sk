@@ -27,7 +27,11 @@ export function useClaimData(
 
     const isEVM = (currentToken?.chainInfo as any).isEVM;
     const isOffChain = (currentToken?.chainInfo as any).isOffChain;
-    const isSolana = (currentToken?.chainInfo as any).isSolana;
+    const isSolana = (currentToken?.chainInfo as any).name === "Solana";
+
+    if (isSolana && currentToken?.eventData?.version === "v1") {
+      return false;
+    }
 
     if (isEVM || isOffChain) {
       return (
@@ -45,7 +49,13 @@ export function useClaimData(
   }, [userInfo, address, currentToken]);
 
   async function fetchClaimData() {
-    if (!userInfo || !currentToken || !canClaim) return null;
+    if (!userInfo || !currentToken) return null;
+
+    if (!canClaim) {
+      return {
+        claim_amount: 0,
+      };
+    }
 
     const isOffChain = (currentToken.chainInfo as any).isOffChain;
     if (isOffChain) {
@@ -67,8 +77,6 @@ export function useClaimData(
         project_name: projectName,
       }),
     });
-
-    console.log("markle_proof", res);
 
     return res as IClaimData;
   }

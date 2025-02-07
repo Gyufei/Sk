@@ -71,7 +71,6 @@ export function Email() {
   async function handleSaveEmail() {
     if (!cbEmail || !code) return;
 
-    console.log("saveEmail", cbEmail, code, currentPageUrl);
     const res = await saveSocial({
       name: "Email",
       data: {
@@ -80,8 +79,8 @@ export function Email() {
         redirect_uri: currentPageUrl,
       },
     } as any);
-
     console.log("saveEmail res", res);
+
     removeCode();
   }
 

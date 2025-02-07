@@ -1,10 +1,10 @@
 import * as anchor from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
-import { ChainWorkBenchABI } from "@/lib/contract/sol/ChainWorkBench";
 import { useContractAddress } from "./contract/use-contract-address";
+import { ChainWorkBenchABI } from "./contract/sol/ChainWorkBench";
 
-export function useSolProgram(isV2: boolean) {
+export function useSolProgram() {
   const wallet = useAnchorWallet();
 
   const { connection } = useConnection();
@@ -15,7 +15,7 @@ export function useSolProgram(isV2: boolean) {
   );
   anchor.setProvider(provider);
 
-  const { address: ProgramAddress } = useContractAddress("solana", isV2);
+  const { address: ProgramAddress } = useContractAddress("solana");
 
   const programId = new PublicKey(
     ProgramAddress || "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6",

@@ -3,15 +3,15 @@ import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { useContractAddress } from "./contract/use-contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
-import { useAtomValue } from "jotai";
-import { UuidAtom } from "./api/state";
 import { IClaimToken } from "./api/use-claim-tokens";
+import { useFetchUserInfo } from "./api/use-fetch-user-info";
 
 export function useCheckEthClaimed(
   currentToken: IClaimToken | undefined,
   amount: number | null,
 ) {
-  const Uuid = useAtomValue(UuidAtom);
+  const { data: userInfo } = useFetchUserInfo();
+  const uid = userInfo?.uid;
   const { address } = useAccount();
 
   const isEvm = currentToken?.chainInfo.isEVM;
@@ -30,12 +30,12 @@ export function useCheckEthClaimed(
       ? keccak256(
           encodeAbiParameters(
             isV2
-              ? parseAbiParameters("unit256 x, address y, uint256 z, uint256 k")
+              ? parseAbiParameters("uint256 x, address y, uint256 z, uint256 k")
               : parseAbiParameters(
                   "address x, address y, uint256 z, uint256 k",
                 ),
             [
-              isV2 ? Uuid : address!,
+              isV2 ? (uid as any) : address!,
               eventsData?.token_address,
               amount as any,
               eventsData?.claim_version,
@@ -48,13 +48,11 @@ export function useCheckEthClaimed(
     address: ContractAddress as `0x${string}`,
     abi: isV2 ? ChainWorkBenchABIV2 : ChainWorkBenchABI,
     functionName: "claimed",
-    args: [leaf],
+    args: isV2 ? [eventsData?.claim_version, uid] : [leaf],
     query: {
-      enabled: !!leaf,
+      enabled: isEvm && eventsData && uid && amount,
     },
   });
-
-  console.log("123", res?.data);
 
   const isClaimed = res?.data as any;
 

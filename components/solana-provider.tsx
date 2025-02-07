@@ -9,14 +9,14 @@ import {
 } from "@solana/wallet-adapter-react";
 import { SolflareWalletAdapter } from "@solflare-wallet/wallet-adapter";
 import { OKXWalletAdapter } from "./okx-wallet-adapter";
-import { clusterApiUrl } from "@solana/web3.js";
+// import { clusterApiUrl } from "@solana/web3.js";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 const MainnetRpc =
   "https://mainnet.helius-rpc.com/?api-key=6e25109f-21ec-4fd2-9e2d-027213f5cd6e";
-const DevnetRpc =
-  "https://devnet.helius-rpc.com/?api-key=6e25109f-21ec-4fd2-9e2d-027213f5cd6e" ||
-  clusterApiUrl("devnet");
+const DevnetRpc = "https://rpc.ankr.com/solana_devnet";
+// || "https://devnet.helius-rpc.com/?api-key=6e25109f-21ec-4fd2-9e2d-027213f5cd6e" ||
+// clusterApiUrl("devnet");
 
 export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
   const rpc = process.env.NODE_ENV === "production" ? MainnetRpc : DevnetRpc;

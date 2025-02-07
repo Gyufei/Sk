@@ -17,21 +17,7 @@ import { IClaimData, useClaimData } from "@/lib/use-claim-data";
 import { useEthClaim } from "@/lib/use-eth-claim";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
-
-function abbreviateAddress(
-  address: string,
-  startLength: number = 6,
-  endLength: number = 4,
-) {
-  if (address.length <= startLength + endLength) {
-    return address;
-  }
-
-  const startPart = address.substring(0, startLength);
-  const endPart = address.substring(address.length - endLength);
-
-  return `${startPart}...${endPart}`;
-}
+import { shorterAddress } from "@/lib/utils/utils";
 
 export function EventContent({
   currentToken,
@@ -428,7 +414,7 @@ export function EventContent({
 
       {!isClaimed && !currentToken.isCutOff && !readingLoading && (
         <div className="text-[rgba(255, 255, 255, 0.6)] mt-[10px] font-haasDisp text-base font-medium">
-          {T("ConnectedTo")} {abbreviateAddress(currentAddress)}
+          {T("ConnectedTo")} {shorterAddress(currentAddress)}
         </div>
       )}
     </div>

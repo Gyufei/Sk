@@ -7,7 +7,7 @@ import { IClaimData } from "./use-claim-data";
 
 export function useEthClaim(currentToken: IClaimToken | undefined) {
   const chainName =
-    (currentToken?.chainInfo?.name.toLowerCase() as ChainName) || "ethereum";
+    (currentToken?.chainInfo?.name?.toLowerCase() as ChainName) || "ethereum";
   const isV2 = currentToken?.eventData?.version === "v2";
 
   const { address: ContractAddress } = useContractAddress(chainName, isV2);

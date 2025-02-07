@@ -5,8 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function shorterAddress(address: string) {
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+export function shorterAddress(
+  address: string,
+  { startLength, endLength } = {
+    startLength: 6,
+    endLength: 4,
+  },
+) {
+  if (address.length <= startLength + endLength) {
+    return address;
+  }
+
+  const startPart = address.substring(0, startLength);
+  const endPart = address.substring(address.length - endLength);
+
+  return `${startPart}...${endPart}`;
 }
 
 export const twitterPlaceHolderText = "https://x.com/";
@@ -23,8 +36,8 @@ export function checkEmailRegex(x: string) {
   //   /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/g;
   const regex =
     /^[a-zA-Z0-9._-]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|([a-zA-Z0-9_-]+\.[a-zA-Z]{2,6}))$/g;
-    // /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g;
-    // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
+  // /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g;
+  // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g;
 
   return regex.test(x);
 }
@@ -66,7 +79,6 @@ export function formatDate(isoString: string) {
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
 }
 
-
 export function timestampToTime(timestamp: string) {
   const date = new Date(Number(timestamp)); // 转换为Date对象
   const year = date.getFullYear(); // 获取年份
@@ -75,5 +87,7 @@ export function timestampToTime(timestamp: string) {
   const hours = ("0" + date.getHours()).slice(-2); // 获取小时，转为两位数
   const minutes = ("0" + date.getMinutes()).slice(-2); // 获取分钟，转为两位数
   const seconds = ("0" + date.getSeconds()).slice(-2); // 获取秒，转为两位数
-  return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds; // 拼接日期时间字符串
+  return (
+    year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
+  ); // 拼接日期时间字符串
 }

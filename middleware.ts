@@ -16,19 +16,24 @@ const validRoutes = [
   "info",
   "mart",
   "ticket",
-  "point"
+  "point",
 ];
 
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const validLocales = ["en", "zh"];
   // 获取用户的首选语言
-  const preferredLanguage = request.headers.get('accept-language')?.split(',')[0] || 'en';
-  const defaultLocale = ['zh-CN', 'zh'].includes(preferredLanguage) ? 'zh' : 'en';
+  const preferredLanguage =
+    request.headers.get("accept-language")?.split(",")[0] || "en";
+  const defaultLocale = ["zh-CN", "zh"].includes(preferredLanguage)
+    ? "zh"
+    : "en";
 
   // 处理根路径
   if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/${defaultLocale}/home`, request.url));
+    return NextResponse.redirect(
+      new URL(`/${defaultLocale}/home`, request.url),
+    );
   }
 
   const checkIsFilePath = (path: string) => {
@@ -45,7 +50,9 @@ export default function middleware(request: NextRequest) {
 
   // 处理无效的语言路径
   if (!validLocales.includes(locale)) {
-    return NextResponse.redirect(new URL(`/${defaultLocale}${pathname}`, request.url));
+    return NextResponse.redirect(
+      new URL(`/${defaultLocale}${pathname}`, request.url),
+    );
   }
 
   // 处理 /en 或 /zh 路径
@@ -55,7 +62,6 @@ export default function middleware(request: NextRequest) {
 
   // 处理无效路径，但排除 not-found 路由
   if (!validRoutes.includes(rest[0]) && rest[0] !== "not-found") {
-    console.log(`Rewriting to not-found: ${pathname}`);
     return NextResponse.redirect(new URL(`/${locale}/not-found`, request.url));
   }
 
