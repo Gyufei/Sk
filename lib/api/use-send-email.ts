@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import fetcher from "./fetcher";
 import { ApiHost } from "./path";
-import { usePathname, useRouter } from "@/app/navigation";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "./state";
 import { GlobalMsgContext } from "@/components/global-msg-context";
+import { getHashParam } from "../utils/utils";
 
 const SendEmailKey = "sendEmail";
 const SendEmailCbKey = "sendEmailCb";
@@ -13,11 +12,7 @@ const SendEmailCbKey = "sendEmailCb";
 export function useSendEmail() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
 
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const code = searchParams.get("email_hash_code");
+  const [code, setCode] = useState("");
   const [cbEmail, setCbEmail] = useState("");
 
   const [hasSend, setHasSend] = useState(false);
@@ -27,11 +22,20 @@ export function useSendEmail() {
   const uuid = useAtomValue(UuidAtom);
 
   useEffect(() => {
+    const verifyToken = getHashParam("verify_token");
+
+    if (verifyToken) {
+      setCode(verifyToken);
+    }
+  }, []);
+
+  console.log(code);
+
+  useEffect(() => {
     const lt = localStorage.getItem(SendEmailKey);
     const cb = localStorage.getItem(SendEmailCbKey);
     if (cb) {
       setCbEmail(cb);
-      // localStorage.removeItem(SendEmailCbKey);
     }
     if (lt) {
       setLastSendTime(lt);
@@ -103,17 +107,7 @@ export function useSendEmail() {
   }
 
   function removeCode() {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.delete("verify_code");
-    searchParams.delete("email");
-    searchParams.delete("user_id");
-    searchParams.delete("email_hash_code");
-
-    router.replace({
-      pathname,
-      query: Object.fromEntries(searchParams.entries()),
-    });
-
+    window.location.hash = "";
     localStorage.removeItem(SendEmailCbKey);
   }
 

@@ -4,6 +4,7 @@ import homeJson from "./home_page_config.json";
 export default function Home() {
   const topList = homeJson.top_icon_links;
   const linkPanels = homeJson.link_panels;
+
   return (
     <div className="content-w-320">
       <div className="flex flex-row justify-center gap-x-5">

@@ -18,20 +18,24 @@ export function Email() {
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
-  const [email, setEmail] = useState(userInfo?.social_media?.Email || "");
+  const [inputEmail, setInputEmail] = useState(
+    userInfo?.social_media?.Email || "",
+  );
 
   const [isValid, setIsValid] = useState(true);
 
   const isLink =
-    userInfo?.social_media?.Email && email === userInfo?.social_media?.Email;
+    userInfo?.social_media?.Email &&
+    inputEmail === userInfo?.social_media?.Email;
 
   const { cbEmail, code, hasSend, sendEmail, removeCode } = useSendEmail();
 
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "emailEyeShow" });
 
   const disabled = useMemo(
-    () => !isValid || !email || (email && !checkEmailRegex(email)),
-    [isValid, email],
+    () =>
+      !isValid || !inputEmail || (inputEmail && !checkEmailRegex(inputEmail)),
+    [isValid, inputEmail],
   );
 
   useSWR(
@@ -41,31 +45,31 @@ export function Email() {
 
   useEffect(() => {
     if (cbEmail) {
-      setEmail(cbEmail);
+      setInputEmail(cbEmail);
     }
   }, [cbEmail]);
 
   useEffect(() => {
     if (userInfo?.social_media?.Email) {
-      setEmail(userInfo?.social_media.Email);
+      setInputEmail(userInfo?.social_media.Email);
     }
   }, [userInfo]);
 
   function handleEmailInput(val: string) {
     if (!val) {
-      setEmail(val);
+      setInputEmail(val);
       setIsValid(true);
       return;
     }
 
     const trimVal = val.replace(/(^\s*)|(\s*$)/g, "");
-    setEmail(trimVal);
+    setInputEmail(trimVal);
   }
 
   function handleBlur() {
-    if (!email) return;
+    if (!inputEmail) return;
 
-    setIsValid(checkEmailRegex(email));
+    setIsValid(checkEmailRegex(inputEmail));
   }
 
   async function handleSaveEmail() {
@@ -86,7 +90,7 @@ export function Email() {
 
   function handleLink() {
     if (disabled) return;
-    sendEmail(email, window.location.origin + window.location.pathname);
+    sendEmail(inputEmail, window.location.origin + window.location.pathname);
   }
 
   return (
@@ -106,7 +110,7 @@ export function Email() {
         </div>
         <InputWithClear
           isError={!isValid}
-          value={email}
+          value={inputEmail}
           type={eyeState ? "password" : "text"}
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleEmailInput(v)}

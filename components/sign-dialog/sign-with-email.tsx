@@ -30,26 +30,26 @@ export default function SignWithEmail({
   const T = useTranslations("Common");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
 
-  const [email, setEmail] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   const { cbEmail, code, hasSend, sending, sendEmail, removeCode, seconds } =
     useSendEmail();
 
-  useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
+  useSWR(
+    code && cbEmail ? `sign-in-with-email:${code}-${cbEmail}` : null,
+    postSignData,
+  );
 
   useEffect(() => {
     if (cbEmail) {
-      setEmail(cbEmail);
+      setInputEmail(cbEmail);
+    } else {
+      if (lastAccount) {
+        setInputEmail(lastAccount);
+      }
     }
-  }, [cbEmail]);
-
-  const [isValid, setIsValid] = useState(true);
-
-  useEffect(() => {
-    if (lastAccount) {
-      setEmail(lastAccount);
-    }
-  }, [lastAccount]);
+  }, [cbEmail, lastAccount]);
 
   function getCurrentPageUrl() {
     const url = new URL(window.location.href);
@@ -81,24 +81,20 @@ export default function SignWithEmail({
       });
       return;
     }
-    const valid = checkRegex(email);
+    const valid = checkRegex(inputEmail);
 
     if (!valid) {
       setIsValid(false);
       return;
     }
     incrementAttempts({
-      account: email,
+      account: inputEmail,
       signInMethod: SignInMethod.email,
     });
-    sendEmail(email, getCurrentPageUrl());
+    sendEmail(inputEmail, getCurrentPageUrl());
   }
 
   async function postSignData() {
-    if (cbEmail) {
-      setEmail(cbEmail);
-    }
-
     try {
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
@@ -117,7 +113,7 @@ export default function SignWithEmail({
 
       if (res.status === false || !res.uuid) {
         throw new Error(
-          "email sign in error:" + `${email} ${code}  ${JSON.stringify(res)}`,
+          "email sign in error:" + `${cbEmail} ${code}  ${JSON.stringify(res)}`,
         );
       }
 
@@ -127,7 +123,7 @@ export default function SignWithEmail({
         LastSignInWithKey,
         JSON.stringify({
           method: SignInMethod.email,
-          account: email,
+          account: cbEmail,
         }),
       );
 
@@ -146,9 +142,9 @@ export default function SignWithEmail({
     >
       <Input
         onKeyDown={handleKeyDown}
-        value={email}
+        value={inputEmail}
         onChange={(e) => {
-          setEmail(e.target.value);
+          setInputEmail(e.target.value);
           setIsValid(checkEmailRegex(e.target.value));
         }}
         data-error={!isValid}

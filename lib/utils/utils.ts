@@ -91,3 +91,15 @@ export function timestampToTime(timestamp: string) {
     year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
   ); // 拼接日期时间字符串
 }
+
+export function getHashParam(key: string) {
+  const hash = window.location.hash;
+  const hashArr = hash.slice(1).split("=");
+
+  const obj: Record<string, string> = {};
+  for (let i = 0; i < hashArr.length; i += 2) {
+    obj[hashArr[i]] = hashArr[i + 1];
+  }
+
+  return obj[key];
+}
