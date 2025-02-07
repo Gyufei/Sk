@@ -36,20 +36,13 @@ export default function SignWithEmail({
   const { cbEmail, code, hasSend, sending, sendEmail, removeCode, seconds } =
     useSendEmail();
 
-  useSWR(
-    code && cbEmail ? `sign-in-with-email:${code}-${cbEmail}` : null,
-    postSignData,
-  );
+  useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
   useEffect(() => {
-    if (cbEmail) {
-      setInputEmail(cbEmail);
-    } else {
-      if (lastAccount) {
-        setInputEmail(lastAccount);
-      }
+    if (lastAccount) {
+      setInputEmail(lastAccount);
     }
-  }, [cbEmail, lastAccount]);
+  }, [lastAccount]);
 
   function getCurrentPageUrl() {
     const url = new URL(window.location.href);
@@ -104,9 +97,7 @@ export default function SignWithEmail({
         body: JSON.stringify({
           login_type: "Email",
           login_data: {
-            email: cbEmail,
             code,
-            redirect_uri: getCurrentPageUrl(),
           },
         }),
       });

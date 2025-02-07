@@ -5,11 +5,13 @@ import { useAtomValue } from "jotai";
 import { UuidAtom } from "./state";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { getHashParam } from "../utils/utils";
+import { useLocale } from "next-intl";
 
 const SendEmailKey = "sendEmail";
 const SendEmailCbKey = "sendEmailCb";
 
 export function useSendEmail() {
+  const locale = useLocale();
   const { setGlobalMessage } = useContext(GlobalMsgContext);
 
   const [code, setCode] = useState("");
@@ -28,8 +30,6 @@ export function useSendEmail() {
       setCode(verifyToken);
     }
   }, []);
-
-  console.log(code);
 
   useEffect(() => {
     const lt = localStorage.getItem(SendEmailKey);
@@ -85,6 +85,7 @@ export function useSendEmail() {
           email,
           redirect_uri: cb,
           user_id: uuid || "00000000-0000-0000-0000-000000000000",
+          lang: locale,
         }),
       });
 

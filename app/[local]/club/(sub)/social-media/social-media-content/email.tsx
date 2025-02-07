@@ -11,10 +11,6 @@ import { useSendEmail } from "@/lib/api/use-send-email";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 
 export function Email() {
-  const currentPageUrl =
-    typeof window !== "undefined"
-      ? window.location.origin + window.location.pathname
-      : "";
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
@@ -28,7 +24,7 @@ export function Email() {
     userInfo?.social_media?.Email &&
     inputEmail === userInfo?.social_media?.Email;
 
-  const { cbEmail, code, hasSend, sendEmail, removeCode } = useSendEmail();
+  const { code, hasSend, sendEmail, removeCode } = useSendEmail();
 
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "emailEyeShow" });
 
@@ -38,16 +34,7 @@ export function Email() {
     [isValid, inputEmail],
   );
 
-  useSWR(
-    code && cbEmail ? `save-email:${code}-${cbEmail}` : null,
-    handleSaveEmail,
-  );
-
-  useEffect(() => {
-    if (cbEmail) {
-      setInputEmail(cbEmail);
-    }
-  }, [cbEmail]);
+  useSWR(code ? `save-email:${code}` : null, handleSaveEmail);
 
   useEffect(() => {
     if (userInfo?.social_media?.Email) {
@@ -73,14 +60,12 @@ export function Email() {
   }
 
   async function handleSaveEmail() {
-    if (!cbEmail || !code) return;
+    if (!code) return;
 
     const res = await saveSocial({
       name: "Email",
       data: {
-        email: cbEmail,
         code,
-        redirect_uri: currentPageUrl,
       },
     } as any);
     console.log("saveEmail res", res);
