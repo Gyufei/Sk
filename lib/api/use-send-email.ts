@@ -103,7 +103,6 @@ export function useSendEmail() {
 
   function removeCode() {
     window.location.hash = "";
-    localStorage.removeItem(SendEmailCbKey);
   }
 
   return {
