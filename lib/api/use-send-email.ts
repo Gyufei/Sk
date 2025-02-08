@@ -8,15 +8,12 @@ import { getHashParam } from "../utils/utils";
 import { useLocale } from "next-intl";
 
 const SendEmailKey = "sendEmail";
-const SendEmailCbKey = "sendEmailCb";
 
 export function useSendEmail() {
   const locale = useLocale();
   const { setGlobalMessage } = useContext(GlobalMsgContext);
 
   const [code, setCode] = useState("");
-  const [cbEmail, setCbEmail] = useState("");
-
   const [hasSend, setHasSend] = useState(false);
   const [sending, setSending] = useState(false);
   const [lastSendTime, setLastSendTime] = useState("");
@@ -32,11 +29,9 @@ export function useSendEmail() {
   }, []);
 
   useEffect(() => {
+    localStorage.removeItem("sendEmailCb");
+
     const lt = localStorage.getItem(SendEmailKey);
-    const cb = localStorage.getItem(SendEmailCbKey);
-    if (cb) {
-      setCbEmail(cb);
-    }
     if (lt) {
       setLastSendTime(lt);
     }
@@ -69,12 +64,11 @@ export function useSendEmail() {
 
   async function sendEmail(email: string, cb: string) {
     if (hasSend) return;
-    localStorage.setItem(SendEmailCbKey, email);
 
     setSending(true);
-
     setHasSend(true);
     setSeconds(60);
+
     try {
       const res: any = await fetcher(`${ApiHost}/user/send_email`, {
         method: "POST",
@@ -113,7 +107,6 @@ export function useSendEmail() {
   }
 
   return {
-    cbEmail,
     code,
     sending,
     hasSend,

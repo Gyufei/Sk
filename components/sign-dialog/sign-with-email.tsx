@@ -33,7 +33,7 @@ export default function SignWithEmail({
   const [inputEmail, setInputEmail] = useState("");
   const [isValid, setIsValid] = useState(true);
 
-  const { cbEmail, code, hasSend, sending, sendEmail, removeCode, seconds } =
+  const { code, hasSend, sending, sendEmail, removeCode, seconds } =
     useSendEmail();
 
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
@@ -67,6 +67,7 @@ export default function SignWithEmail({
       // 显示错误消息或阻止登录
       return;
     }
+
     if (hasSend) {
       setGlobalMessage({
         type: "warning",
@@ -74,17 +75,27 @@ export default function SignWithEmail({
       });
       return;
     }
-    const valid = checkRegex(inputEmail);
 
+    const valid = checkRegex(inputEmail);
     if (!valid) {
       setIsValid(false);
       return;
     }
+
     incrementAttempts({
       account: inputEmail,
       signInMethod: SignInMethod.email,
     });
+
     sendEmail(inputEmail, getCurrentPageUrl());
+
+    localStorage.setItem(
+      LastSignInWithKey,
+      JSON.stringify({
+        method: SignInMethod.email,
+        account: inputEmail,
+      }),
+    );
   }
 
   async function postSignData() {
@@ -104,20 +115,11 @@ export default function SignWithEmail({
 
       if (res.status === false || !res.uuid) {
         throw new Error(
-          "email sign in error:" + `${cbEmail} ${code}  ${JSON.stringify(res)}`,
+          "email sign in error:" + `${code} ${JSON.stringify(res)}`,
         );
       }
 
       onSuccess(res.uuid);
-
-      localStorage.setItem(
-        LastSignInWithKey,
-        JSON.stringify({
-          method: SignInMethod.email,
-          account: cbEmail,
-        }),
-      );
-
       removeCode();
     } catch (e) {
       console.log(e);
