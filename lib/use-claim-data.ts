@@ -24,6 +24,7 @@ export function useClaimData(
 
   const canClaim = useMemo(() => {
     if (!address) return false;
+    if (currentToken && currentToken?.isCutOff) return false;
 
     const isEVM = (currentToken?.chainInfo as any).isEVM;
     const isOffChain = (currentToken?.chainInfo as any).isOffChain;
@@ -50,6 +51,7 @@ export function useClaimData(
 
   async function fetchClaimData() {
     if (!userInfo || !currentToken) return null;
+    if (currentToken?.isCutOff) return null;
 
     if (!canClaim) {
       return {

@@ -20,7 +20,6 @@
     "PostedAt": "Posted at",
     "NotificationOK": "OK",
     "Connections": "Connections",
-    "Unavailable": "Unavailable",
     "YouAre": "You're ",
     "Eligible": "eligible!",
     "Sorry": "Sorry!",
@@ -100,6 +99,7 @@
     "OrderPhone": "OrderPhone",
     "AddWallet": "Add Wallet",
     "WalletNull": " wallet is required",
+    "EventExpired": "event has ended",
     "MaxWalletMsg": "Maximum 5 wallets",
     "ConnectedTo": "Connected:",
     "Loading": "loading..."

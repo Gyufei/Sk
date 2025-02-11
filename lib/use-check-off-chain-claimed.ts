@@ -13,7 +13,7 @@ export function useCheckOffChainClaimed(currentToken: IClaimToken | undefined) {
   const eventName = eventsData?.event_name;
 
   const res = useSWR(
-    isOffChain && uuid && eventName && claimVersion
+    isOffChain && uuid && eventName && claimVersion && !currentToken?.isCutOff
       ? `${ApiHost}/events/claim_status?user_id=${uuid}&event_name=${eventName}&claim_version=${claimVersion}`
       : null,
     fetcher,

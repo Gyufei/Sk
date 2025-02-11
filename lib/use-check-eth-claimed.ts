@@ -50,7 +50,7 @@ export function useCheckEthClaimed(
     functionName: "claimed",
     args: isV2 ? [eventsData?.claim_version, uid] : [leaf],
     query: {
-      enabled: isEvm && eventsData && uid && amount,
+      enabled: isEvm && eventsData && uid && amount && !currentToken?.isCutOff,
     },
   });
 

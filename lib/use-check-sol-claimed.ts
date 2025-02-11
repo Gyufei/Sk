@@ -35,14 +35,14 @@ export function useCheckSolClaimed(currentToken: IClaimToken | undefined) {
   }
 
   const apiPoint = useMemo(() => {
-    if (!eventsData || !uid || !isSolana) return null;
+    if (!eventsData || !uid || !isSolana || currentToken?.isCutOff) return null;
 
     return JSON.stringify({
       eventsData,
       isSolanaFlag: isSolana,
       reqFlag: uid,
     });
-  }, [eventsData, isSolana, uid]);
+  }, [eventsData, isSolana, uid, currentToken?.isCutOff]);
 
   const res = useSWR(apiPoint, GetState);
 

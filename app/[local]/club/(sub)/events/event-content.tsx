@@ -273,9 +273,6 @@ export function EventContent({
     if (isClaimed) {
       return T("Claimed");
     }
-    if (currentToken.isCutOff) {
-      return T("Unavailable");
-    }
 
     return (
       <>
@@ -300,6 +297,16 @@ export function EventContent({
 
   if (!currentToken) {
     return <div className="h-[208px]"></div>;
+  }
+
+  if (currentToken.isCutOff) {
+    return (
+      <div className="flex flex-col items-center justify-center px-5 text-center">
+        <div className="text-[40px] leading-9 text-white opacity-80">
+          {T("EventExpired")}
+        </div>
+      </div>
+    );
   }
 
   if (
@@ -390,16 +397,6 @@ export function EventContent({
           {currentToken.symbol}
         </div>
       </div>
-      {/* <div
-        style={{ visibility: isOffChain ? "hidden" : "visible" }}
-        className="h-[24px] mt-1 flex items-center text-base font-medium leading-6 text-white opacity-60"
-      >
-        <div>{T("On")}</div>
-        <ChainLogoText
-          logo={currentToken.chainInfo.logo}
-          name={currentToken.chainInfo.name}
-        />
-      </div> */}
       {
         <div
           data-not={isClaimed || isPending || currentToken.isCutOff}

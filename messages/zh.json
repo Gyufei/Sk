@@ -20,7 +20,6 @@
     "PostedAt": "传达时间",
     "NotificationOK": "已读",
     "Connections": "连接",
-    "Unavailable": "不可用",
     "YouAre": "你是",
     "Eligible": "有资格的",
     "Sorry": "对不起",
@@ -100,9 +99,10 @@
     "OrderPhone": "订单手机号",
     "AddWallet": "添加钱包",
     "WalletNull": "钱包为空，请先添加钱包",
+    "EventExpired": "活动已结束",
     "MaxWalletMsg": "最多添加五个钱包",
     "ConnectedTo": "已连接:",
-     "Loading": "加载中..."
+    "Loading": "加载中..."
   },
   "Ticket": {
     "Ticket": "工单",
