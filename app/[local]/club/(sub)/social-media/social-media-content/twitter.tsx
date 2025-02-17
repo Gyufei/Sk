@@ -81,7 +81,7 @@ export function Twitter() {
           value={x}
           type={eyeState ? "password" : "text"}
           placeHolderText={twitterPlaceHolderText}
-          placeHolder="|  your id"
+          placeHolder="twitter"
           onValueChange={() => {}}
           isSign={isLink}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"

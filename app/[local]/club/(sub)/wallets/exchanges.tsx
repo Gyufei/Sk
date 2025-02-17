@@ -114,21 +114,23 @@ export function Exchanges() {
   }
 
   return (
-    <div className="mt-[15px] sm:mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[20px]">
-      <div className="font-haasDisp font-semibold mb-5 text-xl leading-[30px] text-white">
+    <div className="mt-[15px] rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:mt-6 sm:rounded-[18px] sm:p-[20px]">
+      <div className="mb-5 font-haasDisp text-xl font-semibold leading-[30px] text-white">
         {T("Exchanges")}
       </div>
       <div className="flex flex-col space-y-[30px] sm:flex-row sm:justify-between sm:space-y-0">
         <div className="flex flex-col items-start">
           <div className="flex w-[140px] items-center space-x-2">
-            <div className="text-[18px] sm:text-base font-medium leading-6 text-[#D6D6D6]">Binance</div>
+            <div className="text-[18px] font-medium leading-6 text-[#D6D6D6] sm:text-base">
+              Binance
+            </div>
           </div>
           <InputWithClear
             isError={!bnUIDValid}
             value={bnUID}
             onValueChange={(v) => {
-              if (!v) setBnUIDValid(true)
-              setBnUID(v)
+              if (!v) setBnUIDValid(true);
+              setBnUID(v);
             }}
             isSign={false}
             inputId="phone"
@@ -140,17 +142,19 @@ export function Exchanges() {
         </div>
         <div className="flex flex-col items-start">
           <div className="flex w-[140px] items-center space-x-2">
-            <div className="text-[18px] sm:text-base font-medium leading-6 text-[#D6D6D6]">OKX</div>
+            <div className="text-[18px] font-medium leading-6 text-[#D6D6D6] sm:text-base">
+              OKX
+            </div>
           </div>
           <InputWithClear
             isError={!okxUIDValid}
             value={okxUID}
             onValueChange={(v) => {
-              if (!v) setOKXUIDValid(true)
-              setOKXUID(v)
+              if (!v) setOKXUIDValid(true);
+              setOKXUID(v);
             }}
             isSign={false}
-            inputId="phone"
+            inputId="okx"
             conClass="w-full sm:w-auto"
             onBlur={handleOkxBlur}
             placeHolder="UID / Email"
@@ -159,17 +163,19 @@ export function Exchanges() {
         </div>
         <div className="flex flex-col items-start">
           <div className="flex items-center space-x-2 sm:w-[140px]">
-            <div className="text-[18px] sm:text-base font-medium leading-6 text-[#D6D6D6]">Bybit</div>
+            <div className="text-[18px] font-medium leading-6 text-[#D6D6D6] sm:text-base">
+              Bybit
+            </div>
           </div>
           <InputWithClear
             isError={!byBitUIDValid}
             value={byBitUID}
             onValueChange={(v) => {
-              if (!v) setByBitUIDValid(true)
-              setByBitUID(v)
+              if (!v) setByBitUIDValid(true);
+              setByBitUID(v);
             }}
             isSign={false}
-            inputId="phone"
+            inputId="bybit"
             conClass="w-full sm:w-auto"
             onBlur={handleByBitBlur}
             placeHolder="UID / Email"

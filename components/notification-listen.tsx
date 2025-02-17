@@ -174,6 +174,7 @@ export function NotificationListen() {
   }
 
   if (!toastContent) return null;
+
   return (
     <ToastProvider>
       <ToastModal

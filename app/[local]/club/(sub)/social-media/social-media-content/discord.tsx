@@ -76,7 +76,7 @@ export function Discord() {
           isError={!isValid}
           value={discord}
           type={eyeState ? "password" : "text"}
-          placeHolder="your id"
+          placeHolder="discord"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"

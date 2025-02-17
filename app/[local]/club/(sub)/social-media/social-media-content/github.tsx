@@ -81,7 +81,7 @@ export function Github() {
           value={github}
           type={eyeState ? 'password' : 'text'}
           placeHolderText="https://github.com/"
-          placeHolder="|  your id"
+          placeHolder="github"
           onValueChange={(v) => handleXInput(v)}
           isSign={false}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"

@@ -22,7 +22,7 @@ export function InputWithClear({
   value: string;
   placeHolder?: string;
   placeHolderText?: string;
-  type?: string,
+  type?: string;
   onValueChange: (_v: string) => void;
   isError?: boolean;
   isSign: boolean;
@@ -63,7 +63,7 @@ export function InputWithClear({
         </div>
       )}
       <Input
-        id={inputId || ""}
+        id={inputId || placeHolder}
         value={value}
         type={type}
         placeholder={placeHolder}
@@ -76,7 +76,7 @@ export function InputWithClear({
         onBlur={handleBlur}
         readOnly={readOnly}
       />
-      <div className="absolute right-2 top-1/2 -translate-y-1/2 transform flex gap-2">
+      <div className="absolute right-2 top-1/2 flex -translate-y-1/2 transform gap-2">
         {!readOnly && value && (
           <button
             onClick={($event) => {
@@ -104,7 +104,6 @@ export function InputWithClear({
           />
         )}
       </div>
-      
     </div>
   );
 }

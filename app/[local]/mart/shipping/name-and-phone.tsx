@@ -157,7 +157,7 @@ export function NameAndPhone({
             value={phoneNumber}
             onValueChange={(v) => handlePhoneNumChange(v)}
             isSign={false}
-            inputId="phone"
+            inputId="phone2"
             conClass="w-full"
             inputClass="text-base"
             onBlur={handlePhoneBlur}
