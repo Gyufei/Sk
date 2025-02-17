@@ -24,19 +24,25 @@ export function Twitter() {
   const isLink =
     userInfo?.social_media?.Twitter && x === userInfo?.social_media?.Twitter;
 
-  const { code, goTwitter, removeCode } = useTwitterSign();
+  const { code, error, goTwitter, removeXVerifyCode } = useTwitterSign();
 
   useSWR(code ? `save-twitter:${code}` : null, saveTwitter);
-  const {
-    eyeState,
-    handleToggle
-  } = useEyeToggle({ keyword: 'twitterEyeShow'})
+
+  const { eyeState, handleToggle } = useEyeToggle({
+    keyword: "twitterEyeShow",
+  });
 
   useEffect(() => {
     if (userInfo?.social_media?.Twitter) {
       setX(userInfo?.social_media?.Twitter || "");
     }
   }, [userInfo]);
+
+  useEffect(() => {
+    if (error) {
+      removeXVerifyCode();
+    }
+  }, [error]);
 
   function handleLink() {
     goTwitter(currentPageUrl);
@@ -52,19 +58,28 @@ export function Twitter() {
         redirect_uri: currentPageUrl,
       },
     } as any);
-    removeCode();
+
+    removeXVerifyCode();
   }
 
   return (
-    <div className="mt-[30px] sm:mt-4 flex flex-col">
+    <div className="mt-[30px] flex flex-col sm:mt-4">
       <div className="relative flex flex-col items-start sm:flex-row sm:items-center">
         <div className="flex w-[140px] items-center space-x-2">
-          <Image src="/icons/x.svg" width={30} height={30} alt="" className={"w-[24px] h-[24px] sm:w-[30px] sm:h-[30px]"}/>
-          <div className="text-base leading-[24px] font-medium text-[#d6d6d6]">X (Twitter)</div>
+          <Image
+            src="/icons/x.svg"
+            width={30}
+            height={30}
+            alt=""
+            className={"h-[24px] w-[24px] sm:h-[30px] sm:w-[30px]"}
+          />
+          <div className="text-base font-medium leading-[24px] text-[#d6d6d6]">
+            X (Twitter)
+          </div>
         </div>
         <InputWithClear
           value={x}
-          type={eyeState ? 'password' : 'text'}
+          type={eyeState ? "password" : "text"}
           placeHolderText={twitterPlaceHolderText}
           placeHolder="|  your id"
           onValueChange={() => {}}
@@ -78,10 +93,7 @@ export function Twitter() {
           disabled={isTwitterLogin}
           isConnected={isLink}
         />
-        <EyeToggleBtn
-          eyeState={eyeState}
-          handleToggle={handleToggle}
-        />
+        <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
     </div>
   );

@@ -101,7 +101,7 @@ export function useSendEmail() {
     }
   }
 
-  function removeCode() {
+  function removeEmailVerifyHash() {
     window.location.hash = "";
   }
 
@@ -110,7 +110,7 @@ export function useSendEmail() {
     sending,
     hasSend,
     sendEmail,
-    removeCode,
+    removeEmailVerifyHash,
     seconds,
   };
 }

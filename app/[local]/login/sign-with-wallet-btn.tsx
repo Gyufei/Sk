@@ -1,16 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import { useAccount, useChainId, useDisconnect } from "wagmi";
-import { useSetAtom } from "jotai/react";
-import { UuidAtom } from "@/lib/api/state";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  useConnectModal,
-} from '@rainbow-me/rainbowkit';
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { LastSignInWithKey, SignInMethod } from "./type";
 
 export function SignWithWalletBtn({
@@ -19,16 +16,17 @@ export function SignWithWalletBtn({
   incrementAttempts,
   showReCaptcha,
   reCaptchaValue,
+  onSuccess,
 }: {
   signing: boolean;
   setSigning: (b: boolean) => void;
   incrementAttempts: (value: { account: string; signInMethod: number }) => void;
   showReCaptcha: boolean;
+  onSuccess: (uId: string) => void;
   reCaptchaValue: string | null;
 }) {
   const T = useTranslations("Common");
   const chainId = useChainId();
-  const setUuid = useSetAtom(UuidAtom);
 
   const { address, isConnected } = useAccount();
   const { openConnectModal = () => {} } = useConnectModal();
@@ -53,7 +51,7 @@ export function SignWithWalletBtn({
       solanaDisconnect();
       incrementAttempts({
         account: address,
-        signInMethod: SignInMethod.wallet
+        signInMethod: SignInMethod.wallet,
       });
 
       if (showReCaptcha && !reCaptchaValue) {
@@ -103,7 +101,8 @@ export function SignWithWalletBtn({
         );
       }
 
-      setUuid(res.uuid);
+      onSuccess(res.uuid);
+
       localStorage.setItem(
         LastSignInWithKey,
         JSON.stringify({

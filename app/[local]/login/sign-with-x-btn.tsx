@@ -6,6 +6,8 @@ import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useSignCallbackUrl } from "@/lib/use-sign-callback-url";
 
 export default function SignWithXBtn({
   signing,
@@ -21,8 +23,15 @@ export default function SignWithXBtn({
   onSuccess: (_i: string) => void;
 }) {
   const T = useTranslations("Common");
-  const currentPageUrl = window.location.origin + window.location.pathname;
-  const { code, goTwitter } = useTwitterSign();
+
+  const { code, error, goTwitter, removeXVerifyCode } = useTwitterSign();
+  const { getCallbackUrl } = useSignCallbackUrl();
+
+  useEffect(() => {
+    if (error) {
+      removeXVerifyCode();
+    }
+  }, [error]);
 
   useSWR(code ? `sign-in-with-twitter:${code}` : null, postSignData);
 
@@ -37,7 +46,7 @@ export default function SignWithXBtn({
           login_type: "Twitter",
           login_data: {
             code: code,
-            redirect_uri: currentPageUrl,
+            redirect_uri: getCallbackUrl(),
           },
         }),
       });
@@ -59,6 +68,7 @@ export default function SignWithXBtn({
       );
 
       setSigning(false);
+      removeXVerifyCode();
 
       return res;
     } catch (e) {
@@ -69,7 +79,7 @@ export default function SignWithXBtn({
 
   function handleSign() {
     if (signing) return;
-    goTwitter(currentPageUrl);
+    goTwitter(getCallbackUrl());
   }
 
   return (

@@ -7,20 +7,14 @@ const intlMiddleware = createMiddleware({
   defaultLocale: "en",
 });
 
-const validRoutes = [
-  "home",
-  "club",
-  "service",
-  "events",
-  "shipping",
-  "info",
-  "mart",
-  "ticket",
-  "point",
-];
+const validRoutes = ["login", "home", "club", "mart", "point", "service"];
 
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const searchParams = request.nextUrl.searchParams;
+  const searchStr =
+    searchParams.toString().length > 0 ? `?${searchParams.toString()}` : "";
+
   const validLocales = ["en", "zh"];
   // 获取用户的首选语言
   const preferredLanguage =
@@ -51,13 +45,15 @@ export default function middleware(request: NextRequest) {
   // 处理无效的语言路径
   if (!validLocales.includes(locale)) {
     return NextResponse.redirect(
-      new URL(`/${defaultLocale}${pathname}`, request.url),
+      new URL(`/${defaultLocale}${pathname}${searchStr}`, request.url),
     );
   }
 
   // 处理 /en 或 /zh 路径
   if (restPath === "") {
-    return NextResponse.redirect(new URL(`/${locale}/home`, request.url));
+    return NextResponse.redirect(
+      new URL(`/${locale}/home${searchStr}`, request.url),
+    );
   }
 
   // 处理无效路径，但排除 not-found 路由

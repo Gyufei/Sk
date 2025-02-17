@@ -24,7 +24,7 @@ export function Email() {
     userInfo?.social_media?.Email &&
     inputEmail === userInfo?.social_media?.Email;
 
-  const { code, hasSend, sendEmail, removeCode } = useSendEmail();
+  const { code, hasSend, sendEmail, removeEmailVerifyHash } = useSendEmail();
 
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "emailEyeShow" });
 
@@ -70,7 +70,7 @@ export function Email() {
     } as any);
     console.log("saveEmail res", res);
 
-    removeCode();
+    removeEmailVerifyHash();
   }
 
   function handleLink() {

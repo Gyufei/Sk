@@ -6,9 +6,10 @@ import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
-import { GlobalMsgContext } from "../global-msg-context";
+import { GlobalMsgContext } from "../../../components/global-msg-context";
 import { checkEmailRegex } from "@/lib/utils/utils";
 import { useTranslations } from "next-intl";
+import { useSignCallbackUrl } from "@/lib/use-sign-callback-url";
 
 export default function SignWithEmail({
   signing,
@@ -33,8 +34,9 @@ export default function SignWithEmail({
   const [inputEmail, setInputEmail] = useState("");
   const [isValid, setIsValid] = useState(true);
 
-  const { code, hasSend, sending, sendEmail, removeCode, seconds } =
+  const { code, hasSend, sending, sendEmail, removeEmailVerifyHash, seconds } =
     useSendEmail();
+  const { getCallbackUrl } = useSignCallbackUrl();
 
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
@@ -43,11 +45,6 @@ export default function SignWithEmail({
       setInputEmail(lastAccount);
     }
   }, [lastAccount]);
-
-  function getCurrentPageUrl() {
-    const url = new URL(window.location.href);
-    return url.origin + url.pathname;
-  }
 
   function checkRegex(x: string) {
     const regex =
@@ -87,7 +84,7 @@ export default function SignWithEmail({
       signInMethod: SignInMethod.email,
     });
 
-    sendEmail(inputEmail, getCurrentPageUrl());
+    sendEmail(inputEmail, getCallbackUrl());
 
     localStorage.setItem(
       LastSignInWithKey,
@@ -120,7 +117,7 @@ export default function SignWithEmail({
       }
 
       onSuccess(res.uuid);
-      removeCode();
+      removeEmailVerifyHash();
     } catch (e) {
       console.log(e);
     }

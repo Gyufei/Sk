@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 import { NickName } from "./nick-name";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { SignInMethod } from "../sign-dialog/type";
+import { SignInMethod } from "../../app/[local]/login/type";
 import { LevelTpl } from "./level-tpl";
 
 const titleClass = "opacity-60 font-haasDisp font-medium mb-1 text-sm sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";

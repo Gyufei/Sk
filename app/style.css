@@ -135,7 +135,6 @@ textarea.w-select {
   width: 740px;
 }
 
-
 .grid {
   z-index: 5;
   width: 100%;
@@ -196,10 +195,7 @@ textarea.w-select {
   z-index: -1;
 }
 
-
-
 @media screen and (max-height: 600px) {
-  
   .main-container {
     /* height: auto; */
     min-height: 600px;
@@ -212,7 +208,6 @@ textarea.w-select {
   .content-wrapper {
     margin-top: 0;
   }
-
 }
 
 .right-block {
@@ -434,7 +429,6 @@ textarea.w-select {
   padding-left: 1.3em;
 }
 
-
 .point-1 {
   position: absolute;
   top: 1.3em;
@@ -626,7 +620,6 @@ textarea.w-select {
 }
 
 @media screen and (max-width: 640px) {
-
   body {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0d0d0d;
@@ -955,26 +948,38 @@ html.w-mod-touch * {
 }
 
 @media (min-width: 992px) {
-  html.w-mod-js:not(.w-mod-ix) [data-w-id="6944a44f-545c-5336-0d76-086ac72aa00a"] {
-    -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+  html.w-mod-js:not(.w-mod-ix)
+    [data-w-id="6944a44f-545c-5336-0d76-086ac72aa00a"] {
+    -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+      rotateY(0) rotateZ(0) skew(0, 0);
+    -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
+    -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
+    transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
   }
 
-  html.w-mod-js:not(.w-mod-ix) [data-w-id="e66eb91b-62a3-0600-b5af-b92f054bfce3"] {
+  html.w-mod-js:not(.w-mod-ix)
+    [data-w-id="e66eb91b-62a3-0600-b5af-b92f054bfce3"] {
     opacity: 0.7;
   }
 
-  html.w-mod-js:not(.w-mod-ix) [data-w-id="9bde0ecc-8d7e-58f2-7010-56e2e3166956"] {
+  html.w-mod-js:not(.w-mod-ix)
+    [data-w-id="9bde0ecc-8d7e-58f2-7010-56e2e3166956"] {
     opacity: 0.7;
   }
 
-  html.w-mod-js:not(.w-mod-ix) [data-w-id="b447a2da-5b6e-66b0-5560-842df5533f8d"] {
-    -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
-    transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+  html.w-mod-js:not(.w-mod-ix)
+    [data-w-id="b447a2da-5b6e-66b0-5560-842df5533f8d"] {
+    -webkit-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0)
+      rotateY(0) rotateZ(0) skew(0, 0);
+    -moz-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
+    -ms-transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
+    transform: translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0)
+      rotateZ(0) skew(0, 0);
   }
 }
 
@@ -1061,9 +1066,11 @@ html.w-mod-touch * {
 .navbar li.active,
 .navbar li:hover {
   opacity: 1;
-  background-image: radial-gradient(50% 50% at 50% 50%,
-      rgb(255, 255, 238) 0%,
-      rgb(75, 75, 88) 100%);
+  background-image: radial-gradient(
+    50% 50% at 50% 50%,
+    rgb(255, 255, 238) 0%,
+    rgb(75, 75, 88) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1123,7 +1130,7 @@ html.w-mod-touch * {
   }
 
   .content-container {
-    padding: 0px
+    padding: 0px;
   }
 }
 
@@ -1170,13 +1177,12 @@ html.w-mod-touch * {
 }
 
 .content-w-240 {
- width: 240px;
+  width: 240px;
 }
 
 .content-w-250 {
   width: 250px;
- }
-
+}
 
 .bg-blur12 {
   backdrop-filter: blur(12px);
@@ -1187,16 +1193,15 @@ html.w-mod-touch * {
   .content-container {
     justify-content: flex-start;
   }
-  
 }
 
-.content-container>* {
+.content-container > * {
   margin-top: auto;
   margin-bottom: auto;
 }
 
 @media screen and (max-height: 600px) {
-  .content-container>* {
+  .content-container > * {
     /* margin-top: 0; */
   }
 }
@@ -1222,7 +1227,7 @@ html.w-mod-touch * {
   .content-w-760 {
     width: calc(100vw - 30px);
   }
-  
+
   .content-w-600 {
     width: calc(100vw - 30px);
   }
@@ -1241,8 +1246,7 @@ html.w-mod-touch * {
 
   .content-w-540 {
     width: calc(100vw - 30px);
-  } 
-
+  }
 
   .content-w-165 {
     width: 165px;
@@ -1254,106 +1258,112 @@ html.w-mod-touch * {
 }
 
 @media screen and (min-width: 1200px) {
-  .content-w-800, .content-w-760 {
+  .content-w-800,
+  .content-w-760 {
     margin-left: -200px;
   }
 }
 
 @media screen and (min-width: 960px) {
-  .content-w-400, .content-w-608, .content-w-600, .content-w-560,  .content-w-540, .content-w-320 {
+  .content-w-400,
+  .content-w-608,
+  .content-w-600,
+  .content-w-500,
+  .content-w-560,
+  .content-w-540,
+  .content-w-320 {
     margin-left: -250px;
   }
 }
 
-
-
-
 .TooltipContent {
-	border-radius: 16px;
-	padding: 16px;
-	font-size: 16px;
-	line-height: 24px;
-  color: #D6D6D6;
-  background: #3B3B3B;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #d6d6d6;
+  background: #3b3b3b;
 
   backdrop-filter: blur(12px);
-	box-shadow:
-		hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
-		hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-	user-select: none;
-	animation-duration: 400ms;
-	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-	will-change: transform, opacity;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  user-select: none;
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
   z-index: 1000;
 }
 .TooltipContent[data-state="delayed-open"][data-side="top"] {
-	animation-name: slideDownAndFade;
+  animation-name: slideDownAndFade;
 }
 .TooltipContent[data-state="delayed-open"][data-side="right"] {
-	animation-name: slideLeftAndFade;
+  animation-name: slideLeftAndFade;
 }
 .TooltipContent[data-state="delayed-open"][data-side="bottom"] {
-	animation-name: slideUpAndFade;
+  animation-name: slideUpAndFade;
 }
 .TooltipContent[data-state="delayed-open"][data-side="left"] {
-	animation-name: slideRightAndFade;
+  animation-name: slideRightAndFade;
 }
 
 .TooltipArrow {
-	fill: #3B3B3B;
+  fill: #3b3b3b;
 }
 
-
 @keyframes slideUpAndFade {
-	from {
-		opacity: 0;
-		transform: translateY(2px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideRightAndFade {
-	from {
-		opacity: 0;
-		transform: translateX(-2px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideDownAndFade {
-	from {
-		opacity: 0;
-		transform: translateY(-2px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideLeftAndFade {
-	from {
-		opacity: 0;
-		transform: translateX(2px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 .paddingBottomStyle-16 {
-  padding-bottom: calc(constant(safe-area-inset-bottom) + 16px); /*兼容 IOS<11.2*/
+  padding-bottom: calc(
+    constant(safe-area-inset-bottom) + 16px
+  ); /*兼容 IOS<11.2*/
   padding-bottom: calc(env(safe-area-inset-bottom) + 16px); /*兼容 IOS>11.2*/
 }
 
 .paddingBottomStyle-64 {
-  padding-bottom: calc(constant(safe-area-inset-bottom) + 64px); /*兼容 IOS<11.2*/
+  padding-bottom: calc(
+    constant(safe-area-inset-bottom) + 64px
+  ); /*兼容 IOS<11.2*/
   padding-bottom: calc(env(safe-area-inset-bottom) + 64px); /*兼容 IOS>11.2*/
 }
 

@@ -1,8 +1,7 @@
 "use client";
 import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
-import SignDialog from "@/components/sign-dialog";
-import { usePathname } from "@/app/navigation";
+import { usePathname, useRouter } from "@/app/navigation";
 import { useSearchParams } from "next/navigation";
 
 export default function HomeContent({
@@ -12,6 +11,9 @@ export default function HomeContent({
 }) {
   const uuid = useAtomValue(UuidAtom);
   const pathname = usePathname();
+  const isHome = pathname === "/home";
+  const isLogin = pathname === "/login";
+  const router = useRouter();
 
   const searchParams = useSearchParams();
 
@@ -23,9 +25,15 @@ export default function HomeContent({
     return;
   }
 
+  if (!isHome && !uuid && !isLogin) {
+    const path = `/login?from=${pathname.replace("/", "")}`;
+    router.push(path);
+    return;
+  }
+
   return (
     <div className="right-block content-container md:min-h-unset relative min-h-[200.0025px]">
-      {uuid || pathname === "/home" ? children : <SignDialog />}
+      {children}
     </div>
   );
 }

@@ -13,7 +13,6 @@ import WalletDisconnected from "@/components/wallet-disconnected";
 import { NotificationListen } from "@/components/notification-listen";
 import { Toaster } from "@/components/toaster";
 
-
 export const metadata: Metadata = {
   title: {
     template: "%s | Juu17 Brands",
@@ -22,7 +21,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://juu17.com/"),
   description:
     "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
-  viewport: { width: "device-width", initialScale: 1, minimumScale: 1.0, maximumScale: 1.0 },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    minimumScale: 1.0,
+    maximumScale: 1.0,
+  },
   openGraph: {
     url: "https://juu17.com/",
     title: "Juu17 Brands",
