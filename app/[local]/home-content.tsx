@@ -26,7 +26,12 @@ export default function HomeContent({
   }
 
   if (!isHome && !uuid && !isLogin) {
-    const path = `/login?from=${pathname.replace("/", "")}`;
+    const from = pathname.replace("/", "");
+    const searchStr =
+      searchParams.toString().length > 0 ? `&${searchParams.toString()}` : "";
+    const hash = window.location.hash;
+
+    const path = `/login?from=${from}${searchStr}${hash}`;
     router.push(path);
     return;
   }
