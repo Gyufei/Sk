@@ -1,7 +1,7 @@
 "use client";
 import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { http, WagmiProvider } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import {
   arbitrum,
   base,
@@ -12,7 +12,7 @@ import {
   polygon,
   ronin,
   sepolia,
-  zkSync,
+  zksync,
 } from "wagmi/chains";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
@@ -33,7 +33,7 @@ const chains = [
     iconUrl: "/icons/network/linea.svg",
   },
   sepolia,
-  zkSync,
+  zksync,
 ];
 
 /* New API that includes Wagmi's createConfig and replaces getDefaultWallets and connectorsForWallets */
@@ -41,9 +41,6 @@ const config = getDefaultConfig({
   appName: "Web3Modal",
   projectId: "554bbd76b2e66a095d2d38490bb42983",
   chains: chains as any,
-  transports: {
-    [sepolia.id]: http("https://eth-sepolia.public.blastapi.io"),
-  },
   ssr: true,
 });
 
