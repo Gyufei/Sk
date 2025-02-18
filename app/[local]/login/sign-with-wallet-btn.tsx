@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
-import { useAccount, useChainId, useDisconnect } from "wagmi";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
-import { EthChainInfos } from "@/lib/const";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAppKit, useDisconnect, useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
 import { LastSignInWithKey, SignInMethod } from "./type";
+import { } from "@reown/appkit/react";
 
 export function SignWithWalletBtn({
   signing,
@@ -26,18 +25,16 @@ export function SignWithWalletBtn({
   reCaptchaValue: string | null;
 }) {
   const T = useTranslations("Common");
-  const chainId = useChainId();
 
-  const { address, isConnected } = useAccount();
-  const { openConnectModal = () => {} } = useConnectModal();
+  const { open: openConnectModal = () => {} } = useAppKit();
+  const { address, isConnected } = useAppKitAccount();
+  const { caipNetwork } = useAppKitNetwork();
   const { disconnect } = useDisconnect();
+
+  const isSolana = caipNetwork?.name === "Solana";
 
   const { disconnect: solanaDisconnect } = useWallet();
   const [isModalOpenForSign, setIsModalOpenForSign] = useState(false);
-
-  const chainNetInfo = Object.values(EthChainInfos).find(
-    (c) => c.chainId === chainId,
-  );
 
   useEffect(() => {
     if (address && isConnected && isModalOpenForSign) {
@@ -87,7 +84,7 @@ export function SignWithWalletBtn({
           login_type: "Wallet",
           login_data: {
             wallet_address: address,
-            chain_name: "EVM",
+            chain_name: isSolana ? "Solana" : "EVM",
             signature: btoa(randomCode),
             salt: randomCode,
           },
@@ -97,7 +94,7 @@ export function SignWithWalletBtn({
       if (res.status === false || !res.uuid) {
         throw new Error(
           "sign in error:" +
-            `${chainNetInfo?.name} ${address} ${JSON.stringify(res)}`,
+            `${caipNetwork?.name} ${address} ${JSON.stringify(res)}`,
         );
       }
 
@@ -107,7 +104,7 @@ export function SignWithWalletBtn({
         LastSignInWithKey,
         JSON.stringify({
           method: SignInMethod.wallet,
-          account: "",
+          account: address,
         }),
       );
       setSigning(false);

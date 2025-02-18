@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useRouter } from "next/navigation";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -18,6 +17,7 @@ import { useEthClaim } from "@/lib/use-eth-claim";
 import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { shorterAddress } from "@/lib/utils/utils";
+import { useAppKit } from "@reown/appkit/react";
 
 export function EventContent({
   currentToken,
@@ -32,7 +32,7 @@ export function EventContent({
 
   const { data: userInfo } = useFetchUserInfo();
 
-  const { openConnectModal = () => {} } = useConnectModal();
+  const { open: openConnectModal = () => {} } = useAppKit();
   const { switchChain } = useSwitchChain();
 
   // eth

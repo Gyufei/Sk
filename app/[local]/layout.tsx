@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { HaasGrotDisp, HaasGrotText } from "@/app/font";
 import Script from "next/script";
 import { HomeLayout } from "./home-layout";
@@ -6,12 +7,12 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import GlobalActionTip from "@/components/global-action-tip";
 import { GlobalMsgProvider } from "@/components/global-msg-context";
-import { SolWalletProviders } from "@/components/sol-wallet-providers";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Web3Provider } from "@/components/provider/wallet-context";
 import WalletDisconnected from "@/components/wallet-disconnected";
 import { NotificationListen } from "@/components/notification-listen";
 import { Toaster } from "@/components/toaster";
+import { SolanaWalletProviders } from "@/components/provider/solana-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +67,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const headersObj = await headers();
+  const cookies = headersObj.get("cookie");
   const messages = await getMessages();
 
   return (
@@ -106,8 +109,8 @@ export default async function RootLayout({
       >
         <GlobalMsgProvider>
           <NextIntlClientProvider messages={messages}>
-            <Web3Provider>
-              <SolWalletProviders>
+            <Web3Provider cookies={cookies}>
+              <SolanaWalletProviders>
                 <HomeLayout>
                   {children}
                   <GlobalActionTip />
@@ -115,7 +118,7 @@ export default async function RootLayout({
                   <WalletDisconnected />
                   <NotificationListen />
                 </HomeLayout>
-              </SolWalletProviders>
+              </SolanaWalletProviders>
             </Web3Provider>
           </NextIntlClientProvider>
         </GlobalMsgProvider>

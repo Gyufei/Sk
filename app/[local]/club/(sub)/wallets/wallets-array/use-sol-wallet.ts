@@ -7,19 +7,16 @@ import { useRemoveWallet } from "@/lib/api/use-remove-wallet";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 
-
 enum WalletAction {
   ADD = "ADD",
   REMOVE = "REMOVE",
   CONNECT = "CONNECT",
-  UNCONNECT = "UNCONNECT"
+  UNCONNECT = "UNCONNECT",
 }
 type WalletActionType = {
-  type?: "ADD" | "REMOVE" | "CONNECT" | "UNCONNECT",
+  type?: "ADD" | "REMOVE" | "CONNECT" | "UNCONNECT";
   clickAddress?: string;
 };
-
-
 
 export default function useSolWallet() {
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
@@ -38,15 +35,16 @@ export default function useSolWallet() {
   );
 
   const { setVisible: solanaModalOpen } = useWalletModal();
+
   const isLoginAddress = useMemo(() => {
     const userWalletAddress = userInfo?.login_data?.wallet_address;
     return userWalletAddress && connectAddress === userWalletAddress;
-  }, [userInfo, connectAddress])
+  }, [userInfo, connectAddress]);
 
   const walletAddress = userInfo?.wallets?.Solana || [];
 
   function handleAddWallet() {
-    if (walletAddress.length >=5) {
+    if (walletAddress.length >= 5) {
       setGlobalMessage({
         type: "error",
         message: T("MaxWalletMsg"),
@@ -56,20 +54,19 @@ export default function useSolWallet() {
     handleConnect(undefined, WalletAction.ADD);
   }
 
-
   async function handleConnect(clickAddress?: string, type?: string) {
     if (isOperating) {
       setGlobalMessage({
         type: "error",
         message: T("WalletOperatingError"),
       });
-      return
+      return;
     }
 
     if (clickAddress) {
       setActionType({
-        type: WalletAction.CONNECT
-      })
+        type: WalletAction.CONNECT,
+      });
     }
 
     setIsOperating(true);
@@ -78,18 +75,21 @@ export default function useSolWallet() {
     setIsOperating(false);
     if (type === WalletAction.ADD) {
       setActionType({
-        type: WalletAction.ADD
-      })
+        type: WalletAction.ADD,
+      });
       setIsWaitingForNewConnect(true);
     }
   }
 
   useEffect(() => {
     if (!isWaitingForNewConnect || !connectAddress) return;
-    if (actionType?.type === WalletAction.ADD &&  !walletAddress.includes(connectAddress)) {
-      verifyWalletAction()
+    if (
+      actionType?.type === WalletAction.ADD &&
+      !walletAddress.includes(connectAddress)
+    ) {
+      verifyWalletAction();
     }
-  }, [isWaitingForNewConnect, connectAddress, actionType])
+  }, [isWaitingForNewConnect, connectAddress, actionType]);
 
   async function verifyWalletAction() {
     try {
@@ -108,15 +108,15 @@ export default function useSolWallet() {
         message: T("WalletAddError"),
       });
     } finally {
-      setActionType({})
+      setActionType({});
       setIsWaitingForNewConnect(false);
     }
   }
-  
+
   async function handleRemoveWallet(clickAddress: string, index: number) {
     setActionType({
-      type: WalletAction.REMOVE
-    })
+      type: WalletAction.REMOVE,
+    });
     if (clickAddress === userInfo?.login_data?.wallet_address) {
       setGlobalMessage({
         type: "error",
@@ -133,18 +133,17 @@ export default function useSolWallet() {
       if (res.status) {
         await getUserInfo();
       }
-      setIsOperating(false)
+      setIsOperating(false);
     } catch {
-      setIsOperating(false)
+      setIsOperating(false);
     }
   }
-  
 
   async function handleDisconnect() {
     if (isOperating) return;
     setActionType({
-      type: WalletAction.UNCONNECT
-    })
+      type: WalletAction.UNCONNECT,
+    });
     setIsOperating(true);
     await disconnect();
     setIsOperating(false);
@@ -158,5 +157,5 @@ export default function useSolWallet() {
     handleRemoveWallet,
     handleDisconnect,
     handleConnect,
-  }
+  };
 }
