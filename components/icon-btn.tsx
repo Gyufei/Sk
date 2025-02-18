@@ -1,12 +1,12 @@
 import Image from "next/image";
 
 export function IconItem({
-  defaulImage = "/icons/save.svg",
+  defaultImage = "/icons/save.svg",
   hoverImage = "/icons/save-black.svg",
   btnText = undefined,
   mobileHoverColorChanged = true,
 }: {
-  defaulImage?: string;
+  defaultImage?: string;
   hoverImage?: string;
   btnText?: string;
   mobileHoverColorChanged?: boolean;
@@ -17,7 +17,7 @@ export function IconItem({
     <div className="relative w-[24px] h-[24px] overflow-hidden">
       <Image
         className={`absolute ${block} ${mobileHoverColorChanged ? `group-[.isnot-disabled]:group-hover:left-[-24px] group-[.isnot-disabled]:group-hover:bottom-[-24px]` : `sm:group-[.isnot-disabled]:group-hover:left-[-24px] sm:group-[.isnot-disabled]:group-hover:bottom-[-24px]`}`}
-        src={defaulImage}
+        src={defaultImage}
         width={24}
         height={24}
         alt={btnText || 'save'}
@@ -39,7 +39,7 @@ export function IconBtn({
   mobileHoverColorChanged = true,
   handleClick,
   className = "",
-  defaulImage = "/icons/save.svg",
+  defaultImage = "/icons/save.svg",
   hoverImage = "/icons/save-black.svg",
   btnText = undefined,
   isConnected = false
@@ -48,7 +48,7 @@ export function IconBtn({
   mobileHoverColorChanged?: boolean;
   handleClick: () => void;
   className?: string;
-  defaulImage?: string;
+  defaultImage?: string;
   hoverImage?: string;
   btnText?: string;
   isConnected?: boolean;
@@ -66,7 +66,7 @@ export function IconBtn({
       className={`group ${disabled ? 'is-disabled' : 'isnot-disabled'} w-12 ml-0 flex h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 ${mobileHoverColorChanged ? 'data-[disabled=false]:hover:bg-[#fff] data-[disabled=false]:hover:text-[#000]' : 'sm:data-[disabled=false]:hover:bg-[#fff]'} sm:ml-4 sm:mt-0 sm:w-12 ${className}`}
     >
       <IconItem 
-        defaulImage={defaulImage}
+        defaultImage={defaultImage}
         hoverImage={hoverImage}
         btnText={btnText}
         mobileHoverColorChanged={mobileHoverColorChanged}

@@ -18,6 +18,7 @@ export function InputWithClear({
   inputId,
   onBlur,
   readOnly = false,
+  notLink = false,
 }: {
   value: string;
   placeHolder?: string;
@@ -32,6 +33,7 @@ export function InputWithClear({
   inputId?: string;
   onBlur?: () => void;
   readOnly?: boolean;
+  notLink?: boolean;
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -93,6 +95,15 @@ export function InputWithClear({
               className={cn(iconClass)}
             />
           </button>
+        )}
+        {value && notLink && (
+          <Image
+            src="/icons/close-red.svg"
+            width={20}
+            height={20}
+            alt="link"
+            className={cn(iconClass)}
+          />
         )}
         {isSign && !isFocus && (
           <Image

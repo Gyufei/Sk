@@ -19,11 +19,15 @@ export function useMartBuy() {
     },
   ) {
     const { productId, selectedSize } = arg;
-    const extraInfo = selectedSize ? {
-      order_notes: {
-        skuAttr: selectedSize
-      }
-    } : {};
+
+    const extraInfo = selectedSize
+      ? {
+          order_notes: {
+            skuAttr: selectedSize,
+          },
+        }
+      : {};
+
     const result: any = await fetcher(`${ApiHost}/order/create`, {
       method: "POST",
       headers: {
