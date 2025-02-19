@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 import {
   Popover,
@@ -12,9 +12,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { useMediaQuery } from "@/lib/use-media-query";
-
 
 export function PopDrawer({
   title,
@@ -24,7 +23,7 @@ export function PopDrawer({
   popContent,
   popContentClass,
   className,
-  triggerProps = {}
+  triggerProps = {},
 }: {
   title: string;
   open: boolean;
@@ -35,43 +34,34 @@ export function PopDrawer({
   triggerProps?: any;
   className?: string;
 }) {
-  
-  const isDesktop = useMediaQuery("(min-width: 640px)")
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   if (isDesktop) {
     return (
-      <Popover
-        open={open}
-        onOpenChange={onOpenChange}
-      >
+      <Popover open={open} onOpenChange={onOpenChange}>
         <PopoverTrigger asChild {...triggerProps}>
           {children}
         </PopoverTrigger>
-        <PopoverContent className={`no-scroll-bar flex w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4 ${popContentClass}`}>
+        <PopoverContent
+          className={`no-scroll-bar flex w-[200px] flex-col items-stretch space-y-2 overflow-y-auto border-none bg-[#262626] p-4 ${popContentClass}`}
+        >
           {popContent}
         </PopoverContent>
       </Popover>
-    )
+    );
   }
 
   return (
-    <Drawer 
-      open={open}
-      onOpenChange={onOpenChange}
-    >
-      <DrawerTrigger asChild>
-        {children}
-      </DrawerTrigger>
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className={className}>
-        <DrawerHeader className="text-center py-0">
+        <DrawerHeader className="py-0 text-center">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
-        <div className="no-scroll-bar overflow-y-auto max-h-[calc(100vh-200)]">
+        <div className="no-scroll-bar max-h-[calc(100vh-200)] overflow-y-auto">
           {popContent}
         </div>
-        
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
-

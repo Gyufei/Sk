@@ -1,11 +1,22 @@
+export type IChain = {
+  name: string;
+  logo: string;
+  isEVM?: boolean;
+  chainId?: number;
+};
+
 export const EthChainInfos: Record<
-  string,
-  {
-    name: string;
-    logo: string;
-    isEVM?: boolean;
-    chainId?: number;
-  }
+  | "OP"
+  | "Ethereum"
+  | "BNB"
+  | "Polygon"
+  | "Arbitrum"
+  | "Blast"
+  | "Ronin"
+  | "Base"
+  | "Linea"
+  | "ZKSync",
+  IChain
 > = {
   OP: {
     name: "OP",
@@ -55,12 +66,6 @@ export const EthChainInfos: Record<
     isEVM: true,
     chainId: 8453,
   },
-  // Sui: {
-  //   name: "Sui",
-  //   logo: "/icons/network/sui.svg",
-  //   isEVM: false,
-  //   chainId: 2,
-  // },
   Linea: {
     name: "Linea",
     logo: "/icons/network/linea.svg",
@@ -75,15 +80,7 @@ export const EthChainInfos: Record<
   },
 };
 
-export const SolanaChainInfos: Record<
-  string,
-  {
-    name: string;
-    logo: string;
-    isEVM?: boolean;
-    chainId?: number;
-  }
-> = {
+export const SolanaChainInfos: Record<"Solana", IChain> = {
   Solana: {
     name: "Solana",
     logo: "/icons/network/solana.svg",

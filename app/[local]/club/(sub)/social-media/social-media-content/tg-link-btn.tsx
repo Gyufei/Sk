@@ -51,9 +51,12 @@ export function TgLinkBtn({
       await AddTelegramWidget();
     }
     (window as any)?.Telegram?.Login?.auth({
-      bot_id: "",
+      // bot_id: "547043436",
+      bot_id: "7461663146",
       method: "POST",
-      origin: window.location.origin,
+      // origin: window.location.origin,
+      // origin: "https://core.telegram.org",
+      origin: "https://www.okx.com",
     });
   }
 

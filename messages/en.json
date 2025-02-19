@@ -102,7 +102,13 @@
     "EventExpired": "event has ended",
     "MaxWalletMsg": "Maximum 5 wallets",
     "ConnectedTo": "Connected:",
-    "Loading": "loading..."
+    "Loading": "loading...",
+    "Pay": "Pay",
+    "Paying": "Paying...",
+    "PaySuccess": "Pay success",
+    "Token": "Token",
+    "Chain": "Chain",
+    "SwitchTo": "Switch to"
   },
   "Ticket": {
     "Ticket": "Ticket",

@@ -88,7 +88,7 @@
     "RedirectingToHome": "2秒后转到首页...",
     "EventsLevelRequired": "参与活动功能只对等级2及以上用户开放",
     "TicketLevelRequired": "提交工单功能只对等级2及以上用户开放",
-    "PayingIsBeingInitiated": "支付中",
+    "PayingIsBeingInitiated": "支付正在处理...",
     "NotionLevelRequired": "通知只对等级2及以上用户开放",
     "Size": "尺寸",
     "ConfirmToPay": "确认支付",
@@ -102,7 +102,13 @@
     "EventExpired": "活动已结束",
     "MaxWalletMsg": "最多添加五个钱包",
     "ConnectedTo": "已连接:",
-    "Loading": "加载中..."
+    "Loading": "加载中...",
+    "Pay": "支付",
+    "PaySuccess": "支付成功",
+    "Paying": "支付中...",
+    "Token": "代币",
+    "Chain": "链",
+    "SwitchTo": "切换到"
   },
   "Ticket": {
     "Ticket": "工单",
