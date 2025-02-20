@@ -20,6 +20,12 @@ export function Email() {
 
   const [isValid, setIsValid] = useState(true);
 
+  const isGoogleEmail = useMemo(() => {
+    if (!isValid) return false;
+
+    return inputEmail.endsWith("@gmail.com");
+  }, [isValid, inputEmail]);
+
   const isLink =
     userInfo?.social_media?.Email &&
     inputEmail === userInfo?.social_media?.Email;
@@ -75,7 +81,12 @@ export function Email() {
 
   function handleLink() {
     if (disabled) return;
-    sendEmail(inputEmail, window.location.origin + window.location.pathname);
+
+    if (isGoogleEmail) {
+      console.log("isGoogleEmail", isGoogleEmail);
+    } else {
+      sendEmail(inputEmail, window.location.origin + window.location.pathname);
+    }
   }
 
   return (
