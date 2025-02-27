@@ -96,6 +96,10 @@ export default function PayDialog({
   }, [isEvm, isSolana, ethAddress, solanaAddress]);
 
   const shouldSwitchChain = useMemo(() => {
+    if (isEvm && chainId === 11155111) {
+      return false;
+    }
+
     if (!isEvm || !ethAddress) {
       return false;
     }
@@ -120,12 +124,14 @@ export default function PayDialog({
   function handleChainChange(c: IChain) {
     setChain(c);
 
-    if (
-      !payTokenConfig[c.name].find(
-        (t: Record<string, any>) => t.name === token.name,
-      )
-    ) {
+    const selectToken = payTokenConfig[c.name].find(
+      (t: Record<string, any>) => t.name === token.name,
+    );
+
+    if (!selectToken) {
       setToken(payTokenConfig[c.name][0]);
+    } else {
+      setToken(selectToken);
     }
 
     setChainOpen(false);
@@ -339,13 +345,13 @@ function BottomBtn({
         !isDesktop &&
           "z-100 paddingBottomStyle-16 fixed bottom-0 left-0 right-0 px-[16px]",
       )}
+      onClick={onClick}
     >
       <div
         className={cn(
-          "mt-[40px] flex h-12 w-full cursor-pointer items-center justify-center gap-x-2 rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-100",
+          "mt-[40px] flex h-12 w-full cursor-pointer items-center justify-center gap-x-2 rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-white hover:brightness-100",
           isDesktop && "mt-[40px]",
         )}
-        onClick={onClick}
       >
         {children}
       </div>
