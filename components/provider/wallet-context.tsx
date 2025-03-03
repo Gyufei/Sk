@@ -28,6 +28,7 @@ import {
   cookieStorage,
   cookieToInitialState,
   createStorage,
+  // http,
   WagmiProvider,
 } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -53,6 +54,18 @@ export const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({
     storage: cookieStorage,
   }),
+  // transports: {
+  //   [mainnet.id]: http(),
+  //   [base.id]: http(),
+  //   [optimism.id]: http(),
+  //   [polygon.id]: http(),
+  //   [arbitrum.id]: http(),
+  //   [bsc.id]: http(),
+  //   [linea.id]: http(),
+  //   [ronin.id]: http(),
+  //   [sepolia.id]: http('https://rpc.ankr.com/eth_sepolia'),
+  //   [zksync.id]: http(),
+  // },
   projectId,
   networks,
 });

@@ -22,8 +22,8 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       icon: "/icons/usdt.svg",
       isStable: true,
       address: isProduction
-        ? "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-        : "0xd2bB751e65fD6DBb224872ED7Df807f29b0F98aa",
+        ? "0xdAC17F958D2ee523a2206206994597C13D831ec7" // checked
+        : "0xd2bB751e65fD6DBb224872ED7Df807f29b0F98aa", // checked
       decimals: 6,
     },
     {
@@ -31,7 +31,7 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       icon: "/icons/usdc.svg",
       isStable: true,
       address: isProduction
-        ? "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+        ? "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" // checked
         : "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
       decimals: 6,
     },
@@ -49,7 +49,7 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       icon: "/icons/usdt.svg",
       isStable: true,
       address: isProduction
-        ? "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+        ? "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB" // checked
         : "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
       decimals: 6,
     },
@@ -58,7 +58,7 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       icon: "/icons/usdc.svg",
       isStable: true,
       address: isProduction
-        ? "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+        ? "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" // checked
         : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
       decimals: 6,
     },
@@ -76,7 +76,7 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       icon: "/icons/usdc.svg",
       isStable: true,
       address: isProduction
-        ? "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85"
+        ? "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85" // checked
         : "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
       decimals: 6,
     },

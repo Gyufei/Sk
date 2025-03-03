@@ -29,16 +29,19 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       return;
     }
 
-    const payAmount = payInfo.product_price;
-    const payAmountBig = BigInt(
-      Math.floor(NP.times(payAmount, 10 ** token.decimals)),
-    );
+    const tokenAddress = token.address as `0x${string}`;
+
+    // const payAmount = payInfo.product_price;
+    const payAmount = 1;
     const recipient = recipients["eth"].address as `0x${string}`;
 
-    // pay for usdc and usdt
     if (token.isStable) {
+      const payAmountBig = BigInt(
+        Math.floor(NP.times(payAmount, 10 ** token.decimals)),
+      );
+
       writeContract({
-        address: token.address as `0x${string}`,
+        address: tokenAddress,
         abi: erc20Abi,
         functionName: "transfer",
         args: [recipient, payAmountBig],
@@ -46,11 +49,18 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       return;
     }
 
+    const ethPrice = recipients.ethPrice;
+    const usdcAmountBig = BigInt(Math.floor(NP.times(payAmount, 10 ** 6)));
+    const ethAmount = BigInt(
+      Math.floor(NP.times(NP.divide(payAmount, ethPrice), 10 ** 18)),
+    );
+
     writeContract({
       address: ContractAddress as `0x${string}`,
       abi: ChainWorkBenchABIV2,
-      functionName: "pay",
-      args: [token, payInfo],
+      functionName: "swapETHForFixedUSDC",
+      args: [usdcAmountBig, recipient],
+      value: ethAmount,
     });
   }
 

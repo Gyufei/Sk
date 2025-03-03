@@ -21,6 +21,7 @@ export function useRecipients() {
       op: {
         address: "0xf60132e5Cb6A7319dF1524dc8aC6176987a5fE34",
       },
+      ethPrice: 1600,
     };
 
     return fetchRes;

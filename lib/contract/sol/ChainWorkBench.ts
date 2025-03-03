@@ -303,6 +303,75 @@ export const ChainWorkBenchABI = {
         },
       ],
     },
+    {
+      name: "swapSolToUsdc",
+      accounts: [
+        {
+          name: "user",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "receiveAccount",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "wsolMint",
+          isMut: false,
+          isSigner: false,
+          docs: ["Native SOL mint account (WSOL)"],
+        },
+        {
+          name: "wsolAccount",
+          isMut: true,
+          isSigner: false,
+          docs: ["Temporary WSOL account for swap operation"],
+        },
+        {
+          name: "receiveUsdcAccount",
+          isMut: true,
+          isSigner: false,
+          docs: ["Recipient's USDC token account"],
+        },
+        {
+          name: "usdcMint",
+          isMut: false,
+          isSigner: false,
+          docs: ["USDC mint account with environment-specific addresses"],
+        },
+        {
+          name: "associatedTokenProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "tokenProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "raydiumProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: "solAmount",
+          type: "u64",
+        },
+        {
+          name: "usdcAmount",
+          type: "u64",
+        },
+      ],
+    },
   ],
   accounts: [
     {
@@ -403,6 +472,61 @@ export const ChainWorkBenchABI = {
           },
         ],
       },
+    },
+    {
+      name: "ErrorCode",
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "ArithmeticError",
+          },
+          {
+            name: "InsufficientRemainingAccounts",
+          },
+          {
+            name: "InvalidOpenBookProgram",
+          },
+          {
+            name: "InvalidWsolAccount",
+          },
+          {
+            name: "InvalidUsdcAccount",
+          },
+        ],
+      },
+    },
+  ],
+  events: [
+    {
+      name: "SwapSolToUsdcEvent",
+      fields: [
+        {
+          name: "user",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "receiveAccount",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "usdcMint",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "solAmount",
+          type: "u64",
+          index: false,
+        },
+        {
+          name: "usdcAmount",
+          type: "u64",
+          index: false,
+        },
+      ],
     },
   ],
   errors: [

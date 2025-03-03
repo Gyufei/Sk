@@ -72,8 +72,10 @@ export default function MartPage() {
         type: "success",
         message: T("PayingIsBeingInitiated"),
       });
-    } else {
-      setGlobalMessage(null);
+
+      setTimeout(() => {
+        setGlobalMessage(null);
+      }, 2000);
     }
   }, [isMutating, T, setGlobalMessage]);
 
