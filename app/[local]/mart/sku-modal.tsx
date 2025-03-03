@@ -1,6 +1,5 @@
 "use client";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { IProduct } from "@/lib/api/use-mart-products";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { ClothSize } from "./cloth-size";
 
 export interface SkuModalProps {
   open: boolean;
@@ -19,8 +19,12 @@ export interface SkuModalProps {
   onSkuConfirm: (item: IProduct, selectedSize: string) => void;
 }
 
-export default function SkuModal(props: SkuModalProps) {
-  const { open, skuInfo, onOpenChange, onSkuConfirm } = props;
+export default function SkuModal({
+  open,
+  skuInfo,
+  onOpenChange,
+  onSkuConfirm,
+}: SkuModalProps) {
   const skuAttr = skuInfo?.skuAttr || [];
   const skuImage = skuInfo?.skuImage;
 
@@ -34,16 +38,8 @@ export default function SkuModal(props: SkuModalProps) {
 
   const skuContent = (
     <div className={`${!isDesktop && "paddingBottomStyle-64"}`}>
-      {skuImage && (
-        <Image
-          src={skuImage}
-          className="mb-5 h-auto w-full"
-          width={480}
-          height={480}
-          alt={skuInfo?.product_name}
-        />
-      )}
-      <div>
+      {skuImage && <ClothSize />}
+      <div className="mt-5">
         <div className="mb-2 font-haasDisp text-xl font-medium text-white ">
           {T("Size")}
         </div>
@@ -99,7 +95,7 @@ export default function SkuModal(props: SkuModalProps) {
           }
         >
           <DialogTitle className="font-haasDisp text-white">
-            {T("SizeChart")}
+            {T("SelectSize")}
           </DialogTitle>
           <div>{skuContent}</div>
         </DialogContent>
@@ -111,7 +107,7 @@ export default function SkuModal(props: SkuModalProps) {
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
         <DrawerHeader className="py-0 text-center">
-          <DrawerTitle>{T("SizeChart")}</DrawerTitle>
+          <DrawerTitle>{T("SelectSize")}</DrawerTitle>
         </DrawerHeader>
         <div className="no-scroll-bar relative overflow-y-auto">
           {skuContent}

@@ -13,7 +13,7 @@ export function useRecipients() {
     // const fetchRes: any = await fetcher(`${ApiHost}/user/info?user_id=${uuid}`);
     const fetchRes = {
       solana: {
-        address: "61djCzB4Vq37RFt3vDUr7cu7hZpmtdPBvYwsV9VLaiNi",
+        address: "FAv1TdDRdMf1Dsb1NqQU82DGf3tvm6XenZVBsVZyBtMy",
       },
       eth: {
         address: "0xf60132e5Cb6A7319dF1524dc8aC6176987a5fE34",
@@ -22,6 +22,7 @@ export function useRecipients() {
         address: "0xf60132e5Cb6A7319dF1524dc8aC6176987a5fE34",
       },
       ethPrice: 1600,
+      solPrice: 150,
     };
 
     return fetchRes;

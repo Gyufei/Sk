@@ -13,7 +13,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     true,
   );
 
-  const { data: recipients } = useRecipients();
+  const { data: recipientData } = useRecipients();
 
   const {
     writeContract,
@@ -25,19 +25,19 @@ export function useEthPay(chain: IChain, token: IPayToken) {
   } = useWriteContract();
 
   function payAction(payInfo: Record<string, any>) {
-    if (!recipients) {
+    if (!recipientData) {
+      console.error("recipient data is not found");
       return;
     }
 
     const tokenAddress = token.address as `0x${string}`;
 
-    // const payAmount = payInfo.product_price;
-    const payAmount = 1;
-    const recipient = recipients["eth"].address as `0x${string}`;
+    const payPrice = payInfo.product_price;
+    const recipient = recipientData["eth"].address as `0x${string}`;
 
     if (token.isStable) {
       const payAmountBig = BigInt(
-        Math.floor(NP.times(payAmount, 10 ** token.decimals)),
+        Math.floor(NP.times(payPrice, 10 ** token.decimals)),
       );
 
       writeContract({
@@ -49,10 +49,10 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       return;
     }
 
-    const ethPrice = recipients.ethPrice;
-    const usdcAmountBig = BigInt(Math.floor(NP.times(payAmount, 10 ** 6)));
+    const ethPrice = recipientData?.ethPrice;
+    const usdcAmountBig = BigInt(Math.floor(NP.times(payPrice, 10 ** 6)));
     const ethAmount = BigInt(
-      Math.floor(NP.times(NP.divide(payAmount, ethPrice), 10 ** 18)),
+      Math.floor(NP.times(NP.divide(payPrice, ethPrice), 10 ** 18)),
     );
 
     writeContract({

@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useCallback } from "react";
 
+import { isProduction } from "@/lib/api/path";
 import { WalletError, Adapter } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -19,7 +20,7 @@ const DevnetRpc = "https://rpc.ankr.com/solana_devnet";
 // clusterApiUrl("devnet");
 
 export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
-  const rpc = process.env.NODE_ENV === "production" ? MainnetRpc : DevnetRpc;
+  const rpc = isProduction ? MainnetRpc : DevnetRpc;
 
   const wallets = [
     ...(typeof window === "undefined" ? [] : [new SolflareWalletAdapter()]),

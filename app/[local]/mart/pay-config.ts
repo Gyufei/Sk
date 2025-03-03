@@ -59,12 +59,13 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       isStable: true,
       address: isProduction
         ? "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" // checked
-        : "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        // : "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr",
+        : "J6pFmqjriaTPQDB7v9USyWpt73gjEb5dMPQS7FArSsK",
       decimals: 6,
     },
     {
       name: "SOL",
-      icon: "/icons/solana.svg",
+      icon: "/icons/network/solana.svg",
       isStable: false,
       address: "So11111111111111111111111111111111111111112",
       decimals: 9,

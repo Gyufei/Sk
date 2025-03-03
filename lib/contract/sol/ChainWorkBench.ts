@@ -372,6 +372,58 @@ export const ChainWorkBenchABI = {
         },
       ],
     },
+    {
+      name: "transferStableToken",
+      accounts: [
+        {
+          name: "user",
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: "receiveAccount",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "userTokenAccount",
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: "receiveTokenAccount",
+          isMut: true,
+          isSigner: false,
+          docs: ["Recipient's USDC token account"],
+        },
+        {
+          name: "tokenMint",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "associatedTokenProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "tokenProgram",
+          isMut: false,
+          isSigner: false,
+        },
+        {
+          name: "systemProgram",
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: "amount",
+          type: "u64",
+        },
+      ],
+    },
   ],
   accounts: [
     {
@@ -523,6 +575,31 @@ export const ChainWorkBenchABI = {
         },
         {
           name: "usdcAmount",
+          type: "u64",
+          index: false,
+        },
+      ],
+    },
+    {
+      name: "TransferStableTokenEvent",
+      fields: [
+        {
+          name: "user",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "receiveAccount",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "tokenMint",
+          type: "publicKey",
+          index: false,
+        },
+        {
+          name: "amount",
           type: "u64",
           index: false,
         },
