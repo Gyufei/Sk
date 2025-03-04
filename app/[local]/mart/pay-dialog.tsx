@@ -30,7 +30,7 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { IPayToken, payChain, payTokenConfig } from "./pay-config";
 import { useEthPay } from "@/lib/use-eth-pay";
 import { useSolPay } from "@/lib/use-sol-pay";
-import { useCreateOrder } from "@/lib/api/use-create-order";
+import { IOrderInfo, useCreateOrder } from "@/lib/api/use-create-order";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export default function PayDialog({
@@ -161,7 +161,7 @@ export default function PayDialog({
     }
   }
 
-  function handlePayConfirm(orderInfo: { product_price: string }) {
+  function handlePayConfirm(orderInfo: IOrderInfo) {
     if (isEvm) {
       payEthAction(orderInfo);
     }

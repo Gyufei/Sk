@@ -5,9 +5,14 @@ import { ApiHost } from "@/lib/api/path";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useAppKit, useDisconnect, useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
+import {
+  useAppKit,
+  useDisconnect,
+  useAppKitAccount,
+  useAppKitNetwork,
+} from "@reown/appkit/react";
 import { LastSignInWithKey, SignInMethod } from "./type";
-import { } from "@reown/appkit/react";
+import {} from "@reown/appkit/react";
 
 export function SignWithWalletBtn({
   signing,
@@ -45,7 +50,9 @@ export function SignWithWalletBtn({
 
   async function signForAddress() {
     if (address && isConnected) {
-      solanaDisconnect();
+      if (!isSolana) {
+        solanaDisconnect();
+      }
       incrementAttempts({
         account: address,
         signInMethod: SignInMethod.wallet,

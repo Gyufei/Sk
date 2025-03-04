@@ -10,6 +10,11 @@ const ChainNameMap = {
   OP: "OP",
 } as const;
 
+export interface IOrderInfo {
+  product_price: string;
+  vendor_order_no: number;
+}
+
 export function useCreateOrder() {
   const uuid = useAtomValue(UuidAtom);
 

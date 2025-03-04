@@ -7,6 +7,7 @@ import NP from "number-precision";
 import { useRecipients } from "./api/use-recipient";
 import { useTokenPrice } from "./api/use-token-price";
 import { isProduction } from "./api/path";
+import { IOrderInfo } from "./api/use-create-order";
 
 export function useEthPay(chain: IChain, token: IPayToken) {
   const { address: ContractAddress } = useContractAddress(
@@ -27,7 +28,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     reset,
   } = useWriteContract();
 
-  function payAction(orderInfo: { product_price: string }) {
+  function payAction(orderInfo: IOrderInfo) {
     if (!recipientData) {
       console.error("recipient data is not found");
       return;
@@ -36,6 +37,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     const tokenAddress = token.address as `0x${string}`;
 
     const payPrice = orderInfo.product_price;
+    const nonce = orderInfo.vendor_order_no;
     const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {
@@ -61,6 +63,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
         ],
         functionName: "transfer",
         args: [recipient, payAmountBig],
+        nonce,
       });
       return;
     }
@@ -83,6 +86,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       functionName: "swapETHForFixedUSDC",
       args: [usdcAmountBig, recipient],
       value: ethAmount,
+      nonce,
     });
   }
 

@@ -14,6 +14,7 @@ import { ChainInfos, SolanaChainInfos } from "./const";
 import NP from "number-precision";
 import { isProduction } from "./api/path";
 import { useTokenPrice } from "./api/use-token-price";
+import { IOrderInfo } from "./api/use-create-order";
 
 export function useSolPay(token: IPayToken) {
   const { publicKey: authority } = useWallet();
@@ -32,7 +33,7 @@ export function useSolPay(token: IPayToken) {
   const tokenProgram = TOKEN_PROGRAM_ID;
   const associatedTokenProgram = ASSOCIATED_TOKEN_PROGRAM_ID;
 
-  async function payWithStable(orderInfo: { product_price: string }) {
+  async function payWithStable(orderInfo: IOrderInfo) {
     const payPrice = orderInfo.product_price;
     const payAmount = new anchor.BN(
       Math.floor(NP.times(payPrice, 10 ** token.decimals)),
@@ -69,7 +70,7 @@ export function useSolPay(token: IPayToken) {
     return txHash || "";
   }
 
-  async function payWithSol(orderInfo: { product_price: string }) {
+  async function payWithSol(orderInfo: IOrderInfo) {
     if (!recipientData) {
       console.error("recipient data is not found");
       return "";
@@ -213,7 +214,7 @@ export function useSolPay(token: IPayToken) {
     return txHash || "";
   }
 
-  async function payAction(orderInfo: { product_price: string }) {
+  async function payAction(orderInfo: IOrderInfo) {
     setIsPending(true);
     try {
       let txHash = "";
