@@ -51,8 +51,9 @@ export default function PayDialog({
   const { open: isEthConnectOpen } = useAppKitState();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
-  const { data: nonceData } = useTransactionCount({
+  const { data: nonceData, refetch: refetchNonce } = useTransactionCount({
     address: ethAddress,
+    blockTag: "safe",
   });
 
   const { publicKey } = useWallet();
@@ -230,6 +231,7 @@ export default function PayDialog({
       });
       resetEthAction();
       resetSolanaAction();
+      refetchNonce();
     }
   }, [
     isEthSuccess,
@@ -239,6 +241,7 @@ export default function PayDialog({
     resetEthAction,
     resetSolanaAction,
     setGlobalMessage,
+    refetchNonce,
   ]);
 
   useEffect(() => {
