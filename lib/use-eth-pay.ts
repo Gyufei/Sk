@@ -27,7 +27,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     reset,
   } = useWriteContract();
 
-  function payAction(payInfo: Record<string, any>) {
+  function payAction(orderInfo: { product_price: string }) {
     if (!recipientData) {
       console.error("recipient data is not found");
       return;
@@ -35,7 +35,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
 
     const tokenAddress = token.address as `0x${string}`;
 
-    const payPrice = isProduction ? payInfo.product_price : 1;
+    const payPrice = orderInfo.product_price;
     const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {

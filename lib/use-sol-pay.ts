@@ -32,10 +32,10 @@ export function useSolPay(token: IPayToken) {
   const tokenProgram = TOKEN_PROGRAM_ID;
   const associatedTokenProgram = ASSOCIATED_TOKEN_PROGRAM_ID;
 
-  async function payWithStable(payInfo: Record<string, any>) {
-    const payPrice = isProduction ? payInfo.product_price : 1;
+  async function payWithStable(orderInfo: { product_price: string }) {
+    const payPrice = orderInfo.product_price;
     const payAmount = new anchor.BN(
-      Math.floor(payPrice * 10 ** token.decimals),
+      Math.floor(NP.times(payPrice, 10 ** token.decimals)),
     );
     const recipient = recipientData?.[ChainInfos.Solana.name];
 
@@ -69,7 +69,7 @@ export function useSolPay(token: IPayToken) {
     return txHash || "";
   }
 
-  async function payWithSol(payInfo: Record<string, any>) {
+  async function payWithSol(orderInfo: { product_price: string }) {
     if (!recipientData) {
       console.error("recipient data is not found");
       return "";
@@ -77,7 +77,7 @@ export function useSolPay(token: IPayToken) {
 
     const { sol, usdc } = getToken();
 
-    const payPrice = isProduction ? payInfo.product_price : 1;
+    const payPrice = orderInfo.product_price;
     const usdcAmount = new anchor.BN(
       Math.floor(NP.times(payPrice, 10 ** usdc!.decimals)),
     );
@@ -213,14 +213,14 @@ export function useSolPay(token: IPayToken) {
     return txHash || "";
   }
 
-  async function payAction(payInfo: Record<string, any>) {
+  async function payAction(orderInfo: { product_price: string }) {
     setIsPending(true);
     try {
       let txHash = "";
       if (token.isStable) {
-        txHash = await payWithStable(payInfo);
+        txHash = await payWithStable(orderInfo);
       } else {
-        txHash = await payWithSol(payInfo);
+        txHash = await payWithSol(orderInfo);
       }
 
       setIsPending(false);

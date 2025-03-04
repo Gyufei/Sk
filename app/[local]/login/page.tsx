@@ -54,9 +54,9 @@ export default function SignDialog() {
     );
 
     if (!lastWith) {
-      setShowTwitter(true);
       setShowWallet(true);
-      setShowEmail(true);
+      setShowTwitter(false);
+      setShowEmail(false);
       return;
     }
 
@@ -138,7 +138,7 @@ export default function SignDialog() {
 
   return (
     <div
-      className={`sm:ml-[-250px] flex w-[345px] font-haasDisp sm:w-[400px] ${
+      className={`flex w-[345px] font-haasDisp sm:ml-[-250px] sm:w-[400px] ${
         noMethodShow
           ? "mt-[100px] justify-center bg-transparent px-0 py-[40px] sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
           : "bg-[rgba(255,255,255,0.1)] p-[35px]"

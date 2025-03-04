@@ -30,17 +30,17 @@ import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { IPayToken, payChain, payTokenConfig } from "./pay-config";
 import { useEthPay } from "@/lib/use-eth-pay";
 import { useSolPay } from "@/lib/use-sol-pay";
-import { useMartBuy } from "@/lib/api/use-mart-buy";
+import { useCreateOrder } from "@/lib/api/use-create-order";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export default function PayDialog({
   open,
   onOpenChange,
-  payInfo,
+  productInfo,
 }: {
   open: boolean;
   onOpenChange: (_v: boolean) => void;
-  payInfo: IProduct;
+  productInfo: IProduct;
 }) {
   const T = useTranslations("Common");
   const isDesktop = useMediaQuery("(min-width: 640px)");
@@ -63,7 +63,7 @@ export default function PayDialog({
   const { setVisible: setSolanaModalVisible, visible: isSolanaModalOpen } =
     useWalletModal();
 
-  const { trigger: buyAction, isMutating } = useMartBuy();
+  const { trigger: buyAction, isMutating } = useCreateOrder();
 
   const [chain, setChain] = useState<IChain>(payChain[0]);
   const [token, setToken] = useState<IPayToken>(payTokenConfig[chain.name][0]);
@@ -131,14 +131,14 @@ export default function PayDialog({
       return;
     }
 
-    const productId = payInfo.product_id;
+    const productId = productInfo.product_id;
     const chainName = chain.name;
     const chainCoin = token.name;
     const paymentWallet = isEvm ? ethAddress : solanaAddress;
     const nonce = isEvm ? nonceData : null;
-    const extraData = payInfo.skuOfUserCheck?.selectedSize
+    const extraData = productInfo.skuOfUserCheck?.selectedSize
       ? {
-          skuAttr: payInfo.skuOfUserCheck?.selectedSize,
+          skuAttr: productInfo.skuOfUserCheck?.selectedSize,
         }
       : null;
 
@@ -157,17 +157,17 @@ export default function PayDialog({
         message: res.msg,
       });
     } else if (res) {
-      handlePayConfirm();
+      handlePayConfirm(res);
     }
   }
 
-  function handlePayConfirm() {
+  function handlePayConfirm(orderInfo: { product_price: string }) {
     if (isEvm) {
-      payEthAction(payInfo);
+      payEthAction(orderInfo);
     }
 
     if (isSolana) {
-      paySolanaAction(payInfo);
+      paySolanaAction(orderInfo);
     }
   }
 

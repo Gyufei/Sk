@@ -13,12 +13,12 @@ export default function MartPage() {
   const [skuOpen, setSkuOpen] = useState<boolean>(false);
 
   const [skuInfo, setSkuInfo] = useState<IProduct>();
-  const [payInfo, setPayInfo] = useState<IProduct>();
+  const [productInfo, setProductInfo] = useState<IProduct>();
 
   const selectedSize = useRef<string>();
 
   async function handleOpenPayDialog(item: IProduct) {
-    setPayInfo(
+    setProductInfo(
       selectedSize
         ? {
             ...item,
@@ -121,7 +121,7 @@ export default function MartPage() {
       <PayDialog
         open={payOpen}
         onOpenChange={(v) => setPayOpen(v)}
-        payInfo={payInfo!}
+        productInfo={productInfo!}
       />
     </>
   );

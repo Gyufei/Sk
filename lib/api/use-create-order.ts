@@ -10,7 +10,7 @@ const ChainNameMap = {
   OP: "OP",
 } as const;
 
-export function useMartBuy() {
+export function useCreateOrder() {
   const uuid = useAtomValue(UuidAtom);
 
   async function buyFetcher(

@@ -89,4 +89,4 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       decimals: 18,
     },
   ],
-} as const;
+};
