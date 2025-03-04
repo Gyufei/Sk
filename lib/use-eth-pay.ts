@@ -37,7 +37,6 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     const tokenAddress = token.address as `0x${string}`;
 
     const payPrice = orderInfo.product_price;
-    const nonce = orderInfo.vendor_order_no;
     const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {
@@ -63,7 +62,6 @@ export function useEthPay(chain: IChain, token: IPayToken) {
         ],
         functionName: "transfer",
         args: [recipient, payAmountBig],
-        nonce,
       });
       return;
     }
@@ -86,7 +84,6 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       functionName: "swapETHForFixedUSDC",
       args: [usdcAmountBig, recipient],
       value: ethAmount,
-      nonce,
     });
   }
 

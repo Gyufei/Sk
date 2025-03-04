@@ -18,12 +18,7 @@ import {
 import { cn } from "@/lib/utils/utils";
 import { IChain, SolanaChainInfos } from "@/lib/const";
 import { useContext, useEffect, useMemo, useState } from "react";
-import {
-  useAccount,
-  useChainId,
-  useSwitchChain,
-  useTransactionCount,
-} from "wagmi";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAppKit, useAppKitState } from "@reown/appkit/react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
@@ -51,10 +46,6 @@ export default function PayDialog({
   const { open: isEthConnectOpen } = useAppKitState();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
-  const { data: nonceData, refetch: refetchNonce } = useTransactionCount({
-    address: ethAddress,
-    blockTag: "safe",
-  });
 
   const { publicKey } = useWallet();
   const solanaAddress = useMemo(
@@ -136,7 +127,6 @@ export default function PayDialog({
     const chainName = chain.name;
     const chainCoin = token.name;
     const paymentWallet = isEvm ? ethAddress : solanaAddress;
-    const nonce = isEvm ? nonceData : null;
     const extraData = productInfo.skuOfUserCheck?.selectedSize
       ? {
           skuAttr: productInfo.skuOfUserCheck?.selectedSize,
@@ -149,7 +139,6 @@ export default function PayDialog({
       chainName,
       chainCoin,
       paymentWallet,
-      nonce,
     } as any);
 
     if (res.status === false && res.msg) {
@@ -231,7 +220,6 @@ export default function PayDialog({
       });
       resetEthAction();
       resetSolanaAction();
-      refetchNonce();
     }
   }, [
     isEthSuccess,
@@ -241,7 +229,6 @@ export default function PayDialog({
     resetEthAction,
     resetSolanaAction,
     setGlobalMessage,
-    refetchNonce,
   ]);
 
   useEffect(() => {

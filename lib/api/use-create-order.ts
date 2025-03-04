@@ -12,7 +12,6 @@ const ChainNameMap = {
 
 export interface IOrderInfo {
   product_price: string;
-  vendor_order_no: number;
 }
 
 export function useCreateOrder() {
@@ -29,12 +28,10 @@ export function useCreateOrder() {
         paymentWallet: string;
         chainName: string;
         chainCoin: string;
-        nonce: number;
       };
     },
   ) {
-    const { productId, extraData, paymentWallet, chainName, chainCoin, nonce } =
-      arg;
+    const { productId, extraData, paymentWallet, chainName, chainCoin } = arg;
 
     const chain_name = ChainNameMap[chainName as keyof typeof ChainNameMap];
 
@@ -44,15 +41,12 @@ export function useCreateOrder() {
         }
       : {};
 
-    const nonceData = nonce ? { nonce: nonce } : {};
-
     const reqData = {
       product_id: productId,
       payment_wallet: paymentWallet,
       chain_name: chain_name,
       chain_coin: chainCoin,
       user_id: uuid,
-      ...nonceData,
       ...notesData,
     };
 
