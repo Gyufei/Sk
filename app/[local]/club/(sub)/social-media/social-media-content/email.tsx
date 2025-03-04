@@ -74,8 +74,8 @@ export function Email() {
         code,
       },
     } as any);
-    console.log("saveEmail res", res);
 
+    console.info("saveEmail res", res);
     removeEmailVerifyHash();
   }
 
@@ -83,7 +83,7 @@ export function Email() {
     if (disabled) return;
 
     if (isGoogleEmail) {
-      console.log("isGoogleEmail", isGoogleEmail);
+      console.info("isGoogleEmail", isGoogleEmail);
     } else {
       sendEmail(inputEmail, window.location.origin + window.location.pathname);
     }

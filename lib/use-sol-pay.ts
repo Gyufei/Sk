@@ -10,12 +10,14 @@ import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
 import { IPayToken, payTokenConfig } from "@/app/[local]/mart/pay-config";
 import { useRecipients } from "./api/use-recipient";
-import { SolanaChainInfos } from "./const";
+import { ChainInfos, SolanaChainInfos } from "./const";
 import NP from "number-precision";
 import { isProduction } from "./api/path";
+import { useTokenPrice } from "./api/use-token-price";
 
 export function useSolPay(token: IPayToken) {
   const { publicKey: authority } = useWallet();
+  const { data: solPriceData } = useTokenPrice("SOL");
   const { data: recipientData } = useRecipients();
 
   const chain_work_bench_program = useSolProgram();
@@ -35,7 +37,7 @@ export function useSolPay(token: IPayToken) {
     const payAmount = new anchor.BN(
       Math.floor(payPrice * 10 ** token.decimals),
     );
-    const recipient = recipientData?.solana?.address;
+    const recipient = recipientData?.[ChainInfos.Solana.name];
 
     if (!recipient) {
       console.error("solana recipient is not found");
@@ -80,12 +82,17 @@ export function useSolPay(token: IPayToken) {
       Math.floor(NP.times(payPrice, 10 ** usdc!.decimals)),
     );
 
-    const solPrice = recipientData?.solPrice;
+    if (!solPriceData) {
+      console.error("sol price data is not found");
+      return "";
+    }
+
+    const solPrice = solPriceData?.price;
     const solAmount = new anchor.BN(
       Math.floor(NP.times(NP.divide(payPrice, solPrice), 10 ** sol!.decimals)),
     );
 
-    const recipient = recipientData?.solana?.address;
+    const recipient = recipientData?.solana;
 
     const {
       recipientPublicKey,
@@ -233,6 +240,14 @@ export function useSolPay(token: IPayToken) {
     }
   }
 
+  function reset() {
+    setIsPending(false);
+    setIsSuccess(false);
+    setData(undefined);
+    setIsError(false);
+    setError(undefined);
+  }
+
   return {
     isPending,
     isSuccess,
@@ -240,6 +255,7 @@ export function useSolPay(token: IPayToken) {
     error,
     data,
     payAction,
+    reset,
   };
 }
 

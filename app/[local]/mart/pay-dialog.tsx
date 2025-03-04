@@ -17,34 +17,43 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils/utils";
 import { IChain, SolanaChainInfos } from "@/lib/const";
-import { useEffect, useMemo, useState } from "react";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useContext, useEffect, useMemo, useState } from "react";
+import {
+  useAccount,
+  useChainId,
+  useSwitchChain,
+  useTransactionCount,
+} from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAppKit, useAppKitState } from "@reown/appkit/react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { IPayToken, payChain, payTokenConfig } from "./pay-config";
 import { useEthPay } from "@/lib/use-eth-pay";
 import { useSolPay } from "@/lib/use-sol-pay";
+import { useMartBuy } from "@/lib/api/use-mart-buy";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 
 export default function PayDialog({
   open,
   onOpenChange,
   payInfo,
-  onPayConfirmed,
 }: {
   open: boolean;
   onOpenChange: (_v: boolean) => void;
   payInfo: IProduct;
-  onPayConfirmed: () => void;
 }) {
   const T = useTranslations("Common");
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
 
   const { address: ethAddress } = useAccount();
   const { open: openConnectModal = () => {} } = useAppKit();
   const { open: isEthConnectOpen } = useAppKitState();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+  const { data: nonceData } = useTransactionCount({
+    address: ethAddress,
+  });
 
   const { publicKey } = useWallet();
   const solanaAddress = useMemo(
@@ -53,6 +62,8 @@ export default function PayDialog({
   );
   const { setVisible: setSolanaModalVisible, visible: isSolanaModalOpen } =
     useWalletModal();
+
+  const { trigger: buyAction, isMutating } = useMartBuy();
 
   const [chain, setChain] = useState<IChain>(payChain[0]);
   const [token, setToken] = useState<IPayToken>(payTokenConfig[chain.name][0]);
@@ -63,12 +74,16 @@ export default function PayDialog({
     payAction: payEthAction,
     isPending: isEthPending,
     isSuccess: isEthSuccess,
+    isError: isEthError,
+    reset: resetEthAction,
   } = useEthPay(chain, token);
 
   const {
     payAction: paySolanaAction,
     isPending: isSolanaPending,
     isSuccess: isSolanaSuccess,
+    isError: isSolanaError,
+    reset: resetSolanaAction,
   } = useSolPay(token);
 
   const showTokenList = useMemo(() => {
@@ -110,6 +125,41 @@ export default function PayDialog({
 
     return false;
   }, [isEvm, chainId, ethAddress, chain.chainId]);
+
+  async function handleCreateOrder() {
+    if (isMutating) {
+      return;
+    }
+
+    const productId = payInfo.product_id;
+    const chainName = chain.name;
+    const chainCoin = token.name;
+    const paymentWallet = isEvm ? ethAddress : solanaAddress;
+    const nonce = isEvm ? nonceData : null;
+    const extraData = payInfo.skuOfUserCheck?.selectedSize
+      ? {
+          skuAttr: payInfo.skuOfUserCheck?.selectedSize,
+        }
+      : null;
+
+    const res = await buyAction({
+      productId,
+      extraData,
+      chainName,
+      chainCoin,
+      paymentWallet,
+      nonce,
+    } as any);
+
+    if (res.status === false && res.msg) {
+      setGlobalMessage({
+        type: "error",
+        message: res.msg,
+      });
+    } else if (res) {
+      handlePayConfirm();
+    }
+  }
 
   function handlePayConfirm() {
     if (isEvm) {
@@ -163,11 +213,36 @@ export default function PayDialog({
   }
 
   useEffect(() => {
+    if (isMutating) {
+      setGlobalMessage({
+        type: "success",
+        message: T("PayingIsBeingInitiated"),
+      });
+    }
+  }, [isMutating, T, setGlobalMessage]);
+
+  useEffect(() => {
     if (isEthSuccess || isSolanaSuccess) {
       onOpenChange(false);
-      onPayConfirmed();
+      setGlobalMessage({
+        type: "success",
+        message: T("PaySuccess"),
+      });
+      resetEthAction();
+      resetSolanaAction();
     }
-  }, [isEthSuccess, isSolanaSuccess, onOpenChange, onPayConfirmed]);
+  }, [isEthSuccess, isSolanaSuccess, onOpenChange]);
+
+  useEffect(() => {
+    if (isEthError || isSolanaError) {
+      setGlobalMessage({
+        type: "error",
+        message: T("PayFailed"),
+      });
+      resetEthAction();
+      resetSolanaAction();
+    }
+  }, [isEthError, isSolanaError, onOpenChange]);
 
   const payContent = (
     <div className={`${!isDesktop && "paddingBottomStyle-64"}`}>
@@ -271,8 +346,8 @@ export default function PayDialog({
             </BottomBtn>
           ) : (
             <BottomBtn
-              disabled={isEthPending || isSolanaPending}
-              onClick={handlePayConfirm}
+              disabled={isEthPending || isSolanaPending || isMutating}
+              onClick={handleCreateOrder}
             >
               <span>
                 {isEthPending || isSolanaPending

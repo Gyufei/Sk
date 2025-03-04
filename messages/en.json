@@ -110,6 +110,7 @@
     "Pay": "Pay",
     "Paying": "Paying...",
     "PaySuccess": "Pay success",
+    "PayFailed": "支付失败",
     "Token": "Token",
     "Chain": "Chain",
     "SwitchTo": "Switch to"

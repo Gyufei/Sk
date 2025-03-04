@@ -109,6 +109,7 @@
     "Loading": "加载中...",
     "Pay": "支付",
     "PaySuccess": "支付成功",
+    "PayFailed": "支付失败",
     "Paying": "支付中...",
     "Token": "代币",
     "Chain": "链",

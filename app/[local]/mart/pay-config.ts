@@ -32,7 +32,7 @@ export const payTokenConfig: Record<string, IPayToken[]> = {
       isStable: true,
       address: isProduction
         ? "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" // checked
-        : "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        : "0xE9854bF0e1dE0ba04Df85DEc9Be6c1d3FBc22553",
       decimals: 6,
     },
     {

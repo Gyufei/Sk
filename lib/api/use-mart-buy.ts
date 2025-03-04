@@ -4,6 +4,12 @@ import { useAtomValue } from "jotai";
 import fetcher from "./fetcher";
 import { ApiHost } from "./path";
 
+const ChainNameMap = {
+  Ethereum: "ETH",
+  Solana: "SOL",
+  OP: "OP",
+} as const;
+
 export function useMartBuy() {
   const uuid = useAtomValue(UuidAtom);
 
@@ -14,30 +20,43 @@ export function useMartBuy() {
     }: {
       arg: {
         productId: string;
-        selectedSize?: string;
+        extraData: Record<string, string> | null;
+        paymentWallet: string;
+        chainName: string;
+        chainCoin: string;
+        nonce: number;
       };
     },
   ) {
-    const { productId, selectedSize } = arg;
+    const { productId, extraData, paymentWallet, chainName, chainCoin, nonce } =
+      arg;
 
-    const extraInfo = selectedSize
+    const chain_name = ChainNameMap[chainName as keyof typeof ChainNameMap];
+
+    const notesData = extraData
       ? {
-          order_notes: {
-            skuAttr: selectedSize,
-          },
+          order_notes: extraData,
         }
       : {};
 
-    const result: any = await fetcher(`${ApiHost}/order/create`, {
+    const nonceData = nonce ? { nonce: nonce } : {};
+
+    const reqData = {
+      product_id: productId,
+      payment_wallet: paymentWallet,
+      chain_name: chain_name,
+      chain_coin: chainCoin,
+      user_id: uuid,
+      ...nonceData,
+      ...notesData,
+    };
+
+    const result: any = await fetcher(`${ApiHost}/order/v2/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        product_id: productId,
-        user_id: uuid,
-        ...extraInfo,
-      }),
+      body: JSON.stringify(reqData),
     });
 
     return result;

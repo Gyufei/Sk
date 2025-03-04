@@ -1,20 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
 import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";
-import { useMartBuy } from "@/lib/api/use-mart-buy";
-import { GlobalMsgContext } from "@/components/global-msg-context";
-import { useTranslations } from "next-intl";
 import SkuModal from "./sku-modal";
 import PayDialog from "./pay-dialog";
 
 export default function MartPage() {
-  const T = useTranslations("Common");
-  const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: products } = useMartProducts();
-
-  const { trigger: buyAction, isMutating } = useMartBuy();
 
   const [payOpen, setPayOpen] = useState<boolean>(false);
   const [skuOpen, setSkuOpen] = useState<boolean>(false);
@@ -24,16 +17,17 @@ export default function MartPage() {
 
   const selectedSize = useRef<string>();
 
-  async function handleCreateOrder(item: IProduct) {
-    const size = selectedSize?.current;
-
-    const res = await buyAction({
-      productId: item.product_id,
-      selectedSize: size,
-    } as any);
-    console.log(res);
-
-    setPayInfo(item);
+  async function handleOpenPayDialog(item: IProduct) {
+    setPayInfo(
+      selectedSize
+        ? {
+            ...item,
+            skuOfUserCheck: {
+              selectedSize: selectedSize.current || "",
+            },
+          }
+        : item,
+    );
     setPayOpen(true);
     selectedSize.current = undefined;
   }
@@ -45,39 +39,15 @@ export default function MartPage() {
       return;
     }
 
-    handleCreateOrder(item);
+    handleOpenPayDialog(item);
   }
 
   function handleSkuConfirm(item: IProduct, size: string) {
     setSkuOpen(false);
     selectedSize.current = size;
 
-    handleCreateOrder(item);
+    handleOpenPayDialog(item);
   }
-
-  function handlePayConfirmed() {
-    setGlobalMessage({
-      type: "success",
-      message: T("PaySuccess"),
-    });
-
-    setTimeout(() => {
-      setGlobalMessage(null);
-    }, 2000);
-  }
-
-  useEffect(() => {
-    if (isMutating) {
-      setGlobalMessage({
-        type: "success",
-        message: T("PayingIsBeingInitiated"),
-      });
-
-      setTimeout(() => {
-        setGlobalMessage(null);
-      }, 2000);
-    }
-  }, [isMutating, T, setGlobalMessage]);
 
   const productClass = "flex-1 sm:flex-auto sm:w-[240px] sm:w-[250px]";
 
@@ -152,7 +122,6 @@ export default function MartPage() {
         open={payOpen}
         onOpenChange={(v) => setPayOpen(v)}
         payInfo={payInfo!}
-        onPayConfirmed={handlePayConfirmed}
       />
     </>
   );

@@ -12,7 +12,7 @@ export default function GlobalActionTip() {
     if (globalMessage) {
       const d = setTimeout(() => {
         setGlobalMessage(null);
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(d);
     }
   }, [globalMessage, setGlobalMessage]);

@@ -12,15 +12,13 @@ export interface IProduct {
     value: string;
   }[];
   skuImage?: string;
+  skuOfUserCheck?: Record<string, string>;
 }
 
 const url = `${ApiHost}/static/products.json?t=${new Date().getTime()}`;
 
 export function useMartProducts() {
-  const res = useSWR<Array<IProduct>>(
-    url,
-    fetcher,
-  );
+  const res = useSWR<Array<IProduct>>(url, fetcher);
 
   return res;
 }

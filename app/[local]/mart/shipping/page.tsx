@@ -142,7 +142,7 @@ export default function ShippingAddressPage() {
   return (
     <div className="no-scroll-bar pd-[100px] sm:pd-0 content-w-800 sm:trans-scroll-bar relative overflow-y-auto sm:h-fit sm:max-h-[calc(100%-40px)]">
       <div className="mt-6 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[24px]">
-        <div className="font-haasDisp mb-7 text-xl font-semibold leading-[30px] text-white">
+        <div className="mb-7 font-haasDisp text-xl font-semibold leading-[30px] text-white">
           {T("ShippingAddress")}
         </div>
         <NameAndPhone
@@ -157,7 +157,7 @@ export default function ShippingAddressPage() {
             setRcNameValid,
             phoneValid,
             setPhoneValid,
-            code, 
+            code,
             setCode,
           }}
         />
@@ -168,7 +168,7 @@ export default function ShippingAddressPage() {
           {...{ street, setStreet, code, setCode, streetValid, setStreetValid }}
         >
           <SaveBtn
-            className="hidden w-12 sm:flex sm:!mt-[20px]"
+            className="hidden w-12 sm:!mt-[20px] sm:flex"
             disabled={disabled}
             onClick={handleSave}
           />
@@ -179,38 +179,37 @@ export default function ShippingAddressPage() {
           onClick={handleSave}
         />
       </div>
-      {
-        (logisticsOrders || []).length > 0 && (
-          <div className="mt-10 sm:px-6">
-            <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
-              {T("RecentLogisticsOrder")}
-            </div>
-            <div className="mt-5">
-              {!logisticsOrders?.length && (
-                <div className="flex h-[50px] items-center justify-start text-xl">
-                  {T("NoData")}
-                </div>
-              )}
-              {(logisticsOrders || [])?.map((item: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex py-[12px] flex-col jm:flex-row jm:py-0 jm:h-12 jm:items-center jm:justify-between text-[#d6d6d6]"
-                  style={{
-                    boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
-                  }}
-                >
-                  <div className="text-base flex items-center justify-between w-full leading-6 jm:w-[40%]">
-                    <div>{item.order_id}</div>
-                    <div>{item.delivery}</div>
-                  </div>
-                  <div className="text-[12px] leading-[18px] mt-[5px] opacity-60 jm:leading-6 jm:mt-0 jm:opacity-100 jm:text-base">{formatDate(item.create_at)}</div>
-                </div>
-              ))}
-            </div>
+      {(logisticsOrders || []).length > 0 && (
+        <div className="mt-10 sm:px-6">
+          <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
+            {T("RecentLogisticsOrder")}
           </div>
-        )
-      }
-     
+          <div className="mt-5">
+            {!logisticsOrders?.length && (
+              <div className="flex h-[50px] items-center justify-start text-xl">
+                {T("NoData")}
+              </div>
+            )}
+            {(logisticsOrders || [])?.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="flex flex-col py-[12px] text-[#d6d6d6] jm:h-12 jm:flex-row jm:items-center jm:justify-between jm:py-0"
+                style={{
+                  boxShadow: "inset 0px -1px 0px 0px rgba(255, 255, 255, 0.2)",
+                }}
+              >
+                <div className="flex w-full items-center justify-between text-base leading-6 jm:w-[40%]">
+                  <div>{item.order_id}</div>
+                  <div>{item.delivery}</div>
+                </div>
+                <div className="mt-[5px] text-[12px] leading-[18px] opacity-60 jm:mt-0 jm:text-base jm:leading-6 jm:opacity-100">
+                  {formatDate(item.create_at)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

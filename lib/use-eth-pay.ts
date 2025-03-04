@@ -3,9 +3,9 @@ import { IChain } from "./const";
 import { useContractAddress } from "./contract/use-contract-address";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { IPayToken } from "@/app/[local]/mart/pay-config";
-import { erc20Abi } from "viem";
 import NP from "number-precision";
 import { useRecipients } from "./api/use-recipient";
+import { useTokenPrice } from "./api/use-token-price";
 
 export function useEthPay(chain: IChain, token: IPayToken) {
   const { address: ContractAddress } = useContractAddress(
@@ -13,6 +13,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     true,
   );
 
+  const { data: ethPriceData } = useTokenPrice("ETH");
   const { data: recipientData } = useRecipients();
 
   const {
@@ -22,6 +23,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     isError,
     isSuccess,
     error,
+    reset,
   } = useWriteContract();
 
   function payAction(payInfo: Record<string, any>) {
@@ -33,7 +35,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     const tokenAddress = token.address as `0x${string}`;
 
     const payPrice = payInfo.product_price;
-    const recipient = recipientData["eth"].address as `0x${string}`;
+    const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {
       const payAmountBig = BigInt(
@@ -42,14 +44,32 @@ export function useEthPay(chain: IChain, token: IPayToken) {
 
       writeContract({
         address: tokenAddress,
-        abi: erc20Abi,
+        abi: [
+          {
+            constant: false,
+            inputs: [
+              { name: "_to", type: "address" },
+              { name: "_value", type: "uint256" },
+            ],
+            name: "transfer",
+            outputs: [],
+            payable: false,
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+        ],
         functionName: "transfer",
         args: [recipient, payAmountBig],
       });
       return;
     }
 
-    const ethPrice = recipientData?.ethPrice;
+    if (!ethPriceData) {
+      console.error("eth price data is not found");
+      return;
+    }
+
+    const ethPrice = ethPriceData?.price;
     const usdcAmountBig = BigInt(Math.floor(NP.times(payPrice, 10 ** 6)));
     const ethAmount = BigInt(
       Math.floor(NP.times(NP.divide(payPrice, ethPrice), 10 ** 18)),
@@ -74,5 +94,6 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     isPending: isLoading,
     isError,
     isSuccess,
+    reset,
   };
 }

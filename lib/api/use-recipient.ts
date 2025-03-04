@@ -1,34 +1,33 @@
-import { useAtomValue } from "jotai/react";
-import { UuidAtom } from "./state";
-// import { ApiHost } from "./path";
-// import fetcher from "./fetcher";
+import { ApiHost, isProduction } from "./path";
+import fetcher from "./fetcher";
 import useSWR from "swr";
+import { ChainInfos } from "../const";
+
+export interface IRecipientRes {
+  solana_mainnet: "";
+  eth_mainnet: "";
+  eth_op: "";
+  solana_devnet: "";
+  eth_sepolia: "";
+}
 
 export function useRecipients() {
-  const uuid = useAtomValue(UuidAtom);
+  async function fetchOrigin() {
+    const url = `${ApiHost}/static/receive_accounts.json?t=${new Date().getTime()}`;
+    const res: IRecipientRes = await fetcher(url);
 
-  async function getRecipient() {
-    if (!uuid) return;
+    const ethAddress = isProduction ? res.eth_mainnet : res.eth_sepolia;
+    const solanaAddress = isProduction ? res.solana_mainnet : res.solana_devnet;
+    const opAddress = isProduction ? res.eth_op : res.eth_sepolia;
 
-    // const fetchRes: any = await fetcher(`${ApiHost}/user/info?user_id=${uuid}`);
-    const fetchRes = {
-      solana: {
-        address: "FAv1TdDRdMf1Dsb1NqQU82DGf3tvm6XenZVBsVZyBtMy",
-      },
-      eth: {
-        address: "0xf60132e5Cb6A7319dF1524dc8aC6176987a5fE34",
-      },
-      op: {
-        address: "0xf60132e5Cb6A7319dF1524dc8aC6176987a5fE34",
-      },
-      ethPrice: 1600,
-      solPrice: 150,
+    return {
+      [ChainInfos.Ethereum.name]: ethAddress,
+      [ChainInfos.Solana.name]: solanaAddress,
+      [ChainInfos.OP.name]: opAddress,
     };
-
-    return fetchRes;
   }
 
-  const res = useSWR("recipient", getRecipient);
+  const res = useSWR("recipients", fetchOrigin);
 
   return res;
 }

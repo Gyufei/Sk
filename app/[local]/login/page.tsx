@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
-import { cycleWords } from "./constant";
+import { cycleWords } from "@/lib/const/text";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { useSearchParams } from "next/navigation";
@@ -132,7 +132,7 @@ export default function SignDialog() {
         }),
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 

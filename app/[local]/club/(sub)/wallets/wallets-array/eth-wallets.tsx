@@ -27,7 +27,7 @@ export function EthWallets() {
 
   const walletOptions = useMemo(() => {
     const allWalletsInfo = Object.keys(EthChainInfos);
-    return allWalletsInfo;
+    return allWalletsInfo as (keyof typeof EthChainInfos)[];
   }, []);
 
 
@@ -82,9 +82,9 @@ export function EthWallets() {
               className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] cursor-pointer"
             >
               <div className="flex items-center">
-                {EthChainInfos[selectedChainName] ? (
+                {EthChainInfos[selectedChainName as keyof typeof EthChainInfos] ? (
                   <Image
-                    src={EthChainInfos[selectedChainName].logo}
+                    src={EthChainInfos[selectedChainName as keyof typeof EthChainInfos].logo}
                     width={30}
                     height={30}
                     alt="wallet"
