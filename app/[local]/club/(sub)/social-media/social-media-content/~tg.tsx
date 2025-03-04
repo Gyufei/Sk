@@ -1,35 +1,23 @@
 import { InputWithClear } from "@/components/input-with-clear";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useSaveSocial } from "@/lib/api/use-save-social";
-import { checkTgRegex } from "@/lib/utils/utils";
 import Image from "next/image";
-import { useState, useMemo, useEffect, useContext } from "react";
-import { MobileInValidTpl, PcInvalidTpl } from "@/components/invalid-tpl";
-import { SaveBtn } from "./save-btn";
+import { useState, useEffect, useContext } from "react";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
+import { TgLinkBtn } from "./tg-link-btn";
+
+const placeHolderText = "https://t.me/";
 
 export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const placeHolderText = "https://t.me/";
   const { data: userInfo } = useFetchUserInfo();
-  const [tg, setTg] = useState(userInfo?.social_media?.Telegram || "");
   const [isValid, setIsValid] = useState(true);
 
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "tgEyeShow" });
-
-  const disabled = useMemo(
-    () => !isValid || !tg || (tg && !checkTgRegex(tg)),
-    [isValid, tg],
-  );
-
-  useEffect(() => {
-    if (userInfo?.social_media) {
-      const tg = userInfo?.social_media?.Telegram || "";
-      setTg(tg);
-    }
-  }, [userInfo]);
+  const tg = userInfo?.social_media?.Telegram || "";
+  const isLink = false;
 
   useEffect(() => {
     if (saveRes) {
@@ -41,25 +29,8 @@ export function Tg() {
     }
   }, [saveRes]);
 
-  function handleXInput(val: string) {
-    if (!val) {
-      setTg(val);
-      setIsValid(true);
-      return;
-    }
-
-    const trimedVal = val.replace(/(^\s*)|(\s*$)/g, "");
-    setTg(trimedVal);
-  }
-
-  function handleBlur() {
-    if (!tg) return;
-
-    setIsValid(checkTgRegex(tg));
-  }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function handleSave() {
-    if (disabled) return;
     saveSocial({ name: "Telegram", data: tg } as any);
   }
 
@@ -84,21 +55,16 @@ export function Tg() {
           type={eyeState ? "password" : "text"}
           placeHolderText={placeHolderText}
           placeHolder="tg"
-          onValueChange={(v) => handleXInput(v)}
+          onValueChange={() => {}}
           isSign={false}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
-          onBlur={handleBlur}
+          readOnly={true}
+          notLink={!isLink}
         />
-        <MobileInValidTpl isValid={isValid} text="Invalid Telegram." />
-        <SaveBtn
-          disabled={disabled}
-          handleSave={handleSave}
-          className="w-full"
-        />
+        <TgLinkBtn disabled={isLink} isConnected={isLink} />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
-      <PcInvalidTpl isValid={isValid} text="Invalid Telegram." />
     </div>
   );
 }
