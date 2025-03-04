@@ -4,6 +4,8 @@ import { useState } from "react";
 import useSolWallet from "./use-sol-wallet";
 import { WalletItem } from "./wallet-item";
 
+type IChainName = keyof typeof SolanaChainInfos;
+
 export function SolWallets() {
   const [currentChainName] = useState("Solana");
 
@@ -21,9 +23,9 @@ export function SolWallets() {
     <>
       <div className="flex h-12 justify-between sm:justify-start items-center border-0 border-solid border-[#515151]">
         <div className="w-[200px] flex items-center">
-          {SolanaChainInfos[currentChainName] ? (
+          {SolanaChainInfos[currentChainName as IChainName] ? (
             <Image
-              src={SolanaChainInfos[currentChainName].logo}
+              src={SolanaChainInfos[currentChainName as IChainName].logo}
               width={30}
               height={30}
               alt="wallet"

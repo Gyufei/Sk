@@ -12,12 +12,12 @@ import { SolflareWalletAdapter } from "@solflare-wallet/wallet-adapter";
 import { OKXWalletAdapter } from "./okx-wallet-adapter";
 // import { clusterApiUrl } from "@solana/web3.js";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { clusterApiUrl } from "@solana/web3.js";
 
 const MainnetRpc =
   "https://mainnet.helius-rpc.com/?api-key=6e25109f-21ec-4fd2-9e2d-027213f5cd6e";
-const DevnetRpc = "https://rpc.ankr.com/solana_devnet";
+const DevnetRpc = clusterApiUrl("devnet");
 // || "https://devnet.helius-rpc.com/?api-key=6e25109f-21ec-4fd2-9e2d-027213f5cd6e" ||
-// clusterApiUrl("devnet");
 
 export function SolanaWalletProviders({ children }: { children?: ReactNode }) {
   const rpc = isProduction ? MainnetRpc : DevnetRpc;

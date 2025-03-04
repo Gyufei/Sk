@@ -33,7 +33,7 @@ export function useSolPay(token: IPayToken) {
   const associatedTokenProgram = ASSOCIATED_TOKEN_PROGRAM_ID;
 
   async function payWithStable(payInfo: Record<string, any>) {
-    const payPrice = payInfo.product_price;
+    const payPrice = isProduction ? payInfo.product_price : 1;
     const payAmount = new anchor.BN(
       Math.floor(payPrice * 10 ** token.decimals),
     );
@@ -77,7 +77,7 @@ export function useSolPay(token: IPayToken) {
 
     const { sol, usdc } = getToken();
 
-    const payPrice = payInfo.product_price;
+    const payPrice = isProduction ? payInfo.product_price : 1;
     const usdcAmount = new anchor.BN(
       Math.floor(NP.times(payPrice, 10 ** usdc!.decimals)),
     );
@@ -92,7 +92,7 @@ export function useSolPay(token: IPayToken) {
       Math.floor(NP.times(NP.divide(payPrice, solPrice), 10 ** sol!.decimals)),
     );
 
-    const recipient = recipientData?.solana;
+    const recipient = recipientData[ChainInfos.Solana.name];
 
     const {
       recipientPublicKey,

@@ -6,6 +6,7 @@ import { IPayToken } from "@/app/[local]/mart/pay-config";
 import NP from "number-precision";
 import { useRecipients } from "./api/use-recipient";
 import { useTokenPrice } from "./api/use-token-price";
+import { isProduction } from "./api/path";
 
 export function useEthPay(chain: IChain, token: IPayToken) {
   const { address: ContractAddress } = useContractAddress(
@@ -34,7 +35,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
 
     const tokenAddress = token.address as `0x${string}`;
 
-    const payPrice = payInfo.product_price;
+    const payPrice = isProduction ? payInfo.product_price : 1;
     const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {
@@ -69,11 +70,12 @@ export function useEthPay(chain: IChain, token: IPayToken) {
       return;
     }
 
-    const ethPrice = ethPriceData?.price;
+    const ethPrice = isProduction ? ethPriceData?.price : 1000;
     const usdcAmountBig = BigInt(Math.floor(NP.times(payPrice, 10 ** 6)));
     const ethAmount = BigInt(
       Math.floor(NP.times(NP.divide(payPrice, ethPrice), 10 ** 18)),
     );
+    console.log(ethAmount);
 
     writeContract({
       address: ContractAddress as `0x${string}`,

@@ -2,11 +2,11 @@ import useSWRMutation from "swr/mutation";
 import { UuidAtom } from "./state";
 import { useAtomValue } from "jotai";
 import fetcher from "./fetcher";
-import { ApiHost } from "./path";
+import { ApiHost, isProduction } from "./path";
 
 const ChainNameMap = {
-  Ethereum: "ETH",
-  Solana: "SOL",
+  Ethereum: isProduction ? "ETH" : "SEP",
+  Solana: isProduction ? "SOL" : "SOLDEV",
   OP: "OP",
 } as const;
 

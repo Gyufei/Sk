@@ -7,6 +7,7 @@ import { useChainId, useSwitchChain } from "wagmi";
 import { PopDrawer } from "@/components/pop-drawer";
 import useEthWallet from "./use-eth-wallet";
 
+type IChainName = keyof typeof EthChainInfos;
 
 export function EthWallets() {
   const chainId = useChainId();
@@ -68,7 +69,7 @@ export function EthWallets() {
                 onClick={() => handleChangeChain(c, EthChainInfos[c].chainId)}
               >
                 <Image
-                  src={EthChainInfos[c].logo}
+                  src={EthChainInfos[c as IChainName].logo}
                   width={30}
                   height={30}
                   alt="wallet"
@@ -82,9 +83,9 @@ export function EthWallets() {
               className="flex h-12 w-[200px] items-center justify-between border-0 border-solid border-[#515151] cursor-pointer"
             >
               <div className="flex items-center">
-                {EthChainInfos[selectedChainName as keyof typeof EthChainInfos] ? (
+                {EthChainInfos[selectedChainName as IChainName] ? (
                   <Image
-                    src={EthChainInfos[selectedChainName as keyof typeof EthChainInfos].logo}
+                    src={EthChainInfos[selectedChainName as IChainName].logo}
                     width={30}
                     height={30}
                     alt="wallet"

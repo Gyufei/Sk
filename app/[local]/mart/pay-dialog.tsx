@@ -231,7 +231,15 @@ export default function PayDialog({
       resetEthAction();
       resetSolanaAction();
     }
-  }, [isEthSuccess, isSolanaSuccess, onOpenChange]);
+  }, [
+    isEthSuccess,
+    isSolanaSuccess,
+    onOpenChange,
+    T,
+    resetEthAction,
+    resetSolanaAction,
+    setGlobalMessage,
+  ]);
 
   useEffect(() => {
     if (isEthError || isSolanaError) {
@@ -242,7 +250,15 @@ export default function PayDialog({
       resetEthAction();
       resetSolanaAction();
     }
-  }, [isEthError, isSolanaError, onOpenChange]);
+  }, [
+    isEthError,
+    isSolanaError,
+    onOpenChange,
+    T,
+    resetEthAction,
+    resetSolanaAction,
+    setGlobalMessage,
+  ]);
 
   const payContent = (
     <div className={`${!isDesktop && "paddingBottomStyle-64"}`}>
