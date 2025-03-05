@@ -16,8 +16,9 @@ export function Tg() {
 
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "tgEyeShow" });
-  const tg = userInfo?.social_media?.Telegram || "";
-  const isLink = false;
+  const tg = userInfo?.social_media?.Telegram;
+  const isLink = tg !== null && typeof tg !== "string";
+  const tgName = isLink ? (tg as any)?.user_name : tg;
 
   useEffect(() => {
     if (saveRes) {
@@ -52,7 +53,7 @@ export function Tg() {
         </div>
         <InputWithClear
           isError={!isValid}
-          value={tg}
+          value={tgName}
           type={eyeState ? "password" : "text"}
           placeHolderText={placeHolderText}
           placeHolder="tg"

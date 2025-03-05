@@ -35,7 +35,6 @@ export function TgLinkBtn({
       script.setAttribute("data-telegram-login", "Juu17SiteBot");
       script.setAttribute("data-size", "large");
       script.setAttribute("data-request-access", "write");
-      script.setAttribute("data-onauth", "onTelegramAuth(user)");
       div.style.display = "none";
       div.appendChild(script);
       document.body.appendChild(div);
