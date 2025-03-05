@@ -11,7 +11,7 @@ const placeHolderText = "https://t.me/";
 
 export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const { data: userInfo } = useFetchUserInfo();
+  const { data: userInfo, getUserInfo: refetchUserInfo } = useFetchUserInfo();
   const [isValid, setIsValid] = useState(true);
 
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
@@ -26,12 +26,13 @@ export function Tg() {
         type: "success",
         message: "Saved successfully",
       });
+      refetchUserInfo();
     }
   }, [saveRes]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function handleSave() {
-    saveSocial({ name: "Telegram", data: tg } as any);
+  function handleSave(tgData: any) {
+    saveSocial({ name: "Telegram", data: tgData } as any);
   }
 
   return (
@@ -62,7 +63,7 @@ export function Tg() {
           readOnly={true}
           notLink={!isLink}
         />
-        <TgLinkBtn disabled={isLink} isConnected={isLink} />
+        <TgLinkBtn disabled={isLink} isConnected={isLink} onSave={handleSave} />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
     </div>

@@ -4,11 +4,22 @@ import { LinkBtn } from "../link-btn";
 export function TgLinkBtn({
   disabled,
   isConnected,
+  onSave,
 }: {
   disabled: boolean;
   isConnected: boolean;
+  onSave: (user: any) => void;
 }) {
   const [scriptLoad, setScriptLoad] = useState(false);
+
+  useEffect(() => {
+    function onTelegramAuth(user: any) {
+      console.log("user", user);
+      onSave(user);
+    }
+
+    (window as any).onTelegramAuth = onTelegramAuth;
+  }, []);
 
   function AddTelegramWidget() {
     return new Promise((resolve, reject) => {
@@ -33,7 +44,7 @@ export function TgLinkBtn({
       script.setAttribute("data-telegram-login", "Juu17SiteBot");
       script.setAttribute("data-size", "large");
       script.setAttribute("data-request-access", "write");
-
+      script.setAttribute("data-onauth", "onTelegramAuth");
       div.style.display = "none";
       div.appendChild(script);
       document.body.appendChild(div);
