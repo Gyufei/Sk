@@ -10,16 +10,22 @@ import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
 import { IPayToken, payTokenConfig } from "@/app/[local]/mart/pay-config";
 import { useRecipients } from "./api/use-recipient";
-import { ChainInfos, SolanaChainInfos } from "./const";
+import { ChainInfos, IChain, SolanaChainInfos } from "./const";
 import NP from "number-precision";
 import { isProduction } from "./api/path";
 import { useTokenPrice } from "./api/use-token-price";
 import { IOrderInfo } from "./api/use-create-order";
 
-export function useSolPay(token: IPayToken) {
+export function useSolPay(chain: IChain, token: IPayToken) {
+  const isSolana = chain.name === SolanaChainInfos.Solana.name;
+
   const { publicKey: authority } = useWallet();
-  const { data: solPriceData } = useTokenPrice("SOL");
-  const { data: recipientData } = useRecipients();
+  const { data: solPriceData } = useTokenPrice("SOL", isSolana);
+  const { data: recipientData } = useRecipients(
+    ChainInfos.Solana.name,
+    token.name,
+    isSolana,
+  );
 
   const chain_work_bench_program = useSolProgram();
 
@@ -28,6 +34,8 @@ export function useSolPay(token: IPayToken) {
   const [data, setData] = useState<any>();
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState<any>();
+
+  const recipient = recipientData?.deposit_address;
 
   const systemProgram = anchor.web3.SystemProgram.programId;
   const tokenProgram = TOKEN_PROGRAM_ID;
@@ -38,7 +46,6 @@ export function useSolPay(token: IPayToken) {
     const payAmount = new anchor.BN(
       Math.floor(NP.times(payPrice, 10 ** token.decimals)),
     );
-    const recipient = recipientData?.[ChainInfos.Solana.name];
 
     if (!recipient) {
       console.error("solana recipient is not found");
@@ -71,7 +78,7 @@ export function useSolPay(token: IPayToken) {
   }
 
   async function payWithSol(orderInfo: IOrderInfo) {
-    if (!recipientData) {
+    if (!recipient) {
       console.error("recipient data is not found");
       return "";
     }
@@ -92,8 +99,6 @@ export function useSolPay(token: IPayToken) {
     const solAmount = new anchor.BN(
       Math.floor(NP.times(NP.divide(payPrice, solPrice), 10 ** sol!.decimals)),
     );
-
-    const recipient = recipientData[ChainInfos.Solana.name];
 
     const {
       recipientPublicKey,
@@ -286,8 +291,11 @@ async function getStableTokenAccounts(
   };
 }
 
-async function getSolTokenAccounts(recipient: string, authority: PublicKey) {
-  const recipientPublicKey = new PublicKey(recipient);
+async function getSolTokenAccounts(
+  recipientAddr: string,
+  authority: PublicKey,
+) {
+  const recipientPublicKey = new PublicKey(recipientAddr);
   const { sol, usdc } = getToken();
 
   const solMint = new PublicKey(sol!.address);

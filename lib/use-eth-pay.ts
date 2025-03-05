@@ -10,13 +10,16 @@ import { isProduction } from "./api/path";
 import { IOrderInfo } from "./api/use-create-order";
 
 export function useEthPay(chain: IChain, token: IPayToken) {
+  const isEvm = !!chain.isEVM;
+
   const { address: ContractAddress } = useContractAddress(
     chain.name.toLowerCase() as any,
     true,
   );
 
-  const { data: ethPriceData } = useTokenPrice("ETH");
-  const { data: recipientData } = useRecipients();
+  const { data: ethPriceData } = useTokenPrice("ETH", isEvm);
+  const { data: recipientData } = useRecipients(chain.name, token.name, isEvm);
+  const recipient = recipientData?.deposit_address as `0x${string}`;
 
   const {
     writeContract,
@@ -29,7 +32,7 @@ export function useEthPay(chain: IChain, token: IPayToken) {
   } = useWriteContract();
 
   function payAction(orderInfo: IOrderInfo) {
-    if (!recipientData) {
+    if (!recipient) {
       console.error("recipient data is not found");
       return;
     }
@@ -37,7 +40,6 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     const tokenAddress = token.address as `0x${string}`;
 
     const payPrice = orderInfo.product_price;
-    const recipient = recipientData[chain.name] as `0x${string}`;
 
     if (token.isStable) {
       const payAmountBig = BigInt(

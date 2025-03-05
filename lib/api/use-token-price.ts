@@ -7,8 +7,8 @@ export interface ITokenPrice {
   price: number;
 }
 
-export function useTokenPrice(symbol: string) {
-  const url = `${ApiHost}/token/price?token_name=${symbol}`;
+export function useTokenPrice(symbol: string, enable: boolean) {
+  const url = enable ? `${ApiHost}/token/price?token_name=${symbol}` : "";
 
   const res = useSWR<ITokenPrice>(url, fetcher);
 

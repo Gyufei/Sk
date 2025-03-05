@@ -76,7 +76,7 @@ export default function PayDialog({
     isSuccess: isSolanaSuccess,
     isError: isSolanaError,
     reset: resetSolanaAction,
-  } = useSolPay(token);
+  } = useSolPay(chain, token);
 
   const showTokenList = useMemo(() => {
     return payTokenConfig[chain.name];
