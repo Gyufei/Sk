@@ -14,6 +14,7 @@ export function TgLinkBtn({
   const [scriptLoad, setScriptLoad] = useState(false);
 
   function AddTelegramWidget() {
+    return;
     return new Promise((resolve, reject) => {
       if (scriptLoad) {
         resolve("success");
