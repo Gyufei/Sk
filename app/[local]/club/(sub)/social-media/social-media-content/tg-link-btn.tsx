@@ -30,7 +30,7 @@ export function TgLinkBtn({
         reject(new Error("unable to load"));
       };
 
-      script.setAttribute("data-telegram-login", "samplebot");
+      script.setAttribute("data-telegram-login", "Juu17SiteBot");
       script.setAttribute("data-size", "large");
       script.setAttribute("data-request-access", "write");
 
@@ -51,12 +51,9 @@ export function TgLinkBtn({
       await AddTelegramWidget();
     }
     (window as any)?.Telegram?.Login?.auth({
-      // bot_id: "547043436",
-      bot_id: "7461663146",
+      bot_id: "7905537340",
       method: "POST",
-      // origin: window.location.origin,
-      // origin: "https://core.telegram.org",
-      origin: "https://www.okx.com",
+      origin: window.location.origin,
     });
   }
 
