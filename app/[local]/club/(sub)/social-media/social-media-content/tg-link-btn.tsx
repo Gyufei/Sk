@@ -25,7 +25,7 @@ export function TgLinkBtn({
 
       script.onload = function () {
         resolve("success");
-        document.body.removeChild(div);
+        // document.body.removeChild(div);
       };
 
       script.onerror = function () {
