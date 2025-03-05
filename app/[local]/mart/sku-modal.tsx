@@ -40,26 +40,33 @@ export default function SkuModal({
     <div className={`${!isDesktop && "paddingBottomStyle-64"}`}>
       {skuImage && <ClothSize />}
       <div className="mt-5">
-        <div className="mb-2 font-haasDisp text-xl font-medium text-white ">
-          {T("Size")}
-        </div>
-        <div className="flex flex-row flex-wrap gap-[13px]">
-          {skuAttr.map((item) => (
+        {skuAttr.map((item) => (
+          <>
             <div
-              key={item.value}
-              className={`flex h-[48px] min-w-[76px]  cursor-pointer items-center justify-center rounded-lg p-4 text-base font-medium ${
-                selectedSku !== item.value &&
-                "bg-[rgba(255, 255, 255, 0.01)] border-[rgba(255, 255, 255, 0.6)] border text-[#D6D6D6] hover:brightness-75"
-              } ${
-                selectedSku === item.value &&
-                "border border-[#fff]  bg-[#fff] text-[#0D0D0D] hover:brightness-100"
-              }`}
-              onClick={() => setSelectedSku(item.value)}
+              key={item.skuName}
+              className="mb-2 font-haasDisp text-xl font-medium text-white "
             >
-              {item.name}
+              {T(item.skuName.charAt(0).toUpperCase() + item.skuName.slice(1))}
             </div>
-          ))}
-        </div>
+            <div className="flex flex-row flex-wrap gap-[13px]">
+              {item.skuValue.map((item) => (
+                <div
+                  key={item.value}
+                  className={`flex h-[48px] min-w-[76px]  cursor-pointer items-center justify-center rounded-lg p-4 text-base font-medium ${
+                    selectedSku !== item.value &&
+                    "bg-[rgba(255, 255, 255, 0.01)] border-[rgba(255, 255, 255, 0.6)] border text-[#D6D6D6] hover:brightness-75"
+                  } ${
+                    selectedSku === item.value &&
+                    "border border-[#fff]  bg-[#fff] text-[#0D0D0D] hover:brightness-100"
+                  }`}
+                  onClick={() => setSelectedSku(item.value)}
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
+          </>
+        ))}
       </div>
       <div
         className={`bg-[#252525] ${

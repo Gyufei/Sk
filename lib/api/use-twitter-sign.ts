@@ -1,12 +1,11 @@
 import { useSearchParams } from "next/navigation";
-import { usePathname, useRouter } from "@/app/navigation";
 
 export function useTwitterSign() {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const code = searchParams.get("code");
+  const scope = searchParams.get("scope");
+  const isTwitterAuth = !scope || !scope?.includes("google");
+  const code = isTwitterAuth ? null : searchParams.get("code");
   const error = searchParams.get("error");
 
   function goTwitter(cb: string) {
@@ -17,19 +16,17 @@ export function useTwitterSign() {
   }
 
   function removeXVerifyCode() {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.delete("code");
-    searchParams.delete("error");
-    searchParams.delete("state");
+    const url = new URL(window.location.href);
 
-    router.replace({
-      pathname,
-      query: Object.fromEntries(searchParams.entries()),
+    url.searchParams.forEach((value, key) => {
+      url.searchParams.delete(key);
     });
+
+    window.history.replaceState({}, "", url.toString());
   }
 
   return {
-    code,
+    code: !scope ? code : null,
     error,
     goTwitter,
     removeXVerifyCode,

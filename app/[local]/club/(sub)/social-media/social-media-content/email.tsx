@@ -9,9 +9,10 @@ import { LinkBtn } from "../link-btn";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
+import { useGoogleEmail } from "@/lib/api/use-google-email";
 
 export function Email() {
-  const { data: userInfo } = useFetchUserInfo();
+  const { data: userInfo, getUserInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
   const [inputEmail, setInputEmail] = useState(
@@ -20,17 +21,19 @@ export function Email() {
 
   const [isValid, setIsValid] = useState(true);
 
-  // const isGoogleEmail = useMemo(() => {
-  //   if (!isValid) return false;
+  const isGoogleEmail = useMemo(() => {
+    if (!isValid) return false;
 
-  //   return inputEmail.endsWith("@gmail.com");
-  // }, [isValid, inputEmail]);
+    return inputEmail.endsWith("@gmail.com");
+  }, [isValid, inputEmail]);
 
   const isLink =
     userInfo?.social_media?.Email &&
     inputEmail === userInfo?.social_media?.Email;
 
   const { code, hasSend, sendEmail, removeEmailVerifyHash } = useSendEmail();
+  const { googleCode, openGoogleAuth, removeGoogleCodeParams } =
+    useGoogleEmail();
 
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "emailEyeShow" });
 
@@ -40,7 +43,11 @@ export function Email() {
     [isValid, inputEmail],
   );
 
-  useSWR(code ? `save-email:${code}` : null, handleSaveEmail);
+  useSWR(code ? `save-email:${code}` : null, handleSaveNormalEmail);
+  useSWR(
+    googleCode ? `save-google-email:${googleCode}` : null,
+    handleSaveGoogleEmail,
+  );
 
   useEffect(() => {
     if (userInfo?.social_media?.Email) {
@@ -65,28 +72,53 @@ export function Email() {
     setIsValid(checkEmailRegex(inputEmail));
   }
 
-  async function handleSaveEmail() {
+  async function handleSaveNormalEmail() {
     if (!code) return;
 
     const res = await saveSocial({
       name: "Email",
       data: {
+        category: "normal",
         code,
       },
     } as any);
 
     console.info("saveEmail res", res);
+    if (res) {
+      getUserInfo();
+    }
     removeEmailVerifyHash();
+  }
+
+  async function handleSaveGoogleEmail() {
+    if (!googleCode) return;
+
+    const res = await saveSocial({
+      name: "Email",
+      data: {
+        category: "google",
+        code: googleCode,
+        callbackUrl: window.location.origin + window.location.pathname,
+        codeVerifier: localStorage.getItem("codeVerifier") || "",
+      },
+    } as any);
+
+    if (res) {
+      getUserInfo();
+    }
+    setTimeout(() => {
+      removeGoogleCodeParams();
+    }, 1000);
   }
 
   function handleLink() {
     if (disabled) return;
 
-    // if (isGoogleEmail) {
-    //   console.info("isGoogleEmail", isGoogleEmail);
-    // } else {
+    if (isGoogleEmail) {
+      openGoogleAuth();
+    } else {
       sendEmail(inputEmail, window.location.origin + window.location.pathname);
-    // }
+    }
   }
 
   return (
@@ -118,7 +150,7 @@ export function Email() {
         <MobileInValidTpl isValid={isValid} text="Invalid Email." />
         <LinkBtn
           onClick={handleLink}
-          disabled={disabled || hasSend}
+          disabled={isLink || disabled || hasSend}
           isConnected={isLink}
         />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />

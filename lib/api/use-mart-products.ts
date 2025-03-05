@@ -7,10 +7,17 @@ export interface IProduct {
   product_display_picture: string;
   product_name: string;
   product_price: number;
-  skuAttr?: {
-    name: string;
-    value: string;
-  }[];
+  skuAttr?: [
+    {
+      skuName: string;
+      skuValue: [
+        {
+          name: string;
+          value: string;
+        },
+      ];
+    },
+  ];
   skuImage?: string;
   skuOfUserCheck?: Record<string, string>;
 }
