@@ -12,15 +12,6 @@ export function TgLinkBtn({
 }) {
   const [scriptLoad, setScriptLoad] = useState(false);
 
-  useEffect(() => {
-    function onTelegramAuth(user: any) {
-      console.log("user", user);
-      onSave(user);
-    }
-
-    (window as any).onTelegramAuth = onTelegramAuth;
-  }, []);
-
   function AddTelegramWidget() {
     return new Promise((resolve, reject) => {
       if (scriptLoad) {
@@ -52,6 +43,13 @@ export function TgLinkBtn({
   }
 
   useEffect(() => {
+    function onTelegramAuth(user: any) {
+      console.log("user", user);
+      onSave(user);
+    }
+
+    (window as any).onTelegramAuth = onTelegramAuth;
+
     AddTelegramWidget().then(() => {
       setScriptLoad(true);
     });
