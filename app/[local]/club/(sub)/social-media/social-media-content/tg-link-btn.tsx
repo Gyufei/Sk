@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { LinkBtn } from "../link-btn";
-import Script from "next/script";
 
 export function TgLinkBtn({
   disabled,
@@ -14,7 +13,6 @@ export function TgLinkBtn({
   const [scriptLoad, setScriptLoad] = useState(false);
 
   function AddTelegramWidget() {
-    return;
     return new Promise((resolve, reject) => {
       if (scriptLoad) {
         resolve("success");
@@ -27,7 +25,7 @@ export function TgLinkBtn({
 
       script.onload = function () {
         resolve("success");
-        // document.body.removeChild(div);
+        document.body.removeChild(div);
       };
 
       script.onerror = function () {
@@ -61,34 +59,21 @@ export function TgLinkBtn({
     if (!scriptLoad) {
       await AddTelegramWidget();
     }
-    (window as any)?.Telegram?.Login?.auth({
-      bot_id: "7905537340",
-      method: "POST",
-      origin: window.location.origin,
-    });
+    (window as any)?.Telegram?.Login?.auth(
+      {
+        bot_id: "7905537340",
+        method: "POST",
+        origin: window.location.origin,
+      },
+      (user: any) => {
+        console.log("user", user);
+        onSave(user);
+      },
+    );
   }
 
   return (
     <>
-      <Script
-        async
-        src="https://telegram.org/js/telegram-widget.js?22"
-        data-telegram-login="Juu17SiteBot"
-        data-size="large"
-        data-onauth="onTelegramAuth(user)"
-        data-request-access="write"
-      ></Script>
-      <Script
-        type="text/javascript"
-        id="gTag"
-        dangerouslySetInnerHTML={{
-          __html: `
-                function onTelegramAuth(user) {
-                  alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-                }
-              `,
-        }}
-      ></Script>
       <LinkBtn
         onClick={handleClick}
         disabled={disabled}
