@@ -7,12 +7,13 @@ import { GlobalMsgContext } from "@/components/global-msg-context";
 import { useTranslations } from "next-intl";
 
 export const isNotificationSupported = () => {
-  if (typeof window === 'undefined') return false;
-  return 'Notification' in window &&
-    'serviceWorker' in navigator &&
-    'PushManager' in window
-}
-
+  if (typeof window === "undefined") return false;
+  return (
+    "Notification" in window &&
+    "serviceWorker" in navigator &&
+    "PushManager" in window
+  );
+};
 
 export function useNotificationListen(): {
   isNotificationSupport: boolean;
@@ -28,40 +29,40 @@ export function useNotificationListen(): {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const T = useTranslations("Common");
 
-
-  const notificationDisabled = isNotificationSupport && Notification.permission === "denied";
+  const notificationDisabled =
+    isNotificationSupport && Notification.permission === "denied";
 
   const notificationChecked = useMemo(() => {
-    return notification === 'ON'
-  }, [notification])
+    return notification === "ON";
+  }, [notification]);
 
   function onNotificationChecked(value: boolean) {
-
     if (value === true) {
       if (!levelGt2) {
         setGlobalMessage({
           type: "warning",
           message: T("NotionLevelRequired"),
         });
-        return
-      }
-      if (!isNotificationSupport) {
-        setNotification("ON")
-        return
+        return;
       }
 
-      if (Notification.permission === 'granted') {
-        setNotification("ON")
+      if (!isNotificationSupport) {
+        setNotification("ON");
+        return;
+      }
+
+      if (Notification.permission === "granted") {
+        setNotification("ON");
         return;
       }
 
       Notification.requestPermission().then(() => {
-        setNotification("ON")
+        setNotification("ON");
       });
       return;
     }
 
-    setNotification("OFF")
+    setNotification("OFF");
   }
 
   return {
@@ -69,6 +70,6 @@ export function useNotificationListen(): {
     notificationChecked,
     onNotificationChecked,
     notificationDisabled,
-    levelGt2
-  }
+    levelGt2,
+  };
 }

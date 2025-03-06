@@ -54,16 +54,18 @@ export function NotificationListen() {
 
   useEffect(() => {
     setPageStartTime(new Date().getTime());
+
     return () => {
       stopCycleTitle();
     };
   }, []);
 
   useEffect(() => {
-    // init notifition state force to ON
+    // init notification state force to ON
     if (noteInfo.current?.levelGt2 && notification != "ON") {
       onNotificationChecked(true);
     }
+
     if (noteInfo.current.levelGt2 === false) {
       onNotificationChecked(false);
     }
@@ -131,6 +133,7 @@ export function NotificationListen() {
     } else {
       setToastImage("");
     }
+
     if (isNotificationSupported() && Notification.permission === "granted") {
       new Notification(title, {
         body: content,
