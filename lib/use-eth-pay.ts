@@ -73,9 +73,9 @@ export function useEthPay(chain: IChain, token: IPayToken) {
     const ethPrice = isProduction ? ethPriceData?.price : 1000;
     const usdcAmountBig = BigInt(Math.floor(NP.times(payPrice, 10 ** 6)));
     const ethAmount = BigInt(
-      Math.floor(NP.times(NP.divide(payPrice, ethPrice), 10 ** 18)),
+      Math.floor(NP.times(NP.divide(payPrice, ethPrice), 1.01, 10 ** 18)),
     );
-    console.log(ethAmount);
+    console.log(payPrice, ethPrice, ethAmount);
 
     writeContract({
       address: ContractAddress as `0x${string}`,
