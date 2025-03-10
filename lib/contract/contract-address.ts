@@ -1,3 +1,4 @@
+import { isProduction } from "../api/path";
 import Mainnet from "./mainnet.json";
 import Testnet from "./testnet.json";
 
@@ -19,10 +20,7 @@ export function getKinkoAddress(chainName: ChainName): any {
 }
 
 export function getChainAddress(chainName: ChainName): any {
-  const contracts =
-    process.env.NODE_ENV === "production"
-      ? Mainnet[chainName]
-      : Testnet[chainName];
+  const contracts = isProduction ? Mainnet[chainName] : Testnet[chainName];
 
   return contracts;
 }

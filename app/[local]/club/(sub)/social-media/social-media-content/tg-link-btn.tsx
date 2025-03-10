@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { LinkBtn } from "../link-btn";
+import { TgConfig } from "@/lib/const/config";
 
 export function TgLinkBtn({
   disabled,
@@ -32,7 +33,7 @@ export function TgLinkBtn({
         reject(new Error("unable to load"));
       };
 
-      script.setAttribute("data-telegram-login", "Juu17SiteBot");
+      script.setAttribute("data-telegram-login", TgConfig.botName);
       script.setAttribute("data-size", "large");
       script.setAttribute("data-request-access", "write");
       div.style.display = "none";
@@ -60,7 +61,7 @@ export function TgLinkBtn({
     }
     (window as any)?.Telegram?.Login?.auth(
       {
-        bot_id: "7905537340",
+        bot_id: TgConfig.botId,
         method: "POST",
         origin: window.location.origin,
       },
