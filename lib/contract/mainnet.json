@@ -4,16 +4,16 @@
   },
   "op": {
     "work-bench": "0x7Eca5358d15Fcf871eF20d3f4F6d240B2F4569d2",
-    "kinko": ""
+    "kinko": "0x687a5B697eaF70016DeA1867923B69e0e0160261"
   },
   "ethereum": {
     "work-bench": "0x7Eca5358d15Fcf871eF20d3f4F6d240B2F4569d2",
     "work-bench-v2": "0x7Eca5358d15Fcf871eF20d3f4F6d240B2F4569d2",
-    "kinko": ""
+    "kinko": "0x687a5B697eaF70016DeA1867923B69e0e0160261"
   },
   "solana": {
     "work-bench": "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6",
     "work-bench-v2": "8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6",
-    "kinko": ""
+    "kinko": "EDHuuCauiuPCpP6mLTzHssqQh4nupaCVeXjnke44ykqs"
   }
 }
