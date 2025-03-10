@@ -99,7 +99,7 @@ export function useSolPay(chain: IChain, token: IPayToken) {
 
     const solPrice = solPriceData?.price;
     const solAmount = new anchor.BN(
-      Math.floor(NP.times(NP.divide(payPrice, solPrice), 10 ** sol!.decimals)),
+      Math.floor(NP.times(NP.divide(payPrice, solPrice), 1.013, 10 ** sol!.decimals)),
     );
 
     const {
