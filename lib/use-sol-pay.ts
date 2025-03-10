@@ -28,7 +28,7 @@ export function useSolPay(chain: IChain, token: IPayToken) {
     isSolana,
   );
 
-  const ProgramAddress = getKinkoAddress("solana");
+  const ProgramAddress = getKinkoAddress("Solana");
   const kinkoProgram = useSolProgram(ProgramAddress);
 
   const [isPending, setIsPending] = useState(false);
@@ -308,7 +308,7 @@ async function getSolTokenAccounts(
     recipientPublicKey,
   );
 
-  const ProgramAddress = getKinkoAddress("solana");
+  const ProgramAddress = getKinkoAddress("Solana");
   const solTmpTokenAccount = PublicKey.findProgramAddressSync(
     [Buffer.from("tmp_wsol_account"), authority.toBuffer()],
     new PublicKey(ProgramAddress),
