@@ -36,7 +36,7 @@ export default function Page() {
   const [topic, setTopic] = useState("");
 
   const [topicOpen, setTopicOpen] = useState(false);
-  const topicArr = ["General", "ClothSizes", "ScheduleTalk"];
+  const topicArr = ["General", "OrderIssue", "ScheduleTalk"];
   const [question, setQuestion] = useState<QuestionType[]>([]);
   const [qContent, setQContent] = useState<Record<string, string>>({});
   const [qValid, setQValid] = useState<Record<string, boolean | undefined>>({});
@@ -92,7 +92,7 @@ export default function Page() {
     });
 
     if (!res) {
-      console.error("saveExchange error");
+      console.error("Submit error");
       setGlobalMessage({
         type: "error",
         message: "Submit failed, please try again",
@@ -227,16 +227,17 @@ export default function Page() {
           </div>
         )}
       </div>
-      {
-        (recentTickets || []).length > 0 && (
-          <div className="sm:mt-10 sm:px-6">
+      {(recentTickets || []).length > 0 && (
+        <div className="sm:mt-10 sm:px-6">
           <div className="font-haasDisp text-xl font-semibold leading-[30px] text-white">
             {T("RecentTickets")}
           </div>
           <div className="mt-5 text-xl">
-            {!recentTickets?.length && (<div className="flex h-[50px] items-center justify-start">
-              {T("NoData")}
-            </div>)}
+            {!recentTickets?.length && (
+              <div className="flex h-[50px] items-center justify-start">
+                {T("NoData")}
+              </div>
+            )}
             {(recentTickets || []).map((c: any) => (
               <div
                 key={c.id}
@@ -251,8 +252,7 @@ export default function Page() {
             ))}
           </div>
         </div>
-        )
-      }
+      )}
     </div>
   );
 }
@@ -290,7 +290,6 @@ function QuestionItem({
     } else {
       onValidChange(name, question.regex.test(validV));
     }
-    
   }
 
   useEffect(() => {

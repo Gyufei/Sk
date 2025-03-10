@@ -12,25 +12,46 @@ export const topicConfig = {
           label: "Content",
           type: FieldType.TEXTAREA,
           errorMsg: "Content is too short.",
-          regex: /^.([\s\S]{10,})$/
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{10,}$/
         },
         {
           name: "Contact",
           label: "Contact",
           type: FieldType.INPUT,
           errorMsg: "Contact is too short.",
-          regex: /^.{5,}$/
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{5,}$/
         }
       ]
     },
-    ClothSizes: {
+    OrderIssue: {
       preset_template: [
         {
-          name: "OrderSize",
-          label: "OrderSize",
+          name: "OrderId",
+          label: "OrderId",
           type: FieldType.INPUT,
-          errorMsg: "XXS/XS/S/M/L/XL/XXL",
-          regex: /(?:XXS|XS|S|M|L|XL|XXL)/i
+          errorMsg: "Invalid Order id.",
+          regex: /^\d{5,30}$/
+        },
+        {
+          name: "OrderCargo",
+          label: "OrderCargo",
+          type: FieldType.INPUT,
+          errorMsg: "Invalid Order time.",
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{2,}$/
+        },
+        {
+          name: "OrderTime",
+          label: "OrderTime",
+          type: FieldType.INPUT,
+          errorMsg: "Invalid Order time.",
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{4,}$/
+        },
+        {
+          name: "Contact",
+          label: "Contact",
+          type: FieldType.INPUT,
+          errorMsg: "Contact is too short.",
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{5,}$/
         }
       ]
     },
@@ -41,14 +62,14 @@ export const topicConfig = {
           label: "TalkTopic",
           type: FieldType.TEXTAREA,
           errorMsg: "Content is too short.",
-          regex: /^.([\s\S]{10,})$/
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{8,}$/
         },
         {
           name: "Contact",
           label: "Contact",
           type: FieldType.INPUT,
           errorMsg: "Contact is too short.",
-          regex: /^.{5,}$/
+          regex: /^[a-zA-Z0-9\u4e00-\u9fa5\u00C0-\u017F ]{5,}$/
         }
       ]
     }
