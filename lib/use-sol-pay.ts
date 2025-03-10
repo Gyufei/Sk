@@ -15,6 +15,7 @@ import NP from "number-precision";
 import { isProduction } from "./api/path";
 import { useTokenPrice } from "./api/use-token-price";
 import { IOrderInfo } from "./api/use-create-order";
+import { getKinkoAddress } from "./contract/contract-address";
 
 export function useSolPay(chain: IChain, token: IPayToken) {
   const isSolana = chain.name === SolanaChainInfos.Solana.name;
@@ -27,7 +28,8 @@ export function useSolPay(chain: IChain, token: IPayToken) {
     isSolana,
   );
 
-  const chain_work_bench_program = useSolProgram();
+  const ProgramAddress = getKinkoAddress("solana");
+  const kinkoProgram = useSolProgram(ProgramAddress);
 
   const [isPending, setIsPending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -59,7 +61,7 @@ export function useSolPay(chain: IChain, token: IPayToken) {
       recipientTokenAccount,
     } = await getStableTokenAccounts(token.address, recipient, authority!);
 
-    const txHash = await chain_work_bench_program.methods
+    const txHash = await kinkoProgram.methods
       .transferStableToken(payAmount)
       .accounts({
         user: authority!,
@@ -122,7 +124,7 @@ export function useSolPay(chain: IChain, token: IPayToken) {
       serumVaultSigner,
     } = await getSolTokenAccounts(recipient, authority!);
 
-    const txHash = await chain_work_bench_program.methods
+    const txHash = await kinkoProgram.methods
       .swapSolToUsdc(solAmount, usdcAmount)
       .accounts({
         user: authority!,
@@ -306,10 +308,10 @@ async function getSolTokenAccounts(
     recipientPublicKey,
   );
 
-  console.log("usdcTokenAccount", usdcTokenAccount);
+  const ProgramAddress = getKinkoAddress("solana");
   const solTmpTokenAccount = PublicKey.findProgramAddressSync(
     [Buffer.from("tmp_wsol_account"), authority.toBuffer()],
-    new PublicKey("8cEDB35SwfpVdD7hrppxN27V46UKowRTHTtwuXgqo3w6"),
+    new PublicKey(ProgramAddress),
   )[0];
   console.log("solTmpTokenAccount", solTmpTokenAccount);
 

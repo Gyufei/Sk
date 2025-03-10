@@ -12,6 +12,7 @@ import { useState } from "react";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { IClaimData } from "./use-claim-data";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
+import { getWorkBenchAddress } from "./contract/contract-address";
 
 export function useSolClaim(currentToken: IClaimToken | undefined) {
   const { data: userInfo } = useFetchUserInfo();
@@ -24,7 +25,8 @@ export function useSolClaim(currentToken: IClaimToken | undefined) {
 
   const { publicKey: authority } = useWallet();
 
-  const chain_work_bench_program = useSolProgram();
+  const ProgramAddress = getWorkBenchAddress("solana");
+  const chain_work_bench_program = useSolProgram(ProgramAddress);
 
   const systemProgram = anchor.web3.SystemProgram.programId;
   const tokenProgram = TOKEN_PROGRAM_ID;

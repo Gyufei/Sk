@@ -1,7 +1,7 @@
 import { useAccount, useReadContract } from "wagmi";
 import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
-import { useContractAddress } from "./contract/use-contract-address";
+import { getWorkBenchAddress } from "./contract/contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
@@ -20,10 +20,7 @@ export function useCheckEthClaimed(
 
   const chainName = currentToken?.chainInfo?.name?.toLowerCase() as any;
 
-  const { address: ContractAddress } = useContractAddress(
-    chainName || "ethereum",
-    isV2,
-  );
+  const ContractAddress = getWorkBenchAddress(chainName || "ethereum", isV2);
 
   const leaf =
     eventsData && amount && isEvm

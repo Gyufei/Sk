@@ -1,10 +1,6 @@
 import crypto from "crypto";
-import { isProduction } from "./path";
 import { useSearchParams } from "next/navigation";
-
-const GoogleClientId = isProduction
-  ? "901355214678-litp58raporctginmttjk7jaqa0t7dsb.apps.googleusercontent.com"
-  : "901355214678-litp58raporctginmttjk7jaqa0t7dsb.apps.googleusercontent.com";
+import { GoogleClientId } from "../const/config";
 
 export function useGoogleEmail() {
   const searchParams = useSearchParams();

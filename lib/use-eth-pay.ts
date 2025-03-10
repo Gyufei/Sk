@@ -1,6 +1,6 @@
 import { useWriteContract } from "wagmi";
 import { IChain } from "./const";
-import { useContractAddress } from "./contract/use-contract-address";
+import { getKinkoAddress } from "./contract/contract-address";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { IPayToken } from "@/app/[local]/mart/pay-config";
 import NP from "number-precision";
@@ -12,10 +12,7 @@ import { IOrderInfo } from "./api/use-create-order";
 export function useEthPay(chain: IChain, token: IPayToken) {
   const isEvm = !!chain.isEVM;
 
-  const { address: ContractAddress } = useContractAddress(
-    chain.name.toLowerCase() as any,
-    true,
-  );
+  const ContractAddress = getKinkoAddress(chain.name.toLowerCase() as any);
 
   const { data: ethPriceData } = useTokenPrice("ETH", isEvm);
   const { data: recipientData } = useRecipients(chain.name, token.name, isEvm);

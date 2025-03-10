@@ -4,13 +4,15 @@ import { useSolProgram } from "./use-sol-program";
 import { useMemo } from "react";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
+import { getWorkBenchAddress } from "./contract/contract-address";
 
 export function useCheckSolClaimed(currentToken: IClaimToken | undefined) {
   const { data: userInfo } = useFetchUserInfo();
 
   const isSolana = currentToken?.chainInfo?.name?.toLowerCase() === "solana";
   const eventsData = currentToken?.eventData;
-  const chain_work_bench_program = useSolProgram();
+  const ProgramAddress = getWorkBenchAddress("solana");
+  const chain_work_bench_program = useSolProgram(ProgramAddress);
   const uid = userInfo?.uid;
 
   async function GetState() {
