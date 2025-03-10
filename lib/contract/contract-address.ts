@@ -1,11 +1,17 @@
 import { isProduction } from "../api/path";
+import { IChain } from "../const";
 import Mainnet from "./mainnet.json";
 import Testnet from "./testnet.json";
 
-export type ChainName = "linea" | "ethereum" | "solana" | "op";
+const ChainNameMap = {
+  Ethereum: "ethereum",
+  Solana: "solana",
+  OP: "op",
+  Linea: "linea",
+} as const;
 
 export function getWorkBenchAddress(
-  chainName: "linea" | "ethereum" | "solana" | "op",
+  chainName: IChain["name"],
   isV2: boolean = false,
 ) {
   const contracts = getChainAddress(chainName);
@@ -14,13 +20,14 @@ export function getWorkBenchAddress(
   return (contracts as any)[contractName];
 }
 
-export function getKinkoAddress(chainName: ChainName): any {
+export function getKinkoAddress(chainName: IChain["name"]): any {
   const contracts = getChainAddress(chainName);
   return (contracts as any)["kinko"];
 }
 
-export function getChainAddress(chainName: ChainName): any {
-  const contracts = isProduction ? Mainnet[chainName] : Testnet[chainName];
+export function getChainAddress(chainName: IChain["name"]): any {
+  const cName = ChainNameMap[chainName as keyof typeof ChainNameMap];
+  const contracts = isProduction ? Mainnet[cName] : Testnet[cName];
 
   return contracts;
 }

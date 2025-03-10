@@ -17,8 +17,8 @@ export function Tg() {
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "tgEyeShow" });
   const tg = userInfo?.social_media?.Telegram;
-  const isLink = tg != undefined && typeof tg !== "string";
-  const tgName = isLink ? (tg as any)?.user_name : tg;
+  const isLink = userInfo?.social_media?.Telegram?.user_id;
+  const tgName = (tg as any)?.user_name || '';
 
   useEffect(() => {
     if (saveRes) {

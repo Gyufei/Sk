@@ -18,9 +18,10 @@ export function useCheckEthClaimed(
   const eventsData = currentToken?.eventData;
   const isV2 = eventsData?.version === "v2";
 
-  const chainName = currentToken?.chainInfo?.name?.toLowerCase() as any;
-
-  const ContractAddress = getWorkBenchAddress(chainName || "ethereum", isV2);
+  const ContractAddress = getWorkBenchAddress(
+    currentToken?.chainInfo?.name || "ethereum",
+    isV2,
+  );
 
   const leaf =
     eventsData && amount && isEvm

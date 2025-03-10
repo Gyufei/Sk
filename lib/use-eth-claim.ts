@@ -1,15 +1,16 @@
 import { useWriteContract } from "wagmi";
-import { ChainName, getWorkBenchAddress } from "./contract/contract-address";
+import { getWorkBenchAddress } from "./contract/contract-address";
 import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { IClaimData } from "./use-claim-data";
 
 export function useEthClaim(currentToken: IClaimToken | undefined) {
-  const chainName =
-    (currentToken?.chainInfo?.name?.toLowerCase() as ChainName) || "ethereum";
   const isV2 = currentToken?.eventData?.version === "v2";
-  const ContractAddress = getWorkBenchAddress(chainName, isV2);
+  const ContractAddress = getWorkBenchAddress(
+    currentToken?.chainInfo?.name || "ethereum",
+    isV2,
+  );
 
   const {
     writeContract,
