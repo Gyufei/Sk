@@ -12,7 +12,7 @@ import { IOrderInfo } from "./api/use-create-order";
 export function useEthPay(chain: IChain, token: IPayToken) {
   const isEvm = !!chain.isEVM;
 
-  const ContractAddress = getKinkoAddress(chain.name.toLowerCase() as any);
+  const ContractAddress = getKinkoAddress(chain.name as any);
 
   const { data: ethPriceData } = useTokenPrice("ETH", isEvm);
   const { data: recipientData } = useRecipients(chain.name, token.name, isEvm);
