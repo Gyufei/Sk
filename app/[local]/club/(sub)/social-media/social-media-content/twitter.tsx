@@ -8,12 +8,10 @@ import { LinkBtn } from "../link-btn";
 import { useTwitterSign } from "@/lib/api/use-twitter-sign";
 import useSWR from "swr";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
+import { useSignCallbackUrl } from "@/lib/use-sign-callback-url";
 
 export function Twitter() {
-  const currentPageUrl =
-    typeof window !== "undefined"
-      ? window.location.origin + window.location.pathname
-      : "";
+  const { getCallbackUrl } = useSignCallbackUrl();
   const { data: userInfo } = useFetchUserInfo();
   const { trigger: saveSocial } = useSaveSocial();
 
@@ -45,17 +43,20 @@ export function Twitter() {
   }, [error]);
 
   function handleLink() {
-    goTwitter(currentPageUrl);
+    const callbackUrl = getCallbackUrl();
+    sessionStorage.setItem("twitter-verify-callbackUrl", callbackUrl);
+    goTwitter(callbackUrl);
   }
 
   function saveTwitter() {
     if (!code) return;
+    const callbackUrl = sessionStorage.getItem("twitter-verify-callbackUrl");
 
     saveSocial({
       name: "Twitter",
       data: {
         code,
-        redirect_uri: currentPageUrl,
+        redirect_uri: callbackUrl,
       },
     } as any);
 

@@ -6,7 +6,8 @@ export function useTwitterSign() {
   const scope = searchParams.get("scope");
   const isTwitterAuth = !scope || !scope?.includes("google");
   const code = isTwitterAuth ? searchParams.get("code") : null;
-  const error = searchParams.get("error");
+  const from = searchParams.get("from");
+  const error = searchParams.get("error") || from?.includes("error");
 
   function goTwitter(cb: string) {
     window.location.href =
@@ -18,9 +19,14 @@ export function useTwitterSign() {
   function removeXVerifyCode() {
     const url = new URL(window.location.href);
 
-    url.searchParams.forEach((value, key) => {
-      url.searchParams.delete(key);
-    });
+    if (from) {
+      url.searchParams.set("from", from.split("?")[0]);
+      url.searchParams.delete("state");
+    } else {
+      url.searchParams.forEach((value, key) => {
+        url.searchParams.delete(key);
+      });
+    }
 
     window.history.replaceState({}, "", url.toString());
   }
