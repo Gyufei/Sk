@@ -37,6 +37,7 @@ export default function SignWithXBtn({
 
   async function postSignData() {
     try {
+      const callbackUrl = sessionStorage.getItem("twitter-callbackUrl");
       const res: any = await fetcher(`${ApiHost}/user/sign_in`, {
         method: "POST",
         headers: {
@@ -46,7 +47,7 @@ export default function SignWithXBtn({
           login_type: "Twitter",
           login_data: {
             code: code,
-            redirect_uri: getCallbackUrl(),
+            redirect_uri: callbackUrl,
           },
         }),
       });
@@ -79,7 +80,9 @@ export default function SignWithXBtn({
 
   function handleSign() {
     if (signing) return;
-    goTwitter(getCallbackUrl());
+    const callbackUrl = getCallbackUrl();
+    sessionStorage.setItem("twitter-callbackUrl", callbackUrl);
+    goTwitter(callbackUrl);
   }
 
   return (
