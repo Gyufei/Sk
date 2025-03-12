@@ -42,7 +42,7 @@ export default function Page() {
   )
   
   return (
-    <div className="no-scroll-bar content-w-600 m-t-20 sm:trans-scroll-bar relative  overflow-y-auto sm:h-fit sm:max-h-[calc(100%-70px)]">
+    <div className="no-scroll-bar content-w-600 m-t-20 sm:trans-scroll-bar relative  overflow-y-auto sm:h-fit sm:max-h-[calc(100%-70px)] focus-visible:outline-none">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
