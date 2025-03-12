@@ -113,7 +113,8 @@
     "PayFailed": "Payment failed",
     "Token": "Token",
     "Chain": "Chain",
-    "SwitchTo": "Switch to"
+    "SwitchTo": "Switch to",
+    "ShippingAddressRequired": "Please set your shipping address first"
   },
   "Ticket": {
     "Ticket": "Ticket",

@@ -1,14 +1,22 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
 import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";
 import SkuModal from "./sku-modal";
 import PayDialog from "./pay-dialog";
+import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
+import { useRouter } from "@/app/navigation";
+import { GlobalMsgContext } from "@/components/global-msg-context";
+import { useTranslations } from "next-intl";
 
 export default function MartPage() {
+  const T = useTranslations("Common");
+  const router = useRouter();
   const { data: products } = useMartProducts();
+  const { setGlobalMessage } = useContext(GlobalMsgContext);
 
+  const { data: userInfo } = useFetchUserInfo();
   const [payOpen, setPayOpen] = useState<boolean>(false);
   const [skuOpen, setSkuOpen] = useState<boolean>(false);
 
@@ -33,6 +41,15 @@ export default function MartPage() {
   }
 
   function handleCart(item: IProduct) {
+    if (!userInfo?.shipping) {
+      setGlobalMessage({
+        type: "warning",
+        message: T("ShippingAddressRequired"),
+      });
+      router.push("/mart/shipping");
+      return;
+    }
+
     if (item.skuAttr) {
       setSkuInfo(item);
       setSkuOpen(true);
@@ -53,7 +70,7 @@ export default function MartPage() {
 
   return (
     <>
-      <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2">
+      <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2 focus-visible:outline-none">
         {(products || []).map((item) => (
           <div
             key={item.product_id}

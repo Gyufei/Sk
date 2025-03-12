@@ -55,7 +55,7 @@ export function InputWithClear({
     <div
       data-error={isError}
       className={cn(
-        "relative flex items-center border-b border-[rgba(255,255,255,0.2)] data-[error=true]:border-[#FF5A5A]",
+        "relative flex items-center border-b border-[#ffffff20] data-[error=true]:border-[#FF5A5A]",
         conClass,
       )}
     >

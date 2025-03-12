@@ -134,7 +134,7 @@ export function NameAndPhone({
           >
             <div
               onClick={() => setCountryCodeOpen(!countryCodeOpen)}
-              className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#515151]"
+              className="flex h-12 w-[80px] items-center justify-between border-b border-solid border-[#ffffff20]"
             >
               <div className="flex items-center">
                 <div className="text-base font-medium leading-6 text-[#d6d6d6]">

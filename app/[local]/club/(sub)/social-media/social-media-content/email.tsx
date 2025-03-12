@@ -106,6 +106,7 @@ export function Email() {
     if (res) {
       getUserInfo();
     }
+
     setTimeout(() => {
       removeGoogleCodeParams();
     }, 1000);

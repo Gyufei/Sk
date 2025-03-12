@@ -113,7 +113,8 @@
     "Paying": "支付中...",
     "Token": "代币",
     "Chain": "链",
-    "SwitchTo": "切换到"
+    "SwitchTo": "切换到",
+    "ShippingAddressRequired": "请先设置收货地址"
   },
   "Ticket": {
     "Ticket": "工单",

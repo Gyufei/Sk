@@ -68,7 +68,7 @@ export function AddressInput({
         >
           <div
             onClick={() => setCountryPopOpen(!countryPopOpen)}
-            className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151]"
+            className="flex h-12 w-full items-center justify-between border-b border-solid border-[#ffffff20]"
           >
             <div className="flex items-center text-base">
               <div className="leading-6 text-[#d6d6d6]">{country}</div>
@@ -108,7 +108,7 @@ export function AddressInput({
         >
           <div
             onClick={() => setStateOpen(!countryPopOpen)}
-            className="flex h-12 w-full items-center justify-between border-b border-solid border-[#515151]"
+            className="flex h-12 w-full items-center justify-between border-b border-solid border-[#ffffff20]"
           >
             <div className="flex items-center">
               <div className="text-base leading-6 text-[#d6d6d6]">{state}</div>
