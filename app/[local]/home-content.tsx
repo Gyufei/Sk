@@ -29,12 +29,30 @@ export default function HomeContent({
   }
 
   if (!isHome && !uuid && !isLogin) {
-    const from = pathname.replace("/", "");
+    const simpPath = pathname.replace("/", "");
+    const from = ["not-found", "login"].includes(simpPath) ? "" : simpPath;
     const searchStr =
-      searchParams.toString().length > 0 ? `&${searchParams.toString()}` : "";
+      searchParams.toString().length > 0 ? `${searchParams.toString()}` : "";
     const hash = window.location.hash;
 
-    const path = `/${locale}/login?from=${from}${searchStr}${hash}`;
+    let searchQuery = "";
+    if (from) {
+      searchQuery = `?from=${from}`;
+
+      if (searchStr) {
+        searchQuery += `&${searchStr}`;
+      }
+    } else {
+      if (searchStr) {
+        searchQuery = `?${searchStr}`;
+      }
+    }
+
+    if (hash) {
+      searchQuery += `${hash}`;
+    }
+
+    const path = `/${locale}/login${searchQuery}`;
     router.push(path);
     return;
   }
