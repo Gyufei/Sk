@@ -1,8 +1,10 @@
 "use client";
 import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
-import { usePathname, useRouter } from "@/app/navigation";
+import { usePathname } from "@/app/navigation";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
 
 export default function HomeContent({
   children,
@@ -14,6 +16,7 @@ export default function HomeContent({
   const isHome = pathname === "/home";
   const isLogin = pathname === "/login";
   const router = useRouter();
+  const locale = useLocale();
 
   const searchParams = useSearchParams();
 
@@ -31,7 +34,7 @@ export default function HomeContent({
       searchParams.toString().length > 0 ? `&${searchParams.toString()}` : "";
     const hash = window.location.hash;
 
-    const path = `/login?from=${from}${searchStr}${hash}`;
+    const path = `/${locale}/login?from=${from}${searchStr}${hash}`;
     router.push(path);
     return;
   }
