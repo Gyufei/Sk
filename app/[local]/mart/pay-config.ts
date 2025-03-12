@@ -1,5 +1,5 @@
 import { isProduction } from "@/lib/api/path";
-import { EthChainInfos, SolanaChainInfos } from "@/lib/const";
+import { EthChainInfos, SolanaChainInfos } from "@/lib/const/chain";
 
 export const payChain = [
   SolanaChainInfos.Solana,

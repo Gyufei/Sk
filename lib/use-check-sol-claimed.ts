@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
 import { getWorkBenchAddress } from "./contract/contract-address";
-import { SolanaChainInfos } from "./const";
+import { SolanaChainInfos } from "@/lib/const/chain";
 
 export function useCheckSolClaimed(currentToken: IClaimToken | undefined) {
   const { data: userInfo } = useFetchUserInfo();

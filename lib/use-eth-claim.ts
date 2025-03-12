@@ -4,11 +4,12 @@ import { ChainWorkBenchABI } from "./contract/eth/ChainWorkBench";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { IClaimData } from "./use-claim-data";
+import { EthChainInfos } from "@/lib/const/chain";
 
 export function useEthClaim(currentToken: IClaimToken | undefined) {
   const isV2 = currentToken?.eventData?.version === "v2";
   const ContractAddress = getWorkBenchAddress(
-    currentToken?.chainInfo?.name || "ethereum",
+    currentToken?.chainInfo?.name || EthChainInfos.Ethereum.name,
     isV2,
   );
 

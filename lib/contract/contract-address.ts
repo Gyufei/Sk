@@ -1,5 +1,5 @@
 import { isProduction } from "../api/path";
-import { IChain } from "../const";
+import { IChain } from "@/lib/const/chain";
 import Mainnet from "./mainnet.json";
 import Testnet from "./testnet.json";
 

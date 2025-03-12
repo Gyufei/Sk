@@ -16,7 +16,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils/utils";
-import { IChain, SolanaChainInfos } from "@/lib/const";
+import { IChain, SolanaChainInfos } from "@/lib/const/chain";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";

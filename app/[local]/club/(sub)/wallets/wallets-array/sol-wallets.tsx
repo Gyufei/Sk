@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { SolanaChainInfos } from "@/lib/const";
+import { SolanaChainInfos } from "@/lib/const/chain";
 import { useState } from "react";
 import useSolWallet from "./use-sol-wallet";
 import { WalletItem } from "./wallet-item";

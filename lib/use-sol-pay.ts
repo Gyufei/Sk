@@ -10,7 +10,7 @@ import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
 import { IPayToken, payTokenConfig } from "@/app/[local]/mart/pay-config";
 import { useRecipients } from "./api/use-recipient";
-import { ChainInfos, IChain, SolanaChainInfos } from "./const";
+import { IChain, SolanaChainInfos, ChainInfos } from "@/lib/const/chain";
 import NP from "number-precision";
 import { isProduction } from "./api/path";
 import { useTokenPrice } from "./api/use-token-price";

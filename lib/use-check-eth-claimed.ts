@@ -5,6 +5,7 @@ import { getWorkBenchAddress } from "./contract/contract-address";
 import { encodeAbiParameters, keccak256, parseAbiParameters } from "viem";
 import { IClaimToken } from "./api/use-claim-tokens";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
+import { EthChainInfos } from "@/lib/const/chain";
 
 export function useCheckEthClaimed(
   currentToken: IClaimToken | undefined,
@@ -19,7 +20,7 @@ export function useCheckEthClaimed(
   const isV2 = eventsData?.version === "v2";
 
   const ContractAddress = getWorkBenchAddress(
-    currentToken?.chainInfo?.name || "ethereum",
+    currentToken?.chainInfo?.name || EthChainInfos.Ethereum.name,
     isV2,
   );
 

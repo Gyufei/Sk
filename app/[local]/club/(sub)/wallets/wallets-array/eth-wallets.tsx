@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { EthChainInfos } from "@/lib/const";
+import { EthChainInfos } from "@/lib/const/chain";
 
 import { useEffect, useMemo, useState } from "react";
 import { WalletItem } from "./wallet-item";

@@ -1,7 +1,7 @@
 import { ApiHost } from "./path";
 import useSWR from "swr";
 import fetcher from "./fetcher";
-import { ChainInfos } from "../const";
+import { ChainInfos } from "@/lib/const/chain";
 import { useFetchUserInfo } from "./use-fetch-user-info";
 
 export interface IClaimToken {

@@ -13,7 +13,7 @@ import { IClaimToken } from "./api/use-claim-tokens";
 import { IClaimData } from "./use-claim-data";
 import { useFetchUserInfo } from "./api/use-fetch-user-info";
 import { getWorkBenchAddress } from "./contract/contract-address";
-import { SolanaChainInfos } from "./const";
+import { SolanaChainInfos } from "@/lib/const/chain";
 
 export function useSolClaim(currentToken: IClaimToken | undefined) {
   const { data: userInfo } = useFetchUserInfo();
