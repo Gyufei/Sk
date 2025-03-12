@@ -1,4 +1,4 @@
-import SvgIcon from "@/components/svg-icon/index";
+import Image from "next/image";
 import homeJson from "./home_page_config.json";
 
 export default function Home() {
@@ -10,13 +10,13 @@ export default function Home() {
       <div className="flex flex-row justify-center gap-x-5">
         {topList.map((item) => (
           <a key={item.link_url} href={item.link_url} target="_blank">
-            <SvgIcon name={item.icon_svg} size={40} />
-            {/* <Image 
-                src={item.icon_svg} 
-                width={40} 
-                height={40} 
-                alt="" 
-              /> */}
+            <Image
+              src={`/icons/${item.icon_svg}.svg`}
+              width={40}
+              height={40}
+              className="svgIcon-40"
+              alt=""
+            />
           </a>
         ))}
       </div>
