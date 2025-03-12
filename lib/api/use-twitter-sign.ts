@@ -5,7 +5,7 @@ export function useTwitterSign() {
 
   const scope = searchParams.get("scope");
   const isTwitterAuth = !scope || !scope?.includes("google");
-  const code = isTwitterAuth ? null : searchParams.get("code");
+  const code = isTwitterAuth ? searchParams.get("code") : null;
   const error = searchParams.get("error");
 
   function goTwitter(cb: string) {

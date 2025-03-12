@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useRouter } from "@/app/navigation";
-
 import { useTranslations } from "next-intl";
 
 export default function NotFound() {

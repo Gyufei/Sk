@@ -11,12 +11,12 @@ export default function HomeContent({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const locale = useLocale();
   const uuid = useAtomValue(UuidAtom);
   const pathname = usePathname();
   const isHome = pathname === "/home";
   const isLogin = pathname === "/login";
-  const router = useRouter();
-  const locale = useLocale();
 
   const searchParams = useSearchParams();
 
@@ -52,7 +52,7 @@ export default function HomeContent({
       searchQuery += `${hash}`;
     }
 
-    const path = `/${locale}/login${searchQuery}`;
+    const path = `/${locale || "en"}/login${searchQuery}`;
     router.push(path);
     return;
   }
