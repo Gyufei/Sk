@@ -13,7 +13,7 @@ const clubList = [
     iconSrc: "/icons/events.svg",
     msg: "EventsLevelRequired",
   },
-  { name: "Wallets", href: "/club/wallets", iconSrc: "/icons/wallets.svg" },
+  { name: "Point", href: "/club/point", iconSrc: "/icons/point.svg" },
   {
     name: "Features",
     href: "/club/features",

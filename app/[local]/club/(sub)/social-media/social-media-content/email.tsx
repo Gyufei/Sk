@@ -10,6 +10,7 @@ import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 import { useGoogleEmail } from "@/lib/api/use-google-email";
+import { SaveBtn } from "./save-btn";
 
 export function Email() {
   const { data: userInfo, getUserInfo } = useFetchUserInfo();
@@ -112,14 +113,16 @@ export function Email() {
     }, 1000);
   }
 
-  function handleLink() {
+  function handleLinkGoogle() {
     if (disabled) return;
 
-    if (isGoogleEmail) {
-      openGoogleAuth();
-    } else {
-      sendEmail(inputEmail, window.location.origin + window.location.pathname);
-    }
+    openGoogleAuth();
+  }
+
+  function handleLinkNormal() {
+    if (disabled) return;
+
+    sendEmail(inputEmail, window.location.origin + window.location.pathname);
   }
 
   return (
@@ -149,11 +152,18 @@ export function Email() {
           onBlur={handleBlur}
         />
         <MobileInValidTpl isValid={isValid} text="Invalid Email." />
-        <LinkBtn
-          onClick={handleLink}
-          disabled={isLink || disabled || hasSend}
-          isConnected={isLink}
-        />
+        {isGoogleEmail ? (
+          <LinkBtn
+            onClick={handleLinkGoogle}
+            disabled={isLink || disabled || hasSend}
+            isConnected={isLink}
+          />
+        ) : (
+          <SaveBtn
+            disabled={isLink || disabled || hasSend}
+            handleSave={handleLinkNormal}
+          />
+        )}
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
       <PcInvalidTpl isValid={isValid} text="Invalid Email." />

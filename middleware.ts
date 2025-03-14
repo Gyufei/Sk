@@ -7,7 +7,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale: "en",
 });
 
-const validRoutes = ["login", "home", "club", "mart", "point", "service"];
+const validRoutes = ["login", "home", "club", "mart", "service", "wallets"];
 
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
