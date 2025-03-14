@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
 import { useEffect, useMemo, useState } from "react";
 
-const blurPaths = ['/point', '/home', '/mart/shipping'];
+const blurPaths = ['/club/point', '/home', '/mart/shipping'];
 
 export function LayoutBg() {
   const [src, setSrc] = useState<string | null>(null);

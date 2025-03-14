@@ -320,7 +320,7 @@ export function EventContent({
         </div>
         <div
           className="mb-[6px] mt-5 box-border flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-white bg-[rgba(255,255,255,0.01)] font-haasDisp text-base opacity-60 hover:opacity-70 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=true]:hover:opacity-50 sm:w-[320px]"
-          onClick={() => router.push("/club/wallets")}
+          onClick={() => router.push("/wallets")}
         >
           {T("AddWallet")}
         </div>

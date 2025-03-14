@@ -33,7 +33,7 @@ export default function HomeLinks() {
           onClick={() => router.push(item.href)}
         >
           {item.src ? (
-            <Image src={item.src} width={40} height={40} alt="" />
+            <Image className="my-[5px]" src={item.src} width={40} height={40} alt="" />
           ) : (
             item.name
           )}
