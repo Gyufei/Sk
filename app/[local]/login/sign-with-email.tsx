@@ -9,7 +9,6 @@ import { useSendEmail } from "@/lib/api/use-send-email";
 import { GlobalMsgContext } from "../../../components/global-msg-context";
 import { checkEmailRegex } from "@/lib/utils/utils";
 import { useTranslations } from "next-intl";
-import { useSignCallbackUrl } from "@/lib/use-sign-callback-url";
 
 export default function SignWithEmail({
   signing,
@@ -36,7 +35,6 @@ export default function SignWithEmail({
 
   const { code, hasSend, sending, sendEmail, removeEmailVerifyHash, seconds } =
     useSendEmail();
-  const { getCallbackUrl } = useSignCallbackUrl();
 
   useSWR(code ? `sign-in-with-email:${code}` : null, postSignData);
 
@@ -84,7 +82,12 @@ export default function SignWithEmail({
       signInMethod: SignInMethod.email,
     });
 
-    sendEmail(inputEmail, getCallbackUrl());
+    sendEmail(
+      inputEmail,
+      window.location.origin +
+        window.location.pathname +
+        window.location.search,
+    );
 
     localStorage.setItem(
       LastSignInWithKey,
