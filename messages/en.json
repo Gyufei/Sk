@@ -115,7 +115,8 @@
     "Chain": "Chain",
     "SwitchTo": "Switch to",
     "ShippingAddressRequired": "Please set your shipping address first",
-    "ProductNotOnSale": "This product is not on sale"
+    "ProductNotOnSale": "This product is not on sale",
+    "PaymentWalletNotLinked": "Your payment wallet is not linked"
   },
   "Ticket": {
     "Ticket": "Ticket",

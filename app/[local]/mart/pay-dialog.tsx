@@ -142,10 +142,17 @@ export default function PayDialog({
     } as any);
 
     if (res.status === false && res.msg) {
-      setGlobalMessage({
-        type: "error",
-        message: res.msg,
-      });
+      if (res.msg.includes("Invalid wallet address")) {
+        setGlobalMessage({
+          type: "error",
+          message: T("PaymentWalletNotLinked"),
+        });
+      } else {
+        setGlobalMessage({
+          type: "error",
+          message: res.msg,
+        });
+      }
     } else if (res) {
       handlePayConfirm(res);
     }

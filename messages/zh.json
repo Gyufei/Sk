@@ -115,7 +115,8 @@
     "Chain": "链",
     "SwitchTo": "切换到",
     "ShippingAddressRequired": "请先设置收货地址",
-    "ProductNotOnSale": "该商品不在售卖中"
+    "ProductNotOnSale": "该商品不在售卖中",
+    "PaymentWalletNotLinked": "当前使用的支付钱包没有绑定"
   },
   "Ticket": {
     "Ticket": "工单",
