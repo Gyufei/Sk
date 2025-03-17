@@ -33,7 +33,7 @@ export function TgLinkBtn({
         reject(new Error("unable to load"));
       };
 
-      script.setAttribute("data-telegram-login", TgConfig.botName);
+      script.setAttribute("data-telegram-login", TgConfig.botName || "");
       script.setAttribute("data-size", "large");
       script.setAttribute("data-request-access", "write");
       div.style.display = "none";
