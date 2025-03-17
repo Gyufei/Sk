@@ -18,7 +18,7 @@ export default function Point() {
   const activityList: any[] = [];
 
   return (
-    <div className="mb-[20px] mt-6 sm:min-h-[500px]">
+    <div className="mb-[20px] mt-6">
       <div className="flex flex-row items-start justify-start rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:rounded-[18px] sm:p-[20px]">
         <div className="flex-1">
           <div className="font-haasDisp text-xl font-semibold text-white sm:text-[rgba(255,255,255,0.6)]">
