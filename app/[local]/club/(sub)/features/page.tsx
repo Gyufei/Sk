@@ -1,7 +1,7 @@
 "use client";
 import { GoBackTo } from "@/components/go-back-to";
 import { useTranslations } from "next-intl";
-import DomainRedirect from "./domain-redirect";
+import BrandProfile from "./brand-profile";
 import SearchHistoricalTweets from "./search-historical-tweets";
 import FeatureItem from "./feature-item";
 import { Switch } from "@/components/ui/switch";
@@ -10,45 +10,40 @@ import { useNotificationListen } from "@/lib/use-notification-listen";
 import { WithTip } from "@/components/with-tip";
 import Image from "next/image";
 
-
 export default function Page() {
   const T = useTranslations("Common");
   const {
     notificationChecked,
     notificationDisabled,
     onNotificationChecked,
-    levelGt2
-  } = useNotificationListen()
+    levelGt2,
+  } = useNotificationListen();
 
   const notionTitle = (
     <div className="flex align-middle">
       {T("Notification")}
-      {
-        notificationDisabled && (
-          <WithTip
-            tipContent={<div>{T("NotificationWarnning")}</div>}
-          >
-            <Image
-              src="/icons/warning.svg"
-              width={24}
-              height={24}
-              className={"ml-[8px]"}
-              alt="warning"
-            />
-          </WithTip>
-        )
-      }
+      {notificationDisabled && (
+        <WithTip tipContent={<div>{T("NotificationWarnning")}</div>}>
+          <Image
+            src="/icons/warning.svg"
+            width={24}
+            height={24}
+            className={"ml-[8px]"}
+            alt="warning"
+          />
+        </WithTip>
+      )}
     </div>
-  )
-  
+  );
+
   return (
-    <div className="no-scroll-bar content-w-600 m-t-20 sm:trans-scroll-bar relative  overflow-y-auto sm:h-fit sm:max-h-[calc(100%-70px)] focus-visible:outline-none">
+    <div className="no-scroll-bar content-w-600 m-t-20 sm:trans-scroll-bar relative overflow-y-auto focus-visible:outline-none sm:h-fit sm:max-h-[calc(100%-70px)]">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
         <BreadCrumbs />
         <GoBackTo />
       </div>
-      <div className="w-full relative mb-[20px] mt-6 content-bg-blur">
-        <DomainRedirect />
+      <div className="content-bg-blur relative mb-[20px] mt-6 w-full">
+        <BrandProfile />
         <FeatureItem
           title={notionTitle}
           className={

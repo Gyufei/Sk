@@ -142,7 +142,7 @@ export default function SignDialog() {
         noMethodShow
           ? "mt-[100px] justify-center bg-transparent px-0 py-[40px] sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
           : "bg-[rgba(255,255,255,0.1)] p-[35px]"
-      } flex-col items-center gap-0 rounded-3xl border-none backdrop-blur-[7px] `}
+      } flex-col items-center gap-0 rounded-3xl border-none`}
     >
       {noMethodShow && (
         <div className="flex flex-col items-center">

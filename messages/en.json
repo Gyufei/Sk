@@ -50,7 +50,7 @@
     "Cup": "Cup",
     "XAccount": "X Account",
     "Features": "Features",
-    "DomainRedirect": "Domain Redirect",
+    "BrandProfile": "Brand Profile",
     "Notification": "Notification",
     "NotificationWarnning": "Push notifications have been disabled",
     "Save": "Save",
@@ -114,7 +114,8 @@
     "Token": "Token",
     "Chain": "Chain",
     "SwitchTo": "Switch to",
-    "ShippingAddressRequired": "Please set your shipping address first"
+    "ShippingAddressRequired": "Please set your shipping address first",
+    "ProductNotOnSale": "This product is not on sale"
   },
   "Ticket": {
     "Ticket": "Ticket",

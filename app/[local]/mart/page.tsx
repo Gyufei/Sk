@@ -2,7 +2,11 @@
 import Image from "next/image";
 import { useContext, useRef, useState } from "react";
 import { formatNum } from "@/lib/utils/number";
-import { IProduct, useMartProducts } from "@/lib/api/use-mart-products";
+import {
+  checkIsOnSale,
+  IProduct,
+  useMartProducts,
+} from "@/lib/api/use-mart-products";
 import SkuModal from "./sku-modal";
 import PayDialog from "./pay-dialog";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
@@ -41,6 +45,14 @@ export default function MartPage() {
   }
 
   function handleCart(item: IProduct) {
+    if (!checkIsOnSale(item)) {
+      setGlobalMessage({
+        type: "warning",
+        message: T("ProductNotOnSale"),
+      });
+      return;
+    }
+
     if (!userInfo?.shipping) {
       setGlobalMessage({
         type: "warning",
@@ -70,7 +82,7 @@ export default function MartPage() {
 
   return (
     <>
-      <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2 focus-visible:outline-none">
+      <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top focus-visible:outline-none sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2">
         {(products || []).map((item) => (
           <div
             key={item.product_id}
@@ -99,7 +111,8 @@ export default function MartPage() {
                   </div>
                   <div
                     onClick={() => handleCart(item)}
-                    className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[rgba(214,214,214,0.1)] group-hover:bg-[rgba(255,255,255,0.1)] sm:h-8 sm:w-8"
+                    data-disabled={!checkIsOnSale(item)}
+                    className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[rgba(214,214,214,0.1)] group-hover:bg-[rgba(255,255,255,0.1)] data-[disabled=true]:opacity-50 sm:h-8 sm:w-8"
                   >
                     <Image
                       width={18}

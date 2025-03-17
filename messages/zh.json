@@ -51,7 +51,7 @@
     "Cup": "马克杯",
     "XAccount": "X账号",
     "Features": "高级特性",
-    "DomainRedirect": "二级子域名",
+    "BrandProfile": "品牌资料",
     "Notification": "通知",
     "NotificationWarnning": "浏览器已禁用消息推送功能",
     "Save": "保存",
@@ -114,7 +114,8 @@
     "Token": "代币",
     "Chain": "链",
     "SwitchTo": "切换到",
-    "ShippingAddressRequired": "请先设置收货地址"
+    "ShippingAddressRequired": "请先设置收货地址",
+    "ProductNotOnSale": "该商品不在售卖中"
   },
   "Ticket": {
     "Ticket": "工单",
