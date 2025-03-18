@@ -174,7 +174,7 @@ export default function ShippingAddressPage() {
           />
         </StreetAndCode>
         <SaveBtn
-          className="mt-[20px] flex w-full bg-[rgba(255,255,255,0.1)] backdrop-blur sm:hidden"
+          className="mt-[20px] flex w-full bg-[#ffffff10] sm:hidden"
           disabled={disabled}
           onClick={handleSave}
         />

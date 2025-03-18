@@ -52,7 +52,7 @@ export function PopDrawer({
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
+    <Drawer repositionInputs={false} open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className={className}>
         <DrawerHeader className="py-0 text-center">

@@ -17,7 +17,7 @@ export function SaveBtn({
       data-disabled={disabled}
       onClick={onClick}
       className={cn(
-        "ml-0 h-12 cursor-pointer items-center justify-center rounded-lg border border-[rgba(255,255,255,0.6)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 sm:ml-4",
+        "ml-0 h-12 cursor-pointer items-center justify-center rounded-lg border border-[#ffffff60] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 sm:ml-4",
         className,
       )}
     >

@@ -42,6 +42,7 @@ export function AddressInput({
   }
 
   const titleClass = "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
+
   return (
     <div className="mt-[30px] flex flex-col items-stretch space-x-0 space-y-[30px] sm:mt-10 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
       <div className="flex flex-1 flex-col sm:mt-0">
