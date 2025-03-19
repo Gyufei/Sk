@@ -24,19 +24,46 @@ export interface IProduct {
   sell_end_at: number;
 }
 
-const url = `${ApiHost}/static/products.json?t=${new Date().getTime()}`;
-
 export function useMartProducts() {
-  const res = useSWR<Array<IProduct>>(url, fetcher);
+  async function productFetcher() {
+    const url = `${ApiHost}/order/products`;
+    const res = await fetcher(url);
+
+    const products = res || [];
+
+    const productsNotEndSale = products.filter((product: IProduct) => {
+      if (checkIsAfterSale(product)) return false;
+      return true;
+    });
+
+    return productsNotEndSale;
+  }
+
+  const res = useSWR<Array<IProduct>>("products", productFetcher);
 
   return res;
+}
+
+export function checkIsBeforeSale(product: IProduct) {
+  if (!product.sell_start_at) return false;
+
+  const now = Math.floor(new Date().getTime() / 1000);
+  if (now < product.sell_start_at) return true;
+  return false;
+}
+
+export function checkIsAfterSale(product: IProduct) {
+  if (!product.sell_end_at) return false;
+
+  const now = Math.floor(new Date().getTime() / 1000);
+  if (now > product.sell_end_at) return true;
+  return false;
 }
 
 export function checkIsOnSale(product: IProduct) {
   if (!product.sell_start_at || !product.sell_end_at) return true;
 
-  const now = Math.floor(new Date().getTime() / 1000);
-  if (now < product.sell_start_at || now > product.sell_end_at) return false;
-
+  if (checkIsBeforeSale(product)) return false;
+  if (checkIsAfterSale(product)) return false;
   return true;
 }

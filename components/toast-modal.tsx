@@ -31,7 +31,7 @@ export function ToastModal({
         background: "rgba(255,255,255,0.1)",
       }}
     >
-      <div className="flex w-full flex-col text-white">
+      <div className="flex max-h-[calc(100vh-80px)] w-full flex-col text-white">
         {title && (
           <ToastTitle className="text-[20px] font-medium leading-[30px]">
             <div className="flex flex-row pr-[16px]">
@@ -50,7 +50,7 @@ export function ToastModal({
         )}
         {description && (
           <ToastDescription
-            className={`break-all text-base leading-[24px] ${
+            className={`flex-1 flex flex-col break-all text-base leading-[24px] ${
               title && "pt-[12px]"
             }`}
           >

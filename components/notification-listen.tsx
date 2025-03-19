@@ -72,6 +72,14 @@ export function NotificationListen() {
   }, [noteInfo.current?.levelGt2]);
 
   useEffect(() => {
+    // notifyMe({
+    //   id: "1",
+    //   create_at: "1714857600",
+    //   title: "title-title-tiele",
+    //   content: `test for test test for test`,
+    //   image:
+    //     "http://e.hiphotos.baidu.com/image/pic/item/a1ec08fa513d2697e542494057fbb2fb4316d81e.jpg",
+    // });
     const notionWebsocket = new WebsocketController(ApiSocket);
     // Add a custom event handler
     notionWebsocket.execute({ type: "data", content: "Hello, WebSocket!" });
@@ -184,8 +192,8 @@ export function NotificationListen() {
         iconImage={"notion"}
         {...toastContent}
         description={
-          <div>
-            <div className="whitespace-pre-wrap text-[#d6d6d6]">
+          <div className="flex max-h-[calc(100vh-110px)] flex-col">
+            <div className="trans-scroll-bar flex-1 overflow-auto whitespace-pre-wrap pr-1 text-[#d6d6d6]">
               {toastContent.content}
               {toastImage && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -201,14 +209,16 @@ export function NotificationListen() {
                 />
               )}
             </div>
-            <div className="mt-[10px] text-sm text-white opacity-40">
-              {T("PostedAt")}: {toastContent.create_at}
-            </div>
-            <div
-              className="normal-line-button mt-[15px]  h-12  w-full cursor-pointer justify-center rounded-[8px] text-center align-middle font-semibold leading-[48px]"
-              onClick={handleClose}
-            >
-              {T("NotificationOK")}
+            <div className="flex flex-col">
+              <div className="mt-[10px] text-sm text-white opacity-40">
+                {T("PostedAt")}: {toastContent.create_at}
+              </div>
+              <div
+                className="normal-line-button mt-[15px]  h-12  w-full cursor-pointer justify-center rounded-[8px] text-center align-middle font-semibold leading-[48px]"
+                onClick={handleClose}
+              >
+                {T("NotificationOK")}
+              </div>
             </div>
           </div>
         }

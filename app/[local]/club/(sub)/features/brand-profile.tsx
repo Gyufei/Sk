@@ -14,7 +14,7 @@ import FeatureItem from "./feature-item";
 
 export default function BrandProfile() {
   const T = useTranslations("Common");
-  const [redirectHost, setRedirectHost] = useState<string | null>(null);
+  const [yourId, setYourId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const uuid = useAtomValue(UuidAtom);
@@ -23,7 +23,7 @@ export default function BrandProfile() {
 
   useEffect(() => {
     if (!data) return;
-    if (data.redirect_uri) setRedirectHost(data.redirect_uri);
+    if (data.sub_domain) setYourId(data.sub_domain);
   }, [data]);
 
   function getSubdomain() {
@@ -48,7 +48,7 @@ export default function BrandProfile() {
       },
       body: JSON.stringify({
         user_id: uuid,
-        redirect_uri: redirectHost,
+        sub_domain: yourId,
       }),
     });
     setLoading(false);
@@ -65,7 +65,7 @@ export default function BrandProfile() {
     <FeatureItem title={T("BrandProfile")}>
       <div className="mt-[10px] flex flex-1 flex-col items-center justify-between self-stretch sm:flex-row">
         <div className="relative w-full sm:flex-1">
-          <div className="absolute left-0 top-[12px] flex w-fit items-center sm:right-2 gap-1 sm:gap-3">
+          <div className="absolute left-0 top-[12px] flex w-fit items-center gap-1 sm:right-2 sm:gap-3">
             <span className="text-base leading-6 text-[#d6d6d6]">
               https://juu17.com
             </span>
@@ -73,16 +73,16 @@ export default function BrandProfile() {
           </div>
           <Input
             onKeyDown={handleKeyDown}
-            value={redirectHost || ""}
-            onChange={(e: any) => setRedirectHost(e.target.value)}
-            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-[140px] sm:pl-[150px] text-base text-white"
-            placeholder="your brands id"
+            value={yourId || ""}
+            onChange={(e: any) => setYourId(e.target.value)}
+            className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-[140px] text-base text-white sm:pl-[150px]"
+            placeholder="your profile handle"
           />
         </div>
 
         <IconBtn
           className={"mt-[20px] w-full"}
-          disabled={!redirectHost}
+          disabled={!yourId}
           btnText={T("Save")}
           handleClick={handleSave}
         />
