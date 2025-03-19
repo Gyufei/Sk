@@ -23,7 +23,7 @@ export default function BrandProfile() {
 
   useEffect(() => {
     if (!data) return;
-    if (data.sub_domain) setYourId(data.sub_domain);
+    if (data.subdomain) setYourId(data.subdomain);
   }, [data]);
 
   function getSubdomain() {
@@ -48,7 +48,7 @@ export default function BrandProfile() {
       },
       body: JSON.stringify({
         user_id: uuid,
-        sub_domain: yourId,
+        subdomain: yourId,
       }),
     });
     setLoading(false);
