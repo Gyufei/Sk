@@ -11,29 +11,32 @@ export function InputWithClear({
   type,
   onValueChange,
   isError = false,
-  isSign = false,
+  showLink = false,
   conClass,
   inputClass,
   iconClass,
   inputId,
   onBlur,
   readOnly = false,
-  notLink = false,
+  showUnLink = false,
+  showClear = true,
 }: {
   value: string;
   placeHolder?: string;
   placeHolderText?: string;
+  inputId?: string;
   type?: string;
+  readOnly?: boolean;
   onValueChange: (_v: string) => void;
-  isError?: boolean;
-  isSign: boolean;
   conClass?: string;
   inputClass?: string;
   iconClass?: string;
-  inputId?: string;
+
+  isError?: boolean;
+  showLink: boolean;
   onBlur?: () => void;
-  readOnly?: boolean;
-  notLink?: boolean;
+  showUnLink?: boolean;
+  showClear?: boolean;
 }) {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -79,7 +82,7 @@ export function InputWithClear({
         readOnly={readOnly}
       />
       <div className="absolute right-2 top-1/2 flex -translate-y-1/2 transform gap-2">
-        {!readOnly && value && (
+        {showClear && value && (
           <button
             onClick={($event) => {
               $event.preventDefault();
@@ -96,21 +99,21 @@ export function InputWithClear({
             />
           </button>
         )}
-        {value && notLink && (
-          <Image
-            src="/icons/close-red.svg"
-            width={20}
-            height={20}
-            alt="link"
-            className={cn(iconClass)}
-          />
-        )}
-        {isSign && !isFocus && (
+        {showLink && !isFocus && (
           <Image
             src="/icons/sign.svg"
             width={20}
             height={20}
             alt="sign"
+            className={cn(iconClass)}
+          />
+        )}
+        {value && showUnLink && (
+          <Image
+            src="/icons/close-red.svg"
+            width={20}
+            height={20}
+            alt="link"
             className={cn(iconClass)}
           />
         )}

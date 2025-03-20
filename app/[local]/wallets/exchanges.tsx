@@ -132,7 +132,7 @@ export function Exchanges() {
               if (!v) setBnUIDValid(true);
               setBnUID(v);
             }}
-            isSign={false}
+            showLink={false}
             inputId="phone"
             conClass="w-full sm:w-auto"
             onBlur={handleBnBlur}
@@ -153,7 +153,7 @@ export function Exchanges() {
               if (!v) setOKXUIDValid(true);
               setOKXUID(v);
             }}
-            isSign={false}
+            showLink={false}
             inputId="okx"
             conClass="w-full sm:w-auto"
             onBlur={handleOkxBlur}
@@ -174,7 +174,7 @@ export function Exchanges() {
               if (!v) setByBitUIDValid(true);
               setByBitUID(v);
             }}
-            isSign={false}
+            showLink={false}
             inputId="bybit"
             conClass="w-full sm:w-auto"
             onBlur={handleByBitBlur}

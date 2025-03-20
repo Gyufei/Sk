@@ -146,7 +146,7 @@ export function Email() {
           type={eyeState ? "password" : "text"}
           placeHolder="name@gmail.com"
           onValueChange={(v) => handleEmailInput(v)}
-          isSign={isLink}
+          showLink={isLink}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           onBlur={handleBlur}

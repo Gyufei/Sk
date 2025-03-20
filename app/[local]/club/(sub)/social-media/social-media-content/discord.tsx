@@ -78,7 +78,7 @@ export function Discord() {
           type={eyeState ? "password" : "text"}
           placeHolder="discord"
           onValueChange={(v) => handleXInput(v)}
-          isSign={false}
+          showLink={false}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           onBlur={handleBlur}

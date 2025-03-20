@@ -84,10 +84,11 @@ export function Twitter() {
           placeHolderText={twitterPlaceHolderText}
           placeHolder="twitter"
           onValueChange={() => {}}
-          isSign={isLink}
+          showLink={isLink}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           readOnly={true}
+          showClear={false}
         />
         <LinkBtn
           onClick={handleLink}

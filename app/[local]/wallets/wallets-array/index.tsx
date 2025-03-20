@@ -2,12 +2,6 @@ import { useTranslations } from "next-intl";
 import { EthWallets } from "./eth-wallets";
 import { SolWallets } from "./sol-wallets";
 
-export interface IWallet {
-  name: string;
-  address: string;
-  isSign: boolean;
-}
-
 export function WalletArray() {
   const T = useTranslations("Common");
 

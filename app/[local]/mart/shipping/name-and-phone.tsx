@@ -97,7 +97,7 @@ export function NameAndPhone({
           isError={!rcNameValid}
           value={recipientName}
           onValueChange={(v) => handleNameChange(v)}
-          isSign={false}
+          showLink={false}
           inputId="recipientName"
           inputClass="text-base"
           onBlur={handleNameBlur}
@@ -156,7 +156,7 @@ export function NameAndPhone({
             isError={!phoneValid}
             value={phoneNumber}
             onValueChange={(v) => handlePhoneNumChange(v)}
-            isSign={false}
+            showLink={false}
             inputId="phone2"
             conClass="w-full"
             inputClass="text-base"
@@ -177,7 +177,7 @@ export function NameAndPhone({
           isError={false}
           value={code}
           onValueChange={(v) => setCode(v)}
-          isSign={false}
+          showLink={false}
           inputId="code"
           inputClass="text-base"
         />

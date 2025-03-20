@@ -13,12 +13,20 @@ export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo, getUserInfo: refetchUserInfo } = useFetchUserInfo();
   const [isValid, setIsValid] = useState(true);
+  const [tgValue, setTgValue] = useState("");
 
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "tgEyeShow" });
+
   const tg = userInfo?.social_media?.Telegram;
-  const isLink = userInfo?.social_media?.Telegram?.user_id;
-  const tgName = (tg as any)?.user_name || '';
+  const tgName = (tg as any)?.user_name || "";
+  const isLink = userInfo?.social_media?.Telegram?.user_id && tgValue;
+
+  useEffect(() => {
+    if (tgName) {
+      setTgValue(tgName);
+    }
+  }, [tgName]);
 
   useEffect(() => {
     if (saveRes) {
@@ -53,18 +61,23 @@ export function Tg() {
         </div>
         <InputWithClear
           isError={!isValid}
-          value={tgName}
+          value={tgValue}
           type={eyeState ? "password" : "text"}
           placeHolderText={placeHolderText}
           placeHolder="tg"
-          onValueChange={() => {}}
-          isSign={false}
+          onValueChange={setTgValue}
+          showLink={isLink}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           readOnly={true}
-          notLink={!isLink}
+          showUnLink={!isLink}
+          showClear={true}
         />
-        <TgLinkBtn disabled={isLink} isConnected={isLink} onSave={handleSave} />
+        <TgLinkBtn
+          disabled={tgValue && isLink}
+          isConnected={tgValue && isLink}
+          onSave={handleSave}
+        />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
     </div>

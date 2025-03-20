@@ -53,7 +53,7 @@ export function StreetAndCode({
           isError={!streetValid}
           value={street}
           onValueChange={(v) => handleStreetChange(v)}
-          isSign={false}
+          showLink={false}
           inputId="street"
           onBlur={handleStreetBlur}
           inputClass="text-base"
