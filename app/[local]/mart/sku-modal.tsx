@@ -68,6 +68,11 @@ export default function SkuModal({
           </>
         ))}
       </div>
+      <div className="mt-5">
+        <div className="w-fit cursor-pointer text-base leading-6 text-[#d6d6d6] underline decoration-dotted underline-offset-1">
+          {T("WhatsMySize")}
+        </div>
+      </div>
       <div
         className={`bg-[#252525] ${
           !isDesktop &&
@@ -77,7 +82,7 @@ export default function SkuModal({
         <div
           data-disabled={!selectedSku}
           className={`${
-            isDesktop && "mt-[40px]"
+            isDesktop && "mt-[10px]"
           } flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100
               `}
           onClick={() => {
