@@ -117,7 +117,9 @@
     "SwitchTo": "切换到",
     "ShippingAddressRequired": "请先设置收货地址",
     "ProductNotOnSale": "该商品不在售卖中",
-    "PaymentWalletNotLinked": "当前使用的支付钱包没有绑定"
+    "PaymentWalletNotLinked": "当前使用的支付钱包没有绑定",
+    "TgBotGuide": "马上开始使用机器人",
+    "OK": "确认"
   },
   "Ticket": {
     "Ticket": "工单",

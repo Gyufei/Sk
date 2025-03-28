@@ -6,12 +6,15 @@ import { useState, useEffect, useContext } from "react";
 import { GlobalMsgContext } from "@/components/global-msg-context";
 import { EyeToggleBtn, useEyeToggle } from "./eye-toggle-btn";
 import { TgLinkBtn } from "./tg-link-btn";
+import TgSuccessModal from "./tg-success-modal";
 
 const placeHolderText = "https://t.me/";
 
 export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
-  const { data: userInfo, getUserInfo: refetchUserInfo } = useFetchUserInfo();
+  const { data: userInfo } = useFetchUserInfo();
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [tgValue, setTgValue] = useState("");
 
@@ -30,12 +33,12 @@ export function Tg() {
 
   useEffect(() => {
     if (saveRes) {
+      setShowSuccessModal(true);
       setIsValid(true);
       setGlobalMessage({
         type: "success",
         message: "Saved successfully",
       });
-      refetchUserInfo();
     }
   }, [saveRes]);
 
@@ -80,6 +83,10 @@ export function Tg() {
         />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
+      <TgSuccessModal 
+        open={showSuccessModal} 
+        onOpenChange={setShowSuccessModal}
+        />
     </div>
   );
 }

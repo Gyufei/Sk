@@ -117,7 +117,9 @@
     "SwitchTo": "Switch to",
     "ShippingAddressRequired": "Please set your shipping address first",
     "ProductNotOnSale": "This product is not on sale",
-    "PaymentWalletNotLinked": "Your payment wallet is not linked"
+    "PaymentWalletNotLinked": "Your payment wallet is not linked",
+    "TgBotGuide": "You're very close to the bot",
+    "OK": "OK"
   },
   "Ticket": {
     "Ticket": "Ticket",
