@@ -6,7 +6,7 @@ import { LastSignInWithKey, SignInMethod } from "./type";
 import SignWithXBtn from "./sign-with-x-btn";
 import { SignWithWalletBtn } from "./sign-with-wallet-btn";
 import SignWithEmail from "./sign-with-email";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
 import CircleText from "./circle-text";
@@ -19,6 +19,7 @@ import { useRouter } from "@/app/navigation";
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function SignDialog() {
+  const locale = useLocale();
   const T = useTranslations("Common");
   const [uuid, setUuid] = useAtom(UuidAtom);
   const searchParams = useSearchParams();
@@ -37,7 +38,7 @@ export default function SignDialog() {
   const [, setEmailAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
-  const words = cycleWords;
+  const words = cycleWords[locale as keyof typeof cycleWords];
 
   const noMethodShow = !showEmail && !showTwitter && !showWallet;
 
@@ -75,7 +76,7 @@ export default function SignDialog() {
 
   useEffect(() => {
     if (uuid) {
-      router.push(from ? `/${from}` : "/home");
+      router.push(from ? `/${from}` : "/one");
     }
   }, [uuid]);
 
@@ -138,9 +139,9 @@ export default function SignDialog() {
 
   return (
     <div
-      className={`flex w-[345px] font-haasDisp sm:ml-[-250px] sm:w-[400px] ${
+      className={`flex w-[345px] font-haasDisp sm:ml-[-240px] sm:w-[400px] ${
         noMethodShow
-          ? "mt-[100px] justify-center bg-transparent px-0 py-[40px] sm:mt-0 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
+          ? "justify-center bg-transparent px-0 py-[40px] sm:h-[500px] sm:w-[500px] sm:bg-transparent"
           : "bg-[rgba(255,255,255,0.1)] p-[35px]"
       } flex-col items-center gap-0 rounded-3xl border-none`}
     >

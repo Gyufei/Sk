@@ -12,7 +12,7 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
         <div className="grid">
           <div className="left-block">
             <Link
-              href="/home"
+              href="/one"
               aria-current="page"
               className="link-block-2 inline-block"
             >

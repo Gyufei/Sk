@@ -6,7 +6,7 @@ export default function LocalePage() {
   const router = useRouter();
 
   if (pathname === "/") {
-    router.push("/home");
+    router.push("/one");
   }
 
   return null;

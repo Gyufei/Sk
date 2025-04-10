@@ -15,7 +15,7 @@ export default function HomeContent({
   const locale = useLocale();
   const uuid = useAtomValue(UuidAtom);
   const pathname = usePathname();
-  const isHome = pathname === "/home";
+  const isHome = pathname === "/one";
   const isLogin = pathname === "/login";
 
   const searchParams = useSearchParams();

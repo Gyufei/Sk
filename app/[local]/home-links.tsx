@@ -6,7 +6,7 @@ import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils/utils";
 
 const homeLinks = [
-  { id: "home", pathname: "/home", href: "/home", name: "Home" },
+  { id: "one", pathname: "/one", href: "/one", name: "One" },
   { id: "mart", pathname: "/mart", href: "/mart", name: "Mart" },
   { id: "club", pathname: "/club", href: "/club", name: "Club" },
 ];

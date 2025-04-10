@@ -114,10 +114,10 @@ export default async function RootLayout({
                 <HomeLayout>
                   {children}
                   <GlobalActionTip />
-                  <Toaster />
                   <WalletDisconnected />
-                  <NotificationListen />
                 </HomeLayout>
+                <Toaster />
+                <NotificationListen />
               </SolanaWalletProviders>
             </Web3Provider>
           </NextIntlClientProvider>

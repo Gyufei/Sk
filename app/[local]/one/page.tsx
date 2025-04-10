@@ -1,7 +1,9 @@
 import Image from "next/image";
 import homeJson from "./home_page_config.json";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const T = useTranslations("Common");
   const topList = homeJson.top_icon_links;
   const linkPanels = homeJson.link_panels;
 
@@ -28,7 +30,7 @@ export default function Home() {
               key={item.caption}
             >
               <div className="text-[rgba(255, 255, 255, 0.8)] mb-[20px] text-center text-xl font-semibold leading-[30px]">
-                {item.caption}
+                {T(item.caption)}
               </div>
               {item.links.map((linkItem) => (
                 <a
@@ -37,7 +39,7 @@ export default function Home() {
                   href={linkItem.link_url}
                   target="_blank"
                 >
-                  {linkItem.text}
+                  {T(linkItem.text)}
                 </a>
               ))}
             </div>

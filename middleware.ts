@@ -7,7 +7,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale: "en",
 });
 
-const validRoutes = ["login", "home", "club", "mart", "service", "wallets"];
+const validRoutes = ["login", "one", "club", "mart", "service", "wallets"];
 
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -25,9 +25,7 @@ export default function middleware(request: NextRequest) {
 
   // 处理根路径
   if (pathname === "/") {
-    return NextResponse.redirect(
-      new URL(`/${defaultLocale}/home`, request.url),
-    );
+    return NextResponse.redirect(new URL(`/${defaultLocale}/one`, request.url));
   }
 
   const checkIsFilePath = (path: string) => {
@@ -52,7 +50,7 @@ export default function middleware(request: NextRequest) {
   // 处理 /en 或 /zh 路径
   if (restPath === "") {
     return NextResponse.redirect(
-      new URL(`/${locale}/home${searchStr}`, request.url),
+      new URL(`/${locale}/one${searchStr}`, request.url),
     );
   }
 
