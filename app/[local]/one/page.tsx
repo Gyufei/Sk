@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="content-w-320">
       <div className="flex flex-row justify-center gap-x-5">
-        {topList.map((item) => (
+        {topList.map((item: any) => (
           <a key={item.link_url} href={item.link_url} target="_blank">
             <Image
               src={`/icons/${item.icon_svg}.svg`}
