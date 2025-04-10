@@ -2,7 +2,7 @@ import { useWriteContract } from "wagmi";
 import { IChain } from "@/lib/const/chain";
 import { getKinkoAddress } from "./contract/contract-address";
 import { ChainWorkBenchABIV2 } from "./contract/eth/ChainWorkBench-v2";
-import { IPayToken } from "@/app/[local]/mart/pay-config";
+import { IPayToken } from "@/app/[local]/brands/mart/pay-config";
 import NP from "number-precision";
 import { useRecipients } from "./api/use-recipient";
 import { useTokenPrice } from "./api/use-token-price";

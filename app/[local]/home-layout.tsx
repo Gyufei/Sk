@@ -5,7 +5,6 @@ import { LayoutBg } from "@/components/layout-bg";
 import HomeContent from "./home-content";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
-
   return (
     <div className="section !pointer-events-auto" id="__next">
       <div className="main-container">

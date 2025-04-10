@@ -11,7 +11,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!uuid) {
-      router.replace("/club");
+      router.replace("/brands/club");
     }
   }, [uuid, router]);
 

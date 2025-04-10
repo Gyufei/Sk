@@ -58,7 +58,7 @@ export default function MartPage() {
         type: "warning",
         message: T("ShippingAddressRequired"),
       });
-      router.push("/mart/shipping");
+      router.push("/brands/mart/shipping");
       return;
     }
 

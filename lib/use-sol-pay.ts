@@ -8,7 +8,7 @@ import {
 } from "@solana/spl-token";
 import { useSolProgram } from "./use-sol-program";
 import { useState } from "react";
-import { IPayToken, payTokenConfig } from "@/app/[local]/mart/pay-config";
+import { IPayToken, payTokenConfig } from "@/app/[local]/brands/mart/pay-config";
 import { useRecipients } from "./api/use-recipient";
 import { IChain, SolanaChainInfos, ChainInfos } from "@/lib/const/chain";
 import NP from "number-precision";

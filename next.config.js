@@ -30,6 +30,34 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  rewrites() {
+    return {
+      beforeFiles: [
+        // if the host is `app.acme.com`,
+        // this rewrite will be applied
+        {
+          source: '/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'brands.juu17.com',
+            },
+          ],
+          destination: '/brands/:path*',
+        },
+        {
+          source: '/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'one.juu17.com',
+            },
+          ],
+          destination: '/one/:path*',
+        },
+      ]
+    }
   }
 };
 
@@ -59,7 +87,7 @@ module.exports = withNextIntl(withSentryConfig(
     widenClientFileUpload: true,
 
     // Transpiles SDK to be compatible with IE11 (increases bundle size)
-    transpileClientSDK: true,
+    transpileClientSDK: false,
 
     // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
     // This can increase your server load as well as your hosting bill.

@@ -7,13 +7,15 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: "https://10272a26adc1b894a30c75976d140cd3@o4505362337824768.ingest.us.sentry.io/4507054166966272",
 
-  // Adjust this value in production, or use tracesSampler for greater control
-  tracesSampleRate: 1,
+  // 只在生产环境下启用 Sentry
+  enabled: process.env.NODE_ENV === "production",
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  // 调整采样率
+  tracesSampleRate: process.env.NODE_ENV === "production" ? 1 : 0,
+
+  // 开发环境下关闭调试信息
   debug: false,
 
   // uncomment the line below to enable Spotlight (https://spotlightjs.com)
   // spotlight: process.env.NODE_ENV === 'development',
-  
 });

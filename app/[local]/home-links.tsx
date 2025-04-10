@@ -4,17 +4,12 @@ import { usePathname, useRouter } from "@/app/navigation";
 import { UuidAtom } from "@/lib/api/state";
 import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils/utils";
-
-const homeLinks = [
-  { id: "one", pathname: "/one", href: "/one", name: "One" },
-  { id: "mart", pathname: "/mart", href: "/mart", name: "Mart" },
-  { id: "club", pathname: "/club", href: "/club", name: "Club" },
-];
+import { useMemo } from "react";
 
 const walletsLink = {
   id: "wallets",
-  pathname: "/wallets",
-  href: "/wallets",
+  pathname: "/brands/wallets",
+  href: "/brands/wallets",
   name: "Wallets",
   src: "/icons/wallets.svg",
 };
@@ -24,23 +19,49 @@ export default function HomeLinks() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const isHome =
+    pathname === "/" ||
+    pathname.startsWith("/one") ||
+    pathname.startsWith("/login");
+  const isBrands = pathname.startsWith("/brands");
+
+  const homeLinks = useMemo(() => {
+    if (isHome || !uuid) {
+      return [
+        { id: "one", pathname: "/one", href: "/one", name: "One" },
+        {
+          id: "brands",
+          pathname: "/brands",
+          href: "/brands",
+          name: "Brands",
+        },
+      ];
+    } else {
+      return [
+        {
+          id: "mart",
+          pathname: "/brands/mart",
+          href: "/brands/mart",
+          name: "Mart",
+        },
+        {
+          id: "club",
+          pathname: "/brands/club",
+          href: "/brands/club",
+          name: "Club",
+        },
+        { id: "one", pathname: "/one", href: "/one", name: "One" },
+      ];
+    }
+  }, [isHome]);
+
   function isPathActive(href: string): boolean {
     return pathname.startsWith(href);
   }
 
   return (
     <ul className="navbar relative w-full sm:static sm:w-fit">
-      {homeLinks.map((item) => (
-        <li
-          key={item.name}
-          className={cn(isPathActive(item.href) && "active", "font-haasDisp")}
-          data-id={item.id}
-          onClick={() => router.push(item.href)}
-        >
-          {item.name}
-        </li>
-      ))}
-      {uuid && (
+      {uuid && isBrands && (
         <li
           className={cn(
             isPathActive(walletsLink.href) && "active",
@@ -58,6 +79,16 @@ export default function HomeLinks() {
           />
         </li>
       )}
+      {homeLinks.map((item) => (
+        <li
+          key={item.name}
+          className={cn(isPathActive(item.href) && "active", "font-haasDisp")}
+          data-id={item.id}
+          onClick={() => router.push(item.href)}
+        >
+          {item.name}
+        </li>
+      ))}
     </ul>
   );
 }

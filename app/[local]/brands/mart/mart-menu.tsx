@@ -5,8 +5,12 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/utils";
 
 const menuItems = [
-  { name: "Shipping", href: "/mart/shipping", iconSrc: "/icons/shipping.svg" },
-  { name: "Mart", href: "/mart", iconSrc: "/icons/mart-items.svg" },
+  {
+    name: "Shipping",
+    href: "/brands/mart/shipping",
+    iconSrc: "/icons/shipping.svg",
+  },
+  { name: "Mart", href: "/brands/mart", iconSrc: "/icons/mart-items.svg" },
 ];
 
 export default function MartMenu() {
@@ -79,7 +83,7 @@ function MenuItem({
       data-active={active}
       className={`bg-blur12 sm:pd-0 group flex h-[48px] w-[50%] sm:h-[105px] sm:w-[105px] md:h-[120px] md:w-[120px] ${
         isFirst ? "rounded-l-[24px]" : "rounded-r-[24px]"
-      } cursor-pointer flex-col items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]  sm:gap-y-2 sm:rounded-[20px]`}
+      } cursor-pointer flex-col items-center justify-center bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] sm:gap-y-2 sm:rounded-[20px]  data-[active=true]:sm:border data-[active=true]:sm:border-[rgba(255,255,255,0.6)]`}
       onClick={onClick}
     >
       {children}
