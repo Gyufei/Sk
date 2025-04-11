@@ -2,10 +2,11 @@ import { useTranslations } from "next-intl";
 import { useEffect, useMemo } from "react";
 import { NickName } from "./nick-name";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
-import { SignInMethod } from "../../app/[local]/login/type";
+import { SignInMethod } from "../../app/[local]/brands/login/type";
 import { LevelTpl } from "./level-tpl";
 
-const titleClass = "opacity-60 font-haasDisp font-medium mb-1 text-sm sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
+const titleClass =
+  "opacity-60 font-haasDisp font-medium mb-1 text-sm sm:text-base leading-6 text-[rgba(255,255,255,0.6)] text-white";
 export default function UserInfoBanner() {
   const { data: userInfo } = useFetchUserInfo();
   const T = useTranslations("Common");
@@ -24,23 +25,17 @@ export default function UserInfoBanner() {
 
   const uidInfoTpl = useMemo(() => {
     return (
-      <div className="flex flex-col mr-[8px] sm:mr-[40px]">
-        <div className={`${titleClass}`}>
-          UID
-        </div>
-        <div className="h-[24px] text-base leading-6">
-          {userInfo?.uid}
-        </div>
+      <div className="mr-[8px] flex flex-col sm:mr-[40px]">
+        <div className={`${titleClass}`}>UID</div>
+        <div className="h-[24px] text-base leading-6">{userInfo?.uid}</div>
       </div>
     );
   }, [userInfo?.uid]);
 
   const memberInfoTpl = useMemo(() => {
     return (
-      <div className="flex flex-col flex-1 sm:mr-7">
-        <div className={`${titleClass}`}>
-          {T("MembershipNo")}
-        </div>
+      <div className="flex flex-1 flex-col sm:mr-7">
+        <div className={`${titleClass}`}>{T("MembershipNo")}</div>
         <div className="h-[24px] text-base leading-6">
           No.{userInfo?.membership_no}
         </div>
@@ -50,24 +45,22 @@ export default function UserInfoBanner() {
 
   const nickNameTpl = useMemo(() => {
     return (
-      <div className="flex flex-1 flex-col min-w-[100px]">
-        <div className={`${titleClass}`}>
-          {T("NickName")}
-        </div>
+      <div className="flex min-w-[100px] flex-1 flex-col">
+        <div className={`${titleClass}`}>{T("NickName")}</div>
         <NickName nickName={userInfo?.nick_name || ""} />
       </div>
     );
   }, [userInfo?.nick_name]);
 
   return (
-    <div className="mb-5 flex flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:flex-row sm:rounded-[18px] sm:p-[20px] h-auto sm:h-auto">
+    <div className="mb-5 flex h-auto flex-col justify-between rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur sm:h-auto sm:flex-row sm:rounded-[18px] sm:p-[20px]">
       <div className="hidden items-start sm:flex">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}
       </div>
 
-      <div className="flex w-full items-start sm:hidden space-x-3">
+      <div className="flex w-full items-start space-x-3 sm:hidden">
         {uidInfoTpl}
         {memberInfoTpl}
         {nickNameTpl}

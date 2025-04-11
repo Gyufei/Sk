@@ -1,9 +1,9 @@
 import Image from "next/image";
 import homeJson from "./home_page_config.json";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export default function Home() {
-  const T = useTranslations("Common");
+export default async function Home() {
+  const T = await getTranslations("ProfilePage");
   const topList = homeJson.top_icon_links;
   const linkPanels = homeJson.link_panels;
 

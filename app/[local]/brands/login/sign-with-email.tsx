@@ -6,7 +6,7 @@ import { ApiHost } from "@/lib/api/path";
 import { LastSignInWithKey, SignInMethod } from "./type";
 import useSWR from "swr";
 import { useSendEmail } from "@/lib/api/use-send-email";
-import { GlobalMsgContext } from "../../../components/global-msg-context";
+import { GlobalMsgContext } from "@/components/global-msg-context";
 import { checkEmailRegex } from "@/lib/utils/utils";
 import { useTranslations } from "next-intl";
 

@@ -1,29 +1,31 @@
 "use client";
 import Image from "next/image";
-import { usePathname, useRouter } from "@/app/navigation";
+import { useRouter } from "@/app/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/utils";
+import { useFullPath } from "@/lib/use-full-path";
 
 const menuItems = [
   {
     name: "Shipping",
-    href: "/brands/mart/shipping",
+    href: "/mart/shipping",
     iconSrc: "/icons/shipping.svg",
   },
-  { name: "Mart", href: "/brands/mart", iconSrc: "/icons/mart-items.svg" },
+  { name: "Mart", href: "/mart", iconSrc: "/icons/mart-items.svg" },
 ];
 
 export default function MartMenu() {
   // 获取当前路由
   const T = useTranslations("Common");
-  const pathname = usePathname();
+  const pathname = useFullPath();
   const router = useRouter();
 
   const linkText =
     "font-haasDisp text-[12px] sm:text-base font-semibold sm:leading-6 text-white opacity-60 group-hover:opacity-100 data-[active=true]:opacity-100";
 
-  const rightOffset =
-    pathname === menuItems[0].href ? "sm:-right-[140px]" : "sm:-right-[120px]";
+  const rightOffset = pathname.includes(menuItems[0].href)
+    ? "sm:-right-[140px]"
+    : "sm:-right-[120px]";
 
   return (
     <div
@@ -34,7 +36,7 @@ export default function MartMenu() {
     >
       <div className="right-120 flex w-full flex-row sm:w-[120px] sm:flex-col sm:gap-5">
         {menuItems.map((item, index) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname.endsWith(item.href);
           return (
             <MenuItem
               active={isActive}

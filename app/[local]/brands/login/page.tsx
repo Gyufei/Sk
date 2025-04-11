@@ -6,20 +6,18 @@ import { LastSignInWithKey, SignInMethod } from "./type";
 import SignWithXBtn from "./sign-with-x-btn";
 import { SignWithWalletBtn } from "./sign-with-wallet-btn";
 import SignWithEmail from "./sign-with-email";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useCallback } from "react";
-import CircleText from "./circle-text";
-import { cycleWords } from "@/lib/const/text";
 import fetcher from "@/lib/api/fetcher";
 import { ApiHost } from "@/lib/api/path";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/app/navigation";
+import BrandsDisplay from "../brands-display";
 
 const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 
 export default function SignDialog() {
-  const locale = useLocale();
   const T = useTranslations("Common");
   const [uuid, setUuid] = useAtom(UuidAtom);
   const searchParams = useSearchParams();
@@ -38,7 +36,6 @@ export default function SignDialog() {
   const [, setEmailAttempts] = useState(0);
   const [showReCaptcha, setShowReCaptcha] = useState(false);
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
-  const words = cycleWords[locale as keyof typeof cycleWords];
 
   const noMethodShow = !showEmail && !showTwitter && !showWallet;
 
@@ -147,16 +144,7 @@ export default function SignDialog() {
     >
       {noMethodShow && (
         <div className="flex flex-col items-center">
-          <div className="text-center text-2xl font-medium leading-[36px] text-[#D6D6D6] sm:text-3xl sm:leading-[60px]">
-            {T("SloganText")}
-          </div>
-          <div className="text-center text-[48px] font-medium leading-[72px] sm:text-[66px] sm:leading-[66px]">
-            Juu17 Brands
-          </div>
-          <div className="mt-[40px] flex items-center justify-center text-[20px] font-medium leading-[30px] sm:mt-[100px] sm:text-[24px] sm:leading-[36px]">
-            <div className="opacity-60">{T("CycleTextPrefix")}</div>{" "}
-            <CircleText words={words} />
-          </div>
+          <BrandsDisplay />
           {signing ? (
             <div className="mt-[24px] flex h-12 items-center justify-center rounded-lg px-[100px] text-base leading-6 sm:mt-[47px]">
               {T("Signing")}

@@ -1,10 +1,10 @@
 "use client";
 import { useAtomValue } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
-import { usePathname } from "@/app/navigation";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useFullPath } from "@/lib/use-full-path";
 
 export default function HomeContent({
   children,
@@ -14,12 +14,11 @@ export default function HomeContent({
   const router = useRouter();
   const locale = useLocale();
   const uuid = useAtomValue(UuidAtom);
-  const pathname = usePathname();
-  const isHome = pathname === "/one";
-  const isLogin = pathname === "/login";
+  const pathname = useFullPath();
+  const isHome = pathname === "/" || pathname.includes("/one");
+  const isLogin = pathname.includes("login");
 
   const searchParams = useSearchParams();
-
   const redirectURL = searchParams.get("redirect");
 
   if (redirectURL) {
@@ -28,7 +27,7 @@ export default function HomeContent({
     return;
   }
 
-  if (!isHome && !uuid && !isLogin) {
+  if (!isHome && !isLogin && !uuid) {
     const simpPath = pathname.replace("/", "");
     const from = ["not-found", "login"].includes(simpPath) ? "" : simpPath;
     const searchStr =

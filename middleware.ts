@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isProduction } from "./lib/api/path";
 
 const intlMiddleware = createMiddleware({
   locales: ["en", "zh"],
@@ -9,7 +10,6 @@ const intlMiddleware = createMiddleware({
 
 const validRoutes = [
   "login",
-  "one",
   "brands",
   "club",
   "mart",
@@ -18,9 +18,6 @@ const validRoutes = [
 ] as const;
 
 const validLocales = ["en", "zh"] as const;
-
-const redirectToOne = ["home"] as const;
-const redirectToBrandRoutes = ["club", "mart", "wallets"] as const;
 
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -36,53 +33,105 @@ export default function middleware(request: NextRequest) {
     ? "zh"
     : "en";
 
-  // 处理根路径
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/${defaultLocale}/one`, request.url));
-  }
-
   const [, locale, ...rest] = pathname.split("/");
 
-  // 处理无效的语言路径
+  const host = request.nextUrl.hostname;
+  const restPath = rest.join("/");
+  console.log(rest);
+
+  if (pathname === "/") {
+    return NextResponse.redirect(
+      new URL(`/${defaultLocale}${searchStr}`, request.url),
+    );
+  }
+
+  // 处理无效的语言
   if (!validLocales.includes(locale as (typeof validLocales)[number])) {
     return NextResponse.redirect(
       new URL(`/${defaultLocale}${pathname}${searchStr}`, request.url),
     );
   }
 
-  // 处理 /en 或 /zh 路径
-  if (!rest.length) {
-    return NextResponse.redirect(
-      new URL(`/${locale}/one${searchStr}`, request.url),
-    );
+  if (!isProduction) {
+    if (["club", "mart", "wallets", "login"].includes(rest[0])) {
+      return NextResponse.redirect(
+        new URL(`/${locale}/brands/${restPath}${searchStr}`, request.url),
+      );
+    }
+
+    if (
+      rest[0] &&
+      !["brands", "one"].includes(rest[0]) &&
+      rest[0] !== "not-found"
+    ) {
+      return NextResponse.redirect(
+        new URL(`/${locale}/not-found`, request.url),
+      );
+    }
+
+    if (
+      rest[0] === "brands" &&
+      rest[1] &&
+      !["club", "mart", "wallets", "login"].includes(rest[1]) &&
+      rest[1] !== "not-found"
+    ) {
+      return NextResponse.redirect(
+        new URL(`/${locale}/brands/not-found`, request.url),
+      );
+    }
+
+    if (rest[0] === "one" && rest[1] && rest[1] !== "not-found") {
+      return NextResponse.redirect(
+        new URL(`/${locale}/one/not-found`, request.url),
+      );
+    }
   }
 
-  // 处理无效路径，但排除 not-found 路由
-  if (
-    !validRoutes.includes(rest[0] as (typeof validRoutes)[number]) &&
-    rest[0] !== "not-found"
-  ) {
-    return NextResponse.redirect(new URL(`/${locale}/not-found`, request.url));
+  if (host === "juu17.com") {
+    if (rest[0] === "home" && !rest[1]) {
+      return NextResponse.redirect(
+        new URL(`/${locale}${searchStr}`, "https://brands.juu17.com"),
+      );
+    } else if (rest[0] === "club") {
+      return NextResponse.redirect(
+        new URL(
+          `/${locale}/${restPath}${searchStr}`,
+          "https://brands.juu17.com",
+        ),
+      );
+    } else if (rest[0] && rest[0] !== "not-found") {
+      return NextResponse.redirect(
+        new URL(`/${locale}/not-found`, request.url),
+      );
+    }
   }
 
-  if (redirectToOne.includes(rest[0] as (typeof redirectToOne)[number])) {
-    return NextResponse.redirect(
-      new URL(`/${locale}/one${searchStr}`, request.url),
-    );
+  if (host === "brands.juu17.com") {
+    if (
+      rest[0] &&
+      !validRoutes.includes(rest[0] as (typeof validRoutes)[number]) &&
+      rest[0] !== "not-found"
+    ) {
+      return NextResponse.redirect(
+        new URL(`/${locale}/not-found`, request.url),
+      );
+    }
   }
 
-  if (
-    redirectToBrandRoutes.includes(
-      rest[0] as (typeof redirectToBrandRoutes)[number],
-    )
-  ) {
-    const restPath = rest.join("/");
-    return NextResponse.redirect(
-      new URL(`/${locale}/brands/${restPath}${searchStr}`, request.url),
-    );
+  if (host === "one.juu17.com") {
+    if (rest[0] && rest[0] !== "not-found") {
+      return NextResponse.redirect(
+        new URL(`/${locale}/not-found`, request.url),
+      );
+    }
   }
 
-  return intlMiddleware(request);
+  try {
+    return intlMiddleware(request);
+  } catch (error) {
+    console.error("Middleware error:", error);
+    return NextResponse.next();
+  }
 }
 
 export const config = {

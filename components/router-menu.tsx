@@ -9,31 +9,31 @@ import { cn } from "@/lib/utils/utils";
 const clubList = [
   {
     name: "Events",
-    href: "/brands/club/events",
+    href: "/club/events",
     iconSrc: "/icons/events.svg",
     msg: "EventsLevelRequired",
   },
-  { name: "Point", href: "/brands/club/point", iconSrc: "/icons/point.svg" },
+  { name: "Point", href: "/club/point", iconSrc: "/icons/point.svg" },
   {
     name: "Features",
-    href: "/brands/club/features",
+    href: "/club/features",
     iconSrc: "/icons/features.svg",
     msg: "LevelRequired",
   },
   {
     name: "Assets",
-    href: "/brands/club/assets",
+    href: "/club/assets",
     iconSrc: "/icons/assets.svg",
     msg: "LevelRequired",
   },
   {
     name: "SocialMedia",
-    href: "/brands/club/social-media",
+    href: "/club/social-media",
     iconSrc: "/icons/social-media.svg",
   },
   {
     name: "Ticket",
-    href: "/brands/club/ticket",
+    href: "/club/ticket",
     iconSrc: "/icons/ticket.svg",
     msg: "TicketLevelRequired",
   },

@@ -1,38 +1,42 @@
 "use client";
 import Image from "next/image";
-import { usePathname, useRouter } from "@/app/navigation";
+import { useRouter } from "@/app/navigation";
 import { UuidAtom } from "@/lib/api/state";
 import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils/utils";
 import { useMemo } from "react";
+import { useFullPath } from "@/lib/use-full-path";
+import { isProduction } from "@/lib/api/path";
 
 const walletsLink = {
   id: "wallets",
-  pathname: "/brands/wallets",
-  href: "/brands/wallets",
+  pathname: "/wallets",
+  href: "/wallets",
   name: "Wallets",
   src: "/icons/wallets.svg",
 };
 
 export default function HomeLinks() {
   const uuid = useAtomValue(UuidAtom);
-  const pathname = usePathname();
+  const pathname = useFullPath();
   const router = useRouter();
 
-  const isHome =
-    pathname === "/" ||
-    pathname.startsWith("/one") ||
-    pathname.startsWith("/login");
+  const isJuu17Home = pathname === "/";
+  const isOneHome = pathname === "/one";
   const isBrands = pathname.startsWith("/brands");
 
   const homeLinks = useMemo(() => {
-    if (isHome || !uuid) {
+    if (isJuu17Home) {
+      return [];
+    }
+
+    if (isOneHome) {
       return [
-        { id: "one", pathname: "/one", href: "/one", name: "One" },
+        { id: "one", pathname: "/", href: "/", name: "One" },
         {
           id: "brands",
-          pathname: "/brands",
-          href: "/brands",
+          pathname: isProduction ? "https://brands.juu17.com" : "/brands",
+          href: isProduction ? "https://brands.juu17.com" : "/brands",
           name: "Brands",
         },
       ];
@@ -40,20 +44,24 @@ export default function HomeLinks() {
       return [
         {
           id: "mart",
-          pathname: "/brands/mart",
-          href: "/brands/mart",
+          pathname: "/mart",
+          href: "/mart",
           name: "Mart",
         },
         {
           id: "club",
-          pathname: "/brands/club",
-          href: "/brands/club",
+          pathname: "/club",
+          href: "/club",
           name: "Club",
         },
         { id: "one", pathname: "/one", href: "/one", name: "One" },
       ];
     }
-  }, [isHome]);
+  }, [isOneHome, isJuu17Home, uuid]);
+
+  if (isJuu17Home) {
+    return null;
+  }
 
   function isPathActive(href: string): boolean {
     return pathname.startsWith(href);

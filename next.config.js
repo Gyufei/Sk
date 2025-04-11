@@ -37,25 +37,45 @@ const nextConfig = {
         // if the host is `app.acme.com`,
         // this rewrite will be applied
         {
-          source: '/:path*',
+          source: '/zh/:path*',
           has: [
             {
               type: 'host',
               value: 'brands.juu17.com',
             },
           ],
-          destination: '/brands/:path*',
+          destination: '/zh/brands/:path*',
         },
         {
-          source: '/:path*',
+          source: '/en/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'brands.juu17.com',
+            },
+          ],
+          destination: '/en/brands/:path*',
+        },
+        {
+          source: '/zh/:path*',
           has: [
             {
               type: 'host',
               value: 'one.juu17.com',
             },
           ],
-          destination: '/one/:path*',
+          destination: '/zh/one/:path*',
         },
+        {
+          source: '/en/:path*',
+          has: [
+            {
+              type: 'host',
+              value: 'one.juu17.com',
+            },
+          ],
+          destination: '/en/one/:path*',
+        }
       ]
     }
   }
