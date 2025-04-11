@@ -73,7 +73,7 @@ export default function SignDialog() {
 
   useEffect(() => {
     if (uuid) {
-      router.push(from ? `/${from}` : "/one");
+      router.push(from ? `/${from}` : "/");
     }
   }, [uuid]);
 

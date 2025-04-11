@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "@/app/navigation";
-import { getHost } from "@/lib/utils/browser";
+import { isProduction } from "@/lib/api/path";
 
 export default function LocalePage() {
   const router = useRouter();
 
   function onClickJuu17() {
-    if (getHost().includes("localhost") || getHost().includes("preview")) {
+    if (!isProduction) {
       router.push("/one");
     } else {
       window.location.href = "https://one.juu17.com";
@@ -15,7 +15,7 @@ export default function LocalePage() {
   }
 
   function onClickJuu17Brands() {
-    if (getHost().includes("localhost") || getHost().includes("preview")) {
+    if (!isProduction) {
       router.push("/brands");
     } else {
       window.location.href = "https://brands.juu17.com";
@@ -23,7 +23,7 @@ export default function LocalePage() {
   }
 
   return (
-    <div className="content-w-400 flex sm:justify-between justify-center gap-4 sm:gap-auto">
+    <div className="content-w-400 sm:gap-auto flex justify-center gap-4 sm:justify-between">
       <div
         className="flex h-[170px] w-[170px] cursor-pointer flex-col items-center justify-center gap-4 rounded-[20px] bg-[rgba(255,255,255,0.1)] p-5 backdrop-blur hover:bg-[rgba(255,255,255,0.3)]"
         onClick={onClickJuu17}

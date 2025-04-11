@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useFullPath } from "@/lib/use-full-path";
+import { usePathname } from "../navigation";
 
 export default function HomeContent({
   children,
@@ -14,6 +15,7 @@ export default function HomeContent({
   const router = useRouter();
   const locale = useLocale();
   const uuid = useAtomValue(UuidAtom);
+  const originPathname = usePathname();
   const pathname = useFullPath();
   const isHome = pathname === "/" || pathname.includes("/one");
   const isLogin = pathname.includes("login");
@@ -22,13 +24,17 @@ export default function HomeContent({
   const redirectURL = searchParams.get("redirect");
 
   if (redirectURL) {
-    const reUrl = redirectURL + window.location.hash;
-    window.location.replace(reUrl);
-    return;
+    if (typeof window === "undefined") {
+      return;
+    } else {
+      const reUrl = redirectURL + window?.location?.hash;
+      window?.location?.replace(reUrl);
+      return;
+    }
   }
 
   if (!isHome && !isLogin && !uuid) {
-    const simpPath = pathname.replace("/", "");
+    const simpPath = originPathname.replace("/", "");
     const from = ["not-found", "login"].includes(simpPath) ? "" : simpPath;
     const searchStr =
       searchParams.toString().length > 0 ? `${searchParams.toString()}` : "";

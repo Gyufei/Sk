@@ -37,7 +37,6 @@ export default function middleware(request: NextRequest) {
 
   const host = request.nextUrl.hostname;
   const restPath = rest.join("/");
-  console.log(rest);
 
   if (pathname === "/") {
     return NextResponse.redirect(
