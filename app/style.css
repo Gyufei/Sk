@@ -421,7 +421,6 @@ textarea.w-select {
 }
 
 .left-block {
-  grid-area: span 1 / span 1 / span 1 / span 1;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -655,6 +654,11 @@ textarea.w-select {
     grid-area: span 1 / span 1 / span 1 / span 1;
     justify-self: stretch;
     height: auto;
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    width: 100%;
+    height: auto;
   }
 
   .top-content {
@@ -777,6 +781,10 @@ textarea.w-select {
     height: 85em;
     padding-left: 0;
     min-height: 300px;
+    width: 100%;
+    margin-bottom: 1em;
+    width: 100%;
+    margin-bottom: 20px;
   }
 
   .m-t-20 {
@@ -903,30 +911,11 @@ textarea.w-select {
     gap: 1em;
   }
 
-  .left-block {
-    width: 100%;
-    margin-bottom: 1em;
-  }
-
-  .right-block {
-    width: 100%;
-    height: auto;
-    min-height: unset;
-  }
-
   .navbar li {
     padding: 0.5em 0;
     font-size: 2em;
     font-weight: 500;
   }
-
-  /* .text-block-4 {
-    font-size: 0.8em;
-  } */
-
-  /* .gif-animation {
-    display: none;
-  } */
 
   .update-form {
     flex-direction: column;
@@ -1117,16 +1106,6 @@ html.w-mod-touch * {
 
   .grid {
     grid-template-columns: 1fr;
-  }
-
-  .left-block {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .right-block {
-    width: 100%;
-    height: auto;
   }
 
   .content-container {

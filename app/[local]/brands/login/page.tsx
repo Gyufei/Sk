@@ -138,7 +138,7 @@ export default function SignDialog() {
     <div
       className={`flex w-[345px] font-haasDisp sm:ml-[-240px] sm:w-[400px] ${
         noMethodShow
-          ? "justify-center bg-transparent px-0 py-[40px] sm:h-[500px] sm:w-[500px] sm:bg-transparent"
+          ? "justify-center bg-transparent px-0 pb-5 sm:h-[500px] sm:w-[500px] sm:bg-transparent"
           : "bg-[rgba(255,255,255,0.1)] p-[35px]"
       } flex-col items-center gap-0 rounded-3xl border-none`}
     >

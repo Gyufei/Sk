@@ -3,7 +3,7 @@ import homeJson from "./home_page_config.json";
 import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
-  const T = await getTranslations("ProfilePage");
+  const T = await getTranslations("Common");
   const topList = homeJson.top_icon_links;
   const linkPanels = homeJson.link_panels;
 

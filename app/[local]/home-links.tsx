@@ -22,25 +22,11 @@ export default function HomeLinks() {
   const router = useRouter();
 
   const isJuu17Home = pathname === "/";
-  const isOneHome = pathname === "/one";
+  const isOneHome = pathname.startsWith("/one");
   const isBrands = pathname.startsWith("/brands");
 
   const homeLinks = useMemo(() => {
-    if (isJuu17Home) {
-      return [];
-    }
-
-    if (isOneHome) {
-      return [
-        { id: "one", pathname: "/", href: "/", name: "One" },
-        {
-          id: "brands",
-          pathname: isProduction ? "https://brands.juu17.com" : "/brands",
-          href: isProduction ? "https://brands.juu17.com" : "/brands",
-          name: "Brands",
-        },
-      ];
-    } else {
+    if (isBrands) {
       return [
         {
           id: "mart",
@@ -52,14 +38,20 @@ export default function HomeLinks() {
           id: "club",
           pathname: "/club",
           href: "/club",
-          name: "Club",
+          name: "Dashboard",
         },
-        { id: "one", pathname: "/one", href: "/one", name: "One" },
+        {
+          id: "one",
+          pathname: isProduction ? "https://one.juu17.com" : "/one",
+          href: isProduction ? "https://one.juu17.com" : "/one",
+          name: "One",
+        },
       ];
     }
-  }, [isOneHome, isJuu17Home, uuid]);
+    return [];
+  }, [isBrands]);
 
-  if (isJuu17Home) {
+  if (isJuu17Home || isOneHome) {
     return null;
   }
 
