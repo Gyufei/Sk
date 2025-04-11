@@ -33,6 +33,15 @@ export default function middleware(request: NextRequest) {
     ? "zh"
     : "en";
 
+  const checkIsFilePath = (path: string) => {
+    const isFilePath = path.includes(".") && path.split(".").pop() !== "";
+    return isFilePath;
+  };
+
+  if (checkIsFilePath(pathname)) {
+    return NextResponse.next();
+  }
+
   const [, locale, ...rest] = pathname.split("/");
 
   const host = request.nextUrl.hostname;

@@ -17,7 +17,7 @@ export function LayoutBg() {
 
   useEffect(() => {
     setTimeout(() => {
-      setSrc(`${window.location.origin}/images/sphere_25-fps_small.gif`);
+      setSrc(`https://juu17.com/sphere_25-fps_small.gif`);
     }, 1500);
   }, []);
 
