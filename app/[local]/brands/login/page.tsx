@@ -168,6 +168,9 @@ export default function SignDialog() {
         setSigning={setSigning}
         lastAccount={lastSignInTwitter}
         onSuccess={handleSuccess}
+        onShowReCaptcha={() => setShowReCaptcha(true)}
+        showReCaptcha={showReCaptcha}
+        reCaptchaValue={reCaptchaValue}
       />
       {showWallet && (
         <SignWithWalletBtn

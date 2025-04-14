@@ -15,12 +15,18 @@ export default function SignWithXBtn({
   lastAccount,
   show,
   onSuccess,
+  onShowReCaptcha,
+  showReCaptcha,
+  reCaptchaValue,
 }: {
   signing: boolean;
   setSigning: (_i: boolean) => void;
   lastAccount: string;
   show: boolean;
   onSuccess: (_i: string) => void;
+  onShowReCaptcha: () => void;
+  showReCaptcha: boolean;
+  reCaptchaValue: string | null;
 }) {
   const T = useTranslations("Common");
 
@@ -80,6 +86,15 @@ export default function SignWithXBtn({
 
   function handleSign() {
     if (signing) return;
+    if (!showReCaptcha) {
+      onShowReCaptcha();
+      return;
+    }
+
+    if (showReCaptcha && !reCaptchaValue) {
+      return;
+    }
+
     const callbackUrl = getCallbackUrl();
     sessionStorage.setItem("twitter-callbackUrl", callbackUrl);
     goTwitter(callbackUrl);

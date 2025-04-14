@@ -26,8 +26,8 @@ export function SignWithWalletBtn({
   setSigning: (b: boolean) => void;
   incrementAttempts: (value: { account: string; signInMethod: number }) => void;
   showReCaptcha: boolean;
-  onSuccess: (uId: string) => void;
   reCaptchaValue: string | null;
+  onSuccess: (uId: string) => void;
 }) {
   const T = useTranslations("Common");
 

@@ -111,11 +111,9 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <Web3Provider cookies={cookies}>
               <SolanaWalletProviders>
-                <HomeLayout>
-                  {children}
-                  <GlobalActionTip />
-                  <WalletDisconnected />
-                </HomeLayout>
+                <HomeLayout>{children}</HomeLayout>
+                <GlobalActionTip />
+                <WalletDisconnected />
                 <Toaster />
                 <NotificationListen />
               </SolanaWalletProviders>
