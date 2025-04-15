@@ -20,7 +20,7 @@ export const BrandsMetadata: Metadata = {
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     siteName: "Juu17 Brands",
-    images: "/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
+    images: "/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
   },
   twitter: {
@@ -28,16 +28,16 @@ export const BrandsMetadata: Metadata = {
     title: "Juu17 Brands",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
-    images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
+    images: ["https://juu17.com/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@Juu17Brands",
     site: "@Juu17Brands",
   },
   icons: {
-    icon: [{ url: "/images/favicon-32x32.png" }],
+    icon: [{ url: "/images/brands/favicon-32x32.png" }],
     apple: [
-      { url: "/images/android-chrome-512x512.png" },
+      { url: "/images/brands/android-chrome-512x512.png" },
       {
-        url: "/images/apple-touch-icon.png",
+        url: "/images/brands/apple-touch-icon.png",
         sizes: "180x180",
         type: "image/png",
       },
@@ -68,7 +68,7 @@ export const OneMetadata: Metadata = {
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     siteName: "Juu17 One",
-    images: "/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
+    images: "/images/one/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
   },
   twitter: {
@@ -76,16 +76,16 @@ export const OneMetadata: Metadata = {
     title: "Juu17 One",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
-    images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
+    images: ["https://juu17.com/images/one/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@Juu17__",
     site: "@Juu17__",
   },
   icons: {
-    icon: [{ url: "/images/favicon-32x32.png" }],
+    icon: [{ url: "/images/one/favicon-32x32.png" }],
     apple: [
-      { url: "/images/android-chrome-512x512.png" },
+      { url: "/images/one/android-chrome-512x512.png" },
       {
-        url: "/images/apple-touch-icon.png",
+        url: "/images/one/apple-touch-icon.png",
         sizes: "180x180",
         type: "image/png",
       },

@@ -121,7 +121,7 @@ export function NotificationListen() {
     const link = document.querySelector(
       "link[rel*='icon']",
     ) as HTMLAnchorElement;
-    if (link) link.href = "/images/favicon-notion-32x32.png";
+    if (link) link.href = "/images/brands/favicon-notion-32x32.png";
     cycleTitle();
     setToastContent({
       ...item,
@@ -146,7 +146,7 @@ export function NotificationListen() {
       new Notification(title, {
         body: content,
         requireInteraction: true,
-        icon: "/images/logo-black.png",
+        icon: "/images/brands/logo-black.png",
       });
       return true;
     }
