@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai/react";
 import { UuidAtom } from "@/lib/api/state";
 import { LastSignInWithKey, SignInMethod } from "./type";
@@ -15,7 +15,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/app/navigation";
 import BrandsDisplay from "../brands-display";
 
-const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
+const ReCAPTCHAKey = "6LfmJBkrAAAAAM4rww7fhEslDmmSWlG4nb35d0Fo";
 
 export default function SignDialog() {
   const T = useTranslations("Common");
@@ -23,6 +23,7 @@ export default function SignDialog() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const from = searchParams.get("from");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const [signing, setSigning] = useState(false);
   const [showTwitter, setShowTwitter] = useState(false);
@@ -34,8 +35,7 @@ export default function SignDialog() {
 
   const [, setWalletAttempts] = useState(0);
   const [, setEmailAttempts] = useState(0);
-  const [showReCaptcha, setShowReCaptcha] = useState(false);
-  const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
+  const [shouldReCaptcha, setShouldRecaptcha] = useState(false);
 
   const noMethodShow = !showEmail && !showTwitter && !showWallet;
 
@@ -81,19 +81,13 @@ export default function SignDialog() {
     setUuid(uId);
   }
 
-  const handleReCaptchaChange = useCallback((value: string | null) => {
-    setReCaptchaValue(value);
-    setEmailAttempts(0);
-    setWalletAttempts(0);
-  }, []);
-
   const incrementAttempts = useCallback(
     (value: { account: string; signInMethod: number }) => {
       if (value.signInMethod === SignInMethod.wallet) {
         setWalletAttempts((prev) => {
           const newValue = prev + 1;
           if (newValue >= 6) {
-            setShowReCaptcha(true);
+            setShouldRecaptcha(true);
             postSecureRecords(value);
           }
           return newValue;
@@ -104,7 +98,7 @@ export default function SignDialog() {
         setEmailAttempts((prev) => {
           const newValue = prev + 1;
           if (newValue >= 3) {
-            setShowReCaptcha(true);
+            setShouldRecaptcha(true);
             postSecureRecords(value);
           }
           return newValue;
@@ -132,6 +126,19 @@ export default function SignDialog() {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async function getRecValue(callback: () => void) {
+    if (recaptchaRef.current) {
+      const res = await recaptchaRef.current.executeAsync();
+
+      if (res) {
+        callback();
+      }
+      return res;
+    }
+
+    return null;
   }
 
   return (
@@ -168,17 +175,15 @@ export default function SignDialog() {
         setSigning={setSigning}
         lastAccount={lastSignInTwitter}
         onSuccess={handleSuccess}
-        onShowReCaptcha={() => setShowReCaptcha(true)}
-        showReCaptcha={showReCaptcha}
-        reCaptchaValue={reCaptchaValue}
+        onShowReCaptcha={() => getRecValue(() => {})}
       />
       {showWallet && (
         <SignWithWalletBtn
           signing={signing}
           setSigning={setSigning}
           incrementAttempts={incrementAttempts}
-          showReCaptcha={showReCaptcha}
-          reCaptchaValue={reCaptchaValue}
+          shouldReCaptcha={shouldReCaptcha}
+          getRecaptchaValue={() => getRecValue(() => setWalletAttempts(0))}
           onSuccess={handleSuccess}
         />
       )}
@@ -208,8 +213,8 @@ export default function SignDialog() {
         signing={signing}
         lastAccount={lastSignInEmail}
         onSuccess={handleSuccess}
-        showReCaptcha={showReCaptcha}
-        reCaptchaValue={reCaptchaValue}
+        shouldReCaptcha={shouldReCaptcha}
+        getRecaptchaValue={() => getRecValue(() => setEmailAttempts(0))}
         incrementAttempts={incrementAttempts}
       />
       {!(showEmail && showTwitter && showWallet) && !noMethodShow && (
@@ -220,11 +225,12 @@ export default function SignDialog() {
           {T("ChangeAccount")}
         </div>
       )}
-      {showReCaptcha && (
-        <div className="mt-[15px]">
-          <ReCAPTCHA sitekey={ReCAPTCHAKey} onChange={handleReCaptchaChange} />
-        </div>
-      )}
+      <ReCAPTCHA
+        style={{ display: "inline-block" }}
+        ref={recaptchaRef}
+        sitekey={ReCAPTCHAKey}
+        size="invisible"
+      />
     </div>
   );
 }

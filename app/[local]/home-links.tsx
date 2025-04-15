@@ -6,7 +6,6 @@ import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils/utils";
 import { useMemo } from "react";
 import { useFullPath } from "@/lib/use-full-path";
-import { isProduction } from "@/lib/api/path";
 
 const walletsLink = {
   id: "wallets",
@@ -14,6 +13,14 @@ const walletsLink = {
   href: "/wallets",
   name: "Wallets",
   src: "/icons/wallets.svg",
+};
+
+const oneLink = {
+  id: "one",
+  pathname: "https://x.com/Juu17Brands",
+  href: "https://x.com/Juu17Brands",
+  name: "One",
+  src: "/icons/x-no-bg.svg",
 };
 
 export default function HomeLinks() {
@@ -39,12 +46,6 @@ export default function HomeLinks() {
           pathname: "/club",
           href: "/club",
           name: "Dashboard",
-        },
-        {
-          id: "one",
-          pathname: isProduction ? "https://one.juu17.com" : "/one",
-          href: isProduction ? "https://one.juu17.com" : "/one",
-          name: "One",
         },
       ];
     }
@@ -89,6 +90,15 @@ export default function HomeLinks() {
           {item.name}
         </li>
       ))}
+      {isBrands && (
+        <li
+          className={cn(isPathActive(oneLink.href) && "active")}
+          data-id={oneLink.id}
+          onClick={() => router.push(oneLink.href)}
+        >
+          <Image src={oneLink.src} width={40} height={40} alt="" />
+        </li>
+      )}
     </ul>
   );
 }

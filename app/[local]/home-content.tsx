@@ -18,6 +18,7 @@ export default function HomeContent({
   const originPathname = usePathname();
   const pathname = useFullPath();
   const isHome = pathname === "/" || pathname.includes("/one");
+  const isNotFound = pathname.includes("not-found");
   const isLogin = pathname.includes("login");
 
   const searchParams = useSearchParams();
@@ -33,7 +34,7 @@ export default function HomeContent({
     }
   }
 
-  if (!isHome && !isLogin && !uuid) {
+  if (!isHome && !isLogin && !uuid && !isNotFound) {
     const simpPath = originPathname.replace("/", "");
     const from = ["not-found", "login"].includes(simpPath) ? "" : simpPath;
     const searchStr =

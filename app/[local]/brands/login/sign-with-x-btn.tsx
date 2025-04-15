@@ -16,17 +16,13 @@ export default function SignWithXBtn({
   show,
   onSuccess,
   onShowReCaptcha,
-  showReCaptcha,
-  reCaptchaValue,
 }: {
   signing: boolean;
   setSigning: (_i: boolean) => void;
   lastAccount: string;
   show: boolean;
   onSuccess: (_i: string) => void;
-  onShowReCaptcha: () => void;
-  showReCaptcha: boolean;
-  reCaptchaValue: string | null;
+  onShowReCaptcha: () => Promise<any>;
 }) {
   const T = useTranslations("Common");
 
@@ -84,14 +80,13 @@ export default function SignWithXBtn({
     }
   }
 
-  function handleSign() {
+  async function handleSign() {
     if (signing) return;
-    if (!showReCaptcha) {
-      onShowReCaptcha();
-      return;
-    }
 
-    if (showReCaptcha && !reCaptchaValue) {
+    const recaptchaValue = await onShowReCaptcha();
+    console.log(recaptchaValue);
+
+    if (!recaptchaValue) {
       return;
     }
 

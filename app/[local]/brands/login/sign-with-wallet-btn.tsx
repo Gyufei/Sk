@@ -18,15 +18,15 @@ export function SignWithWalletBtn({
   signing,
   setSigning,
   incrementAttempts,
-  showReCaptcha,
-  reCaptchaValue,
+  shouldReCaptcha,
+  getRecaptchaValue,
   onSuccess,
 }: {
   signing: boolean;
   setSigning: (b: boolean) => void;
   incrementAttempts: (value: { account: string; signInMethod: number }) => void;
-  showReCaptcha: boolean;
-  reCaptchaValue: string | null;
+  shouldReCaptcha: boolean;
+  getRecaptchaValue: () => Promise<string | null>;
   onSuccess: (uId: string) => void;
 }) {
   const T = useTranslations("Common");
@@ -53,15 +53,18 @@ export function SignWithWalletBtn({
       if (!isSolana) {
         solanaDisconnect();
       }
+
+      if (shouldReCaptcha) {
+        const reCaptchaValue = await getRecaptchaValue();
+        if (!reCaptchaValue) {
+          return;
+        }
+      }
+
       incrementAttempts({
         account: address,
         signInMethod: SignInMethod.wallet,
       });
-
-      if (showReCaptcha && !reCaptchaValue) {
-        // 显示错误消息或阻止登录
-        return;
-      }
 
       await signTo();
     }

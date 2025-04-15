@@ -16,14 +16,14 @@ export default function SignWithEmail({
   show,
   onSuccess,
   incrementAttempts,
-  showReCaptcha,
-  reCaptchaValue,
+  shouldReCaptcha,
+  getRecaptchaValue,
 }: {
   signing: boolean;
   lastAccount: string;
   show: boolean;
-  showReCaptcha: boolean;
-  reCaptchaValue: string | null;
+  shouldReCaptcha: boolean;
+  getRecaptchaValue: () => Promise<string | null>;
   onSuccess: (_i: string) => void;
   incrementAttempts: (value: { account: string; signInMethod: number }) => void;
 }) {
@@ -57,10 +57,12 @@ export default function SignWithEmail({
     }
   }
 
-  function handleConfirm() {
-    if (showReCaptcha && !reCaptchaValue) {
-      // 显示错误消息或阻止登录
-      return;
+  async function handleConfirm() {
+    if (shouldReCaptcha) {
+      const reCaptchaValue = await getRecaptchaValue();
+      if (!reCaptchaValue) {
+        return;
+      }
     }
 
     if (hasSend) {

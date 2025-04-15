@@ -17,8 +17,8 @@ export function HomeLogo() {
       <Image
         src={isOneHome ? "/icons/logo-one.svg" : "/icons/logo.svg"}
         loading="lazy"
-        width={80}
-        height={80}
+        width={isOneHome ? 80 : 63}
+        height={isOneHome ? 80 : 68}
         alt=""
         className="md:absolute md:left-[1.3em] md:top-[1.3em]"
       />

@@ -1,6 +1,10 @@
 import Image from "next/image";
 import homeJson from "./home_page_config.json";
 import { getTranslations } from "next-intl/server";
+import { OneMetadata } from "@/app/metadata.config";
+import { Metadata } from "next";
+
+export const metadata: Metadata = OneMetadata;
 
 export default async function Home() {
   const T = await getTranslations("Common");

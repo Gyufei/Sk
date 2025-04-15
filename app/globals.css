@@ -36,3 +36,7 @@ div[data-radix-popper-content-wrapper] {
   z-index: 100 !important;
   outline: none !important;
 }
+
+.grecaptcha-logo {
+  visibility: hidden !important;
+}
