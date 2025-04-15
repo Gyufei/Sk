@@ -5,7 +5,7 @@ export const BrandsMetadata: Metadata = {
     template: "%s | Juu17 Brands",
     default: "Juu17 Brands",
   },
-  metadataBase: new URL("https://juu17.com/"),
+  metadataBase: new URL("https://brands.juu17.com/"),
   description:
     "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
   viewport: {
@@ -15,7 +15,7 @@ export const BrandsMetadata: Metadata = {
     maximumScale: 1.0,
   },
   openGraph: {
-    url: "https://juu17.com/",
+    url: "https://brands.juu17.com/",
     title: "Juu17 Brands",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
@@ -29,8 +29,8 @@ export const BrandsMetadata: Metadata = {
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
-    creator: "@Juu17__",
-    site: "@Juu17__",
+    creator: "@Juu17Brands",
+    site: "@Juu17Brands",
   },
   icons: {
     icon: [{ url: "/images/favicon-32x32.png" }],
@@ -44,16 +44,16 @@ export const BrandsMetadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://juu17.com/",
+    canonical: "https://brands.juu17.com/",
   },
 };
 
 export const OneMetadata: Metadata = {
   title: {
-    template: "%s | Juu17 Brands",
-    default: "Juu17 Brands",
+    template: "%s | Juu17 One",
+    default: "Juu17 One",
   },
-  metadataBase: new URL("https://juu17.com/"),
+  metadataBase: new URL("https://one.juu17.com/"),
   description:
     "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
   viewport: {
@@ -63,17 +63,17 @@ export const OneMetadata: Metadata = {
     maximumScale: 1.0,
   },
   openGraph: {
-    url: "https://juu17.com/",
-    title: "Juu17 Brands",
+    url: "https://one.juu17.com/",
+    title: "Juu17 One",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
-    siteName: "Juu17 Brands",
+    siteName: "Juu17 One",
     images: "/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Juu17 Brands",
+    title: "Juu17 One",
     description:
       "A senior market maker, a visionary team jefe, and a supreme influencer set to help Web3 challengers solve the puzzles.",
     images: ["https://juu17.com/images/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
@@ -92,6 +92,6 @@ export const OneMetadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://juu17.com/",
+    canonical: "https://one.juu17.com/",
   },
 };
