@@ -413,13 +413,6 @@ textarea.w-select {
   font-size: 1em;
 }
 
-.text-block-4 {
-  font-size: 1.4em;
-  white-space: nowrap;
-  width: 100%;
-  overflow: visible;
-}
-
 .left-block {
   flex-direction: column;
   justify-content: space-between;
@@ -628,7 +621,7 @@ textarea.w-select {
 
   .grid {
     grid-template-columns: 1fr;
-    margin-bottom: 30em;
+    margin-bottom: 20em;
   }
 
   .section {
@@ -911,12 +904,6 @@ textarea.w-select {
     gap: 1em;
   }
 
-  .navbar li {
-    padding: 0.5em 0;
-    font-size: 2em;
-    font-weight: 500;
-  }
-
   .update-form {
     flex-direction: column;
   }
@@ -1037,41 +1024,7 @@ html.w-mod-touch * {
   padding: 10px 16px;
 }
 
-/*----------------------------*/
-.navbar {
-  color: rgba(255, 255, 255, 0.8);
-  padding-left: 0;
-}
-
-.navbar li {
-  list-style-type: none;
-  padding: 0.14em 0;
-  font-size: 2.5em;
-  cursor: pointer;
-  opacity: 0.5;
-  font-weight: 500;
-}
-
-.navbar li.active,
-.navbar li:hover {
-  opacity: 1;
-  background-image: radial-gradient(
-    50% 50% at 50% 50%,
-    rgb(255, 255, 238) 0%,
-    rgb(75, 75, 88) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 @media screen and (max-width: 640px) {
-  .navbar li {
-    font-size: 30px;
-    line-height: 44px;
-    padding: 6px 0;
-  }
-
   .update-form {
     width: 100%;
     flex-direction: column;

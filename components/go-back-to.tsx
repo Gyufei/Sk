@@ -6,8 +6,8 @@ export function GoBackTo() {
   const router = useRouter();
 
   function handleBack() {
-    if (pathname.includes("/club")) {
-      router.push("/club");
+    if (pathname.includes("/dashboard")) {
+      router.push("/dashboard");
       return;
     }
     window.history.back();

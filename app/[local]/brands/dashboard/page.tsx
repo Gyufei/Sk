@@ -2,7 +2,7 @@
 import RouterMenu from "@/components/router-menu";
 
 import UserInfoBanner from "@/components/user-info-banner";
-import SignOut from "@/app/[local]/brands/club/sign-out";
+import SignOut from "@/app/[local]/brands/dashboard/sign-out";
 
 export default function Club() {
   return (

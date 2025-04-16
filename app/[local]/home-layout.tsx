@@ -1,6 +1,7 @@
 import { LayoutBg } from "@/components/layout-bg";
 import { HomeLeftBlock } from "./home-left-block";
 import HomeContent from "./home-content";
+import { FooterLink } from "./footer-link";
 
 export function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,8 +12,8 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
           <HomeContent>{children}</HomeContent>
         </div>
         <LayoutBg />
-        <div className="mob-div z-10">
-          <div className="text-block-4 mobile">© JUU17 Brands.</div>
+        <div className="sm:hidden block">
+          <FooterLink />
         </div>
       </div>
     </div>

@@ -78,6 +78,32 @@ const nextConfig = {
         }
       ]
     }
+  },
+  redirects() {
+    return [
+      {
+        source: '/zh/club/:path*',
+        destination: '/zh/dashboard/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'brands.juu17.com',
+          },
+        ],
+        permanent: true,
+      },
+      {
+        source: '/en/club/:path*',
+        destination: '/en/dashboard/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'brands.juu17.com',
+          },
+        ],
+        permanent: true,
+      },
+    ];
   }
 };
 

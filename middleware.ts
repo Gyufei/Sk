@@ -11,7 +11,7 @@ const intlMiddleware = createMiddleware({
 const validRoutes = [
   "login",
   "brands",
-  "club",
+  "dashboard",
   "mart",
   "service",
   "wallets",
@@ -61,7 +61,7 @@ export default function middleware(request: NextRequest) {
   }
 
   if (!isProduction) {
-    if (["club", "mart", "wallets", "login"].includes(rest[0])) {
+    if (["dashboard", "mart", "wallets", "login"].includes(rest[0])) {
       return NextResponse.redirect(
         new URL(`/${locale}/brands/${restPath}${searchStr}`, request.url),
       );
@@ -80,7 +80,7 @@ export default function middleware(request: NextRequest) {
     if (
       rest[0] === "brands" &&
       rest[1] &&
-      !["club", "mart", "wallets", "login"].includes(rest[1]) &&
+      !["dashboard", "mart", "wallets", "login"].includes(rest[1]) &&
       rest[1] !== "not-found"
     ) {
       return NextResponse.redirect(
@@ -96,18 +96,7 @@ export default function middleware(request: NextRequest) {
   }
 
   if (host === "juu17.com") {
-    if (rest[0] === "home" && !rest[1]) {
-      return NextResponse.redirect(
-        new URL(`/${locale}${searchStr}`, "https://brands.juu17.com"),
-      );
-    } else if (rest[0] === "club") {
-      return NextResponse.redirect(
-        new URL(
-          `/${locale}/${restPath}${searchStr}`,
-          "https://brands.juu17.com",
-        ),
-      );
-    } else if (rest[0] && rest[0] !== "not-found") {
+    if (rest[0] && rest[0] !== "not-found") {
       return NextResponse.redirect(
         new URL(`/${locale}/not-found`, request.url),
       );

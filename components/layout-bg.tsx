@@ -4,7 +4,7 @@ import { UuidAtom } from "@/lib/api/state";
 import { useEffect, useMemo, useState } from "react";
 import { useFullPath } from "@/lib/use-full-path";
 
-const blurPaths = ["/brands", "/club/point", "/mart/shipping"];
+const blurPaths = ["/brands", "/dashboard/point", "/mart/shipping"];
 
 export function LayoutBg() {
   const [src, setSrc] = useState<string | null>(null);

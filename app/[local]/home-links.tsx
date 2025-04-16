@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
-import { useRouter } from "@/app/navigation";
 import { UuidAtom } from "@/lib/api/state";
 import { useAtomValue } from "jotai";
-import { cn } from "@/lib/utils/utils";
-import { useMemo } from "react";
 import { useFullPath } from "@/lib/use-full-path";
+import { useMemo } from "react";
+import { LinkComp } from "./link-comp";
 
 const walletsLink = {
   id: "wallets",
@@ -15,18 +14,9 @@ const walletsLink = {
   src: "/icons/wallets.svg",
 };
 
-const oneLink = {
-  id: "one",
-  pathname: "https://x.com/Juu17Brands",
-  href: "https://x.com/Juu17Brands",
-  name: "One",
-  src: "/icons/x-no-bg.svg",
-};
-
 export default function HomeLinks() {
   const uuid = useAtomValue(UuidAtom);
   const pathname = useFullPath();
-  const router = useRouter();
 
   const isJuu17Home = pathname === "/";
   const isOneHome = pathname.startsWith("/one");
@@ -42,9 +32,9 @@ export default function HomeLinks() {
           name: "Mart",
         },
         {
-          id: "club",
-          pathname: "/club",
-          href: "/club",
+          id: "Dashboard",
+          pathname: "/dashboard",
+          href: "/dashboard",
           name: "Dashboard",
         },
       ];
@@ -56,20 +46,12 @@ export default function HomeLinks() {
     return null;
   }
 
-  function isPathActive(href: string): boolean {
-    return pathname.startsWith(href);
-  }
-
   return (
-    <ul className="navbar relative w-full sm:static sm:w-fit">
+    <div className="relative flex w-full flex-col text-white/80 sm:static sm:w-fit">
       {uuid && isBrands && (
-        <li
-          className={cn(
-            isPathActive(walletsLink.href) && "active",
-            "absolute right-0 top-0 font-haasDisp sm:static",
-          )}
-          data-id={walletsLink.id}
-          onClick={() => router.push(walletsLink.href)}
+        <LinkComp
+          className="absolute right-0 top-0 sm:static sm:mb-[5px]"
+          href={walletsLink.href}
         >
           <Image
             className="my-[5px]"
@@ -78,27 +60,13 @@ export default function HomeLinks() {
             height={40}
             alt=""
           />
-        </li>
+        </LinkComp>
       )}
       {homeLinks.map((item) => (
-        <li
-          key={item.name}
-          className={cn(isPathActive(item.href) && "active", "font-haasDisp")}
-          data-id={item.id}
-          onClick={() => router.push(item.href)}
-        >
+        <LinkComp key={item.name} href={item.href}>
           {item.name}
-        </li>
+        </LinkComp>
       ))}
-      {isBrands && (
-        <li
-          className={cn(isPathActive(oneLink.href) && "active")}
-          data-id={oneLink.id}
-          onClick={() => router.push(oneLink.href)}
-        >
-          <Image src={oneLink.src} width={40} height={40} alt="" />
-        </li>
-      )}
-    </ul>
+    </div>
   );
 }
