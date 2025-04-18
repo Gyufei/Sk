@@ -50,6 +50,7 @@ export function useClaimTokens() {
           return {
             ...event,
             logo: "/icons/nubit.svg",
+            name: "Nubit",
           };
         }
         const chainInfo =
