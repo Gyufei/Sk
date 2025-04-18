@@ -18,6 +18,7 @@ import { useOffChainClaim } from "@/lib/use-off-chain-claim";
 import { useSolClaim } from "@/lib/use-sol-claim";
 import { shorterAddress } from "@/lib/utils/utils";
 import { useAppKit } from "@reown/appkit/react";
+import { NotEligible } from "./not-eligible";
 
 export function EventContent({
   currentToken,
@@ -369,17 +370,7 @@ export function EventContent({
   }
 
   if (!claimAmount || claimAmount === 0) {
-    return (
-      <div className="flex h-[208px] flex-col items-center justify-center">
-        <div className="text-[40px] leading-9 text-white opacity-80">
-          {T("Sorry")}
-        </div>
-        <div className="mt-[10px] text-center text-[28px] font-medium leading-9 text-white">
-          <span className="opacity-60">{T("YouAre")}</span>
-          <span className="opacity-80">{T("NotEligible")}</span>
-        </div>
-      </div>
-    );
+    return <NotEligible />;
   }
 
   return (

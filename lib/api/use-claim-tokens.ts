@@ -46,6 +46,12 @@ export function useClaimTokens() {
         return event;
       })
       .map((event: Record<string, any>) => {
+        if (event.claim_type === "activation_code") {
+          return {
+            ...event,
+            logo: "/icons/nubit.svg",
+          };
+        }
         const chainInfo =
           event.chain_id === 0
             ? {

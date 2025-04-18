@@ -6,7 +6,7 @@ import { BreadCrumbs } from "@/components/bread-crumbs";
 import { IClaimToken, useClaimTokens } from "@/lib/api/use-claim-tokens";
 import { useEffect, useState } from "react";
 import { GoBackTo } from "@/components/go-back-to";
-
+import { ActivationTypeEvent } from "./activation-type-event";
 export default function EventsPage() {
   const { data: claimTokensData } = useClaimTokens();
   const { claimTokens, claimChunkArray: claimArray } = claimTokensData || {
@@ -41,7 +41,11 @@ export default function EventsPage() {
             onClick={handleClickToken}
           />
           <div className="bg-blur12 flex h-[256px] w-full flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] sm:h-[320px] sm:w-[480px]">
-            <EventContent currentToken={currentToken} />
+            {currentToken?.claim_type === "activation_code" ? (
+              <ActivationTypeEvent eventInfo={currentToken} />
+            ) : (
+              <EventContent currentToken={currentToken} />
+            )}
           </div>
         </div>
       </div>

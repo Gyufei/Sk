@@ -15,7 +15,7 @@ export function LinkComp({
   const pathname = useFullPath();
 
   function isPathActive(href: string): boolean {
-    return pathname.startsWith(href);
+    return pathname.includes(href);
   }
 
   const [isHover, setIsHover] = useState(false);
