@@ -24,6 +24,8 @@ export function Tg() {
   const tg = userInfo?.social_media?.Telegram;
   const tgName = (tg as any)?.user_name || "";
   const isLink = userInfo?.social_media?.Telegram?.user_id && tgValue;
+  // const isLink = true;
+  const [saveData, setSaveData] = useState(null);
 
   useEffect(() => {
     if (tgName) {
@@ -32,7 +34,7 @@ export function Tg() {
   }, [tgName]);
 
   useEffect(() => {
-    if (saveRes) {
+    if (saveData && saveRes) {
       setShowSuccessModal(true);
       setIsValid(true);
       setGlobalMessage({
@@ -44,7 +46,13 @@ export function Tg() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function handleSave(tgData: any) {
+    setSaveData(tgData);
     saveSocial({ name: "Telegram", data: tgData } as any);
+  }
+
+  function handleChange(value: string) {
+    setTgValue(value);
+    handleSave(value);
   }
 
   return (
@@ -68,25 +76,25 @@ export function Tg() {
           type={eyeState ? "password" : "text"}
           placeHolderText={placeHolderText}
           placeHolder="tg"
-          onValueChange={setTgValue}
+          onValueChange={() => {}}
           showLink={isLink}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
           readOnly={true}
           showUnLink={!isLink}
-          showClear={true}
+          showClear={false}
         />
         <TgLinkBtn
-          disabled={tgValue && isLink}
-          isConnected={tgValue && isLink}
-          onSave={handleSave}
+          disabled={false}
+          isConnected={!!tgValue && isLink}
+          onSave={handleChange}
         />
         <EyeToggleBtn eyeState={eyeState} handleToggle={handleToggle} />
       </div>
-      <TgSuccessModal 
-        open={showSuccessModal} 
+      <TgSuccessModal
+        open={showSuccessModal}
         onOpenChange={setShowSuccessModal}
-        />
+      />
     </div>
   );
 }

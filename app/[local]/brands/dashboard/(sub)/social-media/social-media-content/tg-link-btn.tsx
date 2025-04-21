@@ -56,9 +56,15 @@ export function TgLinkBtn({
   }, []);
 
   async function handleClick() {
+    if (isConnected) {
+      onSave(null);
+      return;
+    }
+
     if (!scriptLoad) {
       await AddTelegramWidget();
     }
+
     (window as any)?.Telegram?.Login?.auth(
       {
         bot_id: TgConfig.botId,
