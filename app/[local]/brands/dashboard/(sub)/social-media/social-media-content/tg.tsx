@@ -14,18 +14,16 @@ export function Tg() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo } = useFetchUserInfo();
 
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [isValid, setIsValid] = useState(true);
-  const [tgValue, setTgValue] = useState("");
-
   const { data: saveRes, trigger: saveSocial } = useSaveSocial();
   const { eyeState, handleToggle } = useEyeToggle({ keyword: "tgEyeShow" });
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [tgValue, setTgValue] = useState("");
+  const [saveData, setSaveData] = useState(null);
 
   const tg = userInfo?.social_media?.Telegram;
   const tgName = (tg as any)?.user_name || "";
   const isLink = userInfo?.social_media?.Telegram?.user_id && tgValue;
-  // const isLink = true;
-  const [saveData, setSaveData] = useState(null);
 
   useEffect(() => {
     if (tgName) {
@@ -36,7 +34,6 @@ export function Tg() {
   useEffect(() => {
     if (saveData && saveRes) {
       setShowSuccessModal(true);
-      setIsValid(true);
       setGlobalMessage({
         type: "success",
         message: "Saved successfully",
@@ -71,18 +68,18 @@ export function Tg() {
           </div>
         </div>
         <InputWithClear
-          isError={!isValid}
+          isError={false}
+          readOnly={true}
           value={tgValue}
           type={eyeState ? "password" : "text"}
           placeHolderText={placeHolderText}
           placeHolder="tg"
           onValueChange={() => {}}
+          showUnLink={!isLink}
           showLink={isLink}
+          showClear={false}
           conClass="sm:ml-4 ml-0 flex-1 w-full sm:w-auto"
           inputClass="text-base"
-          readOnly={true}
-          showUnLink={!isLink}
-          showClear={false}
         />
         <TgLinkBtn
           disabled={false}

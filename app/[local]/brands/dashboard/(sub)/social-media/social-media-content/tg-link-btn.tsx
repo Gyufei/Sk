@@ -44,7 +44,6 @@ export function TgLinkBtn({
 
   useEffect(() => {
     function onTelegramAuth(user: any) {
-      console.log("user", user);
       onSave(user);
     }
 
