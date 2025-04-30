@@ -7,7 +7,7 @@ export const BrandsMetadata: Metadata = {
   },
   metadataBase: new URL("https://brands.juu17.com/"),
   description:
-    "An industry-standard output platform initiated by Juu17 — exclusively open to forward-thinking eligible players. It focuses on project quality evaluation, token-level assessment, liquidity monitoring, and discussions on regulatory policy frameworks.",
+    "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -18,7 +18,7 @@ export const BrandsMetadata: Metadata = {
     url: "https://brands.juu17.com/",
     title: "Juu17 Brands",
     description:
-      "An industry-standard output platform initiated by Juu17 — exclusively open to forward-thinking eligible players. It focuses on project quality evaluation, token-level assessment, liquidity monitoring, and discussions on regulatory policy frameworks.",
+      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
     siteName: "Juu17 Brands",
     images: "/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
@@ -27,7 +27,7 @@ export const BrandsMetadata: Metadata = {
     card: "summary_large_image",
     title: "Juu17 Brands",
     description:
-      "An industry-standard output platform initiated by Juu17 — exclusively open to forward-thinking eligible players. It focuses on project quality evaluation, token-level assessment, liquidity monitoring, and discussions on regulatory policy frameworks.",
+      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
     images: ["https://juu17.com/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@Juu17Brands",
     site: "@Juu17Brands",

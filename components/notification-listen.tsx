@@ -121,7 +121,7 @@ export function NotificationListen() {
     const link = document.querySelector(
       "link[rel*='icon']",
     ) as HTMLAnchorElement;
-    if (link) link.href = "/images/brands/favicon-notion-32x32.png";
+    if (link) link.href = "/images/brands/favicon-notion-32x32.svg";
     cycleTitle();
     setToastContent({
       ...item,
@@ -159,7 +159,7 @@ export function NotificationListen() {
     const link = document.querySelector(
       "link[rel*='icon']",
     ) as HTMLAnchorElement;
-    if (link) link.href = "/images/favicon-32x32.png";
+    if (link) link.href = "/images/brands/favicon-32x32.png";
   }
 
   async function handleGetNotification(res: NotionResItem[]) {
