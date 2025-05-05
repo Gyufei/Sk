@@ -52,7 +52,7 @@ export default function SkuModal({
               {item.skuValue.map((item) => (
                 <div
                   key={item.value}
-                  className={`flex h-[48px] min-w-[76px]  cursor-pointer items-center justify-center rounded-lg p-4 text-base font-medium ${
+                  className={`flex cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm font-medium ${
                     selectedSku !== item.value &&
                     "bg-[rgba(255, 255, 255, 0.01)] border-[rgba(255, 255, 255, 0.6)] border text-[#D6D6D6] hover:brightness-75"
                   } ${
@@ -69,9 +69,9 @@ export default function SkuModal({
         ))}
       </div>
       <div className="mt-5">
-        <div className="w-fit cursor-pointer text-base leading-6 text-[#d6d6d6] underline decoration-dotted underline-offset-1">
+        <a className="w-fit cursor-pointer text-base leading-6 text-[#d6d6d6] underline decoration-dotted underline-offset-1" href="https://x.com/Juu17Brands/status/1859277801851060259" target="_blank">
           {T("WhatsMySize")}
-        </div>
+        </a>
       </div>
       <div
         className={`bg-[#252525] ${
@@ -83,7 +83,7 @@ export default function SkuModal({
           data-disabled={!selectedSku}
           className={`${
             isDesktop && "mt-[10px]"
-          } flex h-12 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100
+          } flex h-8 w-full cursor-pointer items-center justify-center rounded-lg border border-solid border-[rgba(255,255,255,0.6)] text-base leading-6 text-[rgba(255,255,255,0.6)] hover:brightness-75 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50 data-[disabled=false]:hover:brightness-100
               `}
           onClick={() => {
             if (!selectedSku || !skuInfo) return;
