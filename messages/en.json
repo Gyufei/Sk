@@ -128,7 +128,8 @@
     "ProductNotOnSale": "This product is not on sale",
     "PaymentWalletNotLinked": "Your payment wallet is not linked",
     "TgBotGuide": "You're very close to the bot",
-    "OK": "OK"
+    "OK": "OK",
+    "OneMonthMembership": "1 month membership"
   },
   "Ticket": {
     "Ticket": "Ticket",
