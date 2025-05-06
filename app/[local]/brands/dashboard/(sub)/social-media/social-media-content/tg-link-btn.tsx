@@ -71,7 +71,7 @@ export function TgLinkBtn({
         origin: window.location.origin,
       },
       (user: any) => {
-        if (!user || !user?.id) {
+        if (!user || (!user?.id && !user?.first_name && !user?.last_name)) {
           return;
         }
         onSave(user);

@@ -22,14 +22,18 @@ export function Tg() {
   const [saveData, setSaveData] = useState(null);
 
   const tg = userInfo?.social_media?.Telegram;
-  const tgName = (tg as any)?.user_name || "";
   const isLink = userInfo?.social_media?.Telegram?.user_id && tgValue;
 
   useEffect(() => {
-    if (tgName) {
-      setTgValue(tgName);
+    if (typeof tg === "string") {
+      setTgValue(tg);
+      return;
     }
-  }, [tgName]);
+
+    if (tg?.user_name) {
+      setTgValue(tg?.user_name);
+    }
+  }, [tg]);
 
   useEffect(() => {
     if (saveData && saveRes) {
@@ -47,8 +51,12 @@ export function Tg() {
     saveSocial({ name: "Telegram", data: tgData } as any);
   }
 
-  function handleChange(value: string) {
-    setTgValue(value);
+  function handleChange(value: string | Record<string, string>) {
+    setTgValue(
+      typeof value === "string"
+        ? value
+        : `${value?.last_name || ""}${value?.first_name || ""}`,
+    );
     handleSave(value);
   }
 
