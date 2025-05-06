@@ -128,7 +128,8 @@
     "ProductNotOnSale": "该商品不在售卖中",
     "PaymentWalletNotLinked": "当前使用的支付钱包没有绑定",
     "TgBotGuide": "马上开始使用机器人",
-    "OK": "确认"
+    "OK": "确认",
+    "OneMonthMembership": "一个月会员"
   },
   "Ticket": {
     "Ticket": "工单",

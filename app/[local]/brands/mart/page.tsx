@@ -98,9 +98,12 @@ export default function MartPage() {
               ></Image>
               <div className="#d6d6d6 p-[10px] group-hover:text-white sm:p-[15px]">
                 <div className="break-words text-base font-medium leading-6">
-                  {item.product_name}
+                  {item.product_name} 
                 </div>
-                <div className="mt-5 flex items-center justify-between">
+                <div className="h-[1.25rem] text-[12px] leading-[20px] text-[#b6b6b6] align-middle">
+                  {item.product_id === "7cf00f4d262da76a934faf6be8995e74322f32f24aa6f9b309596c861a40505e" ? T("OneMonthMembership") : ""}
+                </div>
+                <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <span className="mr-[4px] text-[14px] leading-[30px] sm:text-base  sm:leading-6">
                       $

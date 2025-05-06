@@ -33,11 +33,15 @@ export default function UserInfoBanner() {
   }, [userInfo?.uid]);
 
   const memberInfoTpl = useMemo(() => {
+    const membershipNo = Number(userInfo?.membership_no);
+    if (!membershipNo || membershipNo <= 0 || !Number.isInteger(membershipNo)) {
+      return null;
+    }
     return (
       <div className="flex flex-1 flex-col sm:mr-7">
         <div className={`${titleClass}`}>{T("MembershipNo")}</div>
         <div className="h-[24px] text-base leading-6">
-          No.{userInfo?.membership_no}
+          #{userInfo?.membership_no}
         </div>
       </div>
     );
