@@ -7,4 +7,5 @@ export const GoogleClientId = isProduction
 export const TgConfig = {
   botName: process.env.NEXT_PUBLIC_TELEGRAM_BOT_HANDLE,
   botId: process.env.NEXT_PUBLIC_TELEGRAM_BOT_UID,
+  tgBotUrl: "https://t.me/Juu17BrandsBot",
 };
