@@ -4,11 +4,9 @@ import { GoBackTo } from "@/components/go-back-to";
 import { BreadCrumbs } from "@/components/bread-crumbs";
 import { useFetchUserInfo } from "@/lib/api/use-fetch-user-info";
 import { useMemo } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Page() {
   const { data: userInfo } = useFetchUserInfo();
-  const router = useRouter();
 
   const assets = useMemo(() => {
     const realAssets = userInfo?.club_digital_assets || [];
@@ -36,10 +34,6 @@ export default function Page() {
     return [...realAssets, ...placeAssets];
   }, [userInfo]);
 
-  function handleCart() {
-    router.push("/mart");
-  }
-
   return (
     <div className="m-t-20 content-w-760 relative">
       <div className="relative flex flex-row-reverse items-end justify-between sm:flex-row">
@@ -48,7 +42,7 @@ export default function Page() {
       </div>
       <div className="mb-[20px] mt-6 min-h-[50vh]">
         <div className="flex flex-wrap justify-between gap-5 sm:flex-nowrap">
-          <div className="grid w-full grid-cols-2 gap-[15px] sm:grid-cols-3 sm:gap-5 mb-0">
+          <div className="mb-0 grid w-full grid-cols-2 gap-[15px] sm:grid-cols-3 sm:gap-5">
             {assets.map((ast: any, index: number) => (
               <div
                 className="flex h-[44vw] w-[44vw] flex-col items-center justify-center rounded-[20px] bg-[rgba(255,255,255,0.1)] p-4 backdrop-blur-md sm:h-[160px] sm:w-[160px] "
@@ -56,29 +50,6 @@ export default function Page() {
               >
                 {ast.asset_id ? (
                   <div className="relative flex h-full w-full flex-col items-center justify-center gap-3">
-                    <div
-                      onClick={handleCart}
-                      className="group absolute -right-[6px] -top-[6px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-[rgba(214,214,214,0.1)] group-hover:bg-[rgba(255,255,255,0.1)] data-[disabled=true]:opacity-50 sm:h-8 sm:w-8"
-                    >
-                      <Image
-                        width={18}
-                        height={18}
-                        alt={"buy-car"}
-                        className={
-                          "h-[14px] w-[14px] group-hover:hidden sm:h-[18px] sm:w-[18px]"
-                        }
-                        src={"/icons/buy-car-gray.svg"}
-                      />
-                      <Image
-                        width={18}
-                        height={18}
-                        alt={"buy-car"}
-                        className={
-                          "hidden h-[14px] w-[14px] group-hover:inline-block sm:h-[18px] sm:w-[18px]"
-                        }
-                        src={"/icons/buy-car.svg"}
-                      />
-                    </div>
                     <Image
                       src={ast.asset_logo}
                       width={48}
