@@ -39,10 +39,9 @@ export function NameAndPhone({
   const [countryCodeOpen, setCountryCodeOpen] = useState(false);
 
   function handleNameChange(v: string) {
-    const newV = v.replace(/(^\s*)|(\s*$)/g, "");
-    setRecipientName(newV);
+    setRecipientName(v);
 
-    if (checkNameRegex(newV)) {
+    if (checkNameRegex(v)) {
       setRcNameValid(true);
     }
   }
@@ -63,7 +62,9 @@ export function NameAndPhone({
   function handleNameBlur() {
     if (!recipientName) return true;
 
-    setRcNameValid(checkNameRegex(recipientName));
+    const trimmedName = recipientName.trim().replace(/\s+/g, " ");
+    setRecipientName(trimmedName);
+    setRcNameValid(checkNameRegex(trimmedName));
   }
 
   function checkNameRegex(v: string) {
@@ -82,15 +83,13 @@ export function NameAndPhone({
     return phoneRegex.test(v);
   }
 
-  const titleClass = "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
+  const titleClass =
+    "font-haasDisp text-lg font-medium leading-7 text-white opacity-60";
 
   return (
     <div className="flex flex-col items-stretch space-x-0 space-y-[30px] sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
       <div className="flex w-full flex-col sm:w-[237px]">
-        <label
-          htmlFor="recipientName"
-          className={titleClass}
-        >
+        <label htmlFor="recipientName" className={titleClass}>
           {T("RecipientName")}
         </label>
         <InputWithClear
@@ -105,20 +104,17 @@ export function NameAndPhone({
         <InvalidTpl isValid={rcNameValid} />
       </div>
 
-      <div className="flex w-full flex-col sm:w-[349px]">
-        <label
-          htmlFor="phone"
-          className={titleClass}
-        >
+      <div className="relative flex w-full flex-col sm:w-[349px]">
+        <label htmlFor="phone" className={titleClass}>
           {T("Phone")}
         </label>
-        <div className="flex items-end">
+        <div className="flex items-end ">
           <PopDrawer
             title={T("Phone")}
             className={"h-[400px]"}
             open={countryCodeOpen}
             onOpenChange={(isOpen) => setCountryCodeOpen(isOpen)}
-            popContentClass={'w-[80px]'}
+            popContentClass={"w-[80px]"}
             popContent={countryCodeList.map((s) => (
               <div
                 key={s}
@@ -163,14 +159,13 @@ export function NameAndPhone({
             onBlur={handlePhoneBlur}
           />
         </div>
-        <InvalidTpl isValid={phoneValid} />
+        <div className="absolute left-16 -bottom-6">          
+          <InvalidTpl isValid={phoneValid} />
+        </div>
       </div>
 
       <div className="flex w-full flex-col sm:w-[120px]">
-        <label
-          htmlFor="code"
-          className={titleClass}
-        >
+        <label htmlFor="code" className={titleClass}>
           {T("ZipCode")}
         </label>
         <InputWithClear

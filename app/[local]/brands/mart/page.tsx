@@ -83,6 +83,11 @@ export default function MartPage() {
   return (
     <>
       <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top focus-visible:outline-none sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2">
+        {!products?.length && (
+          <div className="flex h-[80vh] w-full items-center justify-center">
+            <div className="text-2xl font-medium">No products found</div>
+          </div>
+        )}
         {(products || []).map((item) => (
           <div
             key={item.product_id}
@@ -98,10 +103,13 @@ export default function MartPage() {
               ></Image>
               <div className="#d6d6d6 p-[10px] group-hover:text-white sm:p-[15px]">
                 <div className="break-words text-base font-medium leading-6">
-                  {item.product_name} 
+                  {item.product_name}
                 </div>
-                <div className="h-[1.25rem] text-[12px] leading-[20px] text-[#b6b6b6] align-middle">
-                  {item.product_id === "7cf00f4d262da76a934faf6be8995e74322f32f24aa6f9b309596c861a40505e" ? T("OneMonthMembership") : ""}
+                <div className="h-[1.25rem] align-middle text-[12px] leading-[20px] text-[#b6b6b6]">
+                  {item.product_id ===
+                  "7cf00f4d262da76a934faf6be8995e74322f32f24aa6f9b309596c861a40505e"
+                    ? T("OneMonthMembership")
+                    : ""}
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">

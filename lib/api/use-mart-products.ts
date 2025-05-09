@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import { ApiHost } from "./path";
 import fetcher from "./fetcher";
+import { useAtomValue } from "jotai";
+import { UuidAtom } from "./state";
 
 export interface IProduct {
   product_id: string;
@@ -25,8 +27,12 @@ export interface IProduct {
 }
 
 export function useMartProducts() {
+  const uuid = useAtomValue(UuidAtom);
+
   async function productFetcher() {
-    const url = `${ApiHost}/order/products`;
+    if (!uuid) return [];
+
+    const url = `${ApiHost}/order/products?user_id=${uuid}`;
     const res = await fetcher(url);
 
     const products = res || [];

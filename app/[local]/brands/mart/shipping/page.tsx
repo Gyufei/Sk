@@ -21,6 +21,7 @@ export default function ShippingAddressPage() {
   const { setGlobalMessage } = useContext(GlobalMsgContext);
   const { data: userInfo, mutate: getUserInfo } = useFetchUserInfo();
   const { data: logisticsOrders } = useRecentLogisticsOrder();
+
   const [recipientName, setRecipientName] = useState(
     userInfo?.shipping?.recipient_name || "",
   );
@@ -39,21 +40,20 @@ export default function ShippingAddressPage() {
     userInfo?.shipping?.phone || "",
   );
 
-  const [saved, setSaved] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   const [rcNameValid, setRcNameValid] = useState(true);
   const [phoneValid, setPhoneValid] = useState(true);
   const [streetValid, setStreetValid] = useState(true);
 
-  const disabled = useMemo(() => {
-    if (saved) return true;
+  const saveBtnDisabled = useMemo(() => {
+    if (!isDirty) return true;
     if (!rcNameValid) return true;
     if (!streetValid) return true;
     if (!phoneValid) return true;
     if (!recipientName || !phoneNumber || !street || !code) return true;
     return false;
   }, [
-    saved,
     recipientName,
     streetValid,
     phoneValid,
@@ -61,6 +61,7 @@ export default function ShippingAddressPage() {
     rcNameValid,
     phoneNumber,
     code,
+    isDirty,
   ]);
 
   useEffect(() => {
@@ -92,11 +93,36 @@ export default function ShippingAddressPage() {
         setCountryCode("86");
         setPhoneNumber("");
       }
+      setIsDirty(false);
     }
   }, [userInfo]);
 
+  useEffect(() => {
+    if (!userInfo?.shipping) return;
+
+    const isFormDirty =
+      recipientName !== (userInfo.shipping.recipient_name || "") ||
+      country !== (userInfo.shipping.country || "中国") ||
+      state !== (userInfo.shipping.state || "") ||
+      city !== (userInfo.shipping.city || "") ||
+      street !== (userInfo.shipping.address_line || "") ||
+      code !== (userInfo.shipping.zip_code || "") ||
+      phoneNumber !== (userInfo.shipping.phone || "");
+
+    setIsDirty(isFormDirty);
+  }, [
+    recipientName,
+    country,
+    state,
+    city,
+    street,
+    code,
+    phoneNumber,
+    userInfo,
+  ]);
+
   async function handleSave() {
-    if (!uuid || disabled) return;
+    if (!uuid || saveBtnDisabled) return;
 
     await saveShip();
     getUserInfo();
@@ -124,10 +150,11 @@ export default function ShippingAddressPage() {
     });
 
     if (res.status) {
-      setSaved(true);
-      setTimeout(() => {
-        setSaved(false);
-      }, 3000);
+      setIsDirty(false);
+      setGlobalMessage({
+        type: "success",
+        message: T("SaveSuccess"),
+      });
     }
     if (res.status === false && res.msg) {
       setGlobalMessage({
@@ -169,13 +196,13 @@ export default function ShippingAddressPage() {
         >
           <SaveBtn
             className="hidden w-12 sm:!mt-[20px] sm:flex"
-            disabled={disabled}
+            disabled={saveBtnDisabled}
             onClick={handleSave}
           />
         </StreetAndCode>
         <SaveBtn
           className="mt-[20px] flex w-full bg-[#ffffff10] sm:hidden"
-          disabled={disabled}
+          disabled={saveBtnDisabled}
           onClick={handleSave}
         />
       </div>

@@ -47,6 +47,7 @@
     "ShippingAddress": "Address",
     "AddressLine": "Address line / Street",
     "ZipCode": "Zip Code",
+    "SaveSuccess": "Save Success",
     "RecentLogisticsOrder": "Recent Orders",
     "DisplayAccount": "Display account",
     "HideAccount": "Hide account",

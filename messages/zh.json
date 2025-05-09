@@ -46,6 +46,7 @@
     "ShippingAddress": "收货地址",
     "AddressLine": "详细地址 / 街道",
     "ZipCode": "邮编",
+    "SaveSuccess": "保存成功",
     "RecentLogisticsOrder": "支付单号",
     "DisplayAccount": "显示",
     "HideAccount": "隐藏",
