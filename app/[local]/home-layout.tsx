@@ -7,12 +7,12 @@ export function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="section !pointer-events-auto" id="__next">
       <div className="main-container">
-        <div className="grid">
+        <div className="grid-home">
           <HomeLeftBlock />
           <HomeContent>{children}</HomeContent>
         </div>
         <LayoutBg />
-        <div className="sm:hidden block">
+        <div className="block sm:hidden">
           <FooterLink />
         </div>
       </div>

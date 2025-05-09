@@ -113,7 +113,7 @@ export default function MartPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="mr-[4px] text-[14px] leading-[30px] sm:text-base  sm:leading-6">
+                    <span className="mr-[4px] text-[14px] leading-[30px] sm:text-base sm:leading-6">
                       $
                     </span>
                     <span className="text-[20px] font-medium leading-[30px] sm:text-2xl sm:leading-9">

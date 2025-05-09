@@ -135,7 +135,8 @@ textarea.w-select {
   width: 740px;
 }
 
-.grid {
+.grid-home {
+  display: grid;
   z-index: 5;
   width: 100%;
   grid-template-rows: auto;
@@ -619,7 +620,7 @@ textarea.w-select {
     line-height: 1.2;
   }
 
-  .grid {
+  .grid-home {
     grid-template-columns: 1fr;
     margin-bottom: 20em;
   }
@@ -899,7 +900,7 @@ textarea.w-select {
     min-width: 100%;
   }
 
-  .grid {
+  .grid-home {
     grid-template-columns: 1fr;
     gap: 1em;
   }
@@ -1057,7 +1058,7 @@ html.w-mod-touch * {
     overflow-x: hidden;
   }
 
-  .grid {
+  .grid-home {
     grid-template-columns: 1fr;
   }
 
