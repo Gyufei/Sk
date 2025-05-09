@@ -16,7 +16,7 @@ export default function Page() {
     //     asset_id:
     //       "303aa50ba3b6b4490720e8e3facd24ac78c450a4be804b93b2ca7b51caea3",
     //     asset_description: "$MON $100 at 50K Mcap",
-    //     asset_logo: "/images/goods/monad.svg",
+    //     asset_logo: "/images/goods/seoulana.svg",
     //   },
     //   {
     //     asset_id:
@@ -57,7 +57,7 @@ export default function Page() {
                       alt="mint wallet"
                       className="mt-4"
                     />
-                    <div className="px-1 text-center text-base font-semibold text-[#ffffff60]">
+                    <div className="px-[10px] text-center text-base font-semibold text-[#ffffff60]">
                       {ast.asset_description}
                     </div>
                   </div>
