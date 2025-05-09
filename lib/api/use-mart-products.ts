@@ -32,7 +32,7 @@ export function useMartProducts() {
   async function productFetcher() {
     if (!uuid) return [];
 
-    const url = `${ApiHost}/order/products?user_id=${uuid}`;
+    const url = `${ApiHost}/order/products?user_id=${uuid}&t=${Date.now()}`;
     const res = await fetcher(url);
 
     const products = res || [];
