@@ -17,14 +17,14 @@ export function FooterLink() {
 
   return (
     <>
-      <div className="flex-col gap-2 flex items-center sm:items-start">
+      <div className="flex flex-col items-center gap-2 sm:items-start">
         {isBrands && (
-          <LinkComp href={twitterLink.href}>
+          <LinkComp href={twitterLink.href} className="z-20">
             <Image src={twitterLink.src} width={40} height={40} alt="" />
           </LinkComp>
         )}
-        <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">
-          <div className="w-full overflow-visible sm:text-[1.4em] text-[4em] sm:text-left text-center">
+        <div className="z-20 w-full overflow-hidden text-ellipsis whitespace-nowrap">
+          <div className="w-full overflow-visible text-center text-[4em] sm:text-left sm:text-[1.4em]">
             © JUU17 Brands.
           </div>
         </div>
