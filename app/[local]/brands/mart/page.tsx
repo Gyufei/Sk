@@ -72,7 +72,7 @@ export default function MartPage() {
       <div className="pd-[100px] sm:pd-0 sm:trans-scroll-bar content-w-540 mt-6 flex h-fit flex-wrap gap-x-[10px] gap-y-[15px] align-top focus-visible:outline-none sm:gap-x-[10px] sm:gap-y-5 md:mr-1 md:max-h-[calc(100%-40px)] md:overflow-y-auto md:pr-2">
         {!products?.length && (
           <div className="flex h-[80vh] w-full items-center justify-center">
-            <div className="text-2xl font-medium">No products found</div>
+            <div className="text-2xl font-medium"></div>
           </div>
         )}
         {(products || []).map((item) => (
