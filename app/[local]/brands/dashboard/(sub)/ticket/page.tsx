@@ -27,6 +27,8 @@ const ReCAPTCHAKey = "6Ldtt2sqAAAAADNjoSXTRuzrWTQHcKYmIvDk_BjV";
 const topics = topicConfig.topics;
 type TopicKey = keyof typeof topics;
 
+type ValidType = true | "patternInvalid" | "lengthInvalid" | undefined;
+
 export default function Page() {
   const T = useTranslations("Ticket");
   const { setGlobalMessage } = useContext(GlobalMsgContext);
@@ -39,7 +41,7 @@ export default function Page() {
   const topicArr = ["General", "OrderIssue", "ScheduleTalk"];
   const [question, setQuestion] = useState<QuestionType[]>([]);
   const [qContent, setQContent] = useState<Record<string, string>>({});
-  const [qValid, setQValid] = useState<Record<string, boolean | undefined>>({});
+  const [qValid, setQValid] = useState<Record<string, ValidType>>({});
   const [topicValid, setTopicValid] = useState(true);
 
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
@@ -129,7 +131,10 @@ export default function Page() {
     setQContent(values);
   }
 
-  function handleQuestionValidChange(name: string, value: boolean | undefined) {
+  function handleQuestionValidChange(
+    name: string,
+    value: ValidType | undefined,
+  ) {
     const values = {
       ...qValid,
       ...{ [name]: value },
@@ -261,17 +266,20 @@ type QuestionType = {
   name: string;
   label: string;
   type: string;
-  errorMsg: string;
   regex: RegExp;
+  regexErrorMsg: string;
+  minLength: number;
+  lengthInvalidMsg: string;
 };
 
 type QuestionItemProps = {
   question: QuestionType;
   value?: string;
-  valid?: boolean | undefined;
+  valid?: ValidType | undefined;
   onValueChange: (name: string, value: string) => void;
-  onValidChange: (name: string, value: boolean | undefined) => void;
+  onValidChange: (name: string, value: ValidType | undefined) => void;
 };
+
 function QuestionItem({
   question,
   value = "",
@@ -279,7 +287,7 @@ function QuestionItem({
   onValueChange,
   onValidChange,
 }: QuestionItemProps) {
-  const { type, name, label, errorMsg } = question;
+  const { type, name, label, regexErrorMsg, lengthInvalidMsg } = question;
   const T = useTranslations("Ticket");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   function handleInputChange(v: string) {
@@ -288,8 +296,24 @@ function QuestionItem({
     if (!v) {
       onValidChange(name, undefined);
     } else {
-      onValidChange(name, question.regex.test(validV));
+      onValidChange(name, checkValid(validV));
     }
+  }
+
+  function checkValid(v: string) {
+    if (!v) {
+      return undefined;
+    }
+
+    if (v.length < question.minLength) {
+      return "lengthInvalid";
+    }
+
+    if (!question.regex.test(v)) {
+      return "patternInvalid";
+    }
+
+    return true;
   }
 
   useEffect(() => {
@@ -315,7 +339,7 @@ function QuestionItem({
           className="box-border h-12 w-full border-b border-solid bg-transparent py-2 text-base text-white outline-none"
           style={{
             resize: "none",
-            borderBottomColor: valid ? "#464646" : "#ff5a5a",
+            borderBottomColor: valid === true ? "#464646" : "#ff5a5a",
           }}
         />
       ) : (
@@ -325,13 +349,19 @@ function QuestionItem({
           className="h-12 w-full rounded-none border-b border-[rgba(255,255,255,0.2)] bg-transparent pl-0 text-base text-white"
           placeholder=""
           style={{
-            borderBottomColor: valid ? "#464646" : "#ff5a5a",
+            borderBottomColor: valid === true ? "#464646" : "#ff5a5a",
           }}
         />
       )}
 
-      {!valid && errorMsg && (
-        <div className="mt-1 text-sm text-red-500">{errorMsg}</div>
+      {valid !== true && (
+        <div className="mt-1 text-sm text-red-500">
+          {valid === "patternInvalid"
+            ? regexErrorMsg
+            : valid === "lengthInvalid"
+            ? lengthInvalidMsg
+            : ""}
+        </div>
       )}
     </>
   );
