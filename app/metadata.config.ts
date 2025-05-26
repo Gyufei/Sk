@@ -7,7 +7,7 @@ export const BrandsMetadata: Metadata = {
   },
   metadataBase: new URL("https://brands.juu17.com/"),
   description:
-    "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
+    "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each other.",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -18,7 +18,7 @@ export const BrandsMetadata: Metadata = {
     url: "https://brands.juu17.com/",
     title: "Juu17 Brands",
     description:
-      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
+      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each other.",
     siteName: "Juu17 Brands",
     images: "/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png",
     type: "website",
@@ -27,7 +27,7 @@ export const BrandsMetadata: Metadata = {
     card: "summary_large_image",
     title: "Juu17 Brands",
     description:
-      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each others.",
+      "A premium platform initiated by Juu17 for crypto paradigm shifters. We share unique insights, minority mindsets, and valuable perspectives with each other.",
     images: ["https://juu17.com/images/brands/bm0TsjJSKFZti1BKt6pJMyyp0BE.png"],
     creator: "@Juu17Brands",
     site: "@Juu17Brands",

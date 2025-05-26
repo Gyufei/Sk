@@ -28,7 +28,7 @@ export function LinkComp({
       onMouseLeave={() => setIsHover(false)}
       className={cn(
         (isActive || isHover) && "link-active opacity-100",
-        "w-fit cursor-pointer py-[6px] font-haasDisp text-[30px] font-medium leading-[44px] opacity-50 sm:static sm:py-0 sm:text-[2.5em] sm:leading-normal",
+        "w-fit cursor-pointer py-[6px] font-haasDisp text-[30px] font-medium leading-[44px] opacity-50 sm:static sm:py-0 sm:text-[2em] sm:leading-normal",
         className,
       )}
       href={href}
