@@ -11,7 +11,7 @@ const clubList = [
     name: "Events",
     href: "/dashboard/events",
     iconSrc: "/icons/events.svg",
-    msg: "EventsLevelRequired",
+    msg: null,
   },
   { name: "Point", href: "/dashboard/point", iconSrc: "/icons/point.svg" },
   {
@@ -58,7 +58,8 @@ export default function RouterMenu() {
     }
   }
 
-  const linkText = "text-base font-semibold leading-6 text-white opacity-60 font-haasDisp";
+  const linkText =
+    "text-base font-semibold leading-6 text-white opacity-60 font-haasDisp";
 
   return (
     <>
@@ -94,9 +95,7 @@ export default function RouterMenu() {
 
 function MenuItem({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="font-haasDisp bg-blur12 flex h-[28vw] w-[28vw]  min-w-[105px] min-h-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] sm:h-[120px] sm:w-[120px]"
-    >
+    <div className="bg-blur12 flex h-[28vw] min-h-[105px] w-[28vw]  min-w-[105px] cursor-pointer flex-col items-center justify-center gap-y-2 rounded-[20px] bg-[rgba(255,255,255,0.1)] font-haasDisp hover:bg-[rgba(255,255,255,0.2)] sm:h-[120px] sm:w-[120px]">
       {children}
     </div>
   );
