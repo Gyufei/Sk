@@ -98,7 +98,14 @@ export default function ShippingAddressPage() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (!userInfo?.shipping) return;
+    if (!userInfo) {
+      return;
+    }
+
+    if (!userInfo.shipping) {
+      setIsDirty(true);
+      return;
+    }
 
     const isFormDirty =
       recipientName !== (userInfo.shipping.recipient_name || "") ||
