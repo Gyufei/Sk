@@ -4,8 +4,9 @@ import { ApiHost } from "./path";
 import { useAtomValue } from "jotai";
 import { UuidAtom } from "./state";
 import { GlobalMsgContext } from "@/components/global-msg-context";
-import { getHashParam } from "../utils/utils";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/app/navigation";
 
 const SendEmailKey = "sendEmail";
 
@@ -20,8 +21,12 @@ export function useSendEmail() {
   const [seconds, setSeconds] = useState(60);
   const uuid = useAtomValue(UuidAtom);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   useEffect(() => {
-    const verifyToken = getHashParam("verify_token");
+    const verifyToken = searchParams.get("verify_token");
 
     if (verifyToken) {
       setCode(verifyToken);
@@ -102,7 +107,16 @@ export function useSendEmail() {
   }
 
   function removeEmailVerifyHash() {
-    window.location.hash = "";
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete("verify_code");
+    searchParams.delete("email");
+    searchParams.delete("user_id");
+    searchParams.delete("email_hash_code");
+
+    router.replace(pathname, {
+      pathname,
+      query: Object.fromEntries(searchParams.entries()),
+    });
   }
 
   return {

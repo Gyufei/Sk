@@ -28,8 +28,25 @@ export default function HomeContent({
     if (typeof window === "undefined") {
       return;
     } else {
-      const reUrl = redirectURL + window?.location?.hash;
-      window?.location?.replace(reUrl);
+      let reUrl = decodeURIComponent(redirectURL);
+      const verifyToken = searchParams.get("verify_token");
+      
+      if (verifyToken) {
+        try {
+          // 使用 URL 对象来正确处理查询参数
+          const url = new URL(reUrl, window.location.origin);
+          url.searchParams.set("verify_token", verifyToken);
+          reUrl = url.toString();
+        } catch {
+          // 如果 URL 解析失败，使用备用方案
+          const separator = reUrl.split("#")[0].includes("?") ? "&" : "?";
+          const [path, hash] = reUrl.split("#");
+          reUrl = hash ? `${path}${separator}verify_token=${verifyToken}#${hash}` : `${path}${separator}verify_token=${verifyToken}`;
+        }
+      }
+      
+      const redUrl = reUrl + window?.location?.hash;
+      window?.location?.replace(redUrl);
       return;
     }
   }
