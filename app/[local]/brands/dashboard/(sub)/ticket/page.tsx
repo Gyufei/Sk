@@ -45,6 +45,7 @@ export default function Page() {
   const [topicValid, setTopicValid] = useState(true);
 
   const [reCaptchaValue, setReCaptchaValue] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isValid = useMemo(() => {
     const qKeys = question.map((item) => item.name);
@@ -53,13 +54,17 @@ export default function Page() {
       return false;
     }
     return true;
-  }, [question, qValid, topicValid]);
+  }, [question, qValid, topic]);
 
   const handleReCaptchaChange = useCallback((value: string | null) => {
     setReCaptchaValue(value);
   }, []);
 
   async function saveTopic() {
+    if (isSubmitting) {
+      return;
+    }
+
     const qKeys = question.map((item) => item.name);
     const errorIndex = qKeys.findIndex((key) => qValid[key] !== true);
     if (errorIndex > -1) {
@@ -79,41 +84,53 @@ export default function Page() {
     qKeys.map((key) => {
       contentObj[key] = (qContent[key] || "").trim();
     });
-    const res: any = await fetcher(`${ApiHost}/ticket/submit`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: uuid,
-        topic,
-        content: JSON.stringify(contentObj),
-        contact: contentObj.Contact || "",
-        recaptcha: reCaptchaValue,
-      }),
-    });
+    setIsSubmitting(true);
+    try {
+      const res: any = await fetcher(`${ApiHost}/ticket/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: uuid,
+          topic,
+          content: JSON.stringify(contentObj),
+          contact: contentObj.Contact || "",
+          recaptcha: reCaptchaValue,
+        }),
+      });
 
-    if (!res) {
-      console.error("Submit error");
+      if (!res) {
+        console.error("Submit error");
+        setGlobalMessage({
+          type: "error",
+          message: "Submit failed, please try again",
+        });
+        return;
+      }
+
+      setGlobalMessage({
+        type: "success",
+        message: "Ticket submitted successfully",
+      });
+
+      setTopic("");
+      setQuestion([]);
+      setQContent({});
+      setQValid({});
+      mutate();
+      captchaInst.current?.reset();
+      setReCaptchaValue(null);
+    } catch (error) {
+      console.error("Submit error", error);
       setGlobalMessage({
         type: "error",
         message: "Submit failed, please try again",
       });
-      return;
+    } finally {
+      setIsSubmitting(false);
     }
 
-    setGlobalMessage({
-      type: "success",
-      message: "Ticket submitted successfully",
-    });
-
-    setTopic("");
-    setQuestion([]);
-    setQContent({});
-    setQValid({});
-    mutate();
-    captchaInst.current?.reset();
-    setReCaptchaValue(null);
   }
 
   function handleTopicSelected(v: string) {
@@ -223,11 +240,11 @@ export default function Page() {
               />
             </div>
             <button
-              disabled={!isValid || !reCaptchaValue}
+              disabled={!isValid || !reCaptchaValue || isSubmitting}
               onClick={() => saveTopic()}
               className="flex h-12 w-40 cursor-pointer items-center justify-center rounded-xl border border-solid border-[rgba(255,255,255,0.2)] text-base font-semibold leading-6 text-[rgba(255,255,255,0.6)] hover:text-white disabled:cursor-not-allowed disabled:brightness-50 disabled:hover:text-[rgba(255,255,255,0.6)] sm:ml-4"
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
           </div>
         )}
