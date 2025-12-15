@@ -42,7 +42,7 @@
     "react-google-recaptcha": "^3.1.0",
     "rpc-websockets": "7.11.0",
     "swr": "2.2.5",
-    "typescript": "5.1.6",
+    "typescript": "5.9.3",
     "vaul": "^1.1.2",
     "viem": "^2.42.1",
     "wagmi": "^3.1.0"
